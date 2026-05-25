@@ -3,7 +3,7 @@
   const ACCESS_KEY = "ieltsPlannerAccessSaved";
   const STATE_KEY = "ieltsPlannerStateV1";
   const HOURS = Array.from({ length: 18 }, (_, index) => index + 6);
-  const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩", "Runcard/文件"];
+  const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
   const mainPlan = data.mainPlan || [];
   const dailyTemplates = data.dailyTemplates || [];
@@ -229,7 +229,7 @@
     el.summaryIelts.textContent = plan.ieltsPlan || "无";
     el.summaryIeltsDetail.textContent = [plan.ieltsModule, plan.cambridge].filter(Boolean).join(" / ");
     el.summaryProjectType.textContent = plan.projectType || "无";
-    el.summaryProject.textContent = plan.projectPlan || template.notes || "今天没有制程/项目主任务。";
+    el.summaryProject.textContent = projectSummaryText(plan, selectedDate) || template.notes || "今天没有实验专案/学务主任务。";
     el.summaryStatus.textContent = getPlanOverride(selectedDate, "status") || plan.status || "未开始";
     el.summaryLimits.textContent = plan.limits || template.notes || "";
 
@@ -331,7 +331,7 @@
         <td><strong>${safe(item.ieltsPlan)}</strong><br><span class="muted">${safe(item.cambridge)}</span></td>
         <td>${safe(item.ieltsModule)}</td>
         <td class="project-cell">
-          <strong>${safe(item.projectType || "")}</strong><br>${safe(item.projectPlan || "")}
+          <strong>${safe(item.projectType || "")}</strong>
           ${projectPlannerMarkup(item)}
         </td>
         <td>
@@ -371,11 +371,13 @@
         });
       });
 
-      const moduleDaysInput = row.querySelector(".module-days-input");
-      if (moduleDaysInput) {
-        moduleDaysInput.addEventListener("input", () => {
-          setModuleDays(item.date, moduleDaysInput.dataset.module, moduleDaysInput.value);
+      const moduleTotalInput = row.querySelector(".module-total-input");
+      if (moduleTotalInput) {
+        moduleTotalInput.addEventListener("input", () => {
+          setModuleTotal(moduleTotalInput.dataset.module, moduleTotalInput.value);
           showSaved("已保存");
+          renderCalendar();
+          renderSelectedDay();
         });
       }
 
@@ -437,13 +439,14 @@
         keywords: hasSpecificPlan ? [plan.ieltsPlan, plan.cambridge, "IELTS"].filter(Boolean) : ["IELTS", "雅思"],
       });
     }
-    if (plan?.projectPlan && !isRestText(plan.projectType)) {
+    if (plan?.projectType && !isRestText(plan.projectType) && plan.projectType !== "考试周") {
+      const projectText = projectSummaryText(plan, date);
       tasks.push({
         id: `${date}:project`,
         kind: "project",
-        label: `${plan.projectType || "项目"}｜${trimLabel(plan.projectPlan)}`,
-        text: [plan.projectType, plan.projectPlan].filter(Boolean).join(" - "),
-        keywords: [plan.projectType, plan.projectPlan].filter(Boolean),
+        label: projectText,
+        text: projectText,
+        keywords: [plan.projectType, getSelectedModule(plan), projectText].filter(Boolean),
       });
     }
     if (template?.mainTask && !isRestText(template.mainTask) && !tasks.some((task) => task.text.includes(template.mainTask))) {
@@ -527,14 +530,15 @@
 
   function projectPlannerMarkup(item) {
     if (item.projectType === "学务") {
-      return `<div class="module-note">学务：记录行程和上课，不需要模块规划。</div>`;
+      return `<div class="module-note">学务</div>`;
     }
     if (item.projectType !== "实验专案") return "";
     const selected = getSelectedModule(item);
-    const days = getModuleDays(item.date, selected);
+    const total = getModuleTotal(selected);
+    const progress = moduleProgressForDate(item.date, selected);
     const buttons = EXPERIMENT_MODULES.map((module) => {
       const active = module === selected ? "active" : "";
-      const planned = getModuleDays(item.date, module);
+      const planned = getModuleTotal(module);
       const badge = planned ? `<span>${safe(planned)}天</span>` : "";
       return `<button class="module-button ${active}" type="button" data-module="${safeAttr(module)}">${safe(module)}${badge}</button>`;
     }).join("");
@@ -542,15 +546,18 @@
       <div class="module-planner">
         <div class="module-buttons">${buttons}</div>
         <label>
-          <span>${safe(selected)} 预计天数</span>
-          <input class="module-days-input" data-module="${safeAttr(selected)}" type="number" min="0" max="30" step="0.5" value="${safeAttr(days)}" placeholder="天数" />
+          <span>${safe(selected)} 预计总天数${progress ? ` · ${safe(progress)}` : ""}</span>
+          <input class="module-total-input" data-module="${safeAttr(selected)}" type="number" min="0" max="60" step="1" value="${safeAttr(total)}" placeholder="天数" />
         </label>
       </div>
     `;
   }
 
   function getSelectedModule(item) {
-    return state.modulePlans[item.date]?.selected || inferModule(item.projectPlan);
+    const stored = state.modulePlans[item.date]?.selected;
+    if (EXPERIMENT_MODULES.includes(stored)) return stored;
+    if (EXPERIMENT_MODULES.includes(item.projectModule)) return item.projectModule;
+    return inferModule(item.projectPlan);
   }
 
   function inferModule(text) {
@@ -558,27 +565,46 @@
     if (/光罩|黄光|显影|对准|Runcard|runcard|Pad|recess/.test(value)) return "光罩";
     if (/量测|Id|Vg|Vd|CV|TLM|曲线|指标/.test(value)) return "量测";
     if (/TCAD|AI-TCAD|baseline|run list|收敛/.test(value)) return "TCAD";
-    if (/文件|caption|图表|设备参数/.test(value)) return "Runcard/文件";
     return "制程";
   }
 
   function setModuleSelected(date, module) {
-    if (!state.modulePlans[date]) state.modulePlans[date] = { selected: module, days: {} };
+    if (!state.modulePlans[date]) state.modulePlans[date] = { selected: module };
     state.modulePlans[date].selected = module;
-    if (!state.modulePlans[date].days) state.modulePlans[date].days = {};
     saveState();
   }
 
-  function getModuleDays(date, module) {
-    return state.modulePlans[date]?.days?.[module] || "";
+  function getModuleTotal(module) {
+    return state.moduleTotals?.[module] || "";
   }
 
-  function setModuleDays(date, module, value) {
-    if (!state.modulePlans[date]) state.modulePlans[date] = { selected: module, days: {} };
-    if (!state.modulePlans[date].days) state.modulePlans[date].days = {};
-    state.modulePlans[date].selected = module;
-    state.modulePlans[date].days[module] = value;
+  function setModuleTotal(module, value) {
+    if (!state.moduleTotals) state.moduleTotals = {};
+    state.moduleTotals[module] = value;
     saveState();
+  }
+
+  function projectSummaryText(plan, date) {
+    if (!plan?.projectType) return "";
+    if (plan.projectType === "实验专案") {
+      const module = getSelectedModule(plan);
+      const progress = moduleProgressForDate(date, module);
+      return `实验专案｜${module}${progress ? ` ${progress}` : ""}`;
+    }
+    return plan.projectType;
+  }
+
+  function moduleProgressForDate(date, module) {
+    if (!module) return "";
+    const total = Number(getModuleTotal(module));
+    if (!total) return "";
+    const moduleDates = mainPlan
+      .filter((item) => item.projectType === "实验专案" && getSelectedModule(item) === module)
+      .map((item) => item.date)
+      .sort();
+    const index = moduleDates.indexOf(date);
+    if (index < 0) return "";
+    return `${index + 1}/${total}`;
   }
 
   function loadState() {
@@ -588,9 +614,10 @@
         schedule: parsed.schedule || {},
         planOverrides: parsed.planOverrides || {},
         modulePlans: parsed.modulePlans || {},
+        moduleTotals: parsed.moduleTotals || {},
       };
     } catch {
-      return { schedule: {}, planOverrides: {}, modulePlans: {} };
+      return { schedule: {}, planOverrides: {}, modulePlans: {}, moduleTotals: {} };
     }
   }
 

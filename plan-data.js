@@ -1,5 +1,5 @@
 window.IELTS_PLANNER_DATA = {
-  "generatedAt": "2026-05-25T16:44:53.954Z",
+  "generatedAt": "2026-05-25T16:54:40.856Z",
   "source": "IELTS planner adjusted: Duanwu no IELTS, experiment modules, extended to August",
   "mainPlan": [
     {
@@ -12,10 +12,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "听力 + 阅读；写作/口语只看题型",
       "cambridge": "C7T1",
       "projectType": "实验专案",
-      "projectPlan": "黄光、手动显影、对准、显影后检查；整理显影问题判断表",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "光罩"
     },
     {
       "id": "main-2",
@@ -27,10 +28,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "只做听力；不排口语/作文/阅读",
       "cambridge": "C7T2-L",
       "projectType": "学务",
-      "projectPlan": "回中央报告；英文口头汇报；不排制程学习",
+      "projectPlan": "",
       "limits": "Meeting日：不排IELTS口语/作文/阅读",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-3",
@@ -42,10 +44,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "取消 IELTS",
       "cambridge": "",
       "projectType": "休息",
-      "projectPlan": "指定休息日；不排IELTS/制程；只保留生活整理与游泳",
+      "projectPlan": "",
       "limits": "指定休息日：不补塞任务",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-4",
@@ -57,10 +60,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "取消 IELTS",
       "cambridge": "",
       "projectType": "休息",
-      "projectPlan": "指定休息日；不排IELTS/制程；只保留生活整理与游泳",
+      "projectPlan": "",
       "limits": "指定休息日：不补塞任务",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-5",
@@ -72,10 +76,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "阅读 + 错题；不加口语/作文",
       "cambridge": "C7T2-R",
       "projectType": "学务",
-      "projectPlan": "周六回中央/TSMC；不排制程；只补 IELTS 小缺口",
+      "projectPlan": "",
       "limits": "周六回中央/TSMC：不排实验专案",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-6",
@@ -87,10 +92,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "听力 + 阅读 + 错题",
       "cambridge": "C7T3",
       "projectType": "实验专案",
-      "projectPlan": "Id–Vg / Id–Vd / CV / TLM 指标与单位整理",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "量测"
     },
     {
       "id": "main-7",
@@ -102,10 +108,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "听力 + 阅读；写作Task 2看范文",
       "cambridge": "C7T4",
       "projectType": "实验专案",
-      "projectPlan": "ICP/RIE、GaN污染、前段/后段限制、蚀刻轮廓",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "制程"
     },
     {
       "id": "main-8",
@@ -117,10 +124,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "听力 + 阅读",
       "cambridge": "C8T1",
       "projectType": "实验专案",
-      "projectPlan": "Runcard总流程框架：光罩→黄光→蚀刻→金属→退火→钝化→Pad",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "光罩"
     },
     {
       "id": "main-9",
@@ -132,10 +140,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "听力 + 阅读；口语Part 2选做",
       "cambridge": "C8T2",
       "projectType": "实验专案",
-      "projectPlan": "Runcard光罩层：L2/L3/L4/L5/L6/L7/L8/L11与split条件",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "光罩"
     },
     {
       "id": "main-10",
@@ -147,10 +156,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "听力 + 阅读；制程日只做轻量订正",
       "cambridge": "C8T3",
       "projectType": "实验专案",
-      "projectPlan": "黄光、ICP、RTA、PVD/蒸镀、PECVD/钝化设备与预约条件",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "光罩"
     },
     {
       "id": "main-11",
@@ -162,10 +172,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "取消 IELTS",
       "cambridge": "",
       "projectType": "休息",
-      "projectPlan": "指定休息日；不排IELTS/制程；只保留生活整理与游泳",
+      "projectPlan": "",
       "limits": "指定休息日：不补塞任务",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-12",
@@ -177,10 +188,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "取消 IELTS",
       "cambridge": "",
       "projectType": "休息",
-      "projectPlan": "指定休息日；不排IELTS/制程；只保留生活整理与游泳",
+      "projectPlan": "",
       "limits": "指定休息日：不补塞任务",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-13",
@@ -192,10 +204,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "听力 + 阅读 + C7/C8错题",
       "cambridge": "C8T4",
       "projectType": "实验专案",
-      "projectPlan": "英语PPT整理 + Runcard风险点：mark、recess、RTA后轮廓扫描、pad开窗",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "光罩"
     },
     {
       "id": "main-14",
@@ -206,11 +219,12 @@ window.IELTS_PLANNER_DATA = {
       "ieltsPlan": "Cambridge 9 Test 1",
       "ieltsModule": "听力 + 阅读；只做核心订正",
       "cambridge": "C9T1",
-      "projectType": "考试周",
-      "projectPlan": "考试周；不排制程",
+      "projectType": "休息",
+      "projectPlan": "",
       "limits": "考试周：不排实验专案",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-15",
@@ -221,11 +235,12 @@ window.IELTS_PLANNER_DATA = {
       "ieltsPlan": "Cambridge 9 Test 2",
       "ieltsModule": "听力 + 阅读；只做核心订正",
       "cambridge": "C9T2",
-      "projectType": "考试周",
-      "projectPlan": "考试周；不排制程",
+      "projectType": "休息",
+      "projectPlan": "",
       "limits": "考试周：不排实验专案",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-16",
@@ -237,10 +252,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "只做听力；不排口语/作文/阅读",
       "cambridge": "C9T3-L",
       "projectType": "学务",
-      "projectPlan": "考试周；不排制程",
+      "projectPlan": "",
       "limits": "Meeting日：不排IELTS口语/作文/阅读；考试周：不排实验专案",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-17",
@@ -251,11 +267,12 @@ window.IELTS_PLANNER_DATA = {
       "ieltsPlan": "Cambridge 9 Test 3 补完",
       "ieltsModule": "阅读 + 写作框架；不加制程任务",
       "cambridge": "C9T3-RW",
-      "projectType": "考试周",
-      "projectPlan": "考试周；不排制程",
+      "projectType": "休息",
+      "projectPlan": "",
       "limits": "考试周：不排实验专案",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-18",
@@ -266,11 +283,12 @@ window.IELTS_PLANNER_DATA = {
       "ieltsPlan": "Cambridge 9 Test 4",
       "ieltsModule": "听力 + 阅读",
       "cambridge": "C9T4",
-      "projectType": "考试周",
-      "projectPlan": "考试周；不排制程",
+      "projectType": "休息",
+      "projectPlan": "",
       "limits": "考试周：不排实验专案",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-19",
@@ -281,11 +299,12 @@ window.IELTS_PLANNER_DATA = {
       "ieltsPlan": "Cambridge 10 Test 1",
       "ieltsModule": "听力 + 阅读",
       "cambridge": "C10T1",
-      "projectType": "考试周",
-      "projectPlan": "考试周；不排制程",
+      "projectType": "休息",
+      "projectPlan": "",
       "limits": "考试周：不排实验专案",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-20",
@@ -296,11 +315,12 @@ window.IELTS_PLANNER_DATA = {
       "ieltsPlan": "Cambridge 10 Test 2",
       "ieltsModule": "听力 + 阅读 + 口语Part 2",
       "cambridge": "C10T2",
-      "projectType": "考试周",
-      "projectPlan": "考试周；不排制程",
+      "projectType": "休息",
+      "projectPlan": "",
       "limits": "考试周：不排实验专案",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-21",
@@ -312,10 +332,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "完整四项：L/R/W/S",
       "cambridge": "C10T3",
       "projectType": "实验专案",
-      "projectPlan": "TCAD Day 1：baseline确认、变量表、run list",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "TCAD"
     },
     {
       "id": "main-22",
@@ -327,10 +348,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "完整四项：L/R/W/S",
       "cambridge": "C10T4",
       "projectType": "实验专案",
-      "projectPlan": "TCAD Day 2：单/双通道CV设置、IgVg AC输出确认",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "量测"
     },
     {
       "id": "main-23",
@@ -342,10 +364,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "暂停",
       "cambridge": "",
       "projectType": "端午",
-      "projectPlan": "端午/行程；不排雅思计划，实验专案视行程暂停",
+      "projectPlan": "",
       "limits": "端午：2026/06/17–2026/06/22 不排任何雅思计划",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-24",
@@ -357,10 +380,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "暂停",
       "cambridge": "",
       "projectType": "端午",
-      "projectPlan": "端午/行程；不排雅思计划，实验专案视行程暂停",
+      "projectPlan": "",
       "limits": "端午：2026/06/17–2026/06/22 不排任何雅思计划",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-25",
@@ -372,10 +396,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "暂停",
       "cambridge": "",
       "projectType": "端午",
-      "projectPlan": "端午/行程；不排雅思计划，实验专案视行程暂停",
+      "projectPlan": "",
       "limits": "端午：2026/06/17–2026/06/22 不排任何雅思计划",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-26",
@@ -387,10 +412,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "暂停",
       "cambridge": "",
       "projectType": "端午",
-      "projectPlan": "端午/行程；不排雅思计划，实验专案视行程暂停",
+      "projectPlan": "",
       "limits": "端午：2026/06/17–2026/06/22 不排任何雅思计划",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-27",
@@ -402,10 +428,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "暂停",
       "cambridge": "",
       "projectType": "端午",
-      "projectPlan": "端午/行程；不排雅思计划，实验专案视行程暂停",
+      "projectPlan": "",
       "limits": "端午：2026/06/17–2026/06/22 不排任何雅思计划",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-28",
@@ -417,10 +444,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "暂停",
       "cambridge": "",
       "projectType": "端午",
-      "projectPlan": "端午/行程；不排雅思计划，实验专案视行程暂停",
+      "projectPlan": "",
       "limits": "端午：2026/06/17–2026/06/22 不排任何雅思计划",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-29",
@@ -432,10 +460,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "完整四项：L/R/W/S",
       "cambridge": "C11T1",
       "projectType": "实验专案",
-      "projectPlan": "端午后补完：TCAD输出命名、异常曲线分类、下一轮run list",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "量测"
     },
     {
       "id": "main-30",
@@ -447,10 +476,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "只做听力 + 口语",
       "cambridge": "C11T2-LS",
       "projectType": "实验专案",
-      "projectPlan": "AI-TCAD流程图、Vth/Ron/BV趋势图命名与caption整理",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "TCAD"
     },
     {
       "id": "main-31",
@@ -462,10 +492,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "只做听力 + 口语",
       "cambridge": "C11T3-LS",
       "projectType": "实验专案",
-      "projectPlan": "Trigate runcard 版本整理；设备参数表统一语法",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "光罩"
     },
     {
       "id": "main-32",
@@ -477,10 +508,11 @@ window.IELTS_PLANNER_DATA = {
       "ieltsModule": "只做听力 + 口语",
       "cambridge": "C11T4-LS",
       "projectType": "实验专案",
-      "projectPlan": "制程/TCAD缓冲；只处理未完成事项，不新增大任务",
+      "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": "TCAD"
     },
     {
       "id": "main-33",
@@ -495,7 +527,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-34",
@@ -510,7 +543,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-35",
@@ -525,7 +559,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-36",
@@ -540,7 +575,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-37",
@@ -555,7 +591,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-38",
@@ -570,7 +607,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-39",
@@ -585,7 +623,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-40",
@@ -600,7 +639,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-41",
@@ -615,7 +655,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-42",
@@ -630,7 +671,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-43",
@@ -645,7 +687,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-44",
@@ -660,7 +703,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-45",
@@ -675,7 +719,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-46",
@@ -690,7 +735,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-47",
@@ -705,7 +751,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-48",
@@ -720,7 +767,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-49",
@@ -735,7 +783,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-50",
@@ -750,7 +799,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-51",
@@ -765,7 +815,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-52",
@@ -780,7 +831,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-53",
@@ -795,7 +847,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-54",
@@ -810,7 +863,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-55",
@@ -825,7 +879,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-56",
@@ -840,7 +895,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-57",
@@ -855,7 +911,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-58",
@@ -870,7 +927,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-59",
@@ -885,7 +943,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-60",
@@ -900,7 +959,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-61",
@@ -915,7 +975,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-62",
@@ -930,7 +991,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-63",
@@ -945,7 +1007,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-64",
@@ -960,7 +1023,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-65",
@@ -975,7 +1039,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-66",
@@ -990,7 +1055,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-67",
@@ -1005,7 +1071,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-68",
@@ -1020,7 +1087,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-69",
@@ -1035,7 +1103,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-70",
@@ -1050,7 +1119,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-71",
@@ -1065,7 +1135,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-72",
@@ -1080,7 +1151,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     },
     {
       "id": "main-73",
@@ -1095,7 +1167,8 @@ window.IELTS_PLANNER_DATA = {
       "projectPlan": "",
       "limits": "按主计划执行",
       "status": "未开始",
-      "actual": ""
+      "actual": "",
+      "projectModule": ""
     }
   ],
   "dailyTemplates": [

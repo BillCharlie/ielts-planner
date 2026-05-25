@@ -9,13 +9,14 @@ const payload = sandbox.window.IELTS_PLANNER_DATA;
 const originalMain = payload.mainPlan;
 const originalDaily = new Map(payload.dailyTemplates.map((item) => [item.date, item]));
 const startDate = "2026-05-26";
-const extraDays = 6;
+const alreadyAdjusted = originalMain.some((item) => item.date === "2026-06-17" && /不排雅思/.test(item.ieltsPlan || ""));
+const extraDays = alreadyAdjusted ? 0 : 6;
 const endDate = addDays(originalMain.at(-1).date, extraDays);
 const blockedStart = "2026-06-17";
 const blockedEnd = "2026-06-22";
 
 const ieltsQueue = originalMain
-  .filter((item) => item.date >= blockedStart)
+  .filter((item) => !alreadyAdjusted && item.date >= blockedStart)
   .map((item) => ({
     ieltsPriority: item.ieltsPriority,
     ieltsPlan: item.ieltsPlan,
@@ -52,7 +53,7 @@ for (let date = startDate, index = 0; date <= endDate; date = addDays(date, 1), 
     row.projectType = "端午";
     row.projectPlan = "端午/行程；不排雅思计划，实验专案视行程暂停";
     row.limits = "端午：2026/06/17–2026/06/22 不排任何雅思计划";
-  } else if (date > blockedEnd) {
+  } else if (!alreadyAdjusted && date > blockedEnd) {
     const shifted = ieltsQueue[queueIndex];
     if (shifted) {
       row.ieltsPriority = shifted.ieltsPriority;
@@ -64,6 +65,8 @@ for (let date = startDate, index = 0; date <= endDate; date = addDays(date, 1), 
   }
 
   row.projectType = normalizeProjectType(row);
+  row.projectModule = row.projectType === "实验专案" ? inferModule(row.projectPlan) : "";
+  row.projectPlan = normalizeProjectPlan(row);
   row.limits = normalizeLimits(row.limits);
   mainPlan.push(row);
 }
@@ -138,13 +141,29 @@ function normalizeProjectType(item) {
   if (/休息/.test(`${item.dayType} ${item.projectType}`)) return "休息";
   if (/端午\/行程|端午旅行/.test(text)) return "端午";
   if (/Meeting|上课|回中央|TSMC/.test(text)) return "学务";
-  if (/考试周/.test(`${item.dayType} ${item.projectType}`) && /不排/.test(item.projectPlan || "")) return "考试周";
+  if (/考试周/.test(`${item.dayType} ${item.projectType}`) && /不排/.test(item.projectPlan || "")) return "休息";
   if (/制程|量测|TCAD|光罩|Runcard|黄光|显影|ICP|RIE|RTA|PVD|PECVD|设备|Pad|recess|TLM|CV|Id|Vg|Vd|AI-TCAD|蚀刻|金属|退火|钝化|runcard/i.test(text)) {
     return "实验专案";
   }
-  if (/考试周/.test(text)) return "考试周";
+  if (/考试周/.test(text)) return "休息";
   if (!item.projectPlan) return "";
   return item.projectType || "";
+}
+
+function normalizeProjectPlan(item) {
+  if (item.projectType === "实验专案") return "";
+  if (item.projectType === "学务") return "";
+  if (item.projectType === "休息") return "";
+  if (item.projectType === "端午") return "";
+  return "";
+}
+
+function inferModule(text) {
+  const value = text || "";
+  if (/光罩|黄光|显影|对准|Runcard|runcard|Pad|recess/.test(value)) return "光罩";
+  if (/量测|Id|Vg|Vd|CV|TLM|曲线|指标/.test(value)) return "量测";
+  if (/TCAD|AI-TCAD|baseline|run list|收敛/.test(value)) return "TCAD";
+  return "制程";
 }
 
 function normalizeLimits(value) {
