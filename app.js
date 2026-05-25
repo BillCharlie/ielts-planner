@@ -6,7 +6,7 @@
   const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
   const state = loadState();
-  let mainPlan = [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
+  let mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
   const dailyTemplates = data.dailyTemplates || [];
   let mainByDate = new Map(mainPlan.map((item) => [item.date, item]));
   const dailyByDate = new Map(dailyTemplates.map((item) => [item.date, item]));
@@ -408,12 +408,25 @@
     rows.forEach((item) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td><button class="date-button" type="button">${formatDate(item.date)}<br>${safe(item.weekday)}</button></td>
-        <td>${tagForDay(item.dayType)}<br><span class="muted">${safe(item.ieltsPriority)}</span></td>
-        <td><strong>${safe(item.ieltsPlan)}</strong><br><span class="muted">${safe(item.cambridge)}</span></td>
-        <td>${safe(item.ieltsModule)}</td>
+        <td>
+          <input class="plan-edit-input plan-date-input" data-field="date" data-date="${safeAttr(item.date)}" type="date" value="${safeAttr(item.date)}" />
+          <button class="date-button" type="button">${safe(item.weekday || weekdayZh(item.date))}</button>
+        </td>
+        <td>
+          <select class="plan-edit-input" data-field="dayType" data-date="${safeAttr(item.date)}">
+            ${["正常", "学务", "实验专案", "休息", "端午", "延伸"].map((type) => `<option value="${type}">${type}</option>`).join("")}
+          </select>
+          <input class="plan-edit-input" data-field="ieltsPriority" data-date="${safeAttr(item.date)}" value="${safeAttr(item.ieltsPriority || "")}" placeholder="优先级" />
+        </td>
+        <td>
+          <textarea class="plan-edit-textarea" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
+          <input class="plan-edit-input" data-field="cambridge" data-date="${safeAttr(item.date)}" value="${safeAttr(item.cambridge || "")}" placeholder="Cambridge进度" />
+        </td>
+        <td><textarea class="plan-edit-textarea" data-field="ieltsModule" data-date="${safeAttr(item.date)}" placeholder="模块">${safe(item.ieltsModule || "")}</textarea></td>
         <td class="project-cell">
-          <strong>${safe(item.projectType || "")}</strong>
+          <select class="plan-edit-input project-type-select" data-field="projectType" data-date="${safeAttr(item.date)}">
+            ${["实验专案", "学务", "休息", "端午", ""].map((type) => `<option value="${type}">${type || "空白"}</option>`).join("")}
+          </select>
           ${projectPlannerMarkup(item)}
         </td>
         <td>
@@ -422,6 +435,13 @@
           </select>
         </td>
         <td><textarea class="actual-input" data-date="${safeAttr(item.date)}" placeholder="备注">${safe(getPlanOverride(item.date, "actual") || item.actual || "")}</textarea></td>
+        <td class="row-actions">
+          <button class="row-action-button" type="button" data-action="up" data-date="${safeAttr(item.date)}">上</button>
+          <button class="row-action-button" type="button" data-action="down" data-date="${safeAttr(item.date)}">下</button>
+          <button class="row-action-button" type="button" data-action="insert" data-date="${safeAttr(item.date)}">插入</button>
+          <button class="row-action-button" type="button" data-action="copy" data-date="${safeAttr(item.date)}">复制</button>
+          <button class="row-action-button danger" type="button" data-action="delete" data-date="${safeAttr(item.date)}">删</button>
+        </td>
       `;
       row.querySelector(".date-button").addEventListener("click", () => {
         selectedDate = item.date;
@@ -430,6 +450,20 @@
         renderCalendar();
         renderSelectedDay();
       });
+
+      row.querySelectorAll(".plan-edit-input, .plan-edit-textarea").forEach((input) => {
+        if (input.dataset.field) input.value = item[input.dataset.field] || "";
+        input.addEventListener("change", () => {
+          updatePlanRow(item.date, input.dataset.field, input.value);
+          renderAll();
+          showSaved("已保存");
+        });
+      input.addEventListener("input", () => {
+        updatePlanRow(item.date, input.dataset.field, input.value, { quiet: true });
+        showSaved("已保存");
+      });
+    });
+      row.querySelector(".project-type-select").value = item.projectType || "";
 
       const statusSelect = row.querySelector(".status-select");
       statusSelect.value = getPlanOverride(item.date, "status") || item.status || "未开始";
@@ -455,6 +489,14 @@
           showSaved("已保存");
         });
       }
+
+      row.querySelectorAll(".row-action-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          handleRowAction(item.date, button.dataset.action);
+          renderAll();
+          showSaved("已更新行");
+        });
+      });
 
       el.planTableBody.appendChild(row);
     });
@@ -601,6 +643,93 @@
     if (!state.planOverrides[date]) state.planOverrides[date] = {};
     state.planOverrides[date][field] = value;
     saveState();
+  }
+
+  function updatePlanRow(date, field, value, options = {}) {
+    if (!field) return;
+    const index = mainPlan.findIndex((item) => item.date === date);
+    if (index < 0) return;
+    const row = mainPlan[index];
+    const previousDate = row.date;
+    row[field] = value;
+    if (field === "date") {
+      row.weekday = weekdayZh(value);
+      moveDateKey(state.modulePlans, previousDate, value);
+      moveDateKey(state.planOverrides, previousDate, value);
+      moveDateKey(state.schedule, previousDate, value);
+      if (selectedDate === previousDate) selectedDate = value;
+    }
+    persistPlanRows();
+    rebuildPlanIndexes();
+    saveState();
+  }
+
+  function handleRowAction(date, action) {
+    const index = mainPlan.findIndex((item) => item.date === date);
+    if (index < 0) return;
+    if (action === "up" && index > 0) {
+      [mainPlan[index - 1], mainPlan[index]] = [mainPlan[index], mainPlan[index - 1]];
+    }
+    if (action === "down" && index < mainPlan.length - 1) {
+      [mainPlan[index], mainPlan[index + 1]] = [mainPlan[index + 1], mainPlan[index]];
+    }
+    if (action === "insert") {
+      mainPlan.splice(index + 1, 0, createBlankPlanRow(addDays(mainPlan[index].date, 1)));
+    }
+    if (action === "copy") {
+      mainPlan.splice(index + 1, 0, clonePlanRow(mainPlan[index]));
+    }
+    if (action === "delete" && mainPlan.length > 1) {
+      const [removed] = mainPlan.splice(index, 1);
+      delete state.modulePlans[removed.date];
+      delete state.planOverrides[removed.date];
+      delete state.schedule[removed.date];
+      if (selectedDate === removed.date) selectedDate = mainPlan[Math.max(0, index - 1)].date;
+    }
+    persistPlanRows();
+    rebuildPlanIndexes();
+    saveState();
+  }
+
+  function createBlankPlanRow(date) {
+    return {
+      id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      date,
+      weekday: weekdayZh(date),
+      dayType: "延伸",
+      ieltsPriority: "",
+      ieltsPlan: "IELTS每日提醒",
+      ieltsModule: "自由安排",
+      cambridge: "",
+      projectType: "实验专案",
+      projectPlan: "",
+      projectModule: "制程",
+      limits: "",
+      status: "未开始",
+      actual: "",
+    };
+  }
+
+  function clonePlanRow(row) {
+    const nextDate = addDays(row.date, 1);
+    return {
+      ...JSON.parse(JSON.stringify(row)),
+      id: `copy-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      date: nextDate,
+      weekday: weekdayZh(nextDate),
+      actual: "",
+      status: "未开始",
+    };
+  }
+
+  function persistPlanRows() {
+    state.planRows = mainPlan;
+  }
+
+  function moveDateKey(object, from, to) {
+    if (!object || from === to || !(from in object)) return;
+    object[to] = object[from];
+    delete object[from];
   }
 
   function projectPlannerMarkup(item) {
@@ -769,6 +898,7 @@
     }
     state.extraPlanRows = [...(state.extraPlanRows || []), ...additions];
     mainPlan = [...mainPlan, ...additions];
+    persistPlanRows();
     rebuildPlanIndexes();
     saveState();
   }
@@ -789,9 +919,10 @@
         moduleTotals: parsed.moduleTotals || {},
         moduleCatalog: parsed.moduleCatalog || {},
         extraPlanRows: parsed.extraPlanRows || [],
+        planRows: parsed.planRows || [],
       };
     } catch {
-      return { schedule: {}, planOverrides: {}, modulePlans: {}, moduleTotals: {}, moduleCatalog: {}, extraPlanRows: [] };
+      return { schedule: {}, planOverrides: {}, modulePlans: {}, moduleTotals: {}, moduleCatalog: {}, extraPlanRows: [], planRows: [] };
     }
   }
 

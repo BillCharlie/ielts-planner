@@ -565,11 +565,12 @@ textarea {
   background: #fbfdfc;
 }
 
-.module-table-row td {
+.module-table-row th {
   background: #fbfdfc;
+  position: static;
 }
 
-.module-table-row:hover td {
+.module-table-row:hover th {
   background: #fbfdfc;
 }
 
@@ -589,9 +590,46 @@ textarea {
   min-width: 116px;
 }
 
+.plan-edit-input,
+.plan-edit-textarea {
+  min-width: 138px;
+  margin-bottom: 6px;
+}
+
+.plan-date-input {
+  min-width: 142px;
+}
+
+.plan-edit-textarea {
+  min-height: 54px;
+}
+
 .actual-input {
   min-width: 210px;
   min-height: 48px;
+}
+
+.row-actions {
+  min-width: 128px;
+}
+
+.row-action-button {
+  min-height: 30px;
+  margin: 0 4px 6px 0;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.row-action-button:hover {
+  background: var(--surface-2);
+  color: var(--teal-dark);
+}
+
+.row-action-button.danger {
+  color: var(--rose);
 }
 
 .project-cell {
