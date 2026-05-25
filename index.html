@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f766e" />
+    <title>IELTS 制程整合日历</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="authView" class="auth-shell" hidden>
+      <main class="auth-panel" aria-labelledby="authTitle">
+        <div class="brand-mark">B</div>
+        <h1 id="authTitle">IELTS 制程整合日历</h1>
+        <p>请输入保存密码后进入。</p>
+        <form id="authForm" class="auth-form">
+          <label for="passwordInput">保存密码</label>
+          <input id="passwordInput" type="password" autocomplete="current-password" />
+          <button type="submit">保存密码并打开</button>
+          <p id="authError" class="form-error" role="alert"></p>
+        </form>
+      </main>
+    </div>
+
+    <div id="appView" class="app-shell" hidden>
+      <header class="topbar">
+        <button id="navCalendar" class="tab-button active" type="button">日历</button>
+        <button id="navPlan" class="tab-button" type="button">主计划表</button>
+        <div class="topbar-title">
+          <strong>IELTS × 制程</strong>
+          <span id="dateRangeLabel"></span>
+        </div>
+        <button id="installButton" class="ghost-button" type="button" hidden>安装</button>
+        <button id="lockButton" class="ghost-button" type="button">锁定</button>
+      </header>
+
+      <section id="calendarView" class="view active">
+        <div class="calendar-layout">
+          <aside class="month-pane">
+            <div class="month-header">
+              <button id="prevMonth" class="icon-button" type="button" aria-label="上个月">‹</button>
+              <h2 id="monthTitle"></h2>
+              <button id="nextMonth" class="icon-button" type="button" aria-label="下个月">›</button>
+            </div>
+            <div class="week-head">
+              <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+            </div>
+            <div id="monthGrid" class="month-grid" aria-label="月份日历"></div>
+          </aside>
+
+          <main class="day-pane">
+            <div class="day-header">
+              <div>
+                <p id="selectedDayType" class="eyebrow"></p>
+                <h1 id="selectedDateTitle"></h1>
+              </div>
+              <div class="day-actions">
+                <button id="fillTemplateButton" type="button">填入每日建议</button>
+                <button id="placeMainTasksButton" type="button">排入主任务</button>
+              </div>
+            </div>
+
+            <div id="reminderPanel" class="reminder-panel" hidden></div>
+
+            <section class="plan-summary" aria-label="当日主计划">
+              <div>
+                <span class="summary-label">IELTS</span>
+                <strong id="summaryIelts"></strong>
+                <p id="summaryIeltsDetail"></p>
+              </div>
+              <div>
+                <span class="summary-label">制程 / 项目</span>
+                <strong id="summaryProjectType"></strong>
+                <p id="summaryProject"></p>
+              </div>
+              <div>
+                <span class="summary-label">限制</span>
+                <strong id="summaryStatus"></strong>
+                <p id="summaryLimits"></p>
+              </div>
+            </section>
+
+            <div class="toolbar-row">
+              <label for="taskPicker">主计划事项</label>
+              <select id="taskPicker"></select>
+              <button id="copyTaskButton" type="button">复制到选中小时</button>
+              <span id="saveStatus" aria-live="polite"></span>
+            </div>
+
+            <section id="hourGrid" class="hour-grid" aria-label="每小时计划"></section>
+          </main>
+        </div>
+      </section>
+
+      <section id="planView" class="view">
+        <main class="plan-page">
+          <div class="plan-toolbar">
+            <div>
+              <p class="eyebrow">主计划表</p>
+              <h1>2026/05/26 - 2026/07/31</h1>
+            </div>
+            <input id="planSearch" type="search" placeholder="搜索 Cambridge、制程、日期..." />
+          </div>
+          <div id="planWarningStrip" class="warning-strip"></div>
+          <div class="table-wrap">
+            <table class="main-table">
+              <thead>
+                <tr>
+                  <th>日期</th>
+                  <th>日类型</th>
+                  <th>IELTS</th>
+                  <th>模块</th>
+                  <th>制程 / 项目</th>
+                  <th>状态</th>
+                  <th>实际完成 / 备注</th>
+                </tr>
+              </thead>
+              <tbody id="planTableBody"></tbody>
+            </table>
+          </div>
+        </main>
+      </section>
+    </div>
+
+    <script src="plan-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
