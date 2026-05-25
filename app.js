@@ -5,12 +5,12 @@
   const HOURS = Array.from({ length: 18 }, (_, index) => index + 6);
   const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
-  const mainPlan = data.mainPlan || [];
+  const state = loadState();
+  let mainPlan = [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
   const dailyTemplates = data.dailyTemplates || [];
-  const mainByDate = new Map(mainPlan.map((item) => [item.date, item]));
+  let mainByDate = new Map(mainPlan.map((item) => [item.date, item]));
   const dailyByDate = new Map(dailyTemplates.map((item) => [item.date, item]));
 
-  const state = loadState();
   let selectedDate = mainPlan[0]?.date || isoToday();
   let visibleMonth = selectedDate.slice(0, 7);
   let activeHour = 9;
@@ -64,7 +64,9 @@
       "saveStatus",
       "hourGrid",
       "planSearch",
+      "extendPlanButton",
       "planRangeTitle",
+      "moduleCatalog",
       "planWarningStrip",
       "planTableBody",
     ].forEach((id) => {
@@ -135,6 +137,11 @@
 
   function bindPlanControls() {
     el.planSearch.addEventListener("input", renderPlanTable);
+    el.extendPlanButton.addEventListener("click", () => {
+      extendPlan(7);
+      renderAll();
+      showSaved("已延伸7天");
+    });
   }
 
   function bindPwa() {
@@ -180,6 +187,7 @@
   }
 
   function renderAll() {
+    renderModuleCatalog();
     renderCalendar();
     renderSelectedDay();
     renderPlanTable();
@@ -315,6 +323,80 @@
     });
   }
 
+  function renderModuleCatalog() {
+    el.moduleCatalog.innerHTML = EXPERIMENT_MODULES.map((module) => {
+      const items = getModuleItems(module);
+      const itemRows = items.length
+        ? items
+            .map(
+              (item) => `
+                <div class="module-item-row" data-id="${safeAttr(item.id)}">
+                  <input class="catalog-name-input" data-id="${safeAttr(item.id)}" value="${safeAttr(item.name)}" aria-label="${safeAttr(module)}项目名称" />
+                  <input class="catalog-days-input" data-id="${safeAttr(item.id)}" type="number" min="1" max="90" step="1" value="${safeAttr(item.days || "")}" placeholder="天数" aria-label="${safeAttr(module)}预计天数" />
+                  <button class="catalog-delete-button" type="button" data-id="${safeAttr(item.id)}">删</button>
+                </div>
+              `,
+            )
+            .join("")
+        : `<div class="module-empty">还没有自定义项目</div>`;
+      return `
+        <article class="module-card">
+          <h2>${safe(module)}</h2>
+          <div class="module-add-row">
+            <input class="module-new-name" data-module="${safeAttr(module)}" placeholder="${safeAttr(module)}项目名" />
+            <input class="module-new-days" data-module="${safeAttr(module)}" type="number" min="1" max="90" step="1" placeholder="天数" />
+            <button class="module-add-button" type="button" data-module="${safeAttr(module)}">新增</button>
+          </div>
+          <div class="module-item-list">${itemRows}</div>
+        </article>
+      `;
+    }).join("");
+
+    el.moduleCatalog.querySelectorAll(".module-add-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const module = button.dataset.module;
+        const nameInput = el.moduleCatalog.querySelector(`.module-new-name[data-module="${cssEscape(module)}"]`);
+        const daysInput = el.moduleCatalog.querySelector(`.module-new-days[data-module="${cssEscape(module)}"]`);
+        addModuleItem(module, nameInput.value.trim(), daysInput.value);
+        nameInput.value = "";
+        daysInput.value = "";
+        renderModuleCatalog();
+        renderPlanTable();
+        renderSelectedDay();
+        showSaved("已新增模块项目");
+      });
+    });
+
+    el.moduleCatalog.querySelectorAll(".catalog-name-input").forEach((input) => {
+      input.addEventListener("input", () => {
+        updateModuleItem(input.dataset.id, { name: input.value });
+        renderPlanTable();
+        renderSelectedDay();
+        showSaved("已保存");
+      });
+    });
+
+    el.moduleCatalog.querySelectorAll(".catalog-days-input").forEach((input) => {
+      input.addEventListener("input", () => {
+        updateModuleItem(input.dataset.id, { days: input.value });
+        renderPlanTable();
+        renderSelectedDay();
+        showSaved("已保存");
+      });
+    });
+
+    el.moduleCatalog.querySelectorAll(".catalog-delete-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        deleteModuleItem(button.dataset.id);
+        renderModuleCatalog();
+        renderPlanTable();
+        renderSelectedDay();
+        renderCalendar();
+        showSaved("已删除");
+      });
+    });
+  }
+
   function renderPlanTable() {
     const query = el.planSearch.value.trim().toLowerCase();
     const rows = mainPlan.filter((item) => {
@@ -363,21 +445,14 @@
         showSaved("已保存");
       });
 
-      row.querySelectorAll(".module-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          setModuleSelected(item.date, button.dataset.module);
+      const projectItemSelect = row.querySelector(".project-item-select");
+      if (projectItemSelect) {
+        projectItemSelect.addEventListener("change", () => {
+          setProjectItemSelected(item.date, projectItemSelect.value);
           renderPlanTable();
-          showSaved("已保存");
-        });
-      });
-
-      const moduleTotalInput = row.querySelector(".module-total-input");
-      if (moduleTotalInput) {
-        moduleTotalInput.addEventListener("input", () => {
-          setModuleTotal(moduleTotalInput.dataset.module, moduleTotalInput.value);
-          showSaved("已保存");
-          renderCalendar();
           renderSelectedDay();
+          renderCalendar();
+          showSaved("已保存");
         });
       }
 
@@ -533,29 +608,26 @@
       return `<div class="module-note">学务</div>`;
     }
     if (item.projectType !== "实验专案") return "";
-    const selected = getSelectedModule(item);
-    const total = getModuleTotal(selected);
-    const progress = moduleProgressForDate(item.date, selected);
-    const buttons = EXPERIMENT_MODULES.map((module) => {
-      const active = module === selected ? "active" : "";
-      const planned = getModuleTotal(module);
-      const badge = planned ? `<span>${safe(planned)}天</span>` : "";
-      return `<button class="module-button ${active}" type="button" data-module="${safeAttr(module)}">${safe(module)}${badge}</button>`;
+    const selectedItem = getSelectedProjectItem(item);
+    const progress = projectItemProgressForDate(item.date, selectedItem.id);
+    const options = getProjectItemOptions(item.projectModule).map((option) => {
+      const selected = option.id === selectedItem.id ? " selected" : "";
+      const suffix = option.days ? ` ${option.days}天` : "";
+      return `<option value="${safeAttr(option.id)}"${selected}>${safe(option.name)}${safe(suffix)}</option>`;
     }).join("");
     return `
       <div class="module-planner">
-        <div class="module-buttons">${buttons}</div>
+        <select class="project-item-select" aria-label="选择实验专案" data-date="${safeAttr(item.date)}">${options}</select>
         <label>
-          <span>${safe(selected)} 预计总天数${progress ? ` · ${safe(progress)}` : ""}</span>
-          <input class="module-total-input" data-module="${safeAttr(selected)}" type="number" min="0" max="60" step="1" value="${safeAttr(total)}" placeholder="天数" />
+          <span>${safe(selectedItem.name)}${progress ? ` · ${safe(progress)}` : ""}</span>
         </label>
       </div>
     `;
   }
 
   function getSelectedModule(item) {
-    const stored = state.modulePlans[item.date]?.selected;
-    if (EXPERIMENT_MODULES.includes(stored)) return stored;
+    const selectedItem = getSelectedProjectItem(item);
+    if (selectedItem?.module) return selectedItem.module;
     if (EXPERIMENT_MODULES.includes(item.projectModule)) return item.projectModule;
     return inferModule(item.projectPlan);
   }
@@ -574,37 +646,137 @@
     saveState();
   }
 
-  function getModuleTotal(module) {
-    return state.moduleTotals?.[module] || "";
-  }
-
-  function setModuleTotal(module, value) {
-    if (!state.moduleTotals) state.moduleTotals = {};
-    state.moduleTotals[module] = value;
+  function setProjectItemSelected(date, itemId) {
+    const item = getProjectItemById(itemId);
+    if (!item) return;
+    if (!state.modulePlans[date]) state.modulePlans[date] = {};
+    state.modulePlans[date].itemId = itemId;
+    state.modulePlans[date].selected = item.module;
     saveState();
   }
 
   function projectSummaryText(plan, date) {
     if (!plan?.projectType) return "";
     if (plan.projectType === "实验专案") {
-      const module = getSelectedModule(plan);
-      const progress = moduleProgressForDate(date, module);
-      return `实验专案｜${module}${progress ? ` ${progress}` : ""}`;
+      const item = getSelectedProjectItem(plan);
+      const progress = projectItemProgressForDate(date, item.id);
+      return `${item.name}${progress ? ` ${progress}` : ""}`;
     }
     return plan.projectType;
   }
 
-  function moduleProgressForDate(date, module) {
-    if (!module) return "";
-    const total = Number(getModuleTotal(module));
+  function projectItemProgressForDate(date, itemId) {
+    const item = getProjectItemById(itemId);
+    if (!item) return "";
+    const total = Number(item.days);
     if (!total) return "";
-    const moduleDates = mainPlan
-      .filter((item) => item.projectType === "实验专案" && getSelectedModule(item) === module)
-      .map((item) => item.date)
+    const projectDates = mainPlan
+      .filter((row) => row.projectType === "实验专案" && getSelectedProjectItem(row).id === itemId)
+      .map((row) => row.date)
       .sort();
-    const index = moduleDates.indexOf(date);
+    const index = projectDates.indexOf(date);
     if (index < 0) return "";
     return `${index + 1}/${total}`;
+  }
+
+  function getProjectItemOptions(preferredModule) {
+    const preferred = EXPERIMENT_MODULES.includes(preferredModule) ? preferredModule : "";
+    const orderedModules = preferred
+      ? [preferred, ...EXPERIMENT_MODULES.filter((module) => module !== preferred)]
+      : EXPERIMENT_MODULES;
+    return orderedModules.flatMap((module) => getModuleItemsWithDefault(module));
+  }
+
+  function getSelectedProjectItem(row) {
+    const stored = state.modulePlans[row.date]?.itemId;
+    const storedItem = getProjectItemById(stored);
+    if (storedItem) return storedItem;
+    const module = EXPERIMENT_MODULES.includes(row.projectModule) ? row.projectModule : inferModule(row.projectPlan);
+    return getModuleItemsWithDefault(module)[0];
+  }
+
+  function getModuleItems(module) {
+    return state.moduleCatalog?.[module] || [];
+  }
+
+  function getModuleItemsWithDefault(module) {
+    const items = getModuleItems(module);
+    if (items.length) return items;
+    return [{ id: `default:${module}`, module, name: module, days: "" }];
+  }
+
+  function getProjectItemById(itemId) {
+    if (!itemId) return null;
+    if (itemId.startsWith("default:")) {
+      const module = itemId.slice("default:".length);
+      if (EXPERIMENT_MODULES.includes(module)) return { id: itemId, module, name: module, days: "" };
+    }
+    return EXPERIMENT_MODULES.flatMap((module) => getModuleItems(module)).find((item) => item.id === itemId) || null;
+  }
+
+  function addModuleItem(module, name, days) {
+    if (!EXPERIMENT_MODULES.includes(module)) return;
+    if (!state.moduleCatalog) state.moduleCatalog = {};
+    if (!state.moduleCatalog[module]) state.moduleCatalog[module] = [];
+    const cleanName = name || `${module}${state.moduleCatalog[module].length + 1}`;
+    state.moduleCatalog[module].push({
+      id: `${module}:${Date.now()}:${Math.random().toString(36).slice(2, 7)}`,
+      module,
+      name: cleanName,
+      days: days || "",
+    });
+    saveState();
+  }
+
+  function updateModuleItem(itemId, patch) {
+    const item = getProjectItemById(itemId);
+    if (!item || itemId.startsWith("default:")) return;
+    Object.assign(item, patch);
+    saveState();
+  }
+
+  function deleteModuleItem(itemId) {
+    const item = getProjectItemById(itemId);
+    if (!item || itemId.startsWith("default:")) return;
+    state.moduleCatalog[item.module] = getModuleItems(item.module).filter((candidate) => candidate.id !== itemId);
+    Object.values(state.modulePlans || {}).forEach((plan) => {
+      if (plan.itemId === itemId) delete plan.itemId;
+    });
+    saveState();
+  }
+
+  function extendPlan(days) {
+    const additions = [];
+    let cursor = mainPlan.at(-1)?.date || isoToday();
+    for (let index = 0; index < days; index += 1) {
+      cursor = addDays(cursor, 1);
+      additions.push({
+        id: `extra-${cursor}`,
+        date: cursor,
+        weekday: weekdayZh(cursor),
+        dayType: "延伸",
+        ieltsPriority: "自订",
+        ieltsPlan: "IELTS每日提醒",
+        ieltsModule: "自由安排",
+        cambridge: "",
+        projectType: "实验专案",
+        projectPlan: "",
+        projectModule: "制程",
+        limits: "延伸日程，可自行调整",
+        status: "未开始",
+        actual: "",
+      });
+    }
+    state.extraPlanRows = [...(state.extraPlanRows || []), ...additions];
+    mainPlan = [...mainPlan, ...additions];
+    rebuildPlanIndexes();
+    saveState();
+  }
+
+  function rebuildPlanIndexes() {
+    mainByDate = new Map(mainPlan.map((item) => [item.date, item]));
+    el.dateRangeLabel.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
+    el.planRangeTitle.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
   }
 
   function loadState() {
@@ -615,9 +787,11 @@
         planOverrides: parsed.planOverrides || {},
         modulePlans: parsed.modulePlans || {},
         moduleTotals: parsed.moduleTotals || {},
+        moduleCatalog: parsed.moduleCatalog || {},
+        extraPlanRows: parsed.extraPlanRows || [],
       };
     } catch {
-      return { schedule: {}, planOverrides: {}, modulePlans: {}, moduleTotals: {} };
+      return { schedule: {}, planOverrides: {}, modulePlans: {}, moduleTotals: {}, moduleCatalog: {}, extraPlanRows: [] };
     }
   }
 
@@ -674,6 +848,17 @@
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}`;
   }
 
+  function addDays(iso, days) {
+    const date = new Date(`${iso}T00:00:00Z`);
+    date.setUTCDate(date.getUTCDate() + days);
+    return date.toISOString().slice(0, 10);
+  }
+
+  function weekdayZh(iso) {
+    const names = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    return names[new Date(`${iso}T00:00:00Z`).getUTCDay()];
+  }
+
   function isoToday() {
     return toIso(new Date());
   }
@@ -697,6 +882,11 @@
 
   function safeAttr(value) {
     return safe(value).replace(/`/g, "&#096;");
+  }
+
+  function cssEscape(value) {
+    if (window.CSS?.escape) return CSS.escape(value);
+    return `${value}`.replace(/"/g, '\\"');
   }
 
   function registerServiceWorker() {

@@ -484,6 +484,59 @@ textarea {
   border-radius: 8px;
 }
 
+.module-catalog {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(190px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.module-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdfc;
+  padding: 10px;
+}
+
+.module-card h2 {
+  margin: 0 0 8px;
+  color: var(--teal-dark);
+  font-size: 16px;
+}
+
+.module-add-row,
+.module-item-row {
+  display: grid;
+  grid-template-columns: minmax(86px, 1fr) 64px auto;
+  gap: 6px;
+  align-items: center;
+}
+
+.module-add-row input,
+.module-item-row input {
+  min-height: 32px;
+  padding: 0 8px;
+  font-size: 13px;
+}
+
+.module-add-row button,
+.module-item-row button {
+  min-height: 32px;
+  padding: 0 8px;
+  font-size: 13px;
+}
+
+.module-item-list {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.module-empty {
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .main-table {
   width: 100%;
   min-width: 1050px;
@@ -509,6 +562,14 @@ textarea {
 }
 
 .main-table tr:hover td {
+  background: #fbfdfc;
+}
+
+.module-table-row td {
+  background: #fbfdfc;
+}
+
+.module-table-row:hover td {
   background: #fbfdfc;
 }
 
@@ -576,16 +637,24 @@ textarea {
 }
 
 .module-planner label {
-  display: grid;
-  grid-template-columns: minmax(96px, auto) 90px;
-  gap: 8px;
-  align-items: center;
+  display: block;
   color: var(--muted);
   font-size: 13px;
 }
 
 .module-total-input {
   min-height: 32px;
+}
+
+.project-item-select {
+  min-height: 34px;
+  font-size: 13px;
+}
+
+@media (max-width: 1100px) {
+  .module-catalog {
+    grid-template-columns: repeat(2, minmax(190px, 1fr));
+  }
 }
 
 [hidden] {
@@ -659,5 +728,9 @@ textarea {
 
   .hour-time {
     min-height: 24px;
+  }
+
+  .module-catalog {
+    grid-template-columns: 1fr;
   }
 }

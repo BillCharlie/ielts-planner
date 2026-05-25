@@ -102,6 +102,7 @@
               <p class="eyebrow">主计划表</p>
               <h1 id="planRangeTitle">2026/05/26 - 2026/08/06</h1>
             </div>
+            <button id="extendPlanButton" type="button">延伸7天</button>
             <input id="planSearch" type="search" placeholder="搜索 Cambridge、制程、日期..." />
           </div>
           <div id="planWarningStrip" class="warning-strip"></div>
@@ -118,6 +119,13 @@
                   <th>实际完成 / 备注</th>
                 </tr>
               </thead>
+              <tbody>
+                <tr class="module-table-row">
+                  <td colspan="7">
+                    <section id="moduleCatalog" class="module-catalog" aria-label="实验专案模块库"></section>
+                  </td>
+                </tr>
+              </tbody>
               <tbody id="planTableBody"></tbody>
             </table>
           </div>
