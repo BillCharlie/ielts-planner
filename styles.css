@@ -533,6 +533,61 @@ textarea {
   min-height: 48px;
 }
 
+.project-cell {
+  min-width: 260px;
+}
+
+.module-note {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.module-planner {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.module-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.module-button {
+  min-height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.module-button.active {
+  border-color: var(--teal);
+  background: var(--surface-2);
+  color: var(--teal-dark);
+}
+
+.module-button span {
+  margin-left: 4px;
+  color: var(--amber);
+}
+
+.module-planner label {
+  display: grid;
+  grid-template-columns: minmax(96px, auto) 90px;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.module-days-input {
+  min-height: 32px;
+}
+
 [hidden] {
   display: none !important;
 }

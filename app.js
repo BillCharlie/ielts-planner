@@ -3,6 +3,7 @@
   const ACCESS_KEY = "ieltsPlannerAccessSaved";
   const STATE_KEY = "ieltsPlannerStateV1";
   const HOURS = Array.from({ length: 18 }, (_, index) => index + 6);
+  const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩", "Runcard/文件"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
   const mainPlan = data.mainPlan || [];
   const dailyTemplates = data.dailyTemplates || [];
@@ -63,6 +64,7 @@
       "saveStatus",
       "hourGrid",
       "planSearch",
+      "planRangeTitle",
       "planWarningStrip",
       "planTableBody",
     ].forEach((id) => {
@@ -164,6 +166,7 @@
     el.authView.hidden = true;
     el.appView.hidden = false;
     el.dateRangeLabel.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
+    el.planRangeTitle.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
     renderAll();
   }
 
@@ -327,7 +330,10 @@
         <td>${tagForDay(item.dayType)}<br><span class="muted">${safe(item.ieltsPriority)}</span></td>
         <td><strong>${safe(item.ieltsPlan)}</strong><br><span class="muted">${safe(item.cambridge)}</span></td>
         <td>${safe(item.ieltsModule)}</td>
-        <td><strong>${safe(item.projectType || "")}</strong><br>${safe(item.projectPlan || "")}</td>
+        <td class="project-cell">
+          <strong>${safe(item.projectType || "")}</strong><br>${safe(item.projectPlan || "")}
+          ${projectPlannerMarkup(item)}
+        </td>
         <td>
           <select class="status-select" data-date="${safeAttr(item.date)}">
             ${["未开始", "进行中", "已完成", "延期"].map((status) => `<option value="${status}">${status}</option>`).join("")}
@@ -356,6 +362,22 @@
         setPlanOverride(item.date, "actual", actualInput.value);
         showSaved("已保存");
       });
+
+      row.querySelectorAll(".module-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          setModuleSelected(item.date, button.dataset.module);
+          renderPlanTable();
+          showSaved("已保存");
+        });
+      });
+
+      const moduleDaysInput = row.querySelector(".module-days-input");
+      if (moduleDaysInput) {
+        moduleDaysInput.addEventListener("input", () => {
+          setModuleDays(item.date, moduleDaysInput.dataset.module, moduleDaysInput.value);
+          showSaved("已保存");
+        });
+      }
 
       el.planTableBody.appendChild(row);
     });
@@ -388,10 +410,12 @@
   }
 
   function placeMainTasks(date) {
-    const tasks = tasksForDate(date);
-    const slots = [9, 14, 20];
-    tasks.forEach((task, index) => {
-      const hour = slots[index] || Math.min(23, 9 + index);
+    const taskHours = { ielts: 9, project: 14, daily: 18, swim: 20 };
+    const usedHours = new Set();
+    tasksForDate(date).forEach((task, index) => {
+      let hour = taskHours[task.kind] || Math.min(23, 9 + index);
+      while (usedHours.has(hour) && hour < 23) hour += 1;
+      usedHours.add(hour);
       setSlot(date, hour, { text: task.text, taskId: task.id });
     });
   }
@@ -400,17 +424,23 @@
     const plan = mainByDate.get(date);
     const template = dailyByDate.get(date);
     const tasks = [];
-    if (plan?.ieltsPlan && !isRestText(plan.ieltsPlan)) {
+    const noIelts = isNoIeltsDay(plan);
+    if (plan && !noIelts) {
+      const hasSpecificPlan = plan.ieltsPlan && !/休息日|休息/.test(plan.ieltsPlan);
       tasks.push({
         id: `${date}:ielts`,
-        label: `IELTS｜${plan.ieltsPlan}`,
-        text: [plan.ieltsPlan, plan.ieltsModule, plan.cambridge].filter(Boolean).join(" - "),
-        keywords: [plan.ieltsPlan, plan.cambridge].filter(Boolean),
+        kind: "ielts",
+        label: hasSpecificPlan ? `IELTS｜${plan.ieltsPlan}` : "IELTS｜每日提醒",
+        text: hasSpecificPlan
+          ? [plan.ieltsPlan, plan.ieltsModule, plan.cambridge].filter(Boolean).join(" - ")
+          : "IELTS每日提醒 - 10到20分钟单词、听力或口语轻量维护",
+        keywords: hasSpecificPlan ? [plan.ieltsPlan, plan.cambridge, "IELTS"].filter(Boolean) : ["IELTS", "雅思"],
       });
     }
     if (plan?.projectPlan && !isRestText(plan.projectType)) {
       tasks.push({
         id: `${date}:project`,
+        kind: "project",
         label: `${plan.projectType || "项目"}｜${trimLabel(plan.projectPlan)}`,
         text: [plan.projectType, plan.projectPlan].filter(Boolean).join(" - "),
         keywords: [plan.projectType, plan.projectPlan].filter(Boolean),
@@ -419,14 +449,23 @@
     if (template?.mainTask && !isRestText(template.mainTask) && !tasks.some((task) => task.text.includes(template.mainTask))) {
       tasks.push({
         id: `${date}:daily`,
+        kind: "daily",
         label: `每日主任务｜${template.mainTask}`,
         text: [template.mainTask, template.notes].filter(Boolean).join(" - "),
         keywords: [template.mainTask].filter(Boolean),
       });
     }
+    tasks.push({
+      id: `${date}:swim`,
+      kind: "swim",
+      label: "游泳｜每日必须提醒",
+      text: template?.swim ? `游泳 - ${template.swim}` : "游泳 - 晚泳 20:30-21:30；必要时早泳",
+      keywords: ["游泳", "早泳", "晚泳"],
+    });
     if (!tasks.length) {
       tasks.push({
         id: `${date}:free`,
+        kind: "free",
         label: "自由安排",
         text: template?.notes || "自由安排",
         keywords: [],
@@ -486,15 +525,72 @@
     saveState();
   }
 
+  function projectPlannerMarkup(item) {
+    if (item.projectType === "学务") {
+      return `<div class="module-note">学务：记录行程和上课，不需要模块规划。</div>`;
+    }
+    if (item.projectType !== "实验专案") return "";
+    const selected = getSelectedModule(item);
+    const days = getModuleDays(item.date, selected);
+    const buttons = EXPERIMENT_MODULES.map((module) => {
+      const active = module === selected ? "active" : "";
+      const planned = getModuleDays(item.date, module);
+      const badge = planned ? `<span>${safe(planned)}天</span>` : "";
+      return `<button class="module-button ${active}" type="button" data-module="${safeAttr(module)}">${safe(module)}${badge}</button>`;
+    }).join("");
+    return `
+      <div class="module-planner">
+        <div class="module-buttons">${buttons}</div>
+        <label>
+          <span>${safe(selected)} 预计天数</span>
+          <input class="module-days-input" data-module="${safeAttr(selected)}" type="number" min="0" max="30" step="0.5" value="${safeAttr(days)}" placeholder="天数" />
+        </label>
+      </div>
+    `;
+  }
+
+  function getSelectedModule(item) {
+    return state.modulePlans[item.date]?.selected || inferModule(item.projectPlan);
+  }
+
+  function inferModule(text) {
+    const value = text || "";
+    if (/光罩|黄光|显影|对准|Runcard|runcard|Pad|recess/.test(value)) return "光罩";
+    if (/量测|Id|Vg|Vd|CV|TLM|曲线|指标/.test(value)) return "量测";
+    if (/TCAD|AI-TCAD|baseline|run list|收敛/.test(value)) return "TCAD";
+    if (/文件|caption|图表|设备参数/.test(value)) return "Runcard/文件";
+    return "制程";
+  }
+
+  function setModuleSelected(date, module) {
+    if (!state.modulePlans[date]) state.modulePlans[date] = { selected: module, days: {} };
+    state.modulePlans[date].selected = module;
+    if (!state.modulePlans[date].days) state.modulePlans[date].days = {};
+    saveState();
+  }
+
+  function getModuleDays(date, module) {
+    return state.modulePlans[date]?.days?.[module] || "";
+  }
+
+  function setModuleDays(date, module, value) {
+    if (!state.modulePlans[date]) state.modulePlans[date] = { selected: module, days: {} };
+    if (!state.modulePlans[date].days) state.modulePlans[date].days = {};
+    state.modulePlans[date].selected = module;
+    state.modulePlans[date].days[module] = value;
+    saveState();
+  }
+
   function loadState() {
     try {
       const parsed = JSON.parse(localStorage.getItem(STATE_KEY) || "{}");
       return {
         schedule: parsed.schedule || {},
         planOverrides: parsed.planOverrides || {},
+        modulePlans: parsed.modulePlans || {},
       };
     } catch {
-      return { schedule: {}, planOverrides: {} };
+      return { schedule: {}, planOverrides: {}, modulePlans: {} };
     }
   }
 
@@ -522,6 +618,11 @@
 
   function isRestText(text) {
     return !text || `${text}`.includes("休息") || `${text}`.includes("考试周") || `${text}`.includes("端午");
+  }
+
+  function isNoIeltsDay(plan) {
+    if (!plan) return false;
+    return /不排雅思|暂停/.test(`${plan.ieltsPlan} ${plan.ieltsModule}`);
   }
 
   function trimLabel(text) {
