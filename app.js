@@ -241,7 +241,7 @@
       button.classList.toggle("normal-day", !!plan && !isRestDay(plan));
       button.classList.toggle("outside", iso.slice(0, 7) !== visibleMonth);
       button.classList.toggle("selected", iso === selectedDate);
-      button.classList.toggle("has-warning", missingTasksForDate(iso).length > 0);
+      button.classList.toggle("has-warning", !!plan && missingTasksForDate(iso).length > 0);
       button.classList.toggle("has-done", scheduledTaskIds(iso).size > 0);
       const projectMeta = plan && !isRestDay(plan) ? projectSummaryText(plan, iso) : "";
       const monthMeta = plan ? projectMeta || plan.cambridge || plan.ieltsPlan : "";

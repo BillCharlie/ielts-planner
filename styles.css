@@ -288,13 +288,13 @@ textarea {
 }
 
 .day-cell.normal-day {
-  background: #f7fffb;
-  border-color: rgba(15, 118, 110, 0.28);
+  background: #fff3df;
+  border-color: rgba(245, 158, 11, 0.38);
 }
 
 .day-cell.rest-day {
-  background: #f8fafc;
-  border-color: #cbd5e1;
+  background: #eef8ff;
+  border-color: #bfdbfe;
 }
 
 .day-num {
@@ -603,23 +603,27 @@ textarea {
 }
 
 .plan-row-normal td {
-  background: #fcfffd;
-}
-
-.plan-row-rest td {
   background: #fff3df;
 }
 
-.plan-row-rest:hover td {
+.plan-row-rest td {
+  background: #eef8ff;
+}
+
+.plan-row-normal:hover td {
   background: #ffe6bf;
 }
 
+.plan-row-rest:hover td {
+  background: #dff0ff;
+}
+
 #planTableBody tr.unsaved td {
-  background: #fffaf0;
+  background: #ffe8c2;
 }
 
 #planTableBody tr.plan-row-rest.unsaved td {
-  background: #ffe8c2;
+  background: #dff0ff;
 }
 
 #planTableBody tr.row-highlight td {
