@@ -420,7 +420,7 @@ textarea {
 
 .hour-row {
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr) minmax(150px, 230px);
+  grid-template-columns: 92px minmax(0, 1fr) minmax(150px, 230px) 74px;
   gap: 10px;
   align-items: start;
   padding: 10px;
@@ -442,8 +442,30 @@ textarea {
   box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.2);
 }
 
+.hour-row.unsaved {
+  border-color: rgba(180, 83, 9, 0.72);
+  background: #fffaf0;
+}
+
 .task-ref {
   min-height: 68px;
+}
+
+.inline-save-button,
+.row-save-button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  background: #eef7f4;
+  color: var(--teal-dark);
+  font-size: 13px;
+}
+
+.unsaved .inline-save-button,
+.row-save-button.unsaved {
+  background: #f59e0b;
+  border-color: #d97706;
+  color: #111827;
+  font-weight: 800;
 }
 
 .tag {
@@ -592,6 +614,25 @@ textarea {
   background: #f1f5f9;
 }
 
+#planTableBody tr.unsaved td {
+  background: #fffaf0;
+}
+
+#planTableBody tr.row-highlight td {
+  animation: rowFlash 2.2s ease-out;
+}
+
+@keyframes rowFlash {
+  0% {
+    background: #fde68a;
+    box-shadow: inset 0 0 0 2px #f59e0b;
+  }
+  100% {
+    background: inherit;
+    box-shadow: inset 0 0 0 0 rgba(245, 158, 11, 0);
+  }
+}
+
 .module-table-row th {
   background: #fbfdfc;
   position: static;
@@ -657,6 +698,10 @@ textarea {
 
 .row-action-button.danger {
   color: var(--rose);
+}
+
+.row-save-button {
+  margin: 0 4px 6px 0;
 }
 
 .project-cell {

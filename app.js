@@ -15,6 +15,7 @@
   let visibleMonth = selectedDate.slice(0, 7);
   let activeHour = 9;
   let deferredInstallPrompt = null;
+  let highlightedPlanDate = "";
 
   const el = {};
   document.addEventListener("DOMContentLoaded", init);
@@ -291,10 +292,7 @@
         renderHourActiveState();
       });
       textarea.addEventListener("input", () => {
-        setSlot(selectedDate, hour, { text: textarea.value, taskId: slot.taskId });
-        renderCalendar();
-        renderReminders();
-        showSaved("已保存");
+        markHourUnsaved(row);
       });
 
       const select = document.createElement("select");
@@ -305,18 +303,40 @@
       select.value = slot.taskId || "";
       select.addEventListener("change", () => {
         const task = tasksForDate(selectedDate).find((item) => item.id === select.value);
+        if (task && !textarea.value.trim()) textarea.value = task.text;
+        markHourUnsaved(row);
+      });
+
+      const saveButton = document.createElement("button");
+      saveButton.type = "button";
+      saveButton.className = "inline-save-button";
+      saveButton.textContent = "已保存";
+      saveButton.addEventListener("click", () => {
         setSlot(selectedDate, hour, {
-          text: task && !textarea.value.trim() ? task.text : textarea.value,
+          text: textarea.value,
           taskId: select.value,
         });
-        renderSelectedDay();
+        markHourSaved(row);
         renderCalendar();
+        renderReminders();
         showSaved("已保存");
       });
 
-      row.append(time, textarea, select);
+      row.append(time, textarea, select, saveButton);
       el.hourGrid.appendChild(row);
     });
+  }
+
+  function markHourUnsaved(row) {
+    row.classList.add("unsaved");
+    const button = row.querySelector(".inline-save-button");
+    if (button) button.textContent = "保存";
+  }
+
+  function markHourSaved(row) {
+    row.classList.remove("unsaved");
+    const button = row.querySelector(".inline-save-button");
+    if (button) button.textContent = "已保存";
   }
 
   function renderHourActiveState() {
@@ -410,6 +430,7 @@
     rows.forEach((item) => {
       const row = document.createElement("tr");
       row.className = isRestDay(item) ? "plan-row-rest" : "plan-row-normal";
+      row.classList.toggle("row-highlight", highlightedPlanDate === item.date);
       row.innerHTML = `
         <td data-label="日期">
           <input class="plan-edit-input plan-date-input" data-field="date" data-date="${safeAttr(item.date)}" type="date" value="${safeAttr(item.date)}" />
@@ -433,6 +454,7 @@
         </td>
         <td data-label="备注"><textarea class="actual-input" data-date="${safeAttr(item.date)}" placeholder="备注">${safe(getPlanOverride(item.date, "actual") || item.actual || "")}</textarea></td>
         <td class="row-actions" data-label="操作">
+          <button class="row-save-button" type="button" data-date="${safeAttr(item.date)}">已保存</button>
           <button class="row-action-button" type="button" data-action="up" data-date="${safeAttr(item.date)}">上</button>
           <button class="row-action-button" type="button" data-action="down" data-date="${safeAttr(item.date)}">下</button>
           <button class="row-action-button" type="button" data-action="insert" data-date="${safeAttr(item.date)}">插入</button>
@@ -452,38 +474,41 @@
         if (input.dataset.field === "dayType") input.value = normalizedDayType(item);
         else if (input.dataset.field) input.value = item[input.dataset.field] || "";
         input.addEventListener("change", () => {
-          updatePlanRow(item.date, input.dataset.field, input.value);
-          renderAll();
-          showSaved("已保存");
+          if (input.dataset.field === "dayType") applyDayTypeDraft(row, input.value);
+          if (input.dataset.field === "projectType" && input.value === "休息") applyDayTypeDraft(row, "休息");
+          markPlanRowUnsaved(row);
         });
-      input.addEventListener("input", () => {
-        updatePlanRow(item.date, input.dataset.field, input.value, { quiet: true });
-        showSaved("已保存");
-      });
+        input.addEventListener("input", () => {
+          markPlanRowUnsaved(row);
+        });
       });
       row.querySelector(".project-type-select").value = normalizedProjectType(item);
 
       const actualInput = row.querySelector(".actual-input");
       actualInput.addEventListener("input", () => {
-        setPlanOverride(item.date, "actual", actualInput.value);
-        showSaved("已保存");
+        markPlanRowUnsaved(row);
       });
 
       const projectItemSelect = row.querySelector(".project-item-select");
       if (projectItemSelect) {
         projectItemSelect.addEventListener("change", () => {
-          setProjectItemSelected(item.date, projectItemSelect.value);
-          renderPlanTable();
-          renderSelectedDay();
-          renderCalendar();
-          showSaved("已保存");
+          markPlanRowUnsaved(row);
         });
       }
 
+      row.querySelector(".row-save-button").addEventListener("click", () => {
+        savePlanRowFromElement(row, item.date);
+        markPlanRowSaved(row);
+        renderAll();
+        showSaved("已保存");
+      });
+
       row.querySelectorAll(".row-action-button").forEach((button) => {
         button.addEventListener("click", () => {
-          handleRowAction(item.date, button.dataset.action);
+          const targetDate = handleRowAction(item.date, button.dataset.action);
+          highlightedPlanDate = targetDate || "";
           renderAll();
+          clearPlanHighlight(targetDate);
           showSaved("已更新行");
         });
       });
@@ -635,6 +660,76 @@
     saveState();
   }
 
+  function markPlanRowUnsaved(row) {
+    row.classList.add("unsaved");
+    const button = row.querySelector(".row-save-button");
+    if (button) {
+      button.classList.add("unsaved");
+      button.textContent = "保存";
+    }
+  }
+
+  function markPlanRowSaved(row) {
+    row.classList.remove("unsaved");
+    const button = row.querySelector(".row-save-button");
+    if (button) {
+      button.classList.remove("unsaved");
+      button.textContent = "已保存";
+    }
+  }
+
+  function applyDayTypeDraft(row, dayType) {
+    const projectType = row.querySelector('[data-field="projectType"]');
+    const ieltsPlan = row.querySelector('[data-field="ieltsPlan"]');
+    const ieltsModule = row.querySelector('[data-field="ieltsModule"]');
+    const cambridge = row.querySelector('[data-field="cambridge"]');
+    if (dayType === "休息") {
+      if (projectType) {
+        projectType.innerHTML = `<option value="休息">休息</option>`;
+        projectType.value = "休息";
+      }
+      if (ieltsPlan) ieltsPlan.value = "休息";
+      if (ieltsModule) ieltsModule.value = "休息";
+      if (cambridge) cambridge.value = "";
+      row.classList.remove("plan-row-normal");
+      row.classList.add("plan-row-rest");
+      return;
+    }
+    if (projectType && projectType.value === "休息") {
+      projectType.innerHTML = `<option value="实验专案">实验专案</option><option value="学务">学务</option>`;
+      projectType.value = "实验专案";
+    }
+    if (ieltsPlan && isRestText(ieltsPlan.value)) ieltsPlan.value = "IELTS每日提醒";
+    if (ieltsModule && isRestText(ieltsModule.value)) ieltsModule.value = "自由安排";
+    row.classList.remove("plan-row-rest");
+    row.classList.add("plan-row-normal");
+  }
+
+  function savePlanRowFromElement(row, originalDate) {
+    const dateInput = row.querySelector('[data-field="date"]');
+    const nextDate = dateInput?.value || originalDate;
+    const draft = {
+      date: nextDate,
+      dayType: row.querySelector('[data-field="dayType"]')?.value || "正常",
+      projectType: row.querySelector('[data-field="projectType"]')?.value || "",
+      ieltsPlan: row.querySelector('[data-field="ieltsPlan"]')?.value || "",
+      ieltsModule: row.querySelector('[data-field="ieltsModule"]')?.value || "",
+      cambridge: row.querySelector('[data-field="cambridge"]')?.value || "",
+      actual: row.querySelector(".actual-input")?.value || "",
+      projectItemId: row.querySelector(".project-item-select")?.value || "",
+    };
+    updatePlanRow(originalDate, "date", draft.date);
+    updatePlanRow(draft.date, "dayType", draft.dayType);
+    updatePlanRow(draft.date, "projectType", draft.projectType);
+    updatePlanRow(draft.date, "ieltsPlan", draft.ieltsPlan);
+    updatePlanRow(draft.date, "ieltsModule", draft.ieltsModule);
+    updatePlanRow(draft.date, "cambridge", draft.cambridge);
+    setPlanOverride(draft.date, "actual", draft.actual);
+    if (draft.projectItemId) setProjectItemSelected(draft.date, draft.projectItemId);
+    highlightedPlanDate = draft.date;
+    clearPlanHighlight(draft.date);
+  }
+
   function updatePlanRow(date, field, value, options = {}) {
     if (!field) return;
     const index = mainPlan.findIndex((item) => item.date === date);
@@ -684,7 +779,8 @@
 
   function handleRowAction(date, action) {
     const index = mainPlan.findIndex((item) => item.date === date);
-    if (index < 0) return;
+    if (index < 0) return "";
+    let highlightDate = date;
     if (action === "up" && index > 0) {
       [mainPlan[index - 1], mainPlan[index]] = [mainPlan[index], mainPlan[index - 1]];
     }
@@ -692,10 +788,14 @@
       [mainPlan[index], mainPlan[index + 1]] = [mainPlan[index + 1], mainPlan[index]];
     }
     if (action === "insert") {
-      mainPlan.splice(index + 1, 0, createBlankPlanRow(addDays(mainPlan[index].date, 1)));
+      const inserted = createBlankPlanRow(addDays(mainPlan[index].date, 1));
+      mainPlan.splice(index + 1, 0, inserted);
+      highlightDate = inserted.date;
     }
     if (action === "copy") {
-      mainPlan.splice(index + 1, 0, clonePlanRow(mainPlan[index]));
+      const copied = clonePlanRow(mainPlan[index]);
+      mainPlan.splice(index + 1, 0, copied);
+      highlightDate = copied.date;
     }
     if (action === "delete" && mainPlan.length > 1) {
       const [removed] = mainPlan.splice(index, 1);
@@ -703,10 +803,21 @@
       delete state.planOverrides[removed.date];
       delete state.schedule[removed.date];
       if (selectedDate === removed.date) selectedDate = mainPlan[Math.max(0, index - 1)].date;
+      highlightDate = mainPlan[Math.min(index, mainPlan.length - 1)]?.date || "";
     }
     persistPlanRows();
     rebuildPlanIndexes();
     saveState();
+    return highlightDate;
+  }
+
+  function clearPlanHighlight(date) {
+    if (!date) return;
+    window.setTimeout(() => {
+      if (highlightedPlanDate !== date) return;
+      highlightedPlanDate = "";
+      renderPlanTable();
+    }, 2200);
   }
 
   function createBlankPlanRow(date) {
