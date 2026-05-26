@@ -287,6 +287,16 @@ textarea {
   background: #eef8ff;
 }
 
+.day-cell.normal-day {
+  background: #f7fffb;
+  border-color: rgba(15, 118, 110, 0.28);
+}
+
+.day-cell.rest-day {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
 .day-num {
   display: flex;
   justify-content: space-between;
@@ -448,6 +458,11 @@ textarea {
   font-weight: 700;
 }
 
+.tag:not(.rest) {
+  background: #e7f7f2;
+  color: var(--teal-dark);
+}
+
 .tag.rest {
   background: #f1f5f9;
   color: #475569;
@@ -563,6 +578,18 @@ textarea {
 
 .main-table tr:hover td {
   background: #fbfdfc;
+}
+
+.plan-row-normal td {
+  background: #fcfffd;
+}
+
+.plan-row-rest td {
+  background: #f8fafc;
+}
+
+.plan-row-rest:hover td {
+  background: #f1f5f9;
 }
 
 .module-table-row th {
@@ -770,5 +797,86 @@ textarea {
 
   .module-catalog {
     grid-template-columns: 1fr;
+  }
+
+  .table-wrap {
+    overflow: visible;
+    border: 0;
+  }
+
+  .main-table {
+    min-width: 0;
+    display: block;
+    background: transparent;
+  }
+
+  .main-table thead,
+  .main-table tbody,
+  .main-table tr,
+  .main-table th,
+  .main-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .main-table thead tr:not(.module-table-row) {
+    display: none;
+  }
+
+  .module-table-row th {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  #planTableBody {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  #planTableBody tr {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(15, 35, 31, 0.06);
+  }
+
+  .main-table td {
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .main-table td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+    padding-top: 8px;
+  }
+
+  .main-table td > * {
+    min-width: 0;
+  }
+
+  .plan-edit-input,
+  .plan-edit-textarea,
+  .actual-input,
+  .project-item-select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .row-actions {
+    display: flex !important;
+    flex-wrap: wrap;
+  }
+
+  .row-actions::before {
+    width: 72px;
+    flex: 0 0 72px;
   }
 }

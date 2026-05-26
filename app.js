@@ -210,6 +210,8 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "day-cell";
+      button.classList.toggle("rest-day", isRestDay(plan));
+      button.classList.toggle("normal-day", !!plan && !isRestDay(plan));
       button.classList.toggle("outside", iso.slice(0, 7) !== visibleMonth);
       button.classList.toggle("selected", iso === selectedDate);
       button.classList.toggle("has-warning", missingTasksForDate(iso).length > 0);
@@ -232,11 +234,11 @@
   function renderSelectedDay() {
     const plan = mainByDate.get(selectedDate) || {};
     const template = dailyByDate.get(selectedDate) || {};
-    el.selectedDayType.innerHTML = `${formatDate(selectedDate)} ${tagForDay(plan.dayType || template.dayType || "")}`;
+    el.selectedDayType.innerHTML = `${formatDate(selectedDate)} ${tagForDay(normalizedDayType(plan))}`;
     el.selectedDateTitle.textContent = `${plan.weekday || template.weekday || ""} ${plan.ieltsPlan || template.mainTask || "自由计划"}`;
     el.summaryIelts.textContent = plan.ieltsPlan || "无";
     el.summaryIeltsDetail.textContent = [plan.ieltsModule, plan.cambridge].filter(Boolean).join(" / ");
-    el.summaryProjectType.textContent = plan.projectType || "无";
+    el.summaryProjectType.textContent = normalizedProjectType(plan) || "无";
     el.summaryProject.textContent = projectSummaryText(plan, selectedDate) || template.notes || "今天没有实验专案/学务主任务。";
     el.summaryStatus.textContent = getPlanOverride(selectedDate, "status") || plan.status || "未开始";
     el.summaryLimits.textContent = plan.limits || template.notes || "";
@@ -407,35 +409,30 @@
     el.planTableBody.innerHTML = "";
     rows.forEach((item) => {
       const row = document.createElement("tr");
+      row.className = isRestDay(item) ? "plan-row-rest" : "plan-row-normal";
       row.innerHTML = `
-        <td>
+        <td data-label="日期">
           <input class="plan-edit-input plan-date-input" data-field="date" data-date="${safeAttr(item.date)}" type="date" value="${safeAttr(item.date)}" />
           <button class="date-button" type="button">${safe(item.weekday || weekdayZh(item.date))}</button>
         </td>
-        <td>
+        <td data-label="日类型">
           <select class="plan-edit-input" data-field="dayType" data-date="${safeAttr(item.date)}">
-            ${["正常", "学务", "实验专案", "休息", "端午", "延伸"].map((type) => `<option value="${type}">${type}</option>`).join("")}
+            ${["正常", "休息"].map((type) => `<option value="${type}">${type}</option>`).join("")}
           </select>
-          <input class="plan-edit-input" data-field="ieltsPriority" data-date="${safeAttr(item.date)}" value="${safeAttr(item.ieltsPriority || "")}" placeholder="优先级" />
         </td>
-        <td>
-          <textarea class="plan-edit-textarea" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
-          <input class="plan-edit-input" data-field="cambridge" data-date="${safeAttr(item.date)}" value="${safeAttr(item.cambridge || "")}" placeholder="Cambridge进度" />
-        </td>
-        <td><textarea class="plan-edit-textarea" data-field="ieltsModule" data-date="${safeAttr(item.date)}" placeholder="模块">${safe(item.ieltsModule || "")}</textarea></td>
-        <td class="project-cell">
+        <td class="project-cell" data-label="实验专案 / 学务">
           <select class="plan-edit-input project-type-select" data-field="projectType" data-date="${safeAttr(item.date)}">
-            ${["实验专案", "学务", "休息", "端午", ""].map((type) => `<option value="${type}">${type || "空白"}</option>`).join("")}
+            ${(isRestDay(item) ? ["休息"] : ["实验专案", "学务"]).map((type) => `<option value="${type}">${type}</option>`).join("")}
           </select>
           ${projectPlannerMarkup(item)}
         </td>
-        <td>
-          <select class="status-select" data-date="${safeAttr(item.date)}">
-            ${["未开始", "进行中", "已完成", "延期"].map((status) => `<option value="${status}">${status}</option>`).join("")}
-          </select>
+        <td data-label="IELTS / 模块">
+          <textarea class="plan-edit-textarea" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
+          <textarea class="plan-edit-textarea" data-field="ieltsModule" data-date="${safeAttr(item.date)}" placeholder="模块">${safe(item.ieltsModule || "")}</textarea>
+          <input class="plan-edit-input" data-field="cambridge" data-date="${safeAttr(item.date)}" value="${safeAttr(item.cambridge || "")}" placeholder="Cambridge进度" />
         </td>
-        <td><textarea class="actual-input" data-date="${safeAttr(item.date)}" placeholder="备注">${safe(getPlanOverride(item.date, "actual") || item.actual || "")}</textarea></td>
-        <td class="row-actions">
+        <td data-label="备注"><textarea class="actual-input" data-date="${safeAttr(item.date)}" placeholder="备注">${safe(getPlanOverride(item.date, "actual") || item.actual || "")}</textarea></td>
+        <td class="row-actions" data-label="操作">
           <button class="row-action-button" type="button" data-action="up" data-date="${safeAttr(item.date)}">上</button>
           <button class="row-action-button" type="button" data-action="down" data-date="${safeAttr(item.date)}">下</button>
           <button class="row-action-button" type="button" data-action="insert" data-date="${safeAttr(item.date)}">插入</button>
@@ -452,7 +449,8 @@
       });
 
       row.querySelectorAll(".plan-edit-input, .plan-edit-textarea").forEach((input) => {
-        if (input.dataset.field) input.value = item[input.dataset.field] || "";
+        if (input.dataset.field === "dayType") input.value = normalizedDayType(item);
+        else if (input.dataset.field) input.value = item[input.dataset.field] || "";
         input.addEventListener("change", () => {
           updatePlanRow(item.date, input.dataset.field, input.value);
           renderAll();
@@ -462,16 +460,8 @@
         updatePlanRow(item.date, input.dataset.field, input.value, { quiet: true });
         showSaved("已保存");
       });
-    });
-      row.querySelector(".project-type-select").value = item.projectType || "";
-
-      const statusSelect = row.querySelector(".status-select");
-      statusSelect.value = getPlanOverride(item.date, "status") || item.status || "未开始";
-      statusSelect.addEventListener("change", () => {
-        setPlanOverride(item.date, "status", statusSelect.value);
-        renderSelectedDay();
-        showSaved("已保存");
       });
+      row.querySelector(".project-type-select").value = normalizedProjectType(item);
 
       const actualInput = row.querySelector(".actual-input");
       actualInput.addEventListener("input", () => {
@@ -556,7 +546,7 @@
         keywords: hasSpecificPlan ? [plan.ieltsPlan, plan.cambridge, "IELTS"].filter(Boolean) : ["IELTS", "雅思"],
       });
     }
-    if (plan?.projectType && !isRestText(plan.projectType) && plan.projectType !== "考试周") {
+    if (plan?.projectType && !isRestDay(plan)) {
       const projectText = projectSummaryText(plan, date);
       tasks.push({
         id: `${date}:project`,
@@ -659,9 +649,37 @@
       moveDateKey(state.schedule, previousDate, value);
       if (selectedDate === previousDate) selectedDate = value;
     }
+    if (field === "dayType") {
+      applyDayTypeToRow(row, value);
+    }
+    if (field === "projectType" && value === "休息") {
+      applyDayTypeToRow(row, "休息");
+    }
     persistPlanRows();
     rebuildPlanIndexes();
     saveState();
+  }
+
+  function applyDayTypeToRow(row, dayType) {
+    if (dayType === "休息") {
+      row.dayType = "休息";
+      row.ieltsPriority = "休息";
+      row.ieltsPlan = "休息";
+      row.ieltsModule = "休息";
+      row.cambridge = "";
+      row.projectType = "休息";
+      row.projectModule = "";
+      row.projectPlan = "";
+      row.limits = "休息日";
+      return;
+    }
+    row.dayType = "正常";
+    if (isRestText(row.projectType)) row.projectType = "实验专案";
+    if (isRestText(row.ieltsPlan)) row.ieltsPlan = "IELTS每日提醒";
+    if (isRestText(row.ieltsModule)) row.ieltsModule = "自由安排";
+    if (isRestText(row.ieltsPriority)) row.ieltsPriority = "自订";
+    if (!row.projectModule) row.projectModule = "制程";
+    row.limits = row.limits === "休息日" ? "" : row.limits;
   }
 
   function handleRowAction(date, action) {
@@ -733,10 +751,11 @@
   }
 
   function projectPlannerMarkup(item) {
-    if (item.projectType === "学务") {
+    const type = normalizedProjectType(item);
+    if (type === "学务") {
       return `<div class="module-note">学务</div>`;
     }
-    if (item.projectType !== "实验专案") return "";
+    if (type !== "实验专案") return "";
     const selectedItem = getSelectedProjectItem(item);
     const progress = projectItemProgressForDate(item.date, selectedItem.id);
     const options = getProjectItemOptions(item.projectModule).map((option) => {
@@ -786,12 +805,12 @@
 
   function projectSummaryText(plan, date) {
     if (!plan?.projectType) return "";
-    if (plan.projectType === "实验专案") {
+    if (normalizedProjectType(plan) === "实验专案") {
       const item = getSelectedProjectItem(plan);
       const progress = projectItemProgressForDate(date, item.id);
       return `${item.name}${progress ? ` ${progress}` : ""}`;
     }
-    return plan.projectType;
+    return normalizedProjectType(plan);
   }
 
   function projectItemProgressForDate(date, itemId) {
@@ -800,7 +819,7 @@
     const total = Number(item.days);
     if (!total) return "";
     const projectDates = mainPlan
-      .filter((row) => row.projectType === "实验专案" && getSelectedProjectItem(row).id === itemId)
+      .filter((row) => normalizedProjectType(row) === "实验专案" && getSelectedProjectItem(row).id === itemId)
       .map((row) => row.date)
       .sort();
     const index = projectDates.indexOf(date);
@@ -939,12 +958,9 @@
   }
 
   function tagForDay(dayType) {
-    const type = dayType || "正常";
+    const type = dayType === "休息" ? "休息" : "正常";
     let cls = "";
     if (type.includes("休息")) cls = "rest";
-    if (type.includes("Meeting")) cls = "meeting";
-    if (type.includes("考试")) cls = "exam";
-    if (type.includes("端午")) cls = "travel";
     return `<span class="tag ${cls}">${safe(type)}</span>`;
   }
 
@@ -954,7 +970,22 @@
 
   function isNoIeltsDay(plan) {
     if (!plan) return false;
-    return /不排雅思|暂停/.test(`${plan.ieltsPlan} ${plan.ieltsModule}`);
+    return isRestDay(plan) || /不排雅思|暂停/.test(`${plan.ieltsPlan} ${plan.ieltsModule}`);
+  }
+
+  function normalizedDayType(row) {
+    return isRestDay(row) ? "休息" : "正常";
+  }
+
+  function normalizedProjectType(row) {
+    if (!row?.date) return "";
+    if (isRestDay(row)) return "休息";
+    return row.projectType === "学务" ? "学务" : "实验专案";
+  }
+
+  function isRestDay(row) {
+    if (!row) return false;
+    return /休息|端午/.test(`${row.dayType || ""} ${row.projectType || ""} ${row.ieltsPlan || ""}`);
   }
 
   function trimLabel(text) {
