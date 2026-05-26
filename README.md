@@ -1,37 +1,57 @@
 # IELTS 制程整合日历
 
-这是一个可直接部署到 GitHub Pages 的纯前端 PWA。
+这是一个 PWA 日历 + 主计划表，现在支持 Railway 后端云端同步，也保留 GitHub Pages 纯前端部署能力。
 
-## 使用
+## 本地/网页使用
 
-1. 打开 `index.html`。
-2. 输入保存密码 。
-3. 在日历里选择日期，按小时编辑 06:00 到 24:00 的计划。
-4. 点击“排入主任务”可把当天主计划事项放入小时表。
-5. 主计划事项、IELTS每日提醒、游泳提醒未排入当天小时表时，页面会显示提醒。
-6. 主计划顶部可在制程、量测、TCAD、光罩下新增自定义项目并设置天数。
-7. 实验专案行选择自定义项目后，日历会自动显示例如 `量测xxx 1/3`、`量测xxx 2/3`。
-8. 主计划表可直接编辑，支持复制行、插入行、删除行、上下换行和“延伸7天”。
-9. 日类型只分正常和休息；休息会自动把实验/学务与 IELTS 列同步成休息。
+1. 打开网页。
+2. 输入密码 `Bill`。
+3. 日历以小时编辑 06:00 到 24:00 的安排。
+4. 主计划表支持编辑、保存、复制行、插入行、删除行、上下移动和继续延伸。
+5. 未保存的日历小时或主计划表行会在保存按钮上变色提醒。
+6. 每天的 IELTS 和游泳是固定提醒；主计划当天事项未排进小时表时会提示。
 
-## GitHub Pages 部署
+## Railway 后端部署
 
-把这些文件放到仓库根目录并启用 GitHub Pages：
+Railway 直接连接这个 GitHub 仓库即可。项目根目录已有：
 
-- `index.html`
-- `styles.css`
-- `app.js`
-- `plan-data.js`
-- `manifest.webmanifest`
-- `sw.js`
-- `icon.svg`
-- `icon-192.png`
-- `icon-512.png`
+- `package.json`
+- `server/server.js`
+- `railway.json`
 
-GitHub Pages 设置建议：
+建议在 Railway 添加一个 Postgres 数据库，并设置环境变量：
 
-- Source: `Deploy from a branch`
-- Branch: `main`
-- Folder: `/root`
+- `BILL_PASSWORD=Bill`
+- `SESSION_SECRET=一个随机长字符串`
+- `DATABASE_URL=Railway Postgres 自动提供`
 
-安卓 Chrome 打开 Pages 地址后，可从浏览器菜单选择“添加到主屏幕”。
+部署后访问 Railway 域名，网页和 API 在同一个域名下，登录 `Bill` 后就会自动云端同步。
+
+## GitHub Pages + Railway API
+
+如果继续用 GitHub Pages 打开前端，也可以同步到 Railway 后端。部署 Railway 后，把 `config.js` 里的地址改成：
+
+```js
+window.IELTS_API_BASE = "https://你的-railway-域名";
+```
+
+或者第一次打开 GitHub Pages 时在 URL 后加：
+
+```text
+?api=https://你的-railway-域名
+```
+
+这个地址会保存到浏览器本地，以后不用重复输入。
+
+## Android App / Widget
+
+Android 工程在 `android-widget/`。
+
+使用方法：
+
+1. 用 Android Studio 打开 `android-widget/`。
+2. 构建并安装到手机。
+3. 打开 App，输入 Railway URL 和密码 `Bill`。
+4. 回到桌面添加 `IELTS Planner Today` 小组件。
+
+Widget 会读取同一个 Railway 后端的 `/api/widget/today`，显示今天的主计划和小时安排。

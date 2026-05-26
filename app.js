@@ -2,14 +2,20 @@
   const PASSWORD = "Bill";
   const ACCESS_KEY = "ieltsPlannerAccessSaved";
   const STATE_KEY = "ieltsPlannerStateV1";
+  const TOKEN_KEY = "ieltsPlannerCloudToken";
+  const API_BASE_KEY = "ieltsPlannerApiBase";
+  const API_BASE = resolveApiBase();
   const HOURS = Array.from({ length: 18 }, (_, index) => index + 6);
   const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
-  const state = loadState();
+  let state = loadState();
   let mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
   const dailyTemplates = data.dailyTemplates || [];
   let mainByDate = new Map(mainPlan.map((item) => [item.date, item]));
   const dailyByDate = new Map(dailyTemplates.map((item) => [item.date, item]));
+  let authToken = localStorage.getItem(TOKEN_KEY) || "";
+  let cloudSaveTimer = null;
+  let applyingRemoteState = false;
 
   let selectedDate = mainPlan[0]?.date || isoToday();
   let visibleMonth = selectedDate.slice(0, 7);
@@ -76,8 +82,25 @@
   }
 
   function bindAuth() {
-    el.authForm.addEventListener("submit", (event) => {
+    el.authForm.addEventListener("submit", async (event) => {
       event.preventDefault();
+      const password = el.passwordInput.value.trim();
+      el.authError.textContent = "Connecting cloud sync...";
+      try {
+        await loginRemote(password);
+        localStorage.setItem(ACCESS_KEY, "true");
+        el.passwordInput.value = "";
+        el.authError.textContent = "";
+        openApp();
+        showSaved("Cloud sync ready");
+        return;
+      } catch (error) {
+        if (password !== PASSWORD) {
+          el.authError.textContent = "Wrong password.";
+          return;
+        }
+        console.warn("Cloud login failed; using local cache.", error);
+      }
       if (el.passwordInput.value.trim() !== PASSWORD) {
         el.authError.textContent = "密码不对。";
         return;
@@ -90,6 +113,8 @@
 
     el.lockButton.addEventListener("click", () => {
       localStorage.removeItem(ACCESS_KEY);
+      localStorage.removeItem(TOKEN_KEY);
+      authToken = "";
       el.appView.hidden = true;
       el.authView.hidden = false;
       el.passwordInput.focus();
@@ -164,6 +189,7 @@
   function showInitialView() {
     if (localStorage.getItem(ACCESS_KEY) === "true") {
       openApp();
+      if (authToken) refreshCloudState();
     } else {
       el.authView.hidden = false;
       el.passwordInput.focus();
@@ -1042,22 +1068,127 @@
   function loadState() {
     try {
       const parsed = JSON.parse(localStorage.getItem(STATE_KEY) || "{}");
-      return {
-        schedule: parsed.schedule || {},
-        planOverrides: parsed.planOverrides || {},
-        modulePlans: parsed.modulePlans || {},
-        moduleTotals: parsed.moduleTotals || {},
-        moduleCatalog: parsed.moduleCatalog || {},
-        extraPlanRows: parsed.extraPlanRows || [],
-        planRows: parsed.planRows || [],
-      };
+      return normalizeState(parsed);
     } catch {
-      return { schedule: {}, planOverrides: {}, modulePlans: {}, moduleTotals: {}, moduleCatalog: {}, extraPlanRows: [], planRows: [] };
+      return normalizeState({});
     }
   }
 
   function saveState() {
     localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    scheduleCloudSave();
+  }
+
+  function normalizeState(parsed) {
+    return {
+      schedule: parsed.schedule || {},
+      planOverrides: parsed.planOverrides || {},
+      modulePlans: parsed.modulePlans || {},
+      moduleTotals: parsed.moduleTotals || {},
+      moduleCatalog: parsed.moduleCatalog || {},
+      extraPlanRows: parsed.extraPlanRows || [],
+      planRows: parsed.planRows || [],
+    };
+  }
+
+  function resolveApiBase() {
+    const params = new URLSearchParams(window.location.search);
+    const fromUrl = params.get("api");
+    if (fromUrl) {
+      const cleaned = fromUrl.replace(/\/$/, "");
+      localStorage.setItem(API_BASE_KEY, cleaned);
+      return cleaned;
+    }
+    return (window.IELTS_API_BASE || localStorage.getItem(API_BASE_KEY) || "").replace(/\/$/, "");
+  }
+
+  async function loginRemote(password) {
+    const response = await fetch(`${API_BASE}/api/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password }),
+    });
+    if (!response.ok) throw new Error("cloud-login-failed");
+    const result = await response.json();
+    authToken = result.token || "";
+    if (!authToken) throw new Error("cloud-token-missing");
+    localStorage.setItem(TOKEN_KEY, authToken);
+    const remoteState = await fetchRemoteState();
+    if (hasUsefulState(remoteState)) {
+      applyRemoteState(remoteState);
+    } else {
+      await pushRemoteState();
+    }
+  }
+
+  async function refreshCloudState() {
+    try {
+      const remoteState = await fetchRemoteState();
+      if (hasUsefulState(remoteState)) {
+        applyRemoteState(remoteState);
+        showSaved("Cloud sync updated");
+      }
+    } catch (error) {
+      console.warn("Cloud refresh failed.", error);
+    }
+  }
+
+  async function fetchRemoteState() {
+    if (!authToken) return null;
+    const response = await fetch(`${API_BASE}/api/state`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+    if (!response.ok) throw new Error("cloud-state-fetch-failed");
+    const result = await response.json();
+    return result.state || {};
+  }
+
+  function applyRemoteState(remoteState) {
+    applyingRemoteState = true;
+    state = normalizeState(remoteState || {});
+    mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
+    localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    rebuildPlanIndexes();
+    if (!mainByDate.has(selectedDate)) {
+      selectedDate = mainPlan[0]?.date || isoToday();
+      visibleMonth = selectedDate.slice(0, 7);
+    }
+    renderAll();
+    applyingRemoteState = false;
+  }
+
+  function hasUsefulState(candidate) {
+    if (!candidate) return false;
+    return Boolean(
+      candidate.planRows?.length ||
+        candidate.extraPlanRows?.length ||
+        Object.keys(candidate.schedule || {}).length ||
+        Object.keys(candidate.moduleCatalog || {}).length
+    );
+  }
+
+  function scheduleCloudSave() {
+    if (!authToken || applyingRemoteState) return;
+    window.clearTimeout(cloudSaveTimer);
+    cloudSaveTimer = window.setTimeout(() => {
+      pushRemoteState().catch((error) => {
+        console.warn("Cloud save failed.", error);
+        if (el.saveStatus) el.saveStatus.textContent = "Cloud save failed; local cache kept.";
+      });
+    }, 450);
+  }
+
+  async function pushRemoteState() {
+    if (!authToken) return;
+    const response = await fetch(`${API_BASE}/api/state`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ state }),
+    });
+    if (!response.ok) throw new Error("cloud-state-save-failed");
   }
 
   function showSaved(message) {

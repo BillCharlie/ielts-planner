@@ -1,9 +1,10 @@
-const CACHE_NAME = "ielts-planner-v8";
+const CACHE_NAME = "ielts-planner-v9";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
+  "./config.js",
   "./plan-data.js",
   "./manifest.webmanifest",
   "./icon.svg",

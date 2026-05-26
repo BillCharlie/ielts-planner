@@ -1,3 +1,4 @@
 node_modules/
+.local-planner-state.json
 .DS_Store
 Thumbs.db
