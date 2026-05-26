@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0f766e" />
-    <title>IELTS 制程整合日历</title>
+    <title>规划记事薄</title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
@@ -14,7 +14,7 @@
     <div id="authView" class="auth-shell" hidden>
       <main class="auth-panel" aria-labelledby="authTitle">
         <div class="brand-mark">B</div>
-        <h1 id="authTitle">IELTS 制程整合日历</h1>
+        <h1 id="authTitle">规划记事薄</h1>
         <p>请输入保存密码后进入。</p>
         <form id="authForm" class="auth-form">
           <label for="passwordInput">保存密码</label>
@@ -28,9 +28,9 @@
     <div id="appView" class="app-shell" hidden>
       <header class="topbar">
         <button id="navCalendar" class="tab-button active" type="button">日历</button>
-        <button id="navPlan" class="tab-button" type="button">主计划表</button>
+        <button id="navPlan" class="tab-button" type="button">总体计划</button>
         <div class="topbar-title">
-          <strong>IELTS × 制程</strong>
+          <strong>规划记事薄</strong>
           <span id="dateRangeLabel"></span>
         </div>
         <button id="installButton" class="ghost-button" type="button" hidden>安装</button>
@@ -65,7 +65,7 @@
 
             <div id="reminderPanel" class="reminder-panel" hidden></div>
 
-            <section class="plan-summary" aria-label="当日主计划">
+            <section class="plan-summary" aria-label="当日总体计划">
               <div>
                 <span class="summary-label">IELTS</span>
                 <strong id="summaryIelts"></strong>
@@ -84,7 +84,7 @@
             </section>
 
             <div class="toolbar-row">
-              <label for="taskPicker">主计划事项</label>
+              <label for="taskPicker">总体计划事项</label>
               <select id="taskPicker"></select>
               <button id="copyTaskButton" type="button">复制到选中小时</button>
               <span id="saveStatus" aria-live="polite"></span>
@@ -99,11 +99,11 @@
         <main class="plan-page">
           <div class="plan-toolbar">
             <div>
-              <p class="eyebrow">主计划表</p>
+              <p class="eyebrow">总体计划</p>
               <h1 id="planRangeTitle">2026/05/26 - 2026/08/06</h1>
             </div>
             <button id="extendPlanButton" type="button">延伸7天</button>
-            <input id="planSearch" type="search" placeholder="搜索 Cambridge、制程、日期..." />
+            <input id="planSearch" type="search" placeholder="搜索日期、模块、项目..." />
           </div>
           <div id="planWarningStrip" class="warning-strip"></div>
           <div class="table-wrap">

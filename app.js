@@ -243,7 +243,8 @@
       button.classList.toggle("selected", iso === selectedDate);
       button.classList.toggle("has-warning", missingTasksForDate(iso).length > 0);
       button.classList.toggle("has-done", scheduledTaskIds(iso).size > 0);
-      const monthMeta = plan ? plan.cambridge || plan.ieltsPlan : "";
+      const projectMeta = plan && !isRestDay(plan) ? projectSummaryText(plan, iso) : "";
+      const monthMeta = plan ? projectMeta || plan.cambridge || plan.ieltsPlan : "";
       button.innerHTML = `
         <span class="day-num">${current.getDate()}${missingTasksForDate(iso).length ? '<i class="warning-dot"></i>' : ""}</span>
         <span class="day-meta">${safe(monthMeta)}</span>
@@ -471,7 +472,7 @@
           <select class="plan-edit-input project-type-select" data-field="projectType" data-date="${safeAttr(item.date)}">
             ${(isRestDay(item) ? ["休息"] : ["实验专案", "学务"]).map((type) => `<option value="${type}">${type}</option>`).join("")}
           </select>
-          ${projectPlannerMarkup(item)}
+          <div class="project-planner-slot">${projectPlannerMarkup(item)}</div>
         </td>
         <td data-label="IELTS / 模块">
           <textarea class="plan-edit-textarea" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
@@ -501,7 +502,7 @@
         else if (input.dataset.field) input.value = item[input.dataset.field] || "";
         input.addEventListener("change", () => {
           if (input.dataset.field === "dayType") applyDayTypeDraft(row, input.value);
-          if (input.dataset.field === "projectType" && input.value === "休息") applyDayTypeDraft(row, "休息");
+          if (input.dataset.field === "projectType") updateProjectPlannerDraft(row);
           markPlanRowUnsaved(row);
         });
         input.addEventListener("input", () => {
@@ -515,12 +516,7 @@
         markPlanRowUnsaved(row);
       });
 
-      const projectItemSelect = row.querySelector(".project-item-select");
-      if (projectItemSelect) {
-        projectItemSelect.addEventListener("change", () => {
-          markPlanRowUnsaved(row);
-        });
-      }
+      bindProjectItemSelect(row);
 
       row.querySelector(".row-save-button").addEventListener("click", () => {
         savePlanRowFromElement(row, item.date);
@@ -544,8 +540,8 @@
 
     const warningCount = mainPlan.reduce((count, item) => count + (missingTasksForDate(item.date).length ? 1 : 0), 0);
     el.planWarningStrip.textContent = warningCount
-      ? `还有 ${warningCount} 天的主计划事项未排入小时表。`
-      : "所有主计划事项都已经排入小时表。";
+      ? `还有 ${warningCount} 天的总体计划事项未排入小时表。`
+      : "所有总体计划事项都已经排入小时表。";
   }
 
   function applyDailyTemplate(date) {
@@ -719,6 +715,7 @@
       if (cambridge) cambridge.value = "";
       row.classList.remove("plan-row-normal");
       row.classList.add("plan-row-rest");
+      updateProjectPlannerDraft(row);
       return;
     }
     if (projectType && projectType.value === "休息") {
@@ -729,6 +726,42 @@
     if (ieltsModule && isRestText(ieltsModule.value)) ieltsModule.value = "自由安排";
     row.classList.remove("plan-row-rest");
     row.classList.add("plan-row-normal");
+    updateProjectPlannerDraft(row);
+  }
+
+  function updateProjectPlannerDraft(row) {
+    const slot = row.querySelector(".project-planner-slot");
+    const date = row.querySelector('[data-field="date"]')?.value || row.querySelector(".row-save-button")?.dataset.date || selectedDate;
+    const projectType = row.querySelector('[data-field="projectType"]')?.value || "";
+    if (!slot) return;
+    if (projectType === "休息") {
+      slot.innerHTML = "";
+      return;
+    }
+    if (projectType === "学务") {
+      slot.innerHTML = `<div class="module-note">学务</div>`;
+      return;
+    }
+    const existing = mainByDate.get(date) || {};
+    const draft = {
+      ...existing,
+      date,
+      dayType: "正常",
+      projectType: "实验专案",
+    };
+    slot.innerHTML = projectPlannerMarkup(draft);
+    bindProjectItemSelect(row);
+  }
+
+  function bindProjectItemSelect(row) {
+    const projectItemSelect = row.querySelector(".project-item-select");
+    if (!projectItemSelect) return;
+    projectItemSelect.addEventListener("change", () => {
+      const option = projectItemSelect.selectedOptions[0];
+      const label = row.querySelector(".project-progress-label");
+      if (label) label.textContent = option?.dataset.progress || option?.textContent || "";
+      markPlanRowUnsaved(row);
+    });
   }
 
   function savePlanRowFromElement(row, originalDate) {
@@ -895,16 +928,13 @@
     if (type !== "实验专案") return "";
     const selectedItem = getSelectedProjectItem(item);
     const progress = projectItemProgressForDate(item.date, selectedItem.id);
-    const options = getProjectItemOptions(item.projectModule).map((option) => {
-      const selected = option.id === selectedItem.id ? " selected" : "";
-      const suffix = option.days ? ` ${option.days}天` : "";
-      return `<option value="${safeAttr(option.id)}"${selected}>${safe(option.name)}${safe(suffix)}</option>`;
-    }).join("");
+    const progressLabel = `${selectedItem.name}${progress ? ` ${progress}` : ""}`;
+    const options = projectItemOptionsMarkup(item.projectModule, selectedItem.id, item.date);
     return `
       <div class="module-planner">
         <select class="project-item-select" aria-label="选择实验专案" data-date="${safeAttr(item.date)}">${options}</select>
         <label>
-          <span>${safe(selectedItem.name)}${progress ? ` · ${safe(progress)}` : ""}</span>
+          <span class="project-progress-label">${safe(progressLabel)}</span>
         </label>
       </div>
     `;
@@ -961,7 +991,7 @@
       .sort();
     const index = projectDates.indexOf(date);
     if (index < 0) return "";
-    return `${index + 1}/${total}`;
+    return `${index + 1}/${total}天`;
   }
 
   function getProjectItemOptions(preferredModule) {
@@ -970,6 +1000,28 @@
       ? [preferred, ...EXPERIMENT_MODULES.filter((module) => module !== preferred)]
       : EXPERIMENT_MODULES;
     return orderedModules.flatMap((module) => getModuleItemsWithDefault(module));
+  }
+
+  function projectItemOptionsMarkup(preferredModule, selectedId, date) {
+    const preferred = EXPERIMENT_MODULES.includes(preferredModule) ? preferredModule : "";
+    const orderedModules = preferred
+      ? [preferred, ...EXPERIMENT_MODULES.filter((module) => module !== preferred)]
+      : EXPERIMENT_MODULES;
+    return orderedModules
+      .map((module) => {
+        const options = getModuleItemsWithDefault(module)
+          .map((option) => {
+            const selected = option.id === selectedId ? " selected" : "";
+            const progress = projectItemProgressForDate(date, option.id);
+            const suffix = progress || (option.days ? `预计${option.days}天` : "");
+            const display = `${option.name}${suffix ? ` · ${suffix}` : ""}`;
+            const progressLabel = `${option.name}${progress ? ` ${progress}` : ""}`;
+            return `<option value="${safeAttr(option.id)}" data-progress="${safeAttr(progressLabel)}"${selected}>${safe(display)}</option>`;
+          })
+          .join("");
+        return `<optgroup label="${safeAttr(module)}">${options}</optgroup>`;
+      })
+      .join("");
   }
 
   function getSelectedProjectItem(row) {

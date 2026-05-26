@@ -1,7 +1,7 @@
 {
-  "name": "IELTS 制程整合日历",
-  "short_name": "IELTS日历",
-  "description": "IELTS 与制程项目的本地可编辑日历。",
+  "name": "规划记事薄",
+  "short_name": "记事薄",
+  "description": "可云端同步的计划、日历与记事工具。",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

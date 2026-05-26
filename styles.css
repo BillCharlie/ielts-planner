@@ -607,15 +607,19 @@ textarea {
 }
 
 .plan-row-rest td {
-  background: #f8fafc;
+  background: #fff3df;
 }
 
 .plan-row-rest:hover td {
-  background: #f1f5f9;
+  background: #ffe6bf;
 }
 
 #planTableBody tr.unsaved td {
   background: #fffaf0;
+}
+
+#planTableBody tr.plan-row-rest.unsaved td {
+  background: #ffe8c2;
 }
 
 #planTableBody tr.row-highlight td {

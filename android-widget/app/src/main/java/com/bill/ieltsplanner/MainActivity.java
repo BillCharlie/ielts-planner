@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
         root.setBackgroundColor(0xFFF5F7F6);
 
         TextView title = new TextView(this);
-        title.setText("IELTS Planner Widget");
+        title.setText("规划记事薄 Widget");
         title.setTextSize(24);
         title.setTextColor(0xFF18211F);
         title.setTypeface(null, 1);

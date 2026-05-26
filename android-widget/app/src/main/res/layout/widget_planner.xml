@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="IELTS Planner"
+        android:text="规划记事薄"
         android:textColor="@color/planner_text"
         android:textSize="16sp"
         android:textStyle="bold" />

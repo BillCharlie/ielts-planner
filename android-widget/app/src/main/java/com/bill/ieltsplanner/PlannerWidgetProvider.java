@@ -50,7 +50,7 @@ public class PlannerWidgetProvider extends AppWidgetProvider {
 
     private static void showLoading(Context context, AppWidgetManager manager, int id) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_planner);
-        views.setTextViewText(R.id.widgetTitle, "IELTS Planner");
+        views.setTextViewText(R.id.widgetTitle, "规划记事薄");
         views.setTextViewText(R.id.widgetProject, "Updating...");
         views.setTextViewText(R.id.widgetItems, "");
         manager.updateAppWidget(id, views);
@@ -61,7 +61,7 @@ public class PlannerWidgetProvider extends AppWidgetProvider {
         String baseUrl = prefs.getString(MainActivity.KEY_BASE_URL, "");
         String token = prefs.getString(MainActivity.KEY_TOKEN, "");
         if (baseUrl.isEmpty() || token.isEmpty()) {
-            return new WidgetData("IELTS Planner", "Open app to login", "Railway URL + Bill password needed.");
+            return new WidgetData("规划记事薄", "Open app to login", "Railway URL + Bill password needed.");
         }
         try {
             String date = LocalDate.now().toString();
@@ -89,7 +89,7 @@ public class PlannerWidgetProvider extends AppWidgetProvider {
                 lines.toString()
             );
         } catch (Exception error) {
-            return new WidgetData("IELTS Planner", "Sync failed", error.getMessage());
+            return new WidgetData("规划记事薄", "Sync failed", error.getMessage());
         }
     }
 
