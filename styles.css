@@ -460,17 +460,30 @@ textarea {
 .row-save-button {
   min-height: 34px;
   border: 1px solid var(--line);
-  background: #eef7f4;
-  color: var(--teal-dark);
+  background: #fff;
+  color: var(--ink);
   font-size: 13px;
 }
 
-.unsaved .inline-save-button,
+.inline-save-button.saved {
+  background: #f59e0b;
+  border-color: #d97706;
+  color: #111827;
+  font-weight: 800;
+}
+
 .row-save-button.unsaved {
   background: #f59e0b;
   border-color: #d97706;
   color: #111827;
   font-weight: 800;
+}
+
+.unsaved .inline-save-button {
+  background: #fff;
+  border-color: var(--line);
+  color: var(--ink);
+  font-weight: 400;
 }
 
 .tag {

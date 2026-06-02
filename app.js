@@ -68,6 +68,7 @@
       "summaryLimits",
       "taskPicker",
       "copyTaskButton",
+      "saveDayButton",
       "saveStatus",
       "hourGrid",
       "planSearch",
@@ -158,6 +159,13 @@
       renderSelectedDay();
       renderCalendar();
       showSaved("已复制");
+    });
+
+    el.saveDayButton.addEventListener("click", () => {
+      saveCurrentDaySlots();
+      renderCalendar();
+      renderReminders();
+      showSaved("当日已保存");
     });
   }
 
@@ -307,6 +315,7 @@
       const slot = normalizeSlot(daySlots[hour]);
       const row = document.createElement("article");
       row.className = "hour-row";
+      row.dataset.hour = String(hour);
       row.classList.toggle("active", hour === activeHour);
 
       const time = document.createElement("div");
@@ -339,7 +348,12 @@
       const saveButton = document.createElement("button");
       saveButton.type = "button";
       saveButton.className = "inline-save-button";
-      saveButton.textContent = "已保存";
+      if (isHourSaved(selectedDate, hour)) {
+        saveButton.classList.add("saved");
+        saveButton.textContent = "已保存";
+      } else {
+        saveButton.textContent = "待保存";
+      }
       saveButton.addEventListener("click", () => {
         setSlot(selectedDate, hour, {
           text: textarea.value,
@@ -359,13 +373,33 @@
   function markHourUnsaved(row) {
     row.classList.add("unsaved");
     const button = row.querySelector(".inline-save-button");
-    if (button) button.textContent = "保存";
+    if (button) {
+      button.classList.remove("saved");
+      button.textContent = "待保存";
+    }
   }
 
   function markHourSaved(row) {
     row.classList.remove("unsaved");
     const button = row.querySelector(".inline-save-button");
-    if (button) button.textContent = "已保存";
+    if (button) {
+      button.classList.add("saved");
+      button.textContent = "已保存";
+    }
+  }
+
+  function saveCurrentDaySlots() {
+    document.querySelectorAll(".hour-row").forEach((row) => {
+      const hour = Number(row.dataset.hour);
+      const textarea = row.querySelector("textarea");
+      const select = row.querySelector(".task-ref");
+      if (!Number.isFinite(hour)) return;
+      setSlot(selectedDate, hour, {
+        text: textarea?.value || "",
+        taskId: select?.value || "",
+      });
+      markHourSaved(row);
+    });
   }
 
   function renderHourActiveState() {
@@ -655,6 +689,10 @@
   function isDayFullySaved(date) {
     const slots = state.schedule[date] || {};
     return HOURS.every((hour) => Object.prototype.hasOwnProperty.call(slots, hour));
+  }
+
+  function isHourSaved(date, hour) {
+    return Object.prototype.hasOwnProperty.call(state.schedule[date] || {}, hour);
   }
 
   function dayScheduleText(date) {
