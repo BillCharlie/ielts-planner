@@ -358,7 +358,7 @@
         setSlot(selectedDate, hour, {
           text: textarea.value,
           taskId: select.value,
-        });
+        }, { saved: true });
         markHourSaved(row);
         renderCalendar();
         renderReminders();
@@ -376,6 +376,13 @@
     if (button) {
       button.classList.remove("saved");
       button.textContent = "待保存";
+    }
+    const hour = Number(row.dataset.hour);
+    if (Number.isFinite(hour) && state.savedSlots?.[selectedDate]?.[hour]) {
+      delete state.savedSlots[selectedDate][hour];
+      if (!Object.keys(state.savedSlots[selectedDate]).length) delete state.savedSlots[selectedDate];
+      saveState();
+      renderCalendar();
     }
   }
 
@@ -397,7 +404,7 @@
       setSlot(selectedDate, hour, {
         text: textarea?.value || "",
         taskId: select?.value || "",
-      });
+      }, { saved: true });
       markHourSaved(row);
     });
   }
@@ -687,12 +694,12 @@
   }
 
   function isDayFullySaved(date) {
-    const slots = state.schedule[date] || {};
+    const slots = state.savedSlots?.[date] || {};
     return HOURS.every((hour) => Object.prototype.hasOwnProperty.call(slots, hour));
   }
 
   function isHourSaved(date, hour) {
-    return Object.prototype.hasOwnProperty.call(state.schedule[date] || {}, hour);
+    return Object.prototype.hasOwnProperty.call(state.savedSlots?.[date] || {}, hour);
   }
 
   function dayScheduleText(date) {
@@ -701,13 +708,21 @@
       .join("\n");
   }
 
-  function setSlot(date, hour, patch) {
+  function setSlot(date, hour, patch, options = {}) {
     if (!state.schedule[date]) state.schedule[date] = {};
     const previous = normalizeSlot(state.schedule[date][hour]);
     state.schedule[date][hour] = {
       text: patch.text ?? previous.text,
       taskId: patch.taskId ?? previous.taskId,
     };
+    if (!state.savedSlots) state.savedSlots = {};
+    if (options.saved) {
+      if (!state.savedSlots[date]) state.savedSlots[date] = {};
+      state.savedSlots[date][hour] = true;
+    } else if (state.savedSlots[date]) {
+      delete state.savedSlots[date][hour];
+      if (!Object.keys(state.savedSlots[date]).length) delete state.savedSlots[date];
+    }
     saveState();
   }
 
@@ -846,6 +861,7 @@
       moveDateKey(state.modulePlans, previousDate, value);
       moveDateKey(state.planOverrides, previousDate, value);
       moveDateKey(state.schedule, previousDate, value);
+      moveDateKey(state.savedSlots, previousDate, value);
       if (selectedDate === previousDate) selectedDate = value;
     }
     if (field === "dayType") {
@@ -906,6 +922,7 @@
       delete state.modulePlans[removed.date];
       delete state.planOverrides[removed.date];
       delete state.schedule[removed.date];
+      delete state.savedSlots?.[removed.date];
       if (selectedDate === removed.date) selectedDate = mainPlan[Math.max(0, index - 1)].date;
       highlightDate = mainPlan[Math.min(index, mainPlan.length - 1)]?.date || "";
     }
@@ -1183,6 +1200,7 @@
       modulePlans: parsed.modulePlans || {},
       moduleTotals: parsed.moduleTotals || {},
       moduleCatalog: parsed.moduleCatalog || {},
+      savedSlots: parsed.savedSlots || {},
       extraPlanRows: parsed.extraPlanRows || [],
       planRows: parsed.planRows || [],
       planVersion: parsed.planVersion || "",
@@ -1199,6 +1217,7 @@
     candidate.modulePlans = {};
     candidate.moduleCatalog = {};
     candidate.moduleTotals = {};
+    candidate.savedSlots = {};
     Object.keys(candidate.schedule || {}).forEach((date) => {
       if (date >= resetFromDate) delete candidate.schedule[date];
     });
