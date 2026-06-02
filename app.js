@@ -556,7 +556,7 @@
       [15, template.afternoon],
       [16, template.afternoon],
       [18, template.evening],
-      [19, template.evening],
+      [19, template.night],
       [20, template.night],
       [21, template.night],
     ];
@@ -832,7 +832,7 @@
     if (isRestText(row.ieltsPlan)) row.ieltsPlan = "IELTS每日提醒";
     if (isRestText(row.ieltsModule)) row.ieltsModule = "自由安排";
     if (isRestText(row.ieltsPriority)) row.ieltsPriority = "自订";
-    if (!row.projectModule) row.projectModule = "制程";
+    if (row.projectType === "实验专案" && !row.projectModule) row.projectModule = "制程";
     row.limits = row.limits === "休息日" ? "" : row.limits;
   }
 
@@ -1132,7 +1132,7 @@
   }
 
   function normalizeState(parsed) {
-    return {
+    const normalized = {
       schedule: parsed.schedule || {},
       planOverrides: parsed.planOverrides || {},
       modulePlans: parsed.modulePlans || {},
@@ -1140,7 +1140,28 @@
       moduleCatalog: parsed.moduleCatalog || {},
       extraPlanRows: parsed.extraPlanRows || [],
       planRows: parsed.planRows || [],
+      planVersion: parsed.planVersion || "",
     };
+    return migratePlanState(normalized);
+  }
+
+  function migratePlanState(candidate) {
+    const planVersion = data.planVersion || "";
+    if (!planVersion || candidate.planVersion === planVersion) return candidate;
+    const resetFromDate = data.resetFromDate || "2026-06-02";
+    candidate.planRows = JSON.parse(JSON.stringify(data.mainPlan || []));
+    candidate.extraPlanRows = [];
+    candidate.modulePlans = {};
+    candidate.moduleCatalog = {};
+    candidate.moduleTotals = {};
+    Object.keys(candidate.schedule || {}).forEach((date) => {
+      if (date >= resetFromDate) delete candidate.schedule[date];
+    });
+    Object.keys(candidate.planOverrides || {}).forEach((date) => {
+      if (date >= resetFromDate) delete candidate.planOverrides[date];
+    });
+    candidate.planVersion = planVersion;
+    return candidate;
   }
 
   function resolveApiBase() {
@@ -1196,6 +1217,7 @@
   }
 
   function applyRemoteState(remoteState) {
+    const incomingVersion = remoteState?.planVersion || "";
     applyingRemoteState = true;
     state = normalizeState(remoteState || {});
     mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
@@ -1207,6 +1229,9 @@
     }
     renderAll();
     applyingRemoteState = false;
+    if (authToken && state.planVersion && state.planVersion !== incomingVersion) {
+      pushRemoteState().catch((error) => console.warn("Cloud migration save failed.", error));
+    }
   }
 
   function hasUsefulState(candidate) {
@@ -1259,11 +1284,12 @@
   }
 
   function isRestText(text) {
-    return !text || `${text}`.includes("休息") || `${text}`.includes("考试周") || `${text}`.includes("端午");
+    return `${text || ""}`.includes("休息") || `${text || ""}`.includes("考试周") || `${text || ""}`.includes("端午");
   }
 
   function isNoIeltsDay(plan) {
     if (!plan) return false;
+    if (`${plan.ieltsPlan || ""}`.includes("端午听力")) return false;
     return isRestDay(plan) || /不排雅思|暂停/.test(`${plan.ieltsPlan} ${plan.ieltsModule}`);
   }
 
@@ -1274,7 +1300,9 @@
   function normalizedProjectType(row) {
     if (!row?.date) return "";
     if (isRestDay(row)) return "休息";
-    return row.projectType === "学务" ? "学务" : "实验专案";
+    if (row.projectType === "学务") return "学务";
+    if (row.projectType === "实验专案") return "实验专案";
+    return "";
   }
 
   function isRestDay(row) {
