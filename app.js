@@ -560,6 +560,7 @@
 
       row.querySelectorAll(".plan-edit-input, .plan-edit-textarea").forEach((input) => {
         if (input.dataset.field === "dayType") input.value = normalizedDayType(item);
+        else if (input.dataset.field === "projectType") input.value = normalizedProjectType(item);
         else if (input.dataset.field) input.value = item[input.dataset.field] || "";
         input.addEventListener("change", () => {
           if (input.dataset.field === "dayType") applyDayTypeDraft(row, input.value);
@@ -567,10 +568,10 @@
           markPlanRowUnsaved(row);
         });
         input.addEventListener("input", () => {
+          if (input.dataset.field === "projectType") updateProjectPlannerDraft(row);
           markPlanRowUnsaved(row);
         });
       });
-      row.querySelector(".project-type-select").value = normalizedProjectType(item);
 
       const actualInput = row.querySelector(".actual-input");
       actualInput.addEventListener("input", () => {
@@ -813,6 +814,10 @@
     const projectType = row.querySelector('[data-field="projectType"]')?.value || "";
     if (!slot) return;
     if (projectType === "休息") {
+      slot.innerHTML = "";
+      return;
+    }
+    if (!projectType) {
       slot.innerHTML = "";
       return;
     }
