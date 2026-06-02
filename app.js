@@ -243,10 +243,12 @@
       button.classList.toggle("selected", iso === selectedDate);
       button.classList.toggle("has-warning", !!plan && missingTasksForDate(iso).length > 0);
       button.classList.toggle("has-done", scheduledTaskIds(iso).size > 0);
+      button.classList.toggle("day-complete", isDayFullySaved(iso));
+      const hasPlanWarning = !!plan && missingTasksForDate(iso).length > 0;
       const projectMeta = plan && !isRestDay(plan) ? projectSummaryText(plan, iso) : "";
       const monthMeta = plan ? projectMeta || plan.cambridge || plan.ieltsPlan : "";
       button.innerHTML = `
-        <span class="day-num">${current.getDate()}${missingTasksForDate(iso).length ? '<i class="warning-dot"></i>' : ""}</span>
+        <span class="day-num">${current.getDate()}${hasPlanWarning ? '<i class="warning-dot"></i>' : ""}</span>
         <span class="day-meta">${safe(monthMeta)}</span>
       `;
       button.addEventListener("click", () => {
@@ -648,6 +650,11 @@
       if (normalized.taskId) ids.add(normalized.taskId);
     });
     return ids;
+  }
+
+  function isDayFullySaved(date) {
+    const slots = state.schedule[date] || {};
+    return HOURS.every((hour) => Object.prototype.hasOwnProperty.call(slots, hour));
   }
 
   function dayScheduleText(date) {

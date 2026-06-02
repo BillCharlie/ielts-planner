@@ -1,4 +1,4 @@
-const CACHE_NAME = "planner-notebook-v11";
+const CACHE_NAME = "planner-notebook-v12";
 const ASSETS = [
   "./",
   "./index.html",
