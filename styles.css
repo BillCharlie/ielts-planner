@@ -541,9 +541,25 @@ textarea {
 
 .module-catalog {
   display: grid;
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.module-catalog-section {
+  display: grid;
+  gap: 10px;
+}
+
+.module-section-title {
+  margin: 0;
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.module-catalog-grid {
+  display: grid;
   grid-template-columns: repeat(4, minmax(190px, 1fr));
   gap: 10px;
-  margin-top: 16px;
 }
 
 .module-card {
@@ -579,6 +595,11 @@ textarea {
   min-height: 32px;
   padding: 0 8px;
   font-size: 13px;
+}
+
+.module-item-row button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
 }
 
 .module-item-list {
@@ -784,7 +805,7 @@ textarea {
 }
 
 @media (max-width: 1100px) {
-  .module-catalog {
+  .module-catalog-grid {
     grid-template-columns: repeat(2, minmax(190px, 1fr));
   }
 }
@@ -862,7 +883,7 @@ textarea {
     min-height: 24px;
   }
 
-  .module-catalog {
+  .module-catalog-grid {
     grid-template-columns: 1fr;
   }
 

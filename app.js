@@ -7,6 +7,8 @@
   const API_BASE = resolveApiBase();
   const HOURS = Array.from({ length: 18 }, (_, index) => index + 6);
   const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
+  const ACADEMIC_MODULES = ["课程", "书报课程", "组会", "研讨会"];
+  const ALL_PLAN_MODULES = [...EXPERIMENT_MODULES, ...ACADEMIC_MODULES];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
   let state = loadState();
   let mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
@@ -416,33 +418,10 @@
   }
 
   function renderModuleCatalog() {
-    el.moduleCatalog.innerHTML = EXPERIMENT_MODULES.map((module) => {
-      const items = getModuleItems(module);
-      const itemRows = items.length
-        ? items
-            .map(
-              (item) => `
-                <div class="module-item-row" data-id="${safeAttr(item.id)}">
-                  <input class="catalog-name-input" data-id="${safeAttr(item.id)}" value="${safeAttr(item.name)}" aria-label="${safeAttr(module)}项目名称" />
-                  <input class="catalog-days-input" data-id="${safeAttr(item.id)}" type="number" min="1" max="90" step="1" value="${safeAttr(item.days || "")}" placeholder="天数" aria-label="${safeAttr(module)}预计天数" />
-                  <button class="catalog-delete-button" type="button" data-id="${safeAttr(item.id)}">删</button>
-                </div>
-              `,
-            )
-            .join("")
-        : `<div class="module-empty">还没有自定义项目</div>`;
-      return `
-        <article class="module-card">
-          <h2>${safe(module)}</h2>
-          <div class="module-add-row">
-            <input class="module-new-name" data-module="${safeAttr(module)}" placeholder="${safeAttr(module)}项目名" />
-            <input class="module-new-days" data-module="${safeAttr(module)}" type="number" min="1" max="90" step="1" placeholder="天数" />
-            <button class="module-add-button" type="button" data-module="${safeAttr(module)}">新增</button>
-          </div>
-          <div class="module-item-list">${itemRows}</div>
-        </article>
-      `;
-    }).join("");
+    el.moduleCatalog.innerHTML = `
+      ${moduleCatalogSectionMarkup("实验专案", EXPERIMENT_MODULES)}
+      ${moduleCatalogSectionMarkup("学务", ACADEMIC_MODULES)}
+    `;
 
     el.moduleCatalog.querySelectorAll(".module-add-button").forEach((button) => {
       button.addEventListener("click", () => {
@@ -489,6 +468,45 @@
     });
   }
 
+  function moduleCatalogSectionMarkup(title, modules) {
+    return `
+      <section class="module-catalog-section">
+        <h2 class="module-section-title">${safe(title)}</h2>
+        <div class="module-catalog-grid">
+          ${modules.map((module) => moduleCardMarkup(module)).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  function moduleCardMarkup(module) {
+      const items = getModuleItems(module);
+      const itemRows = items.length
+        ? items
+            .map(
+              (item) => `
+                <div class="module-item-row" data-id="${safeAttr(item.id)}">
+                  <input class="catalog-name-input" data-id="${safeAttr(item.id)}" value="${safeAttr(item.name)}" aria-label="${safeAttr(module)}项目名称" />
+                  <input class="catalog-days-input" data-id="${safeAttr(item.id)}" type="number" min="1" max="90" step="1" value="${safeAttr(item.days || "")}" placeholder="天数" aria-label="${safeAttr(module)}预计天数" />
+                  <button class="catalog-delete-button" type="button" data-id="${safeAttr(item.id)}"${item.locked ? " disabled" : ""}>删</button>
+                </div>
+              `,
+            )
+            .join("")
+        : `<div class="module-empty">还没有自定义项目</div>`;
+      return `
+        <article class="module-card">
+          <h2>${safe(module)}</h2>
+          <div class="module-add-row">
+            <input class="module-new-name" data-module="${safeAttr(module)}" placeholder="${safeAttr(module)}项目名" />
+            <input class="module-new-days" data-module="${safeAttr(module)}" type="number" min="1" max="90" step="1" placeholder="天数" />
+            <button class="module-add-button" type="button" data-module="${safeAttr(module)}">新增</button>
+          </div>
+          <div class="module-item-list">${itemRows}</div>
+        </article>
+      `;
+  }
+
   function renderPlanTable() {
     const query = el.planSearch.value.trim().toLowerCase();
     const rows = mainPlan.filter((item) => {
@@ -513,7 +531,7 @@
         </td>
         <td class="project-cell" data-label="实验专案 / 学务">
           <select class="plan-edit-input project-type-select" data-field="projectType" data-date="${safeAttr(item.date)}">
-            ${(isRestDay(item) ? ["休息"] : ["实验专案", "学务"]).map((type) => `<option value="${type}">${type}</option>`).join("")}
+            ${(isRestDay(item) ? ["休息"] : ["", "实验专案", "学务"]).map((type) => `<option value="${type}">${type || "未安排"}</option>`).join("")}
           </select>
           <div class="project-planner-slot">${projectPlannerMarkup(item)}</div>
         </td>
@@ -779,8 +797,8 @@
       return;
     }
     if (projectType && projectType.value === "休息") {
-      projectType.innerHTML = `<option value="实验专案">实验专案</option><option value="学务">学务</option>`;
-      projectType.value = "实验专案";
+      projectType.innerHTML = `<option value="">未安排</option><option value="实验专案">实验专案</option><option value="学务">学务</option>`;
+      projectType.value = "";
     }
     if (ieltsPlan && isRestText(ieltsPlan.value)) ieltsPlan.value = "IELTS每日提醒";
     if (ieltsModule && isRestText(ieltsModule.value)) ieltsModule.value = "自由安排";
@@ -799,7 +817,16 @@
       return;
     }
     if (projectType === "学务") {
-      slot.innerHTML = `<div class="module-note">学务</div>`;
+      const existing = mainByDate.get(date) || {};
+      const draft = {
+        ...existing,
+        date,
+        dayType: "正常",
+        projectType: "学务",
+        projectModule: ACADEMIC_MODULES.includes(existing.projectModule) ? existing.projectModule : ACADEMIC_MODULES[0],
+      };
+      slot.innerHTML = projectPlannerMarkup(draft);
+      bindProjectItemSelect(row);
       return;
     }
     const existing = mainByDate.get(date) || {};
@@ -808,6 +835,7 @@
       date,
       dayType: "正常",
       projectType: "实验专案",
+      projectModule: EXPERIMENT_MODULES.includes(existing.projectModule) ? existing.projectModule : EXPERIMENT_MODULES[0],
     };
     slot.innerHTML = projectPlannerMarkup(draft);
     bindProjectItemSelect(row);
@@ -893,7 +921,8 @@
     if (isRestText(row.ieltsPlan)) row.ieltsPlan = "IELTS每日提醒";
     if (isRestText(row.ieltsModule)) row.ieltsModule = "自由安排";
     if (isRestText(row.ieltsPriority)) row.ieltsPriority = "自订";
-    if (row.projectType === "实验专案" && !row.projectModule) row.projectModule = "制程";
+    if (row.projectType === "实验专案" && !EXPERIMENT_MODULES.includes(row.projectModule)) row.projectModule = EXPERIMENT_MODULES[0];
+    if (row.projectType === "学务" && !ACADEMIC_MODULES.includes(row.projectModule)) row.projectModule = ACADEMIC_MODULES[0];
     row.limits = row.limits === "休息日" ? "" : row.limits;
   }
 
@@ -984,17 +1013,15 @@
 
   function projectPlannerMarkup(item) {
     const type = normalizedProjectType(item);
-    if (type === "学务") {
-      return `<div class="module-note">学务</div>`;
-    }
-    if (type !== "实验专案") return "";
+    if (type !== "实验专案" && type !== "学务") return "";
+    const modules = modulesForProjectType(type);
     const selectedItem = getSelectedProjectItem(item);
     const progress = projectItemProgressForDate(item.date, selectedItem.id);
     const progressLabel = `${selectedItem.name}${progress ? ` ${progress}` : ""}`;
-    const options = projectItemOptionsMarkup(item.projectModule, selectedItem.id, item.date);
+    const options = projectItemOptionsMarkup(item.projectModule, selectedItem.id, item.date, modules);
     return `
       <div class="module-planner">
-        <select class="project-item-select" aria-label="选择实验专案" data-date="${safeAttr(item.date)}">${options}</select>
+        <select class="project-item-select" aria-label="选择${safeAttr(type)}" data-date="${safeAttr(item.date)}">${options}</select>
         <label>
           <span class="project-progress-label">${safe(progressLabel)}</span>
         </label>
@@ -1005,7 +1032,7 @@
   function getSelectedModule(item) {
     const selectedItem = getSelectedProjectItem(item);
     if (selectedItem?.module) return selectedItem.module;
-    if (EXPERIMENT_MODULES.includes(item.projectModule)) return item.projectModule;
+    if (ALL_PLAN_MODULES.includes(item.projectModule)) return item.projectModule;
     return inferModule(item.projectPlan);
   }
 
@@ -1026,15 +1053,18 @@
   function setProjectItemSelected(date, itemId) {
     const item = getProjectItemById(itemId);
     if (!item) return;
+    const row = mainByDate.get(date);
+    if (row) row.projectModule = item.module;
     if (!state.modulePlans[date]) state.modulePlans[date] = {};
     state.modulePlans[date].itemId = itemId;
     state.modulePlans[date].selected = item.module;
+    persistPlanRows();
     saveState();
   }
 
   function projectSummaryText(plan, date) {
     if (!plan?.projectType) return "";
-    if (normalizedProjectType(plan) === "实验专案") {
+    if (normalizedProjectType(plan) === "实验专案" || normalizedProjectType(plan) === "学务") {
       const item = getSelectedProjectItem(plan);
       const progress = projectItemProgressForDate(date, item.id);
       return `${item.name}${progress ? ` ${progress}` : ""}`;
@@ -1047,8 +1077,9 @@
     if (!item) return "";
     const total = Number(item.days);
     if (!total) return "";
+    const expectedType = ACADEMIC_MODULES.includes(item.module) ? "学务" : "实验专案";
     const projectDates = mainPlan
-      .filter((row) => normalizedProjectType(row) === "实验专案" && getSelectedProjectItem(row).id === itemId)
+      .filter((row) => normalizedProjectType(row) === expectedType && getSelectedProjectItem(row).id === itemId)
       .map((row) => row.date)
       .sort();
     const index = projectDates.indexOf(date);
@@ -1056,19 +1087,19 @@
     return `${index + 1}/${total}天`;
   }
 
-  function getProjectItemOptions(preferredModule) {
-    const preferred = EXPERIMENT_MODULES.includes(preferredModule) ? preferredModule : "";
+  function getProjectItemOptions(preferredModule, modules = EXPERIMENT_MODULES) {
+    const preferred = modules.includes(preferredModule) ? preferredModule : "";
     const orderedModules = preferred
-      ? [preferred, ...EXPERIMENT_MODULES.filter((module) => module !== preferred)]
-      : EXPERIMENT_MODULES;
+      ? [preferred, ...modules.filter((module) => module !== preferred)]
+      : modules;
     return orderedModules.flatMap((module) => getModuleItemsWithDefault(module));
   }
 
-  function projectItemOptionsMarkup(preferredModule, selectedId, date) {
-    const preferred = EXPERIMENT_MODULES.includes(preferredModule) ? preferredModule : "";
+  function projectItemOptionsMarkup(preferredModule, selectedId, date, modules = EXPERIMENT_MODULES) {
+    const preferred = modules.includes(preferredModule) ? preferredModule : "";
     const orderedModules = preferred
-      ? [preferred, ...EXPERIMENT_MODULES.filter((module) => module !== preferred)]
-      : EXPERIMENT_MODULES;
+      ? [preferred, ...modules.filter((module) => module !== preferred)]
+      : modules;
     return orderedModules
       .map((module) => {
         const options = getModuleItemsWithDefault(module)
@@ -1087,11 +1118,18 @@
   }
 
   function getSelectedProjectItem(row) {
+    const modules = modulesForProjectType(normalizedProjectType(row));
     const stored = state.modulePlans[row.date]?.itemId;
     const storedItem = getProjectItemById(stored);
-    if (storedItem) return storedItem;
-    const module = EXPERIMENT_MODULES.includes(row.projectModule) ? row.projectModule : inferModule(row.projectPlan);
+    if (storedItem && modules.includes(storedItem.module)) return storedItem;
+    const module = modules.includes(row.projectModule) ? row.projectModule : modules[0];
     return getModuleItemsWithDefault(module)[0];
+  }
+
+  function modulesForProjectType(type) {
+    if (type === "学务") return ACADEMIC_MODULES;
+    if (type === "实验专案") return EXPERIMENT_MODULES;
+    return EXPERIMENT_MODULES;
   }
 
   function getModuleItems(module) {
@@ -1108,13 +1146,13 @@
     if (!itemId) return null;
     if (itemId.startsWith("default:")) {
       const module = itemId.slice("default:".length);
-      if (EXPERIMENT_MODULES.includes(module)) return { id: itemId, module, name: module, days: "" };
+      if (ALL_PLAN_MODULES.includes(module)) return { id: itemId, module, name: module, days: "" };
     }
-    return EXPERIMENT_MODULES.flatMap((module) => getModuleItems(module)).find((item) => item.id === itemId) || null;
+    return ALL_PLAN_MODULES.flatMap((module) => getModuleItems(module)).find((item) => item.id === itemId) || null;
   }
 
   function addModuleItem(module, name, days) {
-    if (!EXPERIMENT_MODULES.includes(module)) return;
+    if (!ALL_PLAN_MODULES.includes(module)) return;
     if (!state.moduleCatalog) state.moduleCatalog = {};
     if (!state.moduleCatalog[module]) state.moduleCatalog[module] = [];
     const cleanName = name || `${module}${state.moduleCatalog[module].length + 1}`;
@@ -1136,7 +1174,7 @@
 
   function deleteModuleItem(itemId) {
     const item = getProjectItemById(itemId);
-    if (!item || itemId.startsWith("default:")) return;
+    if (!item || itemId.startsWith("default:") || item.locked) return;
     state.moduleCatalog[item.module] = getModuleItems(item.module).filter((candidate) => candidate.id !== itemId);
     Object.values(state.modulePlans || {}).forEach((plan) => {
       if (plan.itemId === itemId) delete plan.itemId;
@@ -1205,7 +1243,23 @@
       planRows: parsed.planRows || [],
       planVersion: parsed.planVersion || "",
     };
+    ensureAcademicCatalog(normalized);
     return migratePlanState(normalized);
+  }
+
+  function ensureAcademicCatalog(candidate) {
+    if (!candidate.moduleCatalog) candidate.moduleCatalog = {};
+    ACADEMIC_MODULES.forEach((module) => {
+      if (!candidate.moduleCatalog[module]?.length) {
+        candidate.moduleCatalog[module] = [{
+          id: `default-academic:${module}`,
+          module,
+          name: module,
+          days: "",
+          locked: true,
+        }];
+      }
+    });
   }
 
   function migratePlanState(candidate) {
@@ -1218,6 +1272,7 @@
     candidate.moduleCatalog = {};
     candidate.moduleTotals = {};
     candidate.savedSlots = {};
+    ensureAcademicCatalog(candidate);
     Object.keys(candidate.schedule || {}).forEach((date) => {
       if (date >= resetFromDate) delete candidate.schedule[date];
     });
