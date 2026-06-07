@@ -160,7 +160,7 @@ async function serveStatic(requestPath, response) {
     const ext = path.extname(resolved);
     response.writeHead(200, {
       "Content-Type": contentTypes[ext] || "application/octet-stream",
-      "Cache-Control": ext === ".html" ? "no-store" : "public, max-age=3600",
+      "Cache-Control": staticCacheControl(resolved),
     });
     response.end(data);
   } catch {
@@ -217,6 +217,12 @@ function setCors(response) {
 function sendJson(response, status, payload) {
   response.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
   response.end(JSON.stringify(payload));
+}
+
+function staticCacheControl(filePath) {
+  const noStoreFiles = new Set(["app.js", "config.js", "plan-data.js", "sw.js"]);
+  if (path.extname(filePath) === ".html" || noStoreFiles.has(path.basename(filePath))) return "no-store";
+  return "public, max-age=3600";
 }
 
 function httpError(statusCode, message) {

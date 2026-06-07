@@ -23,7 +23,13 @@ self.addEventListener("activate", (event) => {
       .keys()
       .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))),
   );
-  self.clients.claim();
+  event.waitUntil(
+    self.clients.claim().then(() =>
+      self.clients.matchAll({ type: "window" }).then((clients) => {
+        clients.forEach((client) => client.navigate(client.url));
+      }),
+    ),
+  );
 });
 
 self.addEventListener("fetch", (event) => {
