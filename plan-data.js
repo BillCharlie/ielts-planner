@@ -2195,6 +2195,6 @@ window.IELTS_PLANNER_DATA = {
       "notes": "实验专案先留空，后续自行添加修改。"
     }
   ],
-  "planVersion": "2026-06-02-delay-reset-v2",
-  "resetFromDate": "2026-06-02"
+  "planVersion": "2026-06-08-cambridge-reset-v3",
+  "resetFromDate": "2026-06-08"
 };
