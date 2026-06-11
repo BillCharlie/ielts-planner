@@ -55,6 +55,19 @@ button:hover {
   background: var(--teal-dark);
 }
 
+.danger-button {
+  border: 1px solid rgba(190, 18, 60, 0.28);
+  background: #fff1f2;
+  color: var(--rose);
+  font-weight: 700;
+}
+
+.danger-button:hover {
+  border-color: rgba(190, 18, 60, 0.45);
+  background: #ffe4e6;
+  color: #9f1239;
+}
+
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,

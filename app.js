@@ -61,6 +61,7 @@
       "selectedDateTitle",
       "fillTemplateButton",
       "placeMainTasksButton",
+      "clearAllButton",
       "reminderPanel",
       "summaryIelts",
       "summaryIeltsDetail",
@@ -152,6 +153,10 @@
       renderSelectedDay();
       renderCalendar();
       showSaved("已排入主任务");
+    });
+
+    el.clearAllButton.addEventListener("click", () => {
+      clearAllCalendarSlots();
     });
 
     el.copyTaskButton.addEventListener("click", () => {
@@ -409,6 +414,22 @@
       }, { saved: true });
       markHourSaved(row);
     });
+  }
+
+  function clearAllCalendarSlots() {
+    if (!Object.keys(state.schedule || {}).length && !Object.keys(state.savedSlots || {}).length) {
+      showSaved("没有可清除的小时计划");
+      return;
+    }
+    const confirmed = window.confirm("确定要清除所有日期的小时计划吗？主计划不会被删除。");
+    if (!confirmed) return;
+    state.schedule = {};
+    state.savedSlots = {};
+    saveState();
+    renderSelectedDay();
+    renderCalendar();
+    renderReminders();
+    showSaved("已清除全部小时计划");
   }
 
   function renderHourActiveState() {
