@@ -155,7 +155,7 @@
       showSaved("已排入主任务");
     });
 
-    el.clearAllButton.addEventListener("click", () => {
+    el.clearAllButton?.addEventListener("click", () => {
       clearAllCalendarSlots();
     });
 
