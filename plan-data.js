@@ -1,73 +1,57 @@
 window.IELTS_PLANNER_DATA = {
-  "generatedAt": "2026-06-12T00:00:00.000+08:00",
-  "source": "Planner reset v6: 2026-06-17 to 2026-06-22 Duanwu listening only; weekday capacity otherwise",
+  "generatedAt": "2026-06-13T00:00:00.000+08:00",
+  "source": "Planner reset v7: removed dates before 2026-06-13; Cambridge 7 restarts on 2026-06-13; Duanwu uses Cambridge 6 listening only",
   "mainPlan": [
     {
       "id": "main-1",
-      "date": "2026-06-12",
-      "weekday": "周五",
+      "date": "2026-06-13",
+      "weekday": "周六",
       "dayType": "正常",
-      "ieltsPriority": "单份雅思",
-      "ieltsPlan": "Cambridge 7 Test 1",
-      "ieltsModule": "早上 8:30-11:30：Cambridge 7 Test 1；其他时段可选",
-      "cambridge": "C7T1",
+      "ieltsPriority": "双份雅思",
+      "ieltsPlan": "早 Cambridge 7 Test 1 / 晚 Cambridge 7 Test 2",
+      "ieltsModule": "早上 8:30-11:30：Cambridge 7 Test 1；晚上 19:00-22:00：Cambridge 7 Test 2；其他时段可选",
+      "cambridge": "C7T1 + C7T2",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期一/三/五只安排一份完整雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
       "id": "main-2",
-      "date": "2026-06-13",
-      "weekday": "周六",
+      "date": "2026-06-14",
+      "weekday": "周日",
       "dayType": "正常",
       "ieltsPriority": "双份雅思",
-      "ieltsPlan": "早 Cambridge 7 Test 2 / 晚 Cambridge 7 Test 3",
-      "ieltsModule": "早上 8:30-11:30：Cambridge 7 Test 2；晚上 19:00-22:00：Cambridge 7 Test 3；其他时段可选",
-      "cambridge": "C7T2 + C7T3",
+      "ieltsPlan": "早 Cambridge 7 Test 3 / 晚 Cambridge 7 Test 4",
+      "ieltsModule": "早上 8:30-11:30：Cambridge 7 Test 3；晚上 19:00-22:00：Cambridge 7 Test 4；其他时段可选",
+      "cambridge": "C7T3 + C7T4",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
       "id": "main-3",
-      "date": "2026-06-14",
-      "weekday": "周日",
+      "date": "2026-06-15",
+      "weekday": "周一",
       "dayType": "正常",
       "ieltsPriority": "双份雅思",
-      "ieltsPlan": "早 Cambridge 7 Test 4 / 晚 Cambridge 8 Test 1",
-      "ieltsModule": "早上 8:30-11:30：Cambridge 7 Test 4；晚上 19:00-22:00：Cambridge 8 Test 1；其他时段可选",
-      "cambridge": "C7T4 + C8T1",
+      "ieltsPlan": "早 Cambridge 8 Test 1 / 晚 Cambridge 8 Test 2",
+      "ieltsModule": "早上 8:30-11:30：Cambridge 8 Test 1；晚上 19:00-22:00：Cambridge 8 Test 2；其他时段可选",
+      "cambridge": "C8T1 + C8T2",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
       "id": "main-4",
-      "date": "2026-06-15",
-      "weekday": "周一",
-      "dayType": "正常",
-      "ieltsPriority": "单份雅思",
-      "ieltsPlan": "Cambridge 8 Test 2",
-      "ieltsModule": "早上 8:30-11:30：Cambridge 8 Test 2；其他时段可选",
-      "cambridge": "C8T2",
-      "projectType": "",
-      "projectPlan": "",
-      "limits": "星期一/三/五只安排一份完整雅思；其他时段可选",
-      "status": "未开始",
-      "actual": "",
-      "projectModule": ""
-    },
-    {
-      "id": "main-5",
       "date": "2026-06-16",
       "weekday": "周二",
       "dayType": "正常",
@@ -77,109 +61,109 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C8T3 + C8T4",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
+      "status": "未开始",
+      "actual": "",
+      "projectModule": ""
+    },
+    {
+      "id": "main-5",
+      "date": "2026-06-17",
+      "weekday": "周三",
+      "dayType": "端午休假",
+      "ieltsPriority": "端午听力",
+      "ieltsPlan": "Cambridge 6 Test 1 Listening",
+      "ieltsModule": "Cambridge 6 Test 1 Listening：20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
+      "cambridge": "C6T1-L",
+      "projectType": "休息",
+      "projectPlan": "",
+      "limits": "6/17-6/22 端午休假：只保留 Cambridge 6 轻量听力，不排完整雅思",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
       "id": "main-6",
-      "date": "2026-06-17",
-      "weekday": "周三",
+      "date": "2026-06-18",
+      "weekday": "周四",
       "dayType": "端午休假",
       "ieltsPriority": "端午听力",
-      "ieltsPlan": "端午听力",
-      "ieltsModule": "6/17-6/22 端午休假：只安排 20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
-      "cambridge": "Duanwu-L",
+      "ieltsPlan": "Cambridge 6 Test 2 Listening",
+      "ieltsModule": "Cambridge 6 Test 2 Listening：20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
+      "cambridge": "C6T2-L",
       "projectType": "休息",
       "projectPlan": "",
-      "limits": "6/17-6/22 端午休假：只保留轻量听力，不排完整雅思",
+      "limits": "6/17-6/22 端午休假：只保留 Cambridge 6 轻量听力，不排完整雅思",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
       "id": "main-7",
-      "date": "2026-06-18",
-      "weekday": "周四",
+      "date": "2026-06-19",
+      "weekday": "周五",
       "dayType": "端午休假",
       "ieltsPriority": "端午听力",
-      "ieltsPlan": "端午听力",
-      "ieltsModule": "6/17-6/22 端午休假：只安排 20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
-      "cambridge": "Duanwu-L",
+      "ieltsPlan": "Cambridge 6 Test 3 Listening",
+      "ieltsModule": "Cambridge 6 Test 3 Listening：20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
+      "cambridge": "C6T3-L",
       "projectType": "休息",
       "projectPlan": "",
-      "limits": "6/17-6/22 端午休假：只保留轻量听力，不排完整雅思",
+      "limits": "6/17-6/22 端午休假：只保留 Cambridge 6 轻量听力，不排完整雅思",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
       "id": "main-8",
-      "date": "2026-06-19",
-      "weekday": "周五",
+      "date": "2026-06-20",
+      "weekday": "周六",
       "dayType": "端午休假",
       "ieltsPriority": "端午听力",
-      "ieltsPlan": "端午听力",
-      "ieltsModule": "6/17-6/22 端午休假：只安排 20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
-      "cambridge": "Duanwu-L",
+      "ieltsPlan": "Cambridge 6 Test 4 Listening",
+      "ieltsModule": "Cambridge 6 Test 4 Listening：20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
+      "cambridge": "C6T4-L",
       "projectType": "休息",
       "projectPlan": "",
-      "limits": "6/17-6/22 端午休假：只保留轻量听力，不排完整雅思",
+      "limits": "6/17-6/22 端午休假：只保留 Cambridge 6 轻量听力，不排完整雅思",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
       "id": "main-9",
-      "date": "2026-06-20",
-      "weekday": "周六",
+      "date": "2026-06-21",
+      "weekday": "周日",
       "dayType": "端午休假",
       "ieltsPriority": "端午听力",
-      "ieltsPlan": "端午听力",
-      "ieltsModule": "6/17-6/22 端午休假：只安排 20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
-      "cambridge": "Duanwu-L",
+      "ieltsPlan": "Cambridge 6 Listening 错题复听",
+      "ieltsModule": "Cambridge 6 Listening 错题复听：20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
+      "cambridge": "C6-L Review 1",
       "projectType": "休息",
       "projectPlan": "",
-      "limits": "6/17-6/22 端午休假：只保留轻量听力，不排完整雅思",
+      "limits": "6/17-6/22 端午休假：只保留 Cambridge 6 轻量听力，不排完整雅思",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
       "id": "main-10",
-      "date": "2026-06-21",
-      "weekday": "周日",
+      "date": "2026-06-22",
+      "weekday": "周一",
       "dayType": "端午休假",
       "ieltsPriority": "端午听力",
-      "ieltsPlan": "端午听力",
-      "ieltsModule": "6/17-6/22 端午休假：只安排 20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
-      "cambridge": "Duanwu-L",
+      "ieltsPlan": "Cambridge 6 Listening 总复盘",
+      "ieltsModule": "Cambridge 6 Listening 总复盘：20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
+      "cambridge": "C6-L Review 2",
       "projectType": "休息",
       "projectPlan": "",
-      "limits": "6/17-6/22 端午休假：只保留轻量听力，不排完整雅思",
+      "limits": "6/17-6/22 端午休假：只保留 Cambridge 6 轻量听力，不排完整雅思",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
       "id": "main-11",
-      "date": "2026-06-22",
-      "weekday": "周一",
-      "dayType": "端午休假",
-      "ieltsPriority": "端午听力",
-      "ieltsPlan": "端午听力",
-      "ieltsModule": "6/17-6/22 端午休假：只安排 20-30 分钟听力材料或错题复听；不排完整 Cambridge Test",
-      "cambridge": "Duanwu-L",
-      "projectType": "休息",
-      "projectPlan": "",
-      "limits": "6/17-6/22 端午休假：只保留轻量听力，不排完整雅思",
-      "status": "未开始",
-      "actual": "",
-      "projectModule": ""
-    },
-    {
-      "id": "main-12",
       "date": "2026-06-23",
       "weekday": "周二",
       "dayType": "正常",
@@ -189,13 +173,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C9T1 + C9T2",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-13",
+      "id": "main-12",
       "date": "2026-06-24",
       "weekday": "周三",
       "dayType": "正常",
@@ -211,7 +195,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-14",
+      "id": "main-13",
       "date": "2026-06-25",
       "weekday": "周四",
       "dayType": "正常",
@@ -221,13 +205,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C9T4 + C10T1",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-15",
+      "id": "main-14",
       "date": "2026-06-26",
       "weekday": "周五",
       "dayType": "正常",
@@ -243,7 +227,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-16",
+      "id": "main-15",
       "date": "2026-06-27",
       "weekday": "周六",
       "dayType": "正常",
@@ -253,29 +237,29 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C10T3 + C10T4",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-17",
+      "id": "main-16",
       "date": "2026-06-28",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "ieltsPriority": "双份雅思",
       "ieltsPlan": "早 Cambridge 11 Test 1 / 晚 Cambridge 11 Test 2",
       "ieltsModule": "早上 8:30-11:30：Cambridge 11 Test 1；晚上 19:00-22:00：Cambridge 11 Test 2；其他时段可选",
       "cambridge": "C11T1 + C11T2",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-18",
+      "id": "main-17",
       "date": "2026-06-29",
       "weekday": "周一",
       "dayType": "正常",
@@ -291,7 +275,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-19",
+      "id": "main-18",
       "date": "2026-06-30",
       "weekday": "周二",
       "dayType": "正常",
@@ -301,13 +285,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C11T4 + C12T1",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-20",
+      "id": "main-19",
       "date": "2026-07-01",
       "weekday": "周三",
       "dayType": "正常",
@@ -323,7 +307,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-21",
+      "id": "main-20",
       "date": "2026-07-02",
       "weekday": "周四",
       "dayType": "正常",
@@ -333,13 +317,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C12T3 + C12T4",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-22",
+      "id": "main-21",
       "date": "2026-07-03",
       "weekday": "周五",
       "dayType": "正常",
@@ -355,7 +339,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-23",
+      "id": "main-22",
       "date": "2026-07-04",
       "weekday": "周六",
       "dayType": "正常",
@@ -365,29 +349,29 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C13T2 + C13T3",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-24",
+      "id": "main-23",
       "date": "2026-07-05",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "ieltsPriority": "双份雅思",
       "ieltsPlan": "早 Cambridge 13 Test 4 / 晚 Cambridge 14 Test 1",
       "ieltsModule": "早上 8:30-11:30：Cambridge 13 Test 4；晚上 19:00-22:00：Cambridge 14 Test 1；其他时段可选",
       "cambridge": "C13T4 + C14T1",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-25",
+      "id": "main-24",
       "date": "2026-07-06",
       "weekday": "周一",
       "dayType": "正常",
@@ -403,7 +387,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-26",
+      "id": "main-25",
       "date": "2026-07-07",
       "weekday": "周二",
       "dayType": "正常",
@@ -413,13 +397,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C14T3 + C14T4",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-27",
+      "id": "main-26",
       "date": "2026-07-08",
       "weekday": "周三",
       "dayType": "正常",
@@ -435,7 +419,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-28",
+      "id": "main-27",
       "date": "2026-07-09",
       "weekday": "周四",
       "dayType": "正常",
@@ -445,13 +429,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C15T2 + C15T3",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-29",
+      "id": "main-28",
       "date": "2026-07-10",
       "weekday": "周五",
       "dayType": "正常",
@@ -467,7 +451,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-30",
+      "id": "main-29",
       "date": "2026-07-11",
       "weekday": "周六",
       "dayType": "正常",
@@ -477,29 +461,29 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C16T1 + C16T2",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-31",
+      "id": "main-30",
       "date": "2026-07-12",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "ieltsPriority": "双份雅思",
       "ieltsPlan": "早 Cambridge 16 Test 3 / 晚 Cambridge 16 Test 4",
       "ieltsModule": "早上 8:30-11:30：Cambridge 16 Test 3；晚上 19:00-22:00：Cambridge 16 Test 4；其他时段可选",
       "cambridge": "C16T3 + C16T4",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-32",
+      "id": "main-31",
       "date": "2026-07-13",
       "weekday": "周一",
       "dayType": "正常",
@@ -515,7 +499,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-33",
+      "id": "main-32",
       "date": "2026-07-14",
       "weekday": "周二",
       "dayType": "正常",
@@ -525,13 +509,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C17T2 + C17T3",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-34",
+      "id": "main-33",
       "date": "2026-07-15",
       "weekday": "周三",
       "dayType": "正常",
@@ -547,7 +531,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-35",
+      "id": "main-34",
       "date": "2026-07-16",
       "weekday": "周四",
       "dayType": "正常",
@@ -557,13 +541,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C18T1 + C18T2",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-36",
+      "id": "main-35",
       "date": "2026-07-17",
       "weekday": "周五",
       "dayType": "正常",
@@ -579,7 +563,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-37",
+      "id": "main-36",
       "date": "2026-07-18",
       "weekday": "周六",
       "dayType": "正常",
@@ -589,29 +573,29 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C18T4 + C19T1",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-38",
+      "id": "main-37",
       "date": "2026-07-19",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "ieltsPriority": "双份雅思",
       "ieltsPlan": "早 Cambridge 19 Test 2 / 晚 Cambridge 19 Test 3",
       "ieltsModule": "早上 8:30-11:30：Cambridge 19 Test 2；晚上 19:00-22:00：Cambridge 19 Test 3；其他时段可选",
       "cambridge": "C19T2 + C19T3",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-39",
+      "id": "main-38",
       "date": "2026-07-20",
       "weekday": "周一",
       "dayType": "正常",
@@ -627,7 +611,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-40",
+      "id": "main-39",
       "date": "2026-07-21",
       "weekday": "周二",
       "dayType": "正常",
@@ -637,13 +621,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C20T1 + C20T2",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-41",
+      "id": "main-40",
       "date": "2026-07-22",
       "weekday": "周三",
       "dayType": "正常",
@@ -659,7 +643,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-42",
+      "id": "main-41",
       "date": "2026-07-23",
       "weekday": "周四",
       "dayType": "正常",
@@ -669,13 +653,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "C20T4 + Cextra 57",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-43",
+      "id": "main-42",
       "date": "2026-07-24",
       "weekday": "周五",
       "dayType": "正常",
@@ -691,7 +675,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-44",
+      "id": "main-43",
       "date": "2026-07-25",
       "weekday": "周六",
       "dayType": "正常",
@@ -701,29 +685,29 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "Cextra 59 + Cextra 60",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-45",
+      "id": "main-44",
       "date": "2026-07-26",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "ieltsPriority": "双份雅思",
       "ieltsPlan": "早 Cambridge extra 61 / 晚 Cambridge extra 62",
       "ieltsModule": "早上 8:30-11:30：Cambridge extra 61；晚上 19:00-22:00：Cambridge extra 62；其他时段可选",
       "cambridge": "Cextra 61 + Cextra 62",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-46",
+      "id": "main-45",
       "date": "2026-07-27",
       "weekday": "周一",
       "dayType": "正常",
@@ -739,7 +723,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-47",
+      "id": "main-46",
       "date": "2026-07-28",
       "weekday": "周二",
       "dayType": "正常",
@@ -749,13 +733,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "Cextra 64 + Cextra 65",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-48",
+      "id": "main-47",
       "date": "2026-07-29",
       "weekday": "周三",
       "dayType": "正常",
@@ -771,7 +755,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-49",
+      "id": "main-48",
       "date": "2026-07-30",
       "weekday": "周四",
       "dayType": "正常",
@@ -781,13 +765,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "Cextra 67 + Cextra 68",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-50",
+      "id": "main-49",
       "date": "2026-07-31",
       "weekday": "周五",
       "dayType": "正常",
@@ -803,7 +787,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-51",
+      "id": "main-50",
       "date": "2026-08-01",
       "weekday": "周六",
       "dayType": "正常",
@@ -813,13 +797,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "Cextra 70 + Cextra 71",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-52",
+      "id": "main-51",
       "date": "2026-08-02",
       "weekday": "周日",
       "dayType": "正常",
@@ -829,13 +813,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "Cextra 72 + Cextra 73",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-53",
+      "id": "main-52",
       "date": "2026-08-03",
       "weekday": "周一",
       "dayType": "正常",
@@ -851,7 +835,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-54",
+      "id": "main-53",
       "date": "2026-08-04",
       "weekday": "周二",
       "dayType": "正常",
@@ -861,13 +845,13 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "Cextra 75 + Cextra 76",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-55",
+      "id": "main-54",
       "date": "2026-08-05",
       "weekday": "周三",
       "dayType": "正常",
@@ -883,7 +867,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-56",
+      "id": "main-55",
       "date": "2026-08-06",
       "weekday": "周四",
       "dayType": "正常",
@@ -893,7 +877,7 @@ window.IELTS_PLANNER_DATA = {
       "cambridge": "Cextra 78 + Cextra 79",
       "projectType": "",
       "projectPlan": "",
-      "limits": "星期二/四/六/日安排早晚两份雅思；其他时段可选",
+      "limits": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段可选",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -902,62 +886,48 @@ window.IELTS_PLANNER_DATA = {
   "dailyTemplates": [
     {
       "id": "daily-1",
-      "date": "2026-06-12",
-      "weekday": "周五",
+      "date": "2026-06-13",
+      "weekday": "周六",
       "dayType": "正常",
       "swim": "可选：当天若体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 听力热身",
       "morningCore": "Cambridge 7 Test 1｜雅思 8:30-11:30",
       "afternoon": "可选：自由安排 / 午休 / 整理错题，不强制",
       "evening": "可选：晚餐 + 缓冲",
-      "night": "可选：错题 / 单词 / 口语素材轻量收尾",
-      "mainTask": "Cambridge 7 Test 1",
-      "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
+      "night": "Cambridge 7 Test 2｜雅思 19:00-22:00",
+      "mainTask": "早 Cambridge 7 Test 1 / 晚 Cambridge 7 Test 2",
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
       "id": "daily-2",
-      "date": "2026-06-13",
-      "weekday": "周六",
-      "dayType": "正常",
-      "swim": "可选：当天若体力允许再安排游泳",
-      "morningEarly": "可选：早泳 / 早餐 / 听力热身",
-      "morningCore": "Cambridge 7 Test 2｜雅思 8:30-11:30",
-      "afternoon": "可选：自由安排 / 午休 / 整理错题，不强制",
-      "evening": "可选：晚餐 + 缓冲",
-      "night": "Cambridge 7 Test 3｜雅思 19:00-22:00",
-      "mainTask": "早 Cambridge 7 Test 2 / 晚 Cambridge 7 Test 3",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
-    },
-    {
-      "id": "daily-3",
       "date": "2026-06-14",
       "weekday": "周日",
       "dayType": "正常",
       "swim": "可选：当天若体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 听力热身",
-      "morningCore": "Cambridge 7 Test 4｜雅思 8:30-11:30",
+      "morningCore": "Cambridge 7 Test 3｜雅思 8:30-11:30",
       "afternoon": "可选：自由安排 / 午休 / 整理错题，不强制",
       "evening": "可选：晚餐 + 缓冲",
-      "night": "Cambridge 8 Test 1｜雅思 19:00-22:00",
-      "mainTask": "早 Cambridge 7 Test 4 / 晚 Cambridge 8 Test 1",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "night": "Cambridge 7 Test 4｜雅思 19:00-22:00",
+      "mainTask": "早 Cambridge 7 Test 3 / 晚 Cambridge 7 Test 4",
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-4",
+      "id": "daily-3",
       "date": "2026-06-15",
       "weekday": "周一",
       "dayType": "正常",
       "swim": "可选：当天若体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 听力热身",
-      "morningCore": "Cambridge 8 Test 2｜雅思 8:30-11:30",
+      "morningCore": "Cambridge 8 Test 1｜雅思 8:30-11:30",
       "afternoon": "可选：自由安排 / 午休 / 整理错题，不强制",
       "evening": "可选：晚餐 + 缓冲",
-      "night": "可选：错题 / 单词 / 口语素材轻量收尾",
-      "mainTask": "Cambridge 8 Test 2",
-      "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
+      "night": "Cambridge 8 Test 2｜雅思 19:00-22:00",
+      "mainTask": "早 Cambridge 8 Test 1 / 晚 Cambridge 8 Test 2",
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-5",
+      "id": "daily-4",
       "date": "2026-06-16",
       "weekday": "周二",
       "dayType": "正常",
@@ -968,94 +938,94 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 8 Test 4｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 8 Test 3 / 晚 Cambridge 8 Test 4",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-6",
+      "id": "daily-5",
       "date": "2026-06-17",
       "weekday": "周三",
       "dayType": "端午休假",
       "swim": "可选：轻量游泳 / 拉伸 / 休息",
       "morningEarly": "休息 / 行程 / 早餐",
-      "morningCore": "端午听力：20-30 分钟听力材料或错题复听",
+      "morningCore": "Cambridge 6 Test 1 Listening：20-30 分钟听力材料或错题复听",
       "afternoon": "端午休假 / 家庭时间 / 休息",
       "evening": "晚餐 + 放松",
-      "night": "可选：端午听力复听 10 分钟",
-      "mainTask": "端午听力",
-      "notes": "6/17-6/22 端午休假，只安排轻量听力；不排完整 Cambridge Test。"
+      "night": "可选：Cambridge 6 听力复听 10 分钟",
+      "mainTask": "Cambridge 6 Test 1 Listening",
+      "notes": "6/17-6/22 端午休假，只安排 Cambridge 6 轻量听力；不排完整 Cambridge Test。"
     },
     {
-      "id": "daily-7",
+      "id": "daily-6",
       "date": "2026-06-18",
       "weekday": "周四",
       "dayType": "端午休假",
       "swim": "可选：轻量游泳 / 拉伸 / 休息",
       "morningEarly": "休息 / 行程 / 早餐",
-      "morningCore": "端午听力：20-30 分钟听力材料或错题复听",
+      "morningCore": "Cambridge 6 Test 2 Listening：20-30 分钟听力材料或错题复听",
       "afternoon": "端午休假 / 家庭时间 / 休息",
       "evening": "晚餐 + 放松",
-      "night": "可选：端午听力复听 10 分钟",
-      "mainTask": "端午听力",
-      "notes": "6/17-6/22 端午休假，只安排轻量听力；不排完整 Cambridge Test。"
+      "night": "可选：Cambridge 6 听力复听 10 分钟",
+      "mainTask": "Cambridge 6 Test 2 Listening",
+      "notes": "6/17-6/22 端午休假，只安排 Cambridge 6 轻量听力；不排完整 Cambridge Test。"
     },
     {
-      "id": "daily-8",
+      "id": "daily-7",
       "date": "2026-06-19",
       "weekday": "周五",
       "dayType": "端午休假",
       "swim": "可选：轻量游泳 / 拉伸 / 休息",
       "morningEarly": "休息 / 行程 / 早餐",
-      "morningCore": "端午听力：20-30 分钟听力材料或错题复听",
+      "morningCore": "Cambridge 6 Test 3 Listening：20-30 分钟听力材料或错题复听",
       "afternoon": "端午休假 / 家庭时间 / 休息",
       "evening": "晚餐 + 放松",
-      "night": "可选：端午听力复听 10 分钟",
-      "mainTask": "端午听力",
-      "notes": "6/17-6/22 端午休假，只安排轻量听力；不排完整 Cambridge Test。"
+      "night": "可选：Cambridge 6 听力复听 10 分钟",
+      "mainTask": "Cambridge 6 Test 3 Listening",
+      "notes": "6/17-6/22 端午休假，只安排 Cambridge 6 轻量听力；不排完整 Cambridge Test。"
     },
     {
-      "id": "daily-9",
+      "id": "daily-8",
       "date": "2026-06-20",
       "weekday": "周六",
       "dayType": "端午休假",
       "swim": "可选：轻量游泳 / 拉伸 / 休息",
       "morningEarly": "休息 / 行程 / 早餐",
-      "morningCore": "端午听力：20-30 分钟听力材料或错题复听",
+      "morningCore": "Cambridge 6 Test 4 Listening：20-30 分钟听力材料或错题复听",
       "afternoon": "端午休假 / 家庭时间 / 休息",
       "evening": "晚餐 + 放松",
-      "night": "可选：端午听力复听 10 分钟",
-      "mainTask": "端午听力",
-      "notes": "6/17-6/22 端午休假，只安排轻量听力；不排完整 Cambridge Test。"
+      "night": "可选：Cambridge 6 听力复听 10 分钟",
+      "mainTask": "Cambridge 6 Test 4 Listening",
+      "notes": "6/17-6/22 端午休假，只安排 Cambridge 6 轻量听力；不排完整 Cambridge Test。"
     },
     {
-      "id": "daily-10",
+      "id": "daily-9",
       "date": "2026-06-21",
       "weekday": "周日",
       "dayType": "端午休假",
       "swim": "可选：轻量游泳 / 拉伸 / 休息",
       "morningEarly": "休息 / 行程 / 早餐",
-      "morningCore": "端午听力：20-30 分钟听力材料或错题复听",
+      "morningCore": "Cambridge 6 Listening 错题复听：20-30 分钟听力材料或错题复听",
       "afternoon": "端午休假 / 家庭时间 / 休息",
       "evening": "晚餐 + 放松",
-      "night": "可选：端午听力复听 10 分钟",
-      "mainTask": "端午听力",
-      "notes": "6/17-6/22 端午休假，只安排轻量听力；不排完整 Cambridge Test。"
+      "night": "可选：Cambridge 6 听力复听 10 分钟",
+      "mainTask": "Cambridge 6 Listening 错题复听",
+      "notes": "6/17-6/22 端午休假，只安排 Cambridge 6 轻量听力；不排完整 Cambridge Test。"
     },
     {
-      "id": "daily-11",
+      "id": "daily-10",
       "date": "2026-06-22",
       "weekday": "周一",
       "dayType": "端午休假",
       "swim": "可选：轻量游泳 / 拉伸 / 休息",
       "morningEarly": "休息 / 行程 / 早餐",
-      "morningCore": "端午听力：20-30 分钟听力材料或错题复听",
+      "morningCore": "Cambridge 6 Listening 总复盘：20-30 分钟听力材料或错题复听",
       "afternoon": "端午休假 / 家庭时间 / 休息",
       "evening": "晚餐 + 放松",
-      "night": "可选：端午听力复听 10 分钟",
-      "mainTask": "端午听力",
-      "notes": "6/17-6/22 端午休假，只安排轻量听力；不排完整 Cambridge Test。"
+      "night": "可选：Cambridge 6 听力复听 10 分钟",
+      "mainTask": "Cambridge 6 Listening 总复盘",
+      "notes": "6/17-6/22 端午休假，只安排 Cambridge 6 轻量听力；不排完整 Cambridge Test。"
     },
     {
-      "id": "daily-12",
+      "id": "daily-11",
       "date": "2026-06-23",
       "weekday": "周二",
       "dayType": "正常",
@@ -1066,10 +1036,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 9 Test 2｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 9 Test 1 / 晚 Cambridge 9 Test 2",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-13",
+      "id": "daily-12",
       "date": "2026-06-24",
       "weekday": "周三",
       "dayType": "正常",
@@ -1083,7 +1053,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-14",
+      "id": "daily-13",
       "date": "2026-06-25",
       "weekday": "周四",
       "dayType": "正常",
@@ -1094,10 +1064,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 10 Test 1｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 9 Test 4 / 晚 Cambridge 10 Test 1",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-15",
+      "id": "daily-14",
       "date": "2026-06-26",
       "weekday": "周五",
       "dayType": "正常",
@@ -1111,7 +1081,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-16",
+      "id": "daily-15",
       "date": "2026-06-27",
       "weekday": "周六",
       "dayType": "正常",
@@ -1122,13 +1092,13 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 10 Test 4｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 10 Test 3 / 晚 Cambridge 10 Test 4",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-17",
+      "id": "daily-16",
       "date": "2026-06-28",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "swim": "晚泳 20:30–21:30",
       "morningEarly": "可选：早泳 / 早餐 / 今日启动",
       "morningCore": "Cambridge 11 Test 1｜雅思 8:30-11:30",
@@ -1136,10 +1106,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 11 Test 2｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 11 Test 1 / 晚 Cambridge 11 Test 2",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-18",
+      "id": "daily-17",
       "date": "2026-06-29",
       "weekday": "周一",
       "dayType": "正常",
@@ -1153,7 +1123,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-19",
+      "id": "daily-18",
       "date": "2026-06-30",
       "weekday": "周二",
       "dayType": "正常",
@@ -1164,10 +1134,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 12 Test 1｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 11 Test 4 / 晚 Cambridge 12 Test 1",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-20",
+      "id": "daily-19",
       "date": "2026-07-01",
       "weekday": "周三",
       "dayType": "正常",
@@ -1181,7 +1151,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-21",
+      "id": "daily-20",
       "date": "2026-07-02",
       "weekday": "周四",
       "dayType": "正常",
@@ -1192,10 +1162,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 12 Test 4｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 12 Test 3 / 晚 Cambridge 12 Test 4",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-22",
+      "id": "daily-21",
       "date": "2026-07-03",
       "weekday": "周五",
       "dayType": "正常",
@@ -1209,7 +1179,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-23",
+      "id": "daily-22",
       "date": "2026-07-04",
       "weekday": "周六",
       "dayType": "正常",
@@ -1220,13 +1190,13 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 13 Test 3｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 13 Test 2 / 晚 Cambridge 13 Test 3",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-24",
+      "id": "daily-23",
       "date": "2026-07-05",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "swim": "晚泳 20:30–21:30",
       "morningEarly": "可选：早泳 / 早餐 / 今日启动",
       "morningCore": "Cambridge 13 Test 4｜雅思 8:30-11:30",
@@ -1234,10 +1204,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 14 Test 1｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 13 Test 4 / 晚 Cambridge 14 Test 1",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-25",
+      "id": "daily-24",
       "date": "2026-07-06",
       "weekday": "周一",
       "dayType": "正常",
@@ -1251,7 +1221,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-26",
+      "id": "daily-25",
       "date": "2026-07-07",
       "weekday": "周二",
       "dayType": "正常",
@@ -1262,10 +1232,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 14 Test 4｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 14 Test 3 / 晚 Cambridge 14 Test 4",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-27",
+      "id": "daily-26",
       "date": "2026-07-08",
       "weekday": "周三",
       "dayType": "正常",
@@ -1279,7 +1249,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-28",
+      "id": "daily-27",
       "date": "2026-07-09",
       "weekday": "周四",
       "dayType": "正常",
@@ -1290,10 +1260,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 15 Test 3｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 15 Test 2 / 晚 Cambridge 15 Test 3",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-29",
+      "id": "daily-28",
       "date": "2026-07-10",
       "weekday": "周五",
       "dayType": "正常",
@@ -1307,7 +1277,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-30",
+      "id": "daily-29",
       "date": "2026-07-11",
       "weekday": "周六",
       "dayType": "正常",
@@ -1318,13 +1288,13 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 16 Test 2｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 16 Test 1 / 晚 Cambridge 16 Test 2",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-31",
+      "id": "daily-30",
       "date": "2026-07-12",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "swim": "晚泳 20:30–21:30",
       "morningEarly": "可选：早泳 / 早餐 / 今日启动",
       "morningCore": "Cambridge 16 Test 3｜雅思 8:30-11:30",
@@ -1332,10 +1302,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 16 Test 4｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 16 Test 3 / 晚 Cambridge 16 Test 4",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-32",
+      "id": "daily-31",
       "date": "2026-07-13",
       "weekday": "周一",
       "dayType": "正常",
@@ -1349,7 +1319,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-33",
+      "id": "daily-32",
       "date": "2026-07-14",
       "weekday": "周二",
       "dayType": "正常",
@@ -1360,10 +1330,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 17 Test 3｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 17 Test 2 / 晚 Cambridge 17 Test 3",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-34",
+      "id": "daily-33",
       "date": "2026-07-15",
       "weekday": "周三",
       "dayType": "正常",
@@ -1377,7 +1347,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-35",
+      "id": "daily-34",
       "date": "2026-07-16",
       "weekday": "周四",
       "dayType": "正常",
@@ -1388,10 +1358,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 18 Test 2｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 18 Test 1 / 晚 Cambridge 18 Test 2",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-36",
+      "id": "daily-35",
       "date": "2026-07-17",
       "weekday": "周五",
       "dayType": "正常",
@@ -1405,7 +1375,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-37",
+      "id": "daily-36",
       "date": "2026-07-18",
       "weekday": "周六",
       "dayType": "正常",
@@ -1416,13 +1386,13 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 19 Test 1｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 18 Test 4 / 晚 Cambridge 19 Test 1",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-38",
+      "id": "daily-37",
       "date": "2026-07-19",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "swim": "晚泳 20:30–21:30",
       "morningEarly": "可选：早泳 / 早餐 / 今日启动",
       "morningCore": "Cambridge 19 Test 2｜雅思 8:30-11:30",
@@ -1430,10 +1400,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 19 Test 3｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 19 Test 2 / 晚 Cambridge 19 Test 3",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-39",
+      "id": "daily-38",
       "date": "2026-07-20",
       "weekday": "周一",
       "dayType": "正常",
@@ -1447,7 +1417,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-40",
+      "id": "daily-39",
       "date": "2026-07-21",
       "weekday": "周二",
       "dayType": "正常",
@@ -1458,10 +1428,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge 20 Test 2｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 20 Test 1 / 晚 Cambridge 20 Test 2",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-41",
+      "id": "daily-40",
       "date": "2026-07-22",
       "weekday": "周三",
       "dayType": "正常",
@@ -1475,7 +1445,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-42",
+      "id": "daily-41",
       "date": "2026-07-23",
       "weekday": "周四",
       "dayType": "正常",
@@ -1486,10 +1456,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge extra 57｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge 20 Test 4 / 晚 Cambridge extra 57",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-43",
+      "id": "daily-42",
       "date": "2026-07-24",
       "weekday": "周五",
       "dayType": "正常",
@@ -1503,7 +1473,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-44",
+      "id": "daily-43",
       "date": "2026-07-25",
       "weekday": "周六",
       "dayType": "正常",
@@ -1514,13 +1484,13 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge extra 60｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge extra 59 / 晚 Cambridge extra 60",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-45",
+      "id": "daily-44",
       "date": "2026-07-26",
       "weekday": "周日",
-      "dayType": "周日/复盘",
+      "dayType": "正常",
       "swim": "晚泳 20:30–21:30",
       "morningEarly": "可选：早泳 / 早餐 / 今日启动",
       "morningCore": "Cambridge extra 61｜雅思 8:30-11:30",
@@ -1528,10 +1498,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge extra 62｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge extra 61 / 晚 Cambridge extra 62",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-46",
+      "id": "daily-45",
       "date": "2026-07-27",
       "weekday": "周一",
       "dayType": "正常",
@@ -1545,7 +1515,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-47",
+      "id": "daily-46",
       "date": "2026-07-28",
       "weekday": "周二",
       "dayType": "正常",
@@ -1556,10 +1526,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge extra 65｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge extra 64 / 晚 Cambridge extra 65",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-48",
+      "id": "daily-47",
       "date": "2026-07-29",
       "weekday": "周三",
       "dayType": "正常",
@@ -1573,7 +1543,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-49",
+      "id": "daily-48",
       "date": "2026-07-30",
       "weekday": "周四",
       "dayType": "正常",
@@ -1584,10 +1554,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge extra 68｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge extra 67 / 晚 Cambridge extra 68",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-50",
+      "id": "daily-49",
       "date": "2026-07-31",
       "weekday": "周五",
       "dayType": "正常",
@@ -1601,7 +1571,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-51",
+      "id": "daily-50",
       "date": "2026-08-01",
       "weekday": "周六",
       "dayType": "正常",
@@ -1612,10 +1582,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge extra 71｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge extra 70 / 晚 Cambridge extra 71",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-52",
+      "id": "daily-51",
       "date": "2026-08-02",
       "weekday": "周日",
       "dayType": "正常",
@@ -1626,10 +1596,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge extra 73｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge extra 72 / 晚 Cambridge extra 73",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-53",
+      "id": "daily-52",
       "date": "2026-08-03",
       "weekday": "周一",
       "dayType": "正常",
@@ -1643,7 +1613,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-54",
+      "id": "daily-53",
       "date": "2026-08-04",
       "weekday": "周二",
       "dayType": "正常",
@@ -1654,10 +1624,10 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge extra 76｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge extra 75 / 晚 Cambridge extra 76",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     },
     {
-      "id": "daily-55",
+      "id": "daily-54",
       "date": "2026-08-05",
       "weekday": "周三",
       "dayType": "正常",
@@ -1671,7 +1641,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "星期一/三/五安排一份雅思；其他时段都是可选安排。"
     },
     {
-      "id": "daily-56",
+      "id": "daily-55",
       "date": "2026-08-06",
       "weekday": "周四",
       "dayType": "正常",
@@ -1682,9 +1652,9 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "Cambridge extra 79｜雅思 19:00-22:00",
       "mainTask": "早 Cambridge extra 78 / 晚 Cambridge extra 79",
-      "notes": "星期二/四/六/日安排早晚两份雅思；其他时段都是可选安排。"
+      "notes": "星期二/四/六/日安排早晚两份雅思；6/15 特殊安排两份；其他时段都是可选安排。"
     }
   ],
-  "planVersion": "2026-06-12-weekday-capacity-duanwu-v6",
-  "resetFromDate": "2026-06-12"
+  "planVersion": "2026-06-13-cambridge-reset-duanwu-c6-v7",
+  "resetFromDate": "2026-06-13"
 };
