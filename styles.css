@@ -859,12 +859,35 @@ textarea {
 
 @media (max-width: 640px) {
   .topbar {
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 6px;
+    padding: 8px 12px;
   }
 
   .topbar-title {
-    grid-column: 1 / -1;
     order: -1;
+    flex: 1 1 auto;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .topbar-title strong {
+    font-size: 16px;
+  }
+
+  #installButton,
+  #lockButton {
+    order: -1;
+    flex: 0 0 auto;
+    min-height: 34px;
+  }
+
+  .tab-button {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
   }
 
   .calendar-layout,
@@ -880,6 +903,10 @@ textarea {
     display: grid;
   }
 
+  .plan-toolbar input {
+    max-width: none;
+  }
+
   .day-actions {
     justify-content: stretch;
   }
@@ -890,10 +917,16 @@ textarea {
 
   .hour-row {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .hour-time {
-    min-height: 24px;
+    min-height: 0;
+    font-size: 15px;
+  }
+
+  .hour-row .task-ref {
+    min-height: 40px;
   }
 
   .module-catalog-grid {
