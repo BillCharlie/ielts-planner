@@ -1,11 +1,12 @@
-// Regenerate plan-data.js for the 2026-06-27 reset.
+// Regenerate plan-data.js for the 2026-06-28 reset.
 // Rules:
-//  - Plan starts 2026-06-27 (06-25 / 06-26 deleted).
-//  - Cambridge sequence restarts at C7T1.
-//  - 06-27 / 06-28 / 06-29: 3 tests/day, labelled 早/中/晚 (no clock times).
+//  - Plan starts 2026-06-28 (06-25 / 06-26 / 06-27 deleted).
+//  - Cambridge sequence restarts at C7T1 and stops after C20T4.
+//  - 06-28 / 06-29: 3 tests/day, labelled 早/中/晚 (no clock times).
 //  - 06-30 onward: original weekly rhythm (Tue/Thu/Sat/Sun = 2, Mon/Wed/Fri = 1),
 //    no preset time slots — just the test count + which Cambridge tests.
 //  - ieltsModule never contains specific clock times.
+//  - The plan ends on the day C20T4 is assigned.
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
@@ -13,9 +14,10 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
-const START = "2026-06-27";
-const END = "2026-08-06";
-const TRIPLE_DAYS = new Set(["2026-06-27", "2026-06-28", "2026-06-29"]);
+const START = "2026-06-28";
+const END = "2026-09-30"; // safety bound; real end is when C20T4 is assigned
+const TRIPLE_DAYS = new Set(["2026-06-28", "2026-06-29"]);
+const MAX_BOOK = 20; // Cambridge sequence stops after C20T4
 
 const weekdayZh = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 const priorityZh = { 1: "单份雅思", 2: "双份雅思", 3: "三份雅思" };
@@ -35,21 +37,12 @@ function eachDate(start, end) {
   return out;
 }
 
-// Continuous Cambridge test generator starting at C7T1 (4 tests per book).
-function makeSeq() {
-  let book = 7;
-  let test = 1;
-  return () => {
-    const value = { book, test };
-    test += 1;
-    if (test > 4) {
-      test = 1;
-      book += 1;
-    }
-    return value;
-  };
+// Finite Cambridge pool: C7T1 .. C20T4 (4 tests per book).
+const pool = [];
+for (let book = 7; book <= MAX_BOOK; book++) {
+  for (let test = 1; test <= 4; test++) pool.push({ book, test });
 }
-const nextTest = makeSeq();
+let cursor = 0;
 const full = (t) => `Cambridge ${t.book} Test ${t.test}`;
 const code = (t) => `C${t.book}T${t.test}`;
 
@@ -63,9 +56,13 @@ const dates = eachDate(START, END);
 const mainPlan = [];
 const dailyTemplates = [];
 
-dates.forEach((date, idx) => {
-  const count = countFor(date);
-  const tests = Array.from({ length: count }, () => nextTest());
+for (let idx = 0; idx < dates.length; idx++) {
+  if (cursor >= pool.length) break; // Cambridge sequence exhausted (C20T4 reached)
+  const date = dates[idx];
+  const want = countFor(date);
+  const tests = pool.slice(cursor, cursor + want); // may be fewer on the final day
+  cursor += tests.length;
+  const count = tests.length;
   const fulls = tests.map(full);
   const codes = tests.map(code);
   const weekday = weekdayZh[new Date(date + "T00:00:00").getDay()];
@@ -139,16 +136,16 @@ dates.forEach((date, idx) => {
     mainTask,
     notes,
   });
-});
+}
 
 const payload = {
-  generatedAt: "2026-06-27T00:00:00.000+08:00",
+  generatedAt: "2026-06-28T00:00:00.000+08:00",
   source:
-    "Planner reset v13: visible plan starts on 2026-06-27, Cambridge sequence restarts at C7T1, 06-27/28/29 run three tests (early/noon/evening) and 06-30 onward keep the weekly 1-2 rhythm with no preset time slots",
+    "Planner reset v14: visible plan starts on 2026-06-28, Cambridge sequence restarts at C7T1 and stops after C20T4, 06-28/29 run three tests (early/noon/evening) and 06-30 onward keep the weekly 1-2 rhythm with no preset time slots",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-06-27-cambridge-7-reset-v13",
-  resetFromDate: "2026-06-27",
+  planVersion: "2026-06-28-cambridge-7to20-reset-v14",
+  resetFromDate: "2026-06-28",
 };
 
 const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
