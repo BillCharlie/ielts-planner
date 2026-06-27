@@ -898,6 +898,38 @@ textarea {
     margin-right: 0;
   }
 
+  /* Compact month grid: the narrow cells can't fit plan text, so show only
+     the date + status colour; the full plan appears in the day panel below. */
+  .week-head,
+  .month-grid {
+    gap: 4px;
+  }
+
+  .day-cell {
+    min-height: 46px;
+    padding: 6px 4px;
+  }
+
+  .day-cell .day-meta {
+    display: none;
+  }
+
+  .day-num {
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .day-num .warning-dot {
+    position: absolute;
+    margin: 0;
+    top: 5px;
+    right: 5px;
+  }
+
+  .day-cell {
+    position: relative;
+  }
+
   .day-header,
   .plan-toolbar {
     display: grid;
