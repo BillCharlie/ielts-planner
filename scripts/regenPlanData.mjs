@@ -1,8 +1,8 @@
-// Regenerate plan-data.js for the 2026-06-28 reset.
+// Regenerate plan-data.js for the 2026-06-29 reset.
 // Rules:
-//  - Plan starts 2026-06-28 (06-25 / 06-26 / 06-27 deleted).
+//  - Plan starts 2026-06-29 (06-25 / 06-26 / 06-27 / 06-28 deleted).
 //  - Cambridge sequence restarts at C7T1 and stops after C20T4.
-//  - 06-28 / 06-29: 3 tests/day, labelled 早/中/晚 (no clock times).
+//  - 06-29: 3 tests/day, labelled 早/中/晚 (no clock times).
 //  - 06-30 onward: original weekly rhythm (Tue/Thu/Sat/Sun = 2, Mon/Wed/Fri = 1),
 //    no preset time slots — just the test count + which Cambridge tests.
 //  - ieltsModule never contains specific clock times.
@@ -14,9 +14,9 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
-const START = "2026-06-28";
+const START = "2026-06-29";
 const END = "2026-09-30"; // safety bound; real end is when C20T4 is assigned
-const TRIPLE_DAYS = new Set(["2026-06-28", "2026-06-29"]);
+const TRIPLE_DAYS = new Set(["2026-06-29"]);
 const MAX_BOOK = 20; // Cambridge sequence stops after C20T4
 
 const weekdayZh = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
@@ -139,13 +139,13 @@ for (let idx = 0; idx < dates.length; idx++) {
 }
 
 const payload = {
-  generatedAt: "2026-06-28T00:00:00.000+08:00",
+  generatedAt: "2026-06-29T00:00:00.000+08:00",
   source:
-    "Planner reset v14: visible plan starts on 2026-06-28, Cambridge sequence restarts at C7T1 and stops after C20T4, 06-28/29 run three tests (early/noon/evening) and 06-30 onward keep the weekly 1-2 rhythm with no preset time slots",
+    "Planner reset v15: visible plan starts on 2026-06-29, Cambridge sequence restarts at C7T1 and stops after C20T4, 06-29 runs three tests (early/noon/evening) and 06-30 onward keep the weekly 1-2 rhythm with no preset time slots",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-06-28-cambridge-7to20-reset-v14",
-  resetFromDate: "2026-06-28",
+  planVersion: "2026-06-29-cambridge-7to20-reset-v15",
+  resetFromDate: "2026-06-29",
 };
 
 const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
