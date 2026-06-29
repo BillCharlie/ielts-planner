@@ -2,3 +2,9 @@ node_modules/
 .local-planner-state.json
 .DS_Store
 Thumbs.db
+.claude/
+tmp_emmx_sample/
+hydrate_one_stdout.txt
+hydrate_one_stderr.txt
+visio-output/*.log
+visio-output/~$*
