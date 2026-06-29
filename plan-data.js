@@ -1,25 +1,9 @@
 window.IELTS_PLANNER_DATA = {
   "generatedAt": "2026-06-29T00:00:00.000+08:00",
-  "source": "Planner reset v16: Cambridge 7 through 20 restarts on 2026-06-30; dates before 2026-06-22 remain hidden",
+  "source": "Planner reset v17: visible plan starts on 2026-06-30; June 29 content removed",
   "mainPlan": [
     {
       "id": "main-1",
-      "date": "2026-06-29",
-      "weekday": "周一",
-      "dayType": "正常",
-      "ieltsPriority": "三份雅思",
-      "ieltsPlan": "早 Cambridge 7 Test 1 / 中 Cambridge 7 Test 2 / 晚 Cambridge 7 Test 3",
-      "ieltsModule": "早中晚各一份（共三份，不设具体时间）",
-      "cambridge": "C7T1 + C7T2 + C7T3",
-      "projectType": "",
-      "projectPlan": "",
-      "limits": "今日早中晚共三份雅思，不预设具体时间。",
-      "status": "未开始",
-      "actual": "",
-      "projectModule": ""
-    },
-    {
-      "id": "main-2",
       "date": "2026-06-30",
       "weekday": "周二",
       "dayType": "正常",
@@ -35,7 +19,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-3",
+      "id": "main-2",
       "date": "2026-07-01",
       "weekday": "周三",
       "dayType": "正常",
@@ -51,7 +35,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-4",
+      "id": "main-3",
       "date": "2026-07-02",
       "weekday": "周四",
       "dayType": "正常",
@@ -67,7 +51,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-5",
+      "id": "main-4",
       "date": "2026-07-03",
       "weekday": "周五",
       "dayType": "正常",
@@ -83,7 +67,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-6",
+      "id": "main-5",
       "date": "2026-07-04",
       "weekday": "周六",
       "dayType": "正常",
@@ -99,7 +83,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-7",
+      "id": "main-6",
       "date": "2026-07-05",
       "weekday": "周日",
       "dayType": "正常",
@@ -115,7 +99,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-8",
+      "id": "main-7",
       "date": "2026-07-06",
       "weekday": "周一",
       "dayType": "正常",
@@ -131,7 +115,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-9",
+      "id": "main-8",
       "date": "2026-07-07",
       "weekday": "周二",
       "dayType": "正常",
@@ -147,7 +131,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-10",
+      "id": "main-9",
       "date": "2026-07-08",
       "weekday": "周三",
       "dayType": "正常",
@@ -163,7 +147,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-11",
+      "id": "main-10",
       "date": "2026-07-09",
       "weekday": "周四",
       "dayType": "正常",
@@ -179,7 +163,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-12",
+      "id": "main-11",
       "date": "2026-07-10",
       "weekday": "周五",
       "dayType": "正常",
@@ -195,7 +179,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-13",
+      "id": "main-12",
       "date": "2026-07-11",
       "weekday": "周六",
       "dayType": "正常",
@@ -211,7 +195,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-14",
+      "id": "main-13",
       "date": "2026-07-12",
       "weekday": "周日",
       "dayType": "正常",
@@ -227,7 +211,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-15",
+      "id": "main-14",
       "date": "2026-07-13",
       "weekday": "周一",
       "dayType": "正常",
@@ -243,7 +227,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-16",
+      "id": "main-15",
       "date": "2026-07-14",
       "weekday": "周二",
       "dayType": "正常",
@@ -259,7 +243,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-17",
+      "id": "main-16",
       "date": "2026-07-15",
       "weekday": "周三",
       "dayType": "正常",
@@ -275,7 +259,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-18",
+      "id": "main-17",
       "date": "2026-07-16",
       "weekday": "周四",
       "dayType": "正常",
@@ -291,7 +275,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-19",
+      "id": "main-18",
       "date": "2026-07-17",
       "weekday": "周五",
       "dayType": "正常",
@@ -307,7 +291,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-20",
+      "id": "main-19",
       "date": "2026-07-18",
       "weekday": "周六",
       "dayType": "正常",
@@ -323,7 +307,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-21",
+      "id": "main-20",
       "date": "2026-07-19",
       "weekday": "周日",
       "dayType": "正常",
@@ -339,7 +323,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-22",
+      "id": "main-21",
       "date": "2026-07-20",
       "weekday": "周一",
       "dayType": "正常",
@@ -355,7 +339,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-23",
+      "id": "main-22",
       "date": "2026-07-21",
       "weekday": "周二",
       "dayType": "正常",
@@ -371,7 +355,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-24",
+      "id": "main-23",
       "date": "2026-07-22",
       "weekday": "周三",
       "dayType": "正常",
@@ -387,7 +371,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-25",
+      "id": "main-24",
       "date": "2026-07-23",
       "weekday": "周四",
       "dayType": "正常",
@@ -403,7 +387,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-26",
+      "id": "main-25",
       "date": "2026-07-24",
       "weekday": "周五",
       "dayType": "正常",
@@ -419,7 +403,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-27",
+      "id": "main-26",
       "date": "2026-07-25",
       "weekday": "周六",
       "dayType": "正常",
@@ -435,7 +419,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-28",
+      "id": "main-27",
       "date": "2026-07-26",
       "weekday": "周日",
       "dayType": "正常",
@@ -451,7 +435,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-29",
+      "id": "main-28",
       "date": "2026-07-27",
       "weekday": "周一",
       "dayType": "正常",
@@ -467,7 +451,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-30",
+      "id": "main-29",
       "date": "2026-07-28",
       "weekday": "周二",
       "dayType": "正常",
@@ -483,7 +467,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-31",
+      "id": "main-30",
       "date": "2026-07-29",
       "weekday": "周三",
       "dayType": "正常",
@@ -499,7 +483,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-32",
+      "id": "main-31",
       "date": "2026-07-30",
       "weekday": "周四",
       "dayType": "正常",
@@ -515,7 +499,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-33",
+      "id": "main-32",
       "date": "2026-07-31",
       "weekday": "周五",
       "dayType": "正常",
@@ -531,7 +515,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-34",
+      "id": "main-33",
       "date": "2026-08-01",
       "weekday": "周六",
       "dayType": "正常",
@@ -547,7 +531,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-35",
+      "id": "main-34",
       "date": "2026-08-02",
       "weekday": "周日",
       "dayType": "正常",
@@ -563,7 +547,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-36",
+      "id": "main-35",
       "date": "2026-08-03",
       "weekday": "周一",
       "dayType": "正常",
@@ -579,7 +563,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-37",
+      "id": "main-36",
       "date": "2026-08-04",
       "weekday": "周二",
       "dayType": "正常",
@@ -598,20 +582,6 @@ window.IELTS_PLANNER_DATA = {
   "dailyTemplates": [
     {
       "id": "daily-1",
-      "date": "2026-06-29",
-      "weekday": "周一",
-      "dayType": "正常",
-      "swim": "晚泳 20:30–21:30；必要时早泳",
-      "morningEarly": "可选：早泳 / 早餐 / 热身",
-      "morningCore": "Cambridge 7 Test 1",
-      "afternoon": "Cambridge 7 Test 2",
-      "evening": "可选：晚餐 + 缓冲",
-      "night": "Cambridge 7 Test 3",
-      "mainTask": "早 Cambridge 7 Test 1 / 中 Cambridge 7 Test 2 / 晚 Cambridge 7 Test 3",
-      "notes": "今日早中晚共三份雅思；其他时段可选，不预设具体钟点。"
-    },
-    {
-      "id": "daily-2",
       "date": "2026-06-30",
       "weekday": "周二",
       "dayType": "正常",
@@ -625,7 +595,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-3",
+      "id": "daily-2",
       "date": "2026-07-01",
       "weekday": "周三",
       "dayType": "正常",
@@ -639,7 +609,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-4",
+      "id": "daily-3",
       "date": "2026-07-02",
       "weekday": "周四",
       "dayType": "正常",
@@ -653,7 +623,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-5",
+      "id": "daily-4",
       "date": "2026-07-03",
       "weekday": "周五",
       "dayType": "正常",
@@ -667,7 +637,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-6",
+      "id": "daily-5",
       "date": "2026-07-04",
       "weekday": "周六",
       "dayType": "正常",
@@ -681,7 +651,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-7",
+      "id": "daily-6",
       "date": "2026-07-05",
       "weekday": "周日",
       "dayType": "正常",
@@ -695,7 +665,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-8",
+      "id": "daily-7",
       "date": "2026-07-06",
       "weekday": "周一",
       "dayType": "正常",
@@ -709,7 +679,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-9",
+      "id": "daily-8",
       "date": "2026-07-07",
       "weekday": "周二",
       "dayType": "正常",
@@ -723,7 +693,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-10",
+      "id": "daily-9",
       "date": "2026-07-08",
       "weekday": "周三",
       "dayType": "正常",
@@ -737,7 +707,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-11",
+      "id": "daily-10",
       "date": "2026-07-09",
       "weekday": "周四",
       "dayType": "正常",
@@ -751,7 +721,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-12",
+      "id": "daily-11",
       "date": "2026-07-10",
       "weekday": "周五",
       "dayType": "正常",
@@ -765,7 +735,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-13",
+      "id": "daily-12",
       "date": "2026-07-11",
       "weekday": "周六",
       "dayType": "正常",
@@ -779,7 +749,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-14",
+      "id": "daily-13",
       "date": "2026-07-12",
       "weekday": "周日",
       "dayType": "正常",
@@ -793,7 +763,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-15",
+      "id": "daily-14",
       "date": "2026-07-13",
       "weekday": "周一",
       "dayType": "正常",
@@ -807,7 +777,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-16",
+      "id": "daily-15",
       "date": "2026-07-14",
       "weekday": "周二",
       "dayType": "正常",
@@ -821,7 +791,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-17",
+      "id": "daily-16",
       "date": "2026-07-15",
       "weekday": "周三",
       "dayType": "正常",
@@ -835,7 +805,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-18",
+      "id": "daily-17",
       "date": "2026-07-16",
       "weekday": "周四",
       "dayType": "正常",
@@ -849,7 +819,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-19",
+      "id": "daily-18",
       "date": "2026-07-17",
       "weekday": "周五",
       "dayType": "正常",
@@ -863,7 +833,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-20",
+      "id": "daily-19",
       "date": "2026-07-18",
       "weekday": "周六",
       "dayType": "正常",
@@ -877,7 +847,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-21",
+      "id": "daily-20",
       "date": "2026-07-19",
       "weekday": "周日",
       "dayType": "正常",
@@ -891,7 +861,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-22",
+      "id": "daily-21",
       "date": "2026-07-20",
       "weekday": "周一",
       "dayType": "正常",
@@ -905,7 +875,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-23",
+      "id": "daily-22",
       "date": "2026-07-21",
       "weekday": "周二",
       "dayType": "正常",
@@ -919,7 +889,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-24",
+      "id": "daily-23",
       "date": "2026-07-22",
       "weekday": "周三",
       "dayType": "正常",
@@ -933,7 +903,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-25",
+      "id": "daily-24",
       "date": "2026-07-23",
       "weekday": "周四",
       "dayType": "正常",
@@ -947,7 +917,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-26",
+      "id": "daily-25",
       "date": "2026-07-24",
       "weekday": "周五",
       "dayType": "正常",
@@ -961,7 +931,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-27",
+      "id": "daily-26",
       "date": "2026-07-25",
       "weekday": "周六",
       "dayType": "正常",
@@ -975,7 +945,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-28",
+      "id": "daily-27",
       "date": "2026-07-26",
       "weekday": "周日",
       "dayType": "正常",
@@ -989,7 +959,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-29",
+      "id": "daily-28",
       "date": "2026-07-27",
       "weekday": "周一",
       "dayType": "正常",
@@ -1003,7 +973,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-30",
+      "id": "daily-29",
       "date": "2026-07-28",
       "weekday": "周二",
       "dayType": "正常",
@@ -1017,7 +987,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-31",
+      "id": "daily-30",
       "date": "2026-07-29",
       "weekday": "周三",
       "dayType": "正常",
@@ -1031,7 +1001,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-32",
+      "id": "daily-31",
       "date": "2026-07-30",
       "weekday": "周四",
       "dayType": "正常",
@@ -1045,7 +1015,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-33",
+      "id": "daily-32",
       "date": "2026-07-31",
       "weekday": "周五",
       "dayType": "正常",
@@ -1059,7 +1029,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-34",
+      "id": "daily-33",
       "date": "2026-08-01",
       "weekday": "周六",
       "dayType": "正常",
@@ -1073,7 +1043,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-35",
+      "id": "daily-34",
       "date": "2026-08-02",
       "weekday": "周日",
       "dayType": "正常",
@@ -1087,7 +1057,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-36",
+      "id": "daily-35",
       "date": "2026-08-03",
       "weekday": "周一",
       "dayType": "正常",
@@ -1101,7 +1071,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日一份雅思，时段自定；其他时段可选。"
     },
     {
-      "id": "daily-37",
+      "id": "daily-36",
       "date": "2026-08-04",
       "weekday": "周二",
       "dayType": "正常",
@@ -1115,6 +1085,6 @@ window.IELTS_PLANNER_DATA = {
       "notes": "今日两份雅思，时段自定；其他时段可选。"
     }
   ],
-  "planVersion": "2026-06-30-cambridge-7-reset-v16",
-  "resetFromDate": "2026-06-30"
+  "planVersion": "2026-06-30-cambridge-7-reset-v17",
+  "resetFromDate": "2026-06-29"
 };
