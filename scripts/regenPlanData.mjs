@@ -1,10 +1,11 @@
-// Regenerate plan-data.js for the 2026-07-03 reset.
+// Regenerate plan-data.js for the 2026-07-11 reset.
 // Rules:
-//  - Plan starts 2026-07-03 (everything on/before 2026-07-02 deleted).
+//  - Plan starts 2026-07-11 (everything on/before 2026-07-10 deleted).
 //  - Cambridge sequence restarts at C7T1 and stops after C20T4.
-//  - 07-03 .. 07-06: 3 tests/day, labelled 早/中/晚 (no clock times).
-//  - 07-07 onward: weekly rhythm (Tue/Thu/Sat/Sun = 2, Mon/Wed/Fri = 1),
-//    no preset time slots — just the test count + which Cambridge tests.
+//  - Per-day count overrides (COUNT_OVERRIDES): 07-11/12/13 = 3 (早/中/晚),
+//    07-14/15/16/18/20/21/22 = 1.
+//  - Every other day: weekly rhythm (Tue/Thu/Sat/Sun = 2, Mon/Wed/Fri = 1).
+//  - No preset time slots — just the test count + which Cambridge tests.
 //  - ieltsModule never contains specific clock times.
 //  - The plan ends on the day C20T4 is assigned.
 import { writeFileSync } from "node:fs";
@@ -14,10 +15,22 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
-const START = "2026-07-03";
+const START = "2026-07-11";
 const END = "2026-09-30"; // safety bound; real end is when C20T4 is assigned
-const TRIPLE_DAYS = new Set(["2026-07-03", "2026-07-04", "2026-07-05", "2026-07-06"]);
 const MAX_BOOK = 20; // Cambridge sequence stops after C20T4
+// Explicit per-day test counts; days not listed follow the weekly rhythm.
+const COUNT_OVERRIDES = {
+  "2026-07-11": 3,
+  "2026-07-12": 3,
+  "2026-07-13": 3,
+  "2026-07-14": 1,
+  "2026-07-15": 1,
+  "2026-07-16": 1,
+  "2026-07-18": 1,
+  "2026-07-20": 1,
+  "2026-07-21": 1,
+  "2026-07-22": 1,
+};
 
 const weekdayZh = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 const priorityZh = { 1: "单份雅思", 2: "双份雅思", 3: "三份雅思" };
@@ -47,7 +60,7 @@ const full = (t) => `Cambridge ${t.book} Test ${t.test}`;
 const code = (t) => `C${t.book}T${t.test}`;
 
 function countFor(date) {
-  if (TRIPLE_DAYS.has(date)) return 3;
+  if (date in COUNT_OVERRIDES) return COUNT_OVERRIDES[date];
   const wd = new Date(date + "T00:00:00").getDay(); // 0=Sun .. 6=Sat
   return [0, 2, 4, 6].includes(wd) ? 2 : 1; // Sun/Tue/Thu/Sat = 2, others = 1
 }
@@ -139,13 +152,13 @@ for (let idx = 0; idx < dates.length; idx++) {
 }
 
 const payload = {
-  generatedAt: "2026-07-03T00:00:00.000+08:00",
+  generatedAt: "2026-07-11T00:00:00.000+08:00",
   source:
-    "Planner reset v17: visible plan starts on 2026-07-03, Cambridge sequence restarts at C7T1 and stops after C20T4, 07-03..07-06 run three tests (early/noon/evening) and 07-07 onward keep the weekly 1-2 rhythm with no preset time slots",
+    "Planner reset v18: visible plan starts on 2026-07-11, Cambridge sequence restarts at C7T1 and stops after C20T4, 07-11/12/13 run three tests (early/noon/evening), 07-14/15/16/18/20/21/22 run one test, and every other day keeps the weekly 1-2 rhythm with no preset time slots",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-03-cambridge-7to20-reset-v17",
-  resetFromDate: "2026-07-03",
+  planVersion: "2026-07-11-cambridge-7to20-reset-v18",
+  resetFromDate: "2026-07-11",
 };
 
 const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
