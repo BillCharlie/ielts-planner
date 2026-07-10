@@ -4,7 +4,7 @@
 //  - Cambridge sequence restarts at C7T1 and stops after C20T4.
 //  - Per-day count overrides (COUNT_OVERRIDES): 07-11/12/13 = 3 (早/中/晚),
 //    07-14/15/16/18/20/21/22 = 1.
-//  - Every other day: weekly rhythm (Tue/Thu/Sat/Sun = 2, Mon/Wed/Fri = 1).
+//  - Every other day: 3 tests/day.
 //  - No preset time slots — just the test count + which Cambridge tests.
 //  - ieltsModule never contains specific clock times.
 //  - The plan ends on the day C20T4 is assigned.
@@ -18,7 +18,7 @@ const outPath = resolve(__dirname, "..", "plan-data.js");
 const START = "2026-07-11";
 const END = "2026-09-30"; // safety bound; real end is when C20T4 is assigned
 const MAX_BOOK = 20; // Cambridge sequence stops after C20T4
-// Explicit per-day test counts; days not listed follow the weekly rhythm.
+// Explicit per-day test counts; days not listed use three tests/day.
 const COUNT_OVERRIDES = {
   "2026-07-11": 3,
   "2026-07-12": 3,
@@ -61,8 +61,7 @@ const code = (t) => `C${t.book}T${t.test}`;
 
 function countFor(date) {
   if (date in COUNT_OVERRIDES) return COUNT_OVERRIDES[date];
-  const wd = new Date(date + "T00:00:00").getDay(); // 0=Sun .. 6=Sat
-  return [0, 2, 4, 6].includes(wd) ? 2 : 1; // Sun/Tue/Thu/Sat = 2, others = 1
+  return 3;
 }
 
 const dates = eachDate(START, END);
@@ -154,10 +153,10 @@ for (let idx = 0; idx < dates.length; idx++) {
 const payload = {
   generatedAt: "2026-07-11T00:00:00.000+08:00",
   source:
-    "Planner reset v18: visible plan starts on 2026-07-11, Cambridge sequence restarts at C7T1 and stops after C20T4, 07-11/12/13 run three tests (early/noon/evening), 07-14/15/16/18/20/21/22 run one test, and every other day keeps the weekly 1-2 rhythm with no preset time slots",
+    "Planner reset v19: visible plan starts on 2026-07-11, Cambridge sequence restarts at C7T1 and stops after C20T4, 07-14/15/16/18/20/21/22 run one test, and every other day runs three tests with no preset time slots",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-11-cambridge-7to20-reset-v18",
+  planVersion: "2026-07-11-cambridge-7to20-reset-v19",
   resetFromDate: "2026-07-11",
 };
 
