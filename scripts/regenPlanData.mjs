@@ -76,6 +76,18 @@ function hasRemaining() {
   return Object.values(pools).some((pool) => pool.cursor < pool.items.length);
 }
 
+function totalRemaining() {
+  return Object.values(pools).reduce((sum, pool) => sum + pool.items.length - pool.cursor, 0);
+}
+
+function takeFirstAvailable(poolNames) {
+  for (const poolName of poolNames) {
+    const item = take(poolName);
+    if (item) return item;
+  }
+  return null;
+}
+
 function isThreePoolDay(date) {
   if (SINGLE_LIMIT_DAYS.has(date)) return false;
   const wd = new Date(date + "T00:00:00").getDay(); // 0=Sun .. 6=Sat
@@ -88,7 +100,18 @@ function takeOnePoolItem() {
 
 function takeItemsForDate(date) {
   if (isThreePoolDay(date)) {
-    return [take("full"), take("mixed"), take("supplement")].filter(Boolean);
+    if (totalRemaining() < 3) {
+      const item = takeFirstAvailable(["full", "mixed", "supplement"]);
+      return item ? [item] : [];
+    }
+
+    const items = [take("full"), take("mixed"), take("supplement")].filter(Boolean);
+    while (items.length < 3) {
+      const filler = takeFirstAvailable(["supplement", "mixed", "full"]);
+      if (!filler) break;
+      items.push(filler);
+    }
+    return items;
   }
   const item = takeOnePoolItem();
   return item ? [item] : [];
@@ -198,10 +221,10 @@ for (const date of dates) {
 const payload = {
   generatedAt: "2026-07-11T00:00:00.000+08:00",
   source:
-    "Planner reset v22: visible plan starts on 2026-07-11 with three pools; Mon/Fri/Sat/Sun use full+mixed+supplement, Tue/Wed/Thu and limited dates use one pool item, and 2026-07-10 and earlier are removed",
+    "Planner reset v23: visible plan starts on 2026-07-11 with three pools; Mon/Fri/Sat/Sun use three items, Tue/Wed/Thu and limited dates use one item, and two-item days are not generated",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-11-three-pool-reset-v22",
+  planVersion: "2026-07-11-three-pool-reset-v23",
   resetFromDate: "2026-07-11",
 };
 
