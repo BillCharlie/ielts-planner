@@ -4,7 +4,7 @@
 //  - Cambridge sequence restarts at C7T1 and stops after C20T4.
 //  - Per-day count overrides (COUNT_OVERRIDES): 07-11/12/13 = 3 (早/中/晚),
 //    07-14/15/16/18/20/21/22 = 1.
-//  - Every other day: 3 tests/day.
+//  - Every other day: Tue/Wed/Thu only, 1 test/day.
 //  - No preset time slots — just the test count + which Cambridge tests.
 //  - ieltsModule never contains specific clock times.
 //  - The plan ends on the day C20T4 is assigned.
@@ -16,9 +16,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
 const START = "2026-07-11";
-const END = "2026-09-30"; // safety bound; real end is when C20T4 is assigned
+const END = "2026-12-31"; // safety bound; real end is when C20T4 is assigned
 const MAX_BOOK = 20; // Cambridge sequence stops after C20T4
-// Explicit per-day test counts; days not listed use three tests/day.
+// Explicit per-day test counts; days not listed only run on Tue/Wed/Thu.
 const COUNT_OVERRIDES = {
   "2026-07-11": 3,
   "2026-07-12": 3,
@@ -61,7 +61,8 @@ const code = (t) => `C${t.book}T${t.test}`;
 
 function countFor(date) {
   if (date in COUNT_OVERRIDES) return COUNT_OVERRIDES[date];
-  return 3;
+  const wd = new Date(date + "T00:00:00").getDay(); // 0=Sun .. 6=Sat
+  return [2, 3, 4].includes(wd) ? 1 : 0; // Tue/Wed/Thu = 1, other days = no IELTS
 }
 
 const dates = eachDate(START, END);
@@ -72,6 +73,7 @@ for (let idx = 0; idx < dates.length; idx++) {
   if (cursor >= pool.length) break; // Cambridge sequence exhausted (C20T4 reached)
   const date = dates[idx];
   const want = countFor(date);
+  if (want === 0) continue;
   const tests = pool.slice(cursor, cursor + want); // may be fewer on the final day
   cursor += tests.length;
   const count = tests.length;
@@ -118,7 +120,7 @@ for (let idx = 0; idx < dates.length; idx++) {
   }
 
   mainPlan.push({
-    id: `main-${idx + 1}`,
+    id: `main-${mainPlan.length + 1}`,
     date,
     weekday,
     dayType: "正常",
@@ -135,7 +137,7 @@ for (let idx = 0; idx < dates.length; idx++) {
   });
 
   dailyTemplates.push({
-    id: `daily-${idx + 1}`,
+    id: `daily-${dailyTemplates.length + 1}`,
     date,
     weekday,
     dayType: "正常",
@@ -153,10 +155,10 @@ for (let idx = 0; idx < dates.length; idx++) {
 const payload = {
   generatedAt: "2026-07-11T00:00:00.000+08:00",
   source:
-    "Planner reset v19: visible plan starts on 2026-07-11, Cambridge sequence restarts at C7T1 and stops after C20T4, 07-14/15/16/18/20/21/22 run one test, and every other day runs three tests with no preset time slots",
+    "Planner reset v20: visible plan starts on 2026-07-11, Cambridge sequence restarts at C7T1 and stops after C20T4, 07-11/12/13 run three tests, 07-14/15/16/18/20/21/22 run one test, and all other IELTS days are Tue/Wed/Thu with one test",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-11-cambridge-7to20-reset-v19",
+  planVersion: "2026-07-11-cambridge-7to20-reset-v20",
   resetFromDate: "2026-07-11",
 };
 
