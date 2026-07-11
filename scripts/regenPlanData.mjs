@@ -1,6 +1,6 @@
-// Regenerate plan-data.js for the 2026-07-11 three-pool reset.
+// Regenerate plan-data.js for the 2026-07-12 three-pool reset.
 // Rules:
-//  - Everything on/before 2026-07-10 is removed.
+//  - Everything on/before 2026-07-11 is removed.
 //  - Mon/Fri/Sat/Sun are three-pool days: full mock + mixed training + supplement.
 //  - Tue/Wed/Thu are one-pool days.
 //  - 2026-07-14/15/16/18/20/21/22 are limited to one pool item.
@@ -14,7 +14,7 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
-const START = "2026-07-11";
+const START = "2026-07-12";
 const END = "2026-10-31";
 const SINGLE_LIMIT_DAYS = new Set([
   "2026-07-14",
@@ -95,14 +95,13 @@ function isThreePoolDay(date) {
 }
 
 function takeOnePoolItem() {
-  return take("mixed") || take("supplement");
+  return take("mixed") || take("supplement") || take("full");
 }
 
 function takeItemsForDate(date) {
   if (isThreePoolDay(date)) {
     if (totalRemaining() < 3) {
-      const item = takeFirstAvailable(["full", "mixed", "supplement"]);
-      return item ? [item] : [];
+      return [];
     }
 
     const items = [take("full"), take("mixed"), take("supplement")].filter(Boolean);
@@ -219,13 +218,13 @@ for (const date of dates) {
 }
 
 const payload = {
-  generatedAt: "2026-07-11T00:00:00.000+08:00",
+  generatedAt: "2026-07-12T00:00:00.000+08:00",
   source:
-    "Planner reset v23: visible plan starts on 2026-07-11 with three pools; Mon/Fri/Sat/Sun use three items, Tue/Wed/Thu and limited dates use one item, and two-item days are not generated",
+    "Planner reset v25: visible plan starts on 2026-07-12 with three pools; Mon/Fri/Sat/Sun use three items only when three items are available, Tue/Wed/Thu and limited dates use one item, and two-item days are not generated",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-11-three-pool-reset-v23",
-  resetFromDate: "2026-07-11",
+  planVersion: "2026-07-12-three-pool-reset-v25",
+  resetFromDate: "2026-07-12",
 };
 
 const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
