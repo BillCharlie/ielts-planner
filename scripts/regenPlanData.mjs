@@ -80,6 +80,10 @@ function totalRemaining() {
   return Object.values(pools).reduce((sum, pool) => sum + pool.items.length - pool.cursor, 0);
 }
 
+function remainingKindCount() {
+  return Object.values(pools).filter((pool) => pool.cursor < pool.items.length).length;
+}
+
 function takeFirstAvailable(poolNames) {
   for (const poolName of poolNames) {
     const item = take(poolName);
@@ -100,7 +104,7 @@ function takeOnePoolItem() {
 
 function takeItemsForDate(date) {
   if (isThreePoolDay(date)) {
-    if (totalRemaining() < 3) {
+    if (totalRemaining() < 3 || remainingKindCount() < 2) {
       return [];
     }
 
@@ -220,10 +224,10 @@ for (const date of dates) {
 const payload = {
   generatedAt: "2026-07-12T00:00:00.000+08:00",
   source:
-    "Planner reset v25: visible plan starts on 2026-07-12 with three pools; Mon/Fri/Sat/Sun use three items only when three items are available, Tue/Wed/Thu and limited dates use one item, and two-item days are not generated",
+    "Planner reset v26: visible plan starts on 2026-07-12 with three pools; three-item days must include at least two pools, Tue/Wed/Thu and limited dates use one item, and two-item days are not generated",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-12-three-pool-reset-v25",
+  planVersion: "2026-07-12-three-pool-reset-v26",
   resetFromDate: "2026-07-12",
 };
 
