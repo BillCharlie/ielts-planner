@@ -386,6 +386,13 @@
 
   function renderTrainingItemsMarkup(items, options = {}) {
     const compact = Boolean(options.compact);
+    if (compact) {
+      return `<span class="calendar-training-strip">${items.map((item) => `
+        <span class="calendar-training-block ${safeAttr(item.kind)}" title="${safeAttr(item.title)}">
+          ${safe(item.cambridge || item.full || item.title)}
+        </span>
+      `).join("")}</span>`;
+    }
     const className = compact ? "training-item-list compact" : "training-item-list";
     return `<span class="${className}">${items.map((item) => `
       <span class="training-item ${safeAttr(item.kind)}">

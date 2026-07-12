@@ -273,7 +273,7 @@ textarea {
 }
 
 .day-cell {
-  min-height: 74px;
+  min-height: 78px;
   padding: 8px;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -327,6 +327,40 @@ textarea {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.25;
+}
+
+.calendar-training-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.calendar-training-block {
+  display: block;
+  min-width: 0;
+  min-height: 18px;
+  padding: 2px 3px;
+  border-radius: 4px;
+  overflow: hidden;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 14px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-training-block.full {
+  background: #2563eb;
+}
+
+.calendar-training-block.mixed {
+  background: #0f766e;
+}
+
+.calendar-training-block.supplement {
+  background: #b45309;
 }
 
 .warning-dot {
@@ -974,20 +1008,32 @@ textarea {
     margin-right: 0;
   }
 
-  /* Compact month grid: the narrow cells can't fit plan text, so show only
-     the date + status colour; the full plan appears in the day panel below. */
+  /* Compact month grid: use short colour blocks; full details stay in the day panel. */
   .week-head,
   .month-grid {
     gap: 4px;
   }
 
   .day-cell {
-    min-height: 46px;
+    min-height: 62px;
     padding: 6px 4px;
   }
 
   .day-cell .day-meta {
-    display: none;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .calendar-training-strip {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .calendar-training-block {
+    min-height: 10px;
+    padding: 0 2px;
+    font-size: 8px;
+    line-height: 10px;
   }
 
   .day-num {
