@@ -1,6 +1,6 @@
-// Regenerate plan-data.js for the 2026-07-14 three-pool reset.
+// Regenerate plan-data.js for the 2026-07-13 three-pool reset.
 // Rules:
-//  - Everything on/before 2026-07-13 is removed.
+//  - Everything on/before 2026-07-12 is removed.
 //  - Finish all IELTS pool items by 2026-08-10.
 //  - Mon/Fri/Sat/Sun are three-item days; Tue/Wed/Thu are one-item days.
 //  - 2026-07-14/15/16/18/20/21/22 are limited to one item.
@@ -13,7 +13,7 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
-const START = "2026-07-14";
+const START = "2026-07-13";
 const DEADLINE = "2026-08-10";
 const COMPLETED_CODES = new Set(["C16T1", "C12T1", "C12T2"]);
 const SINGLE_LIMIT_DAYS = new Set([
@@ -258,11 +258,11 @@ if (Object.values(leftovers).some((count) => count !== 0)) {
 const payload = {
   generatedAt: "2026-07-12T00:00:00.000+08:00",
   source:
-    "Planner reset v28: visible plan starts on 2026-07-14 after completed C16T1/C12T1/C12T2 listening; training items are split for independent calendar options; finish by 2026-08-10 without two-item or same-pool-triple days",
+    "Planner reset v29: visible plan starts on 2026-07-13 after completed C16T1/C12T1/C12T2 listening; 2026-07-13 is a three-item day; training items are split for independent calendar options; finish by 2026-08-10 without two-item or same-pool-triple days",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-14-three-pool-split-items-v28",
-  resetFromDate: "2026-07-14",
+  planVersion: "2026-07-13-three-pool-split-items-v29",
+  resetFromDate: "2026-07-13",
 };
 
 const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
