@@ -416,6 +416,82 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.training-item-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.training-item-list.compact {
+  gap: 3px;
+  margin-top: 5px;
+}
+
+.training-item {
+  display: grid;
+  grid-template-columns: minmax(58px, auto) minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.training-item.full {
+  border-color: rgba(37, 99, 235, 0.35);
+  background: #eff6ff;
+}
+
+.training-item.mixed {
+  border-color: rgba(15, 118, 110, 0.35);
+  background: #ecfdf5;
+}
+
+.training-item.supplement {
+  border-color: rgba(180, 83, 9, 0.35);
+  background: #fff7ed;
+}
+
+.training-kind {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--teal-dark);
+  white-space: nowrap;
+}
+
+.training-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: 700;
+}
+
+.training-duration {
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.training-item-list.compact .training-item {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
+  padding: 4px 5px;
+  font-size: 10px;
+}
+
+.training-item-list.compact .training-kind {
+  font-size: 9px;
+}
+
+.training-item-list.compact .training-title {
+  font-weight: 700;
+}
+
+.visually-hidden-field {
+  display: none;
+}
+
 .toolbar-row {
   display: grid;
   grid-template-columns: auto minmax(180px, 1fr) auto auto;

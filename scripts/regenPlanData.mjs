@@ -1,6 +1,6 @@
-// Regenerate plan-data.js for the 2026-07-12 three-pool reset.
+// Regenerate plan-data.js for the 2026-07-14 three-pool reset.
 // Rules:
-//  - Everything on/before 2026-07-11 is removed.
+//  - Everything on/before 2026-07-13 is removed.
 //  - Finish all IELTS pool items by 2026-08-10.
 //  - Mon/Fri/Sat/Sun are three-item days; Tue/Wed/Thu are one-item days.
 //  - 2026-07-14/15/16/18/20/21/22 are limited to one item.
@@ -13,8 +13,9 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
-const START = "2026-07-12";
+const START = "2026-07-14";
 const DEADLINE = "2026-08-10";
+const COMPLETED_CODES = new Set(["C16T1", "C12T1", "C12T2"]);
 const SINGLE_LIMIT_DAYS = new Set([
   "2026-07-14",
   "2026-07-15",
@@ -51,13 +52,15 @@ function makePool(kind, label, startBook, endBook) {
   const items = [];
   for (let book = startBook; book <= endBook; book++) {
     for (let test = 1; test <= 4; test++) {
+      const code = `C${book}T${test}`;
+      if (COMPLETED_CODES.has(code)) continue;
       items.push({
         kind,
         label,
         book,
         test,
         full: `Cambridge ${book} Test ${test}`,
-        code: `C${book}T${test}`,
+        code,
       });
     }
   }
@@ -125,6 +128,22 @@ function itemTitle(item) {
 
 function itemModule(item) {
   return `${itemTitle(item)}：${profiles[item.kind].detail}`;
+}
+
+function trainingItemPayload(item, index) {
+  return {
+    id: `${item.kind}-${item.code}`,
+    order: index + 1,
+    kind: item.kind,
+    label: item.label,
+    title: itemTitle(item),
+    cambridge: item.code,
+    full: item.full,
+    module: itemModule(item),
+    duration: timeText([item]),
+    detail: profiles[item.kind].detail,
+    status: "未开始",
+  };
 }
 
 function priorityFor(items) {
@@ -195,6 +214,7 @@ for (const date of dates) {
   const totalTime = timeText(items);
   const moduleText = `${items.map(itemModule).join("；")}；当日总体安排时间：${totalTime}`;
   const limits = limitsFor(items);
+  const trainingItems = items.map(trainingItemPayload);
 
   mainPlan.push({
     id: `main-${mainPlan.length + 1}`,
@@ -205,6 +225,7 @@ for (const date of dates) {
     ieltsPlan: plan,
     ieltsModule: moduleText,
     cambridge: items.map((item) => item.code).join(" + "),
+    trainingItems,
     projectType: "",
     projectPlan: "",
     limits,
@@ -237,11 +258,11 @@ if (Object.values(leftovers).some((count) => count !== 0)) {
 const payload = {
   generatedAt: "2026-07-12T00:00:00.000+08:00",
   source:
-    "Planner reset v27: visible plan starts on 2026-07-12 and finishes by 2026-08-10; three-item days are cross-pool only, one-item days absorb the remaining pool items, and two-item days are not generated",
+    "Planner reset v28: visible plan starts on 2026-07-14 after completed C16T1/C12T1/C12T2 listening; training items are split for independent calendar options; finish by 2026-08-10 without two-item or same-pool-triple days",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-12-three-pool-by-aug10-v27",
-  resetFromDate: "2026-07-12",
+  planVersion: "2026-07-14-three-pool-split-items-v28",
+  resetFromDate: "2026-07-14",
 };
 
 const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";

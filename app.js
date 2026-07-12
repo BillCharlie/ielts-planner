@@ -260,11 +260,12 @@
       button.classList.toggle("has-done", scheduledTaskIds(iso).size > 0);
       button.classList.toggle("day-complete", isDayFullySaved(iso));
       const hasPlanWarning = !!plan && missingTasksForDate(iso).length > 0;
+      const trainingItems = trainingItemsForPlan(plan);
       const projectMeta = plan && !isRestDay(plan) ? projectSummaryText(plan, iso) : "";
       const monthMeta = plan ? projectMeta || plan.cambridge || plan.ieltsPlan : "";
       button.innerHTML = `
         <span class="day-num">${current.getDate()}${hasPlanWarning ? '<i class="warning-dot"></i>' : ""}</span>
-        <span class="day-meta">${safe(monthMeta)}</span>
+        <span class="day-meta">${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { compact: true }) : safe(monthMeta)}</span>
       `;
       button.addEventListener("click", () => {
         selectedDate = iso;
@@ -279,10 +280,15 @@
   function renderSelectedDay() {
     const plan = mainByDate.get(selectedDate) || {};
     const template = dailyByDate.get(selectedDate) || {};
+    const trainingItems = trainingItemsForPlan(plan);
     el.selectedDayType.innerHTML = `${formatDate(selectedDate)} ${tagForDay(normalizedDayType(plan))}`;
-    el.selectedDateTitle.textContent = `${plan.weekday || template.weekday || ""} ${plan.ieltsPlan || template.mainTask || "自由计划"}`;
-    el.summaryIelts.textContent = plan.ieltsPlan || "无";
-    el.summaryIeltsDetail.textContent = [plan.ieltsModule, plan.cambridge].filter(Boolean).join(" / ");
+    el.selectedDateTitle.textContent = `${plan.weekday || template.weekday || ""} ${trainingItems.length ? `${trainingItems.length}份 IELTS 训练` : plan.ieltsPlan || template.mainTask || "自由计划"}`;
+    el.summaryIelts.textContent = trainingItems.length ? `${trainingItems.length}份 IELTS 训练` : plan.ieltsPlan || "无";
+    if (trainingItems.length) {
+      el.summaryIeltsDetail.innerHTML = renderTrainingItemsMarkup(trainingItems);
+    } else {
+      el.summaryIeltsDetail.textContent = [plan.ieltsModule, plan.cambridge].filter(Boolean).join(" / ");
+    }
     el.summaryProjectType.textContent = normalizedProjectType(plan) || "无";
     el.summaryProject.textContent = projectSummaryText(plan, selectedDate) || template.notes || "今天没有实验专案/学务主任务。";
     el.summaryStatus.textContent = getPlanOverride(selectedDate, "status") || plan.status || "未开始";
@@ -302,6 +308,92 @@
       option.textContent = task.label;
       el.taskPicker.appendChild(option);
     });
+  }
+
+  function trainingItemsForPlan(plan) {
+    if (!plan || isNoIeltsDay(plan)) return [];
+    if (Array.isArray(plan.trainingItems) && plan.trainingItems.length) {
+      return plan.trainingItems.map((item, index) => normalizeTrainingItem(item, index));
+    }
+    const codes = String(plan.cambridge || "")
+      .split(/\s*\+\s*/)
+      .map((code) => code.trim())
+      .filter(Boolean);
+    if (!codes.length) return [];
+    const planParts = String(plan.ieltsPlan || "")
+      .split(/\s*\/\s*/)
+      .map((part) => part.trim())
+      .filter(Boolean);
+    return codes.map((code, index) => {
+      const kind = kindForCambridgeCode(code);
+      const label = labelForTrainingKind(kind);
+      const full = fullFromCambridgeCode(code);
+      const title = planParts[index] || `${label} ${full}`;
+      return normalizeTrainingItem({
+        id: `${kind}-${code}`,
+        order: index + 1,
+        kind,
+        label,
+        title,
+        cambridge: code,
+        full,
+        module: [title, plan.ieltsModule].filter(Boolean).join("："),
+        duration: "",
+        detail: "",
+      }, index);
+    });
+  }
+
+  function normalizeTrainingItem(item, index) {
+    const code = item.cambridge || item.code || "";
+    const kind = item.kind || kindForCambridgeCode(code);
+    const label = item.label || labelForTrainingKind(kind);
+    const full = item.full || fullFromCambridgeCode(code);
+    const title = item.title || `${label} ${full}`.trim();
+    return {
+      id: item.id || `${kind}-${code || index + 1}`,
+      order: item.order || index + 1,
+      kind,
+      label,
+      title,
+      cambridge: code,
+      full,
+      module: item.module || item.detail || title,
+      duration: item.duration || "",
+      detail: item.detail || "",
+      status: item.status || "未开始",
+    };
+  }
+
+  function kindForCambridgeCode(code) {
+    const book = Number(String(code).match(/^C(\d+)T/)?.[1] || 0);
+    if (book >= 16) return "full";
+    if (book >= 12) return "mixed";
+    return "supplement";
+  }
+
+  function labelForTrainingKind(kind) {
+    if (kind === "full") return "完整模考";
+    if (kind === "mixed") return "混合训练";
+    if (kind === "supplement") return "专项补量";
+    return "IELTS";
+  }
+
+  function fullFromCambridgeCode(code) {
+    const match = String(code).match(/^C(\d+)T(\d+)$/);
+    return match ? `Cambridge ${match[1]} Test ${match[2]}` : code;
+  }
+
+  function renderTrainingItemsMarkup(items, options = {}) {
+    const compact = Boolean(options.compact);
+    const className = compact ? "training-item-list compact" : "training-item-list";
+    return `<span class="${className}">${items.map((item) => `
+      <span class="training-item ${safeAttr(item.kind)}">
+        <span class="training-kind">${safe(item.label)}</span>
+        <span class="training-title">${safe(item.title)}</span>
+        ${compact || !item.duration ? "" : `<span class="training-duration">${safe(item.duration)}</span>`}
+      </span>
+    `).join("")}</span>`;
   }
 
   function renderReminders() {
@@ -537,6 +629,7 @@
 
     el.planTableBody.innerHTML = "";
     rows.forEach((item) => {
+      const trainingItems = trainingItemsForPlan(item);
       const row = document.createElement("tr");
       row.className = isRestDay(item) ? "plan-row-rest" : "plan-row-normal";
       row.classList.toggle("row-highlight", highlightedPlanDate === item.date);
@@ -557,9 +650,10 @@
           <div class="project-planner-slot">${projectPlannerMarkup(item)}</div>
         </td>
         <td data-label="IELTS / 模块">
-          <textarea class="plan-edit-textarea" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
-          <textarea class="plan-edit-textarea" data-field="ieltsModule" data-date="${safeAttr(item.date)}" placeholder="模块">${safe(item.ieltsModule || "")}</textarea>
-          <input class="plan-edit-input" data-field="cambridge" data-date="${safeAttr(item.date)}" value="${safeAttr(item.cambridge || "")}" placeholder="Cambridge进度" />
+          ${trainingItems.length ? renderTrainingItemsMarkup(trainingItems) : ""}
+          <textarea class="plan-edit-textarea ${trainingItems.length ? "visually-hidden-field" : ""}" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
+          <textarea class="plan-edit-textarea ${trainingItems.length ? "visually-hidden-field" : ""}" data-field="ieltsModule" data-date="${safeAttr(item.date)}" placeholder="模块">${safe(item.ieltsModule || "")}</textarea>
+          <input class="plan-edit-input ${trainingItems.length ? "visually-hidden-field" : ""}" data-field="cambridge" data-date="${safeAttr(item.date)}" value="${safeAttr(item.cambridge || "")}" placeholder="Cambridge进度" />
         </td>
         <td data-label="备注"><textarea class="actual-input" data-date="${safeAttr(item.date)}" placeholder="备注">${safe(getPlanOverride(item.date, "actual") || item.actual || "")}</textarea></td>
         <td class="row-actions" data-label="操作">
@@ -664,17 +758,30 @@
     const template = dailyByDate.get(date);
     const tasks = [];
     const noIelts = isNoIeltsDay(plan);
+    const trainingItems = trainingItemsForPlan(plan);
     if (plan && !noIelts) {
-      const hasSpecificPlan = plan.ieltsPlan && !/休息日|休息/.test(plan.ieltsPlan);
-      tasks.push({
-        id: `${date}:ielts`,
-        kind: "ielts",
-        label: hasSpecificPlan ? `IELTS｜${plan.ieltsPlan}` : "IELTS｜每日提醒",
-        text: hasSpecificPlan
-          ? [plan.ieltsPlan, plan.ieltsModule, plan.cambridge].filter(Boolean).join(" - ")
-          : "IELTS每日提醒 - 10到20分钟单词、听力或口语轻量维护",
-        keywords: hasSpecificPlan ? [plan.ieltsPlan, plan.cambridge, "IELTS"].filter(Boolean) : ["IELTS", "雅思"],
-      });
+      if (trainingItems.length) {
+        trainingItems.forEach((item) => {
+          tasks.push({
+            id: `${date}:ielts:${item.id}`,
+            kind: "ielts",
+            label: `${item.label}｜${item.title}`,
+            text: [item.title, item.module, item.cambridge, item.duration ? `用时：${item.duration}` : ""].filter(Boolean).join(" - "),
+            keywords: [item.title, item.cambridge, item.label, "IELTS"].filter(Boolean),
+          });
+        });
+      } else {
+        const hasSpecificPlan = plan.ieltsPlan && !/休息日|休息/.test(plan.ieltsPlan);
+        tasks.push({
+          id: `${date}:ielts`,
+          kind: "ielts",
+          label: hasSpecificPlan ? `IELTS｜${plan.ieltsPlan}` : "IELTS｜每日提醒",
+          text: hasSpecificPlan
+            ? [plan.ieltsPlan, plan.ieltsModule, plan.cambridge].filter(Boolean).join(" - ")
+            : "IELTS每日提醒 - 10到20分钟单词、听力或口语轻量维护",
+          keywords: hasSpecificPlan ? [plan.ieltsPlan, plan.cambridge, "IELTS"].filter(Boolean) : ["IELTS", "雅思"],
+        });
+      }
     }
     if (plan?.projectType && !isRestDay(plan)) {
       const projectText = projectSummaryText(plan, date);
@@ -686,7 +793,7 @@
         keywords: [plan.projectType, getSelectedModule(plan), projectText].filter(Boolean),
       });
     }
-    if (template?.mainTask && !isRestText(template.mainTask) && !tasks.some((task) => task.text.includes(template.mainTask))) {
+    if (!trainingItems.length && template?.mainTask && !isRestText(template.mainTask) && !tasks.some((task) => task.text.includes(template.mainTask))) {
       tasks.push({
         id: `${date}:daily`,
         kind: "daily",
