@@ -12,7 +12,12 @@ const port = Number(process.env.PORT || 3000);
 const password = process.env.BILL_PASSWORD || "Bill";
 const sessionSecret = process.env.SESSION_SECRET || "dev-change-me";
 const userKey = "bill";
-const localStateFile = path.join(rootDir, ".local-planner-state.json");
+const volumeStateDir = process.env.DATA_DIR || process.env.RAILWAY_VOLUME_MOUNT_PATH || "";
+const localStateFile = process.env.STATE_FILE
+  ? path.resolve(process.env.STATE_FILE)
+  : volumeStateDir
+    ? path.join(volumeStateDir, "planner-state.json")
+    : path.join(rootDir, ".local-planner-state.json");
 const pool = process.env.DATABASE_URL
   ? new Pool({
       connectionString: process.env.DATABASE_URL,
@@ -126,6 +131,7 @@ async function writeState(state) {
     );
     return;
   }
+  await fs.mkdir(path.dirname(localStateFile), { recursive: true });
   await fs.writeFile(localStateFile, JSON.stringify({ state, updatedAt: new Date().toISOString() }, null, 2));
 }
 
