@@ -1,6 +1,7 @@
-// Regenerate plan-data.js for the 2026-07-13 three-pool reset.
+// Regenerate plan-data.js for the 2026-07-14 three-pool reset.
 // Rules:
-//  - Everything on/before 2026-07-12 is removed.
+//  - Everything on/before 2026-07-13 is removed.
+//  - The former 2026-07-13 three-item plan is moved to 2026-08-09.
 //  - Finish all IELTS pool items by 2026-08-10.
 //  - Mon/Fri/Sat/Sun are three-item days; Tue/Wed/Thu are one-item days.
 //  - 2026-07-14/15/16/18/20/21/22 are limited to one item.
@@ -13,7 +14,9 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
-const START = "2026-07-13";
+const START = "2026-07-14";
+const NORMAL_END = "2026-08-08";
+const MOVED_DATE = "2026-08-09";
 const DEADLINE = "2026-08-10";
 const COMPLETED_CODES = new Set(["C16T1", "C12T1", "C12T2"]);
 const SINGLE_LIMIT_DAYS = new Set([
@@ -167,10 +170,15 @@ function limitsFor(items) {
   return parts.join("；");
 }
 
-const dates = eachDate(START, DEADLINE);
+const movedItems = [take("full"), take("mixed"), take("supplement")].filter(Boolean);
+if (movedItems.length !== 3) {
+  throw new Error(`Cannot reserve moved 2026-07-13 plan: ${movedItems.map((item) => item?.code).join(" + ")}`);
+}
+
+const dates = eachDate(START, NORMAL_END);
 const tripleDates = dates.filter(isTripleDate);
 const singleDates = dates.filter((date) => !isTripleDate(date));
-const totalItems = Object.values(pools).reduce((sum, pool) => sum + pool.items.length, 0);
+const totalItems = Object.keys(pools).reduce((sum, poolName) => sum + remaining(poolName), 0);
 const tripleDaysNeeded = (totalItems - singleDates.length) / 3;
 
 if (!Number.isInteger(tripleDaysNeeded) || tripleDaysNeeded < 0 || tripleDaysNeeded > tripleDates.length) {
@@ -178,9 +186,9 @@ if (!Number.isInteger(tripleDaysNeeded) || tripleDaysNeeded < 0 || tripleDaysNee
 }
 
 const singleRemaining = {
-  full: pools.full.items.length - tripleDaysNeeded,
-  mixed: pools.mixed.items.length - tripleDaysNeeded,
-  supplement: pools.supplement.items.length - tripleDaysNeeded,
+  full: remaining("full") - tripleDaysNeeded,
+  mixed: remaining("mixed") - tripleDaysNeeded,
+  supplement: remaining("supplement") - tripleDaysNeeded,
 };
 
 if (Object.values(singleRemaining).some((count) => count < 0)) {
@@ -255,13 +263,57 @@ if (Object.values(leftovers).some((count) => count !== 0)) {
   throw new Error(`Plan ended with leftover items: ${JSON.stringify(leftovers)}`);
 }
 
+{
+  const date = MOVED_DATE;
+  const items = movedItems;
+  const weekday = weekdayZh[parseDate(date).getDay()];
+  const plan = planFor(items);
+  const totalTime = timeText(items);
+  const moduleText = `${items.map(itemModule).join("；")}；当日总体安排时间：${totalTime}`;
+  const limits = limitsFor(items);
+  const trainingItems = items.map(trainingItemPayload);
+
+  mainPlan.push({
+    id: `main-${mainPlan.length + 1}`,
+    date,
+    weekday,
+    dayType: "正常",
+    ieltsPriority: priorityFor(items),
+    ieltsPlan: plan,
+    ieltsModule: moduleText,
+    cambridge: items.map((item) => item.code).join(" + "),
+    trainingItems,
+    projectType: "",
+    projectPlan: "",
+    limits,
+    status: "未开始",
+    actual: "",
+    projectModule: "",
+  });
+
+  dailyTemplates.push({
+    id: `daily-${dailyTemplates.length + 1}`,
+    date,
+    weekday,
+    dayType: "正常",
+    swim: "晚泳 20:30-21:30；必要时早泳",
+    morningEarly: "可选：早泳 / 早餐 / 热身",
+    morningCore: `${itemTitle(items[0])}；单项用时${timeText([items[0]])}`,
+    afternoon: `${itemTitle(items[1])}；单项用时${timeText([items[1]])}`,
+    evening: "可选：晚餐 + 缓冲",
+    night: `${itemTitle(items[2])}；单项用时${timeText([items[2]])}`,
+    mainTask: plan,
+    notes: `当日总体安排时间：${totalTime}`,
+  });
+}
+
 const payload = {
-  generatedAt: "2026-07-12T00:00:00.000+08:00",
+  generatedAt: "2026-07-13T00:00:00.000+08:00",
   source:
-    "Planner reset v29: visible plan starts on 2026-07-13 after completed C16T1/C12T1/C12T2 listening; 2026-07-13 is a three-item day; training items are split for independent calendar options; finish by 2026-08-10 without two-item or same-pool-triple days",
+    "Planner reset v30: visible plan starts on 2026-07-14; the former 2026-07-13 three-item plan is moved to 2026-08-09; training items are split for independent calendar options; finish by 2026-08-10 without two-item or same-pool-triple days",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-13-three-pool-split-items-v29",
+  planVersion: "2026-07-14-move-july13-to-aug9-v30",
   resetFromDate: "2026-07-13",
 };
 

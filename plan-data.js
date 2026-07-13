@@ -1,66 +1,9 @@
 window.IELTS_PLANNER_DATA = {
-  "generatedAt": "2026-07-12T00:00:00.000+08:00",
-  "source": "Planner reset v29: visible plan starts on 2026-07-13 after completed C16T1/C12T1/C12T2 listening; 2026-07-13 is a three-item day; training items are split for independent calendar options; finish by 2026-08-10 without two-item or same-pool-triple days",
+  "generatedAt": "2026-07-13T00:00:00.000+08:00",
+  "source": "Planner reset v30: visible plan starts on 2026-07-14; the former 2026-07-13 three-item plan is moved to 2026-08-09; training items are split for independent calendar options; finish by 2026-08-10 without two-item or same-pool-triple days",
   "mainPlan": [
     {
       "id": "main-1",
-      "date": "2026-07-13",
-      "weekday": "周一",
-      "dayType": "正常",
-      "ieltsPriority": "完整模考 + 混合训练 + 专项补量",
-      "ieltsPlan": "完整模考 Cambridge 16 Test 2 / 混合训练 Cambridge 12 Test 3 / 专项补量 Cambridge 7 Test 1",
-      "ieltsModule": "完整模考 Cambridge 16 Test 2：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；混合训练 Cambridge 12 Test 3：听力必做40分钟 + 写作必做60分钟；阅读/口语视状态补；整理30-45分钟；单套总用时约2.5-3.5小时；专项补量 Cambridge 7 Test 1：听力必做40分钟，写作尽量做；阅读/口语按状态补；整理20-45分钟；单套总用时约2-3小时；当日总体安排时间：约8.5-10.5小时",
-      "cambridge": "C16T2 + C12T3 + C7T1",
-      "trainingItems": [
-        {
-          "id": "full-C16T2",
-          "order": 1,
-          "kind": "full",
-          "label": "完整模考",
-          "title": "完整模考 Cambridge 16 Test 2",
-          "cambridge": "C16T2",
-          "full": "Cambridge 16 Test 2",
-          "module": "完整模考 Cambridge 16 Test 2：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
-          "duration": "约4小时",
-          "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
-          "status": "未开始"
-        },
-        {
-          "id": "mixed-C12T3",
-          "order": 2,
-          "kind": "mixed",
-          "label": "混合训练",
-          "title": "混合训练 Cambridge 12 Test 3",
-          "cambridge": "C12T3",
-          "full": "Cambridge 12 Test 3",
-          "module": "混合训练 Cambridge 12 Test 3：听力必做40分钟 + 写作必做60分钟；阅读/口语视状态补；整理30-45分钟；单套总用时约2.5-3.5小时",
-          "duration": "约2.5-3.5小时",
-          "detail": "听力必做40分钟 + 写作必做60分钟；阅读/口语视状态补；整理30-45分钟；单套总用时约2.5-3.5小时",
-          "status": "未开始"
-        },
-        {
-          "id": "supplement-C7T1",
-          "order": 3,
-          "kind": "supplement",
-          "label": "专项补量",
-          "title": "专项补量 Cambridge 7 Test 1",
-          "cambridge": "C7T1",
-          "full": "Cambridge 7 Test 1",
-          "module": "专项补量 Cambridge 7 Test 1：听力必做40分钟，写作尽量做；阅读/口语按状态补；整理20-45分钟；单套总用时约2-3小时",
-          "duration": "约2-3小时",
-          "detail": "听力必做40分钟，写作尽量做；阅读/口语按状态补；整理20-45分钟；单套总用时约2-3小时",
-          "status": "未开始"
-        }
-      ],
-      "projectType": "",
-      "projectPlan": "",
-      "limits": "Cambridge 16-20 作为完整模考；Cambridge 12-15 作为混合训练：听力和写作必做；Cambridge 7-11 作为专项补量：听力必做，其他按状态补；当日总体安排时间：约8.5-10.5小时",
-      "status": "未开始",
-      "actual": "",
-      "projectModule": ""
-    },
-    {
-      "id": "main-2",
       "date": "2026-07-14",
       "weekday": "周二",
       "dayType": "正常",
@@ -91,7 +34,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-3",
+      "id": "main-2",
       "date": "2026-07-15",
       "weekday": "周三",
       "dayType": "正常",
@@ -122,7 +65,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-4",
+      "id": "main-3",
       "date": "2026-07-16",
       "weekday": "周四",
       "dayType": "正常",
@@ -153,7 +96,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-5",
+      "id": "main-4",
       "date": "2026-07-17",
       "weekday": "周五",
       "dayType": "正常",
@@ -210,7 +153,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-6",
+      "id": "main-5",
       "date": "2026-07-18",
       "weekday": "周六",
       "dayType": "正常",
@@ -241,7 +184,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-7",
+      "id": "main-6",
       "date": "2026-07-19",
       "weekday": "周日",
       "dayType": "正常",
@@ -298,7 +241,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-8",
+      "id": "main-7",
       "date": "2026-07-20",
       "weekday": "周一",
       "dayType": "正常",
@@ -329,7 +272,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-9",
+      "id": "main-8",
       "date": "2026-07-21",
       "weekday": "周二",
       "dayType": "正常",
@@ -360,7 +303,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-10",
+      "id": "main-9",
       "date": "2026-07-22",
       "weekday": "周三",
       "dayType": "正常",
@@ -391,7 +334,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-11",
+      "id": "main-10",
       "date": "2026-07-23",
       "weekday": "周四",
       "dayType": "正常",
@@ -422,7 +365,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-12",
+      "id": "main-11",
       "date": "2026-07-24",
       "weekday": "周五",
       "dayType": "正常",
@@ -479,7 +422,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-13",
+      "id": "main-12",
       "date": "2026-07-25",
       "weekday": "周六",
       "dayType": "正常",
@@ -536,7 +479,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-14",
+      "id": "main-13",
       "date": "2026-07-26",
       "weekday": "周日",
       "dayType": "正常",
@@ -593,7 +536,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-15",
+      "id": "main-14",
       "date": "2026-07-27",
       "weekday": "周一",
       "dayType": "正常",
@@ -650,7 +593,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-16",
+      "id": "main-15",
       "date": "2026-07-28",
       "weekday": "周二",
       "dayType": "正常",
@@ -681,7 +624,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-17",
+      "id": "main-16",
       "date": "2026-07-29",
       "weekday": "周三",
       "dayType": "正常",
@@ -712,7 +655,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-18",
+      "id": "main-17",
       "date": "2026-07-30",
       "weekday": "周四",
       "dayType": "正常",
@@ -743,7 +686,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-19",
+      "id": "main-18",
       "date": "2026-07-31",
       "weekday": "周五",
       "dayType": "正常",
@@ -800,7 +743,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-20",
+      "id": "main-19",
       "date": "2026-08-01",
       "weekday": "周六",
       "dayType": "正常",
@@ -857,7 +800,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-21",
+      "id": "main-20",
       "date": "2026-08-02",
       "weekday": "周日",
       "dayType": "正常",
@@ -914,7 +857,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-22",
+      "id": "main-21",
       "date": "2026-08-03",
       "weekday": "周一",
       "dayType": "正常",
@@ -971,7 +914,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-23",
+      "id": "main-22",
       "date": "2026-08-04",
       "weekday": "周二",
       "dayType": "正常",
@@ -1002,7 +945,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-24",
+      "id": "main-23",
       "date": "2026-08-05",
       "weekday": "周三",
       "dayType": "正常",
@@ -1033,7 +976,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-25",
+      "id": "main-24",
       "date": "2026-08-06",
       "weekday": "周四",
       "dayType": "正常",
@@ -1064,7 +1007,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-26",
+      "id": "main-25",
       "date": "2026-08-07",
       "weekday": "周五",
       "dayType": "正常",
@@ -1121,7 +1064,7 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-27",
+      "id": "main-26",
       "date": "2026-08-08",
       "weekday": "周六",
       "dayType": "正常",
@@ -1176,25 +1119,68 @@ window.IELTS_PLANNER_DATA = {
       "status": "未开始",
       "actual": "",
       "projectModule": ""
+    },
+    {
+      "id": "main-27",
+      "date": "2026-08-09",
+      "weekday": "周日",
+      "dayType": "正常",
+      "ieltsPriority": "完整模考 + 混合训练 + 专项补量",
+      "ieltsPlan": "完整模考 Cambridge 16 Test 2 / 混合训练 Cambridge 12 Test 3 / 专项补量 Cambridge 7 Test 1",
+      "ieltsModule": "完整模考 Cambridge 16 Test 2：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；混合训练 Cambridge 12 Test 3：听力必做40分钟 + 写作必做60分钟；阅读/口语视状态补；整理30-45分钟；单套总用时约2.5-3.5小时；专项补量 Cambridge 7 Test 1：听力必做40分钟，写作尽量做；阅读/口语按状态补；整理20-45分钟；单套总用时约2-3小时；当日总体安排时间：约8.5-10.5小时",
+      "cambridge": "C16T2 + C12T3 + C7T1",
+      "trainingItems": [
+        {
+          "id": "full-C16T2",
+          "order": 1,
+          "kind": "full",
+          "label": "完整模考",
+          "title": "完整模考 Cambridge 16 Test 2",
+          "cambridge": "C16T2",
+          "full": "Cambridge 16 Test 2",
+          "module": "完整模考 Cambridge 16 Test 2：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
+          "duration": "约4小时",
+          "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
+          "status": "未开始"
+        },
+        {
+          "id": "mixed-C12T3",
+          "order": 2,
+          "kind": "mixed",
+          "label": "混合训练",
+          "title": "混合训练 Cambridge 12 Test 3",
+          "cambridge": "C12T3",
+          "full": "Cambridge 12 Test 3",
+          "module": "混合训练 Cambridge 12 Test 3：听力必做40分钟 + 写作必做60分钟；阅读/口语视状态补；整理30-45分钟；单套总用时约2.5-3.5小时",
+          "duration": "约2.5-3.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟；阅读/口语视状态补；整理30-45分钟；单套总用时约2.5-3.5小时",
+          "status": "未开始"
+        },
+        {
+          "id": "supplement-C7T1",
+          "order": 3,
+          "kind": "supplement",
+          "label": "专项补量",
+          "title": "专项补量 Cambridge 7 Test 1",
+          "cambridge": "C7T1",
+          "full": "Cambridge 7 Test 1",
+          "module": "专项补量 Cambridge 7 Test 1：听力必做40分钟，写作尽量做；阅读/口语按状态补；整理20-45分钟；单套总用时约2-3小时",
+          "duration": "约2-3小时",
+          "detail": "听力必做40分钟，写作尽量做；阅读/口语按状态补；整理20-45分钟；单套总用时约2-3小时",
+          "status": "未开始"
+        }
+      ],
+      "projectType": "",
+      "projectPlan": "",
+      "limits": "Cambridge 16-20 作为完整模考；Cambridge 12-15 作为混合训练：听力和写作必做；Cambridge 7-11 作为专项补量：听力必做，其他按状态补；当日总体安排时间：约8.5-10.5小时",
+      "status": "未开始",
+      "actual": "",
+      "projectModule": ""
     }
   ],
   "dailyTemplates": [
     {
       "id": "daily-1",
-      "date": "2026-07-13",
-      "weekday": "周一",
-      "dayType": "正常",
-      "swim": "晚泳 20:30-21:30；必要时早泳",
-      "morningEarly": "可选：早泳 / 早餐 / 热身",
-      "morningCore": "完整模考 Cambridge 16 Test 2；单项用时约4小时",
-      "afternoon": "混合训练 Cambridge 12 Test 3；单项用时约2.5-3.5小时",
-      "evening": "可选：晚餐 + 缓冲",
-      "night": "专项补量 Cambridge 7 Test 1；单项用时约2-3小时",
-      "mainTask": "完整模考 Cambridge 16 Test 2 / 混合训练 Cambridge 12 Test 3 / 专项补量 Cambridge 7 Test 1",
-      "notes": "当日总体安排时间：约8.5-10.5小时"
-    },
-    {
-      "id": "daily-2",
       "date": "2026-07-14",
       "weekday": "周二",
       "dayType": "正常",
@@ -1208,7 +1194,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约2.5-3.5小时"
     },
     {
-      "id": "daily-3",
+      "id": "daily-2",
       "date": "2026-07-15",
       "weekday": "周三",
       "dayType": "正常",
@@ -1222,7 +1208,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约2-3小时"
     },
     {
-      "id": "daily-4",
+      "id": "daily-3",
       "date": "2026-07-16",
       "weekday": "周四",
       "dayType": "正常",
@@ -1236,7 +1222,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约2-3小时"
     },
     {
-      "id": "daily-5",
+      "id": "daily-4",
       "date": "2026-07-17",
       "weekday": "周五",
       "dayType": "正常",
@@ -1250,7 +1236,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-6",
+      "id": "daily-5",
       "date": "2026-07-18",
       "weekday": "周六",
       "dayType": "正常",
@@ -1264,7 +1250,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约4小时"
     },
     {
-      "id": "daily-7",
+      "id": "daily-6",
       "date": "2026-07-19",
       "weekday": "周日",
       "dayType": "正常",
@@ -1278,7 +1264,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-8",
+      "id": "daily-7",
       "date": "2026-07-20",
       "weekday": "周一",
       "dayType": "正常",
@@ -1292,7 +1278,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约2-3小时"
     },
     {
-      "id": "daily-9",
+      "id": "daily-8",
       "date": "2026-07-21",
       "weekday": "周二",
       "dayType": "正常",
@@ -1306,7 +1292,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约4小时"
     },
     {
-      "id": "daily-10",
+      "id": "daily-9",
       "date": "2026-07-22",
       "weekday": "周三",
       "dayType": "正常",
@@ -1320,7 +1306,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约2-3小时"
     },
     {
-      "id": "daily-11",
+      "id": "daily-10",
       "date": "2026-07-23",
       "weekday": "周四",
       "dayType": "正常",
@@ -1334,7 +1320,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约4小时"
     },
     {
-      "id": "daily-12",
+      "id": "daily-11",
       "date": "2026-07-24",
       "weekday": "周五",
       "dayType": "正常",
@@ -1348,7 +1334,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-13",
+      "id": "daily-12",
       "date": "2026-07-25",
       "weekday": "周六",
       "dayType": "正常",
@@ -1362,7 +1348,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-14",
+      "id": "daily-13",
       "date": "2026-07-26",
       "weekday": "周日",
       "dayType": "正常",
@@ -1376,7 +1362,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-15",
+      "id": "daily-14",
       "date": "2026-07-27",
       "weekday": "周一",
       "dayType": "正常",
@@ -1390,7 +1376,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-16",
+      "id": "daily-15",
       "date": "2026-07-28",
       "weekday": "周二",
       "dayType": "正常",
@@ -1404,7 +1390,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约2-3小时"
     },
     {
-      "id": "daily-17",
+      "id": "daily-16",
       "date": "2026-07-29",
       "weekday": "周三",
       "dayType": "正常",
@@ -1418,7 +1404,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约4小时"
     },
     {
-      "id": "daily-18",
+      "id": "daily-17",
       "date": "2026-07-30",
       "weekday": "周四",
       "dayType": "正常",
@@ -1432,7 +1418,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约2-3小时"
     },
     {
-      "id": "daily-19",
+      "id": "daily-18",
       "date": "2026-07-31",
       "weekday": "周五",
       "dayType": "正常",
@@ -1446,7 +1432,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-20",
+      "id": "daily-19",
       "date": "2026-08-01",
       "weekday": "周六",
       "dayType": "正常",
@@ -1460,7 +1446,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-21",
+      "id": "daily-20",
       "date": "2026-08-02",
       "weekday": "周日",
       "dayType": "正常",
@@ -1474,7 +1460,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-22",
+      "id": "daily-21",
       "date": "2026-08-03",
       "weekday": "周一",
       "dayType": "正常",
@@ -1488,7 +1474,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-23",
+      "id": "daily-22",
       "date": "2026-08-04",
       "weekday": "周二",
       "dayType": "正常",
@@ -1502,7 +1488,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约4小时"
     },
     {
-      "id": "daily-24",
+      "id": "daily-23",
       "date": "2026-08-05",
       "weekday": "周三",
       "dayType": "正常",
@@ -1516,7 +1502,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约2-3小时"
     },
     {
-      "id": "daily-25",
+      "id": "daily-24",
       "date": "2026-08-06",
       "weekday": "周四",
       "dayType": "正常",
@@ -1530,7 +1516,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约4小时"
     },
     {
-      "id": "daily-26",
+      "id": "daily-25",
       "date": "2026-08-07",
       "weekday": "周五",
       "dayType": "正常",
@@ -1544,7 +1530,7 @@ window.IELTS_PLANNER_DATA = {
       "notes": "当日总体安排时间：约8.5-10.5小时"
     },
     {
-      "id": "daily-27",
+      "id": "daily-26",
       "date": "2026-08-08",
       "weekday": "周六",
       "dayType": "正常",
@@ -1556,8 +1542,22 @@ window.IELTS_PLANNER_DATA = {
       "night": "专项补量 Cambridge 11 Test 4；单项用时约2-3小时",
       "mainTask": "完整模考 Cambridge 20 Test 4 / 混合训练 Cambridge 15 Test 4 / 专项补量 Cambridge 11 Test 4",
       "notes": "当日总体安排时间：约8.5-10.5小时"
+    },
+    {
+      "id": "daily-27",
+      "date": "2026-08-09",
+      "weekday": "周日",
+      "dayType": "正常",
+      "swim": "晚泳 20:30-21:30；必要时早泳",
+      "morningEarly": "可选：早泳 / 早餐 / 热身",
+      "morningCore": "完整模考 Cambridge 16 Test 2；单项用时约4小时",
+      "afternoon": "混合训练 Cambridge 12 Test 3；单项用时约2.5-3.5小时",
+      "evening": "可选：晚餐 + 缓冲",
+      "night": "专项补量 Cambridge 7 Test 1；单项用时约2-3小时",
+      "mainTask": "完整模考 Cambridge 16 Test 2 / 混合训练 Cambridge 12 Test 3 / 专项补量 Cambridge 7 Test 1",
+      "notes": "当日总体安排时间：约8.5-10.5小时"
     }
   ],
-  "planVersion": "2026-07-13-three-pool-split-items-v29",
+  "planVersion": "2026-07-14-move-july13-to-aug9-v30",
   "resetFromDate": "2026-07-13"
 };
