@@ -1,10 +1,11 @@
-// Regenerate plan-data.js for the 2026-07-14 three-pool reset.
+// Regenerate plan-data.js for the 2026-07-17 three-pool reset.
 // Rules:
-//  - Everything on/before 2026-07-13 is removed.
+//  - Everything on/before 2026-07-16 is removed.
 //  - The former 2026-07-13 three-item plan is moved to 2026-08-09.
-//  - Finish all IELTS pool items by 2026-08-10.
+//  - The former 2026-07-14/15/16 plans are moved to 2026-08-10/11/12.
+//  - Finish all IELTS pool items by 2026-08-12.
 //  - Mon/Fri/Sat/Sun are three-item days; Tue/Wed/Thu are one-item days.
-//  - 2026-07-14/15/16/18/20/21/22 are limited to one item.
+//  - 2026-07-18/20/21/22 are limited to one item.
 //  - A three-item day must never contain three items from the same pool.
 //  - Two-item days are never generated.
 import { writeFileSync } from "node:fs";
@@ -14,15 +15,13 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
-const START = "2026-07-14";
+const START = "2026-07-17";
 const NORMAL_END = "2026-08-08";
 const MOVED_DATE = "2026-08-09";
-const DEADLINE = "2026-08-10";
+const DELAYED_DATES = ["2026-08-10", "2026-08-11", "2026-08-12"];
+const DEADLINE = "2026-08-12";
 const COMPLETED_CODES = new Set(["C16T1", "C12T1", "C12T2"]);
 const SINGLE_LIMIT_DAYS = new Set([
-  "2026-07-14",
-  "2026-07-15",
-  "2026-07-16",
   "2026-07-18",
   "2026-07-20",
   "2026-07-21",
@@ -175,6 +174,11 @@ if (movedItems.length !== 3) {
   throw new Error(`Cannot reserve moved 2026-07-13 plan: ${movedItems.map((item) => item?.code).join(" + ")}`);
 }
 
+const delayedItems = [take("mixed"), take("supplement"), take("supplement")].filter(Boolean);
+if (delayedItems.map((item) => item?.code).join(" + ") !== "C12T4 + C7T2 + C7T3") {
+  throw new Error(`Cannot reserve delayed 2026-07-14/15/16 plans: ${delayedItems.map((item) => item?.code).join(" + ")}`);
+}
+
 const dates = eachDate(START, NORMAL_END);
 const tripleDates = dates.filter(isTripleDate);
 const singleDates = dates.filter((date) => !isTripleDate(date));
@@ -263,9 +267,12 @@ if (Object.values(leftovers).some((count) => count !== 0)) {
   throw new Error(`Plan ended with leftover items: ${JSON.stringify(leftovers)}`);
 }
 
-{
-  const date = MOVED_DATE;
-  const items = movedItems;
+const carriedPlans = [
+  { date: MOVED_DATE, items: movedItems },
+  ...DELAYED_DATES.map((date, index) => ({ date, items: [delayedItems[index]] })),
+];
+
+for (const { date, items } of carriedPlans) {
   const weekday = weekdayZh[parseDate(date).getDay()];
   const plan = planFor(items);
   const totalTime = timeText(items);
@@ -296,25 +303,25 @@ if (Object.values(leftovers).some((count) => count !== 0)) {
     date,
     weekday,
     dayType: "正常",
-    swim: "晚泳 20:30-21:30；必要时早泳",
+    swim: items.length >= 3 ? "晚泳 20:30-21:30；必要时早泳" : "可选：当天体力允许再安排游泳",
     morningEarly: "可选：早泳 / 早餐 / 热身",
     morningCore: `${itemTitle(items[0])}；单项用时${timeText([items[0]])}`,
-    afternoon: `${itemTitle(items[1])}；单项用时${timeText([items[1]])}`,
+    afternoon: items[1] ? `${itemTitle(items[1])}；单项用时${timeText([items[1]])}` : "可选：自由安排 / 午休 / 错题整理",
     evening: "可选：晚餐 + 缓冲",
-    night: `${itemTitle(items[2])}；单项用时${timeText([items[2]])}`,
+    night: items[2] ? `${itemTitle(items[2])}；单项用时${timeText([items[2]])}` : "可选：错题 / 单词 / 口语素材轻量收尾",
     mainTask: plan,
     notes: `当日总体安排时间：${totalTime}`,
   });
 }
 
 const payload = {
-  generatedAt: "2026-07-13T00:00:00.000+08:00",
+  generatedAt: "2026-07-17T00:00:00.000+08:00",
   source:
-    "Planner reset v30: visible plan starts on 2026-07-14; the former 2026-07-13 three-item plan is moved to 2026-08-09; training items are split for independent calendar options; finish by 2026-08-10 without two-item or same-pool-triple days",
+    "Planner reset v31: visible plan starts on 2026-07-17; the former 2026-07-13 three-item plan is moved to 2026-08-09; the former 2026-07-14/15/16 plans are moved to 2026-08-10/11/12; training items are split for independent calendar options; finish by 2026-08-12 without two-item or same-pool-triple days",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-14-move-july13-to-aug9-v30",
-  resetFromDate: "2026-07-13",
+  planVersion: "2026-07-17-move-july14-16-to-aug10-12-v31",
+  resetFromDate: "2026-07-14",
 };
 
 const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
