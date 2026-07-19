@@ -1,8 +1,11 @@
-// Regenerate plan-data.js for the 2026-07-17 three-pool reset.
+// Regenerate plan-data.js for the 2026-07-18 three-pool reset.
 // Rules:
-//  - Everything on/before 2026-07-16 is removed.
+//  - Everything on/before 2026-07-17 is removed.
 //  - The former 2026-07-13 three-item plan is moved to 2026-08-09.
 //  - The former 2026-07-14/15/16 plans are moved to 2026-08-10/11/12.
+//  - The former 2026-07-17 C16T3 plan is copied to 2026-07-20.
+//  - The 2026-07-18 plan is copied over 2026-07-28.
+//  - The 2026-07-19 plan is copied over 2026-07-22.
 //  - Finish all IELTS pool items by 2026-08-12.
 //  - Mon/Fri/Sat/Sun are three-item days; Tue/Wed/Thu are one-item days.
 //  - 2026-07-18/20/21/22 are limited to one item.
@@ -314,14 +317,106 @@ for (const { date, items } of carriedPlans) {
   });
 }
 
+function copyPlanDate(sourceDate, targetDate) {
+  copyRow(mainPlan, sourceDate, targetDate);
+  copyRow(dailyTemplates, sourceDate, targetDate);
+}
+
+function replacePlanDateWithItems(date, items) {
+  const mainIndex = mainPlan.findIndex((row) => row.date === date);
+  const dailyIndex = dailyTemplates.findIndex((row) => row.date === date);
+  if (mainIndex < 0 || dailyIndex < 0) throw new Error(`Cannot replace missing date ${date}`);
+
+  const mainId = mainPlan[mainIndex].id;
+  const dailyId = dailyTemplates[dailyIndex].id;
+  const weekday = weekdayZh[parseDate(date).getDay()];
+  const plan = planFor(items);
+  const totalTime = timeText(items);
+  const moduleText = `${items.map(itemModule).join("；")}；当日总体安排时间：${totalTime}`;
+  const limits = limitsFor(items);
+  const trainingItems = items.map(trainingItemPayload);
+
+  mainPlan[mainIndex] = {
+    id: mainId,
+    date,
+    weekday,
+    dayType: "正常",
+    ieltsPriority: priorityFor(items),
+    ieltsPlan: plan,
+    ieltsModule: moduleText,
+    cambridge: items.map((item) => item.code).join(" + "),
+    trainingItems,
+    projectType: "",
+    projectPlan: "",
+    limits,
+    status: "未开始",
+    actual: "",
+    projectModule: "",
+  };
+
+  dailyTemplates[dailyIndex] = {
+    id: dailyId,
+    date,
+    weekday,
+    dayType: "正常",
+    swim: items.length >= 3 ? "晚泳 20:30-21:30；必要时早泳" : "可选：当天体力允许再安排游泳",
+    morningEarly: "可选：早泳 / 早餐 / 热身",
+    morningCore: `${itemTitle(items[0])}；单项用时${timeText([items[0]])}`,
+    afternoon: items[1] ? `${itemTitle(items[1])}；单项用时${timeText([items[1]])}` : "可选：自由安排 / 午休 / 错题整理",
+    evening: "可选：晚餐 + 缓冲",
+    night: items[2] ? `${itemTitle(items[2])}；单项用时${timeText([items[2]])}` : "可选：错题 / 单词 / 口语素材轻量收尾",
+    mainTask: plan,
+    notes: `当日总体安排时间：${totalTime}`,
+  };
+}
+
+function itemByCode(code) {
+  for (const pool of Object.values(pools)) {
+    const item = pool.items.find((candidate) => candidate.code === code);
+    if (item) return item;
+  }
+  throw new Error(`Cannot find IELTS item ${code}`);
+}
+
+function copyRow(rows, sourceDate, targetDate) {
+  const source = rows.find((row) => row.date === sourceDate);
+  const targetIndex = rows.findIndex((row) => row.date === targetDate);
+  if (!source || targetIndex < 0) {
+    throw new Error(`Cannot copy ${sourceDate} to ${targetDate}`);
+  }
+  const target = rows[targetIndex];
+  rows[targetIndex] = {
+    ...JSON.parse(JSON.stringify(source)),
+    id: target.id,
+    date: target.date,
+    weekday: target.weekday,
+  };
+}
+
+function removePlanDate(date) {
+  removeRow(mainPlan, date);
+  removeRow(dailyTemplates, date);
+}
+
+function removeRow(rows, date) {
+  const index = rows.findIndex((row) => row.date === date);
+  if (index < 0) throw new Error(`Cannot remove missing date ${date}`);
+  rows.splice(index, 1);
+}
+
+replacePlanDateWithItems("2026-07-20", [itemByCode("C16T3")]);
+removePlanDate("2026-07-17");
+copyPlanDate("2026-07-18", "2026-07-28");
+copyPlanDate("2026-07-19", "2026-07-22");
+
 const payload = {
-  generatedAt: "2026-07-17T00:00:00.000+08:00",
+  generatedAt: "2026-07-19T00:00:00.000+08:00",
   source:
-    "Planner reset v31: visible plan starts on 2026-07-17; the former 2026-07-13 three-item plan is moved to 2026-08-09; the former 2026-07-14/15/16 plans are moved to 2026-08-10/11/12; training items are split for independent calendar options; finish by 2026-08-12 without two-item or same-pool-triple days",
+    "Planner v34: 2026-07-18 plan copied over 2026-07-28; 2026-07-19 plan copied over 2026-07-22; previous v33 changes retained",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-17-move-july14-16-to-aug10-12-v31",
-  resetFromDate: "2026-07-14",
+  planVersion: "2026-07-22-28-overlays-v34",
+  resetFromDate: "2026-07-22",
 };
 
 const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
