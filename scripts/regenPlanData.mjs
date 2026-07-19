@@ -1,6 +1,6 @@
-// Regenerate plan-data.js for the 2026-07-18 three-pool reset.
+// Regenerate plan-data.js for the 2026-07-20 three-pool reset.
 // Rules:
-//  - Everything on/before 2026-07-17 is removed.
+//  - Everything on/before 2026-07-19 is removed.
 //  - The former 2026-07-13 three-item plan is moved to 2026-08-09.
 //  - The former 2026-07-14/15/16 plans are moved to 2026-08-10/11/12.
 //  - The former 2026-07-17 C16T3 plan is copied to 2026-07-20.
@@ -8,7 +8,7 @@
 //  - The 2026-07-19 plan is copied over 2026-07-22.
 //  - Finish all IELTS pool items by 2026-08-12.
 //  - Mon/Fri/Sat/Sun are three-item days; Tue/Wed/Thu are one-item days.
-//  - 2026-07-18/20/21/22 are limited to one item.
+//  - 2026-07-18/20/21/22 are limited to one item internally before removals.
 //  - A three-item day must never contain three items from the same pool.
 //  - Two-item days are never generated.
 import { writeFileSync } from "node:fs";
@@ -408,15 +408,17 @@ replacePlanDateWithItems("2026-07-20", [itemByCode("C16T3")]);
 removePlanDate("2026-07-17");
 copyPlanDate("2026-07-18", "2026-07-28");
 copyPlanDate("2026-07-19", "2026-07-22");
+removePlanDate("2026-07-18");
+removePlanDate("2026-07-19");
 
 const payload = {
   generatedAt: "2026-07-19T00:00:00.000+08:00",
   source:
-    "Planner v34: 2026-07-18 plan copied over 2026-07-28; 2026-07-19 plan copied over 2026-07-22; previous v33 changes retained",
+    "Planner v35: 2026-07-18 and 2026-07-19 removed; copied plans remain on 2026-07-28 and 2026-07-22; previous v34 changes retained",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-22-28-overlays-v34",
-  resetFromDate: "2026-07-22",
+  planVersion: "2026-07-18-19-removed-v35",
+  resetFromDate: "2026-07-18",
 };
 
 const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
