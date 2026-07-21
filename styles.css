@@ -363,6 +363,10 @@ textarea {
   background: #b45309;
 }
 
+.calendar-training-block.lw {
+  background: #7c3aed;
+}
+
 .warning-dot {
   width: 8px;
   height: 8px;
@@ -486,6 +490,11 @@ textarea {
 .training-item.supplement {
   border-color: rgba(180, 83, 9, 0.35);
   background: #fff7ed;
+}
+
+.training-item.lw {
+  border-color: rgba(124, 58, 237, 0.35);
+  background: #f5f3ff;
 }
 
 .training-kind {
