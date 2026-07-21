@@ -226,7 +226,7 @@ function sendJson(response, status, payload) {
 }
 
 function staticCacheControl(filePath) {
-  const noStoreFiles = new Set(["app.js", "config.js", "plan-data.js", "sw.js"]);
+  const noStoreFiles = new Set(["app.js", "config.js", "plan-data.js", "sw.js", "styles.css"]);
   if (path.extname(filePath) === ".html" || noStoreFiles.has(path.basename(filePath))) return "no-store";
   return "public, max-age=3600";
 }
