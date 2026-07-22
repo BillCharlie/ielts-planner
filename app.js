@@ -281,11 +281,13 @@
     const plan = mainByDate.get(selectedDate) || {};
     const template = dailyByDate.get(selectedDate) || {};
     const trainingItems = trainingItemsForPlan(plan);
+    const displayItems = trainingItemsForPlan(plan, { includeOptional: true });
     el.selectedDayType.innerHTML = `${formatDate(selectedDate)} ${tagForDay(normalizedDayType(plan))}`;
     el.selectedDateTitle.textContent = `${plan.weekday || template.weekday || ""} ${trainingItems.length ? `${trainingItems.length}份 IELTS 训练` : plan.ieltsPlan || template.mainTask || "自由计划"}`;
     el.summaryIelts.textContent = trainingItems.length ? `${trainingItems.length}份 IELTS 训练` : plan.ieltsPlan || "无";
-    if (trainingItems.length) {
-      el.summaryIeltsDetail.innerHTML = renderTrainingItemsMarkup(trainingItems);
+    if (displayItems.length) {
+      el.summaryIeltsDetail.innerHTML = renderTrainingItemsMarkup(displayItems, { toggleDate: selectedDate });
+      bindOptionalToggles(el.summaryIeltsDetail);
     } else {
       el.summaryIeltsDetail.textContent = [plan.ieltsModule, plan.cambridge].filter(Boolean).join(" / ");
     }
@@ -310,7 +312,26 @@
     });
   }
 
-  function trainingItemsForPlan(plan) {
+  function isOptionalOn(date) {
+    return Boolean(state.optionalPools?.[date]);
+  }
+
+  function setOptionalOn(date, on) {
+    if (!state.optionalPools) state.optionalPools = {};
+    if (on) state.optionalPools[date] = true;
+    else delete state.optionalPools[date];
+    saveState();
+  }
+
+  // Optional (second-pool) items are only counted when that day is switched on.
+  // Pass { includeOptional: true } to render the toggle for a disabled item.
+  function trainingItemsForPlan(plan, options = {}) {
+    const all = allTrainingItemsForPlan(plan);
+    if (options.includeOptional) return all;
+    return all.filter((item) => !item.optional || isOptionalOn(plan?.date));
+  }
+
+  function allTrainingItemsForPlan(plan) {
     if (!plan || isNoIeltsDay(plan)) return [];
     if (Array.isArray(plan.trainingItems) && plan.trainingItems.length) {
       return plan.trainingItems.map((item, index) => normalizeTrainingItem(item, index));
@@ -362,6 +383,7 @@
       duration: item.duration || "",
       detail: item.detail || "",
       status: item.status || "未开始",
+      optional: Boolean(item.optional),
     };
   }
 
@@ -393,14 +415,29 @@
         </span>
       `).join("")}</span>`;
     }
-    const className = compact ? "training-item-list compact" : "training-item-list";
-    return `<span class="${className}">${items.map((item) => `
-      <span class="training-item ${safeAttr(item.kind)}">
-        <span class="training-kind">${safe(item.label)}</span>
+    const toggleDate = options.toggleDate || "";
+    return `<span class="training-item-list">${items.map((item) => {
+      const on = !item.optional || isOptionalOn(toggleDate);
+      const toggle = item.optional && toggleDate
+        ? `<label class="training-toggle"><input type="checkbox" class="optional-toggle" data-date="${safeAttr(toggleDate)}"${on ? " checked" : ""} /><span>选做</span></label>`
+        : "";
+      return `
+      <span class="training-item ${safeAttr(item.kind)}${item.optional && !on ? " optional-off" : ""}">
+        <span class="training-kind">${toggle}${safe(item.label)}</span>
         <span class="training-title">${safe(item.title)}</span>
-        ${compact || !item.duration ? "" : `<span class="training-duration">${safe(item.duration)}</span>`}
-      </span>
-    `).join("")}</span>`;
+        ${!item.duration ? "" : `<span class="training-duration">${safe(item.duration)}</span>`}
+      </span>`;
+    }).join("")}</span>`;
+  }
+
+  function bindOptionalToggles(root) {
+    root.querySelectorAll(".optional-toggle").forEach((box) => {
+      box.addEventListener("change", () => {
+        setOptionalOn(box.dataset.date, box.checked);
+        renderAll();
+        showSaved(box.checked ? "已开启选做" : "已关闭选做");
+      });
+    });
   }
 
   function renderReminders() {
@@ -636,7 +673,7 @@
 
     el.planTableBody.innerHTML = "";
     rows.forEach((item) => {
-      const trainingItems = trainingItemsForPlan(item);
+      const trainingItems = trainingItemsForPlan(item, { includeOptional: true });
       const row = document.createElement("tr");
       row.className = isRestDay(item) ? "plan-row-rest" : "plan-row-normal";
       row.classList.toggle("row-highlight", highlightedPlanDate === item.date);
@@ -657,7 +694,7 @@
           <div class="project-planner-slot">${projectPlannerMarkup(item)}</div>
         </td>
         <td data-label="IELTS / 模块">
-          ${trainingItems.length ? renderTrainingItemsMarkup(trainingItems) : ""}
+          ${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { toggleDate: item.date }) : ""}
           <textarea class="plan-edit-textarea ${trainingItems.length ? "visually-hidden-field" : ""}" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
           <textarea class="plan-edit-textarea ${trainingItems.length ? "visually-hidden-field" : ""}" data-field="ieltsModule" data-date="${safeAttr(item.date)}" placeholder="模块">${safe(item.ieltsModule || "")}</textarea>
           <input class="plan-edit-input ${trainingItems.length ? "visually-hidden-field" : ""}" data-field="cambridge" data-date="${safeAttr(item.date)}" value="${safeAttr(item.cambridge || "")}" placeholder="Cambridge进度" />
@@ -679,6 +716,8 @@
         renderCalendar();
         renderSelectedDay();
       });
+
+      bindOptionalToggles(row);
 
       row.querySelectorAll(".plan-edit-input, .plan-edit-textarea").forEach((input) => {
         if (input.dataset.field === "dayType") input.value = normalizedDayType(item);
@@ -1382,6 +1421,7 @@
       extraPlanRows: parsed.extraPlanRows || [],
       planRows: parsed.planRows || [],
       planVersion: parsed.planVersion || "",
+      optionalPools: parsed.optionalPools || {},
     };
     ensureAcademicCatalog(normalized);
     return migratePlanState(normalized);

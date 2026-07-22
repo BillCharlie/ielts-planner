@@ -498,10 +498,39 @@ textarea {
 }
 
 .training-kind {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12px;
   font-weight: 800;
   color: var(--teal-dark);
   white-space: nowrap;
+}
+
+/* Optional (second-pool) items: off by default, switched on per day. */
+.training-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.training-toggle input {
+  width: 16px;
+  min-height: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #7c3aed;
+  cursor: pointer;
+}
+
+.training-item.optional-off {
+  border-style: dashed;
+  background: #fafafa;
+  opacity: 0.6;
 }
 
 .training-title {

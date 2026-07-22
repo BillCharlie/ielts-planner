@@ -1,6 +1,6 @@
 window.IELTS_PLANNER_DATA = {
   "generatedAt": "2026-07-23T00:00:00.000+08:00",
-  "source": "Planner v39: full reset from 2026-07-23; blue pool only (Cambridge 17-21 full mock), one per day descending C21T4->C17T1; second (violet) pool not scheduled",
+  "source": "Planner v40: from 2026-07-23, blue pool (C21T4->C17T1) mandatory daily; purple pool (C16T4->C12T1) attached to every day as optional, disabled by default and toggled per-day in the app",
   "mainPlan": [
     {
       "id": "main-1",
@@ -24,11 +24,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C16T4",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 16 Test 4",
+          "cambridge": "C16T4",
+          "full": "Cambridge 16 Test 4",
+          "module": "听力+写作 Cambridge 16 Test 4：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -55,11 +69,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C16T3",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 16 Test 3",
+          "cambridge": "C16T3",
+          "full": "Cambridge 16 Test 3",
+          "module": "听力+写作 Cambridge 16 Test 3：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -86,11 +114,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C16T2",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 16 Test 2",
+          "cambridge": "C16T2",
+          "full": "Cambridge 16 Test 2",
+          "module": "听力+写作 Cambridge 16 Test 2：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -117,11 +159,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C16T1",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 16 Test 1",
+          "cambridge": "C16T1",
+          "full": "Cambridge 16 Test 1",
+          "module": "听力+写作 Cambridge 16 Test 1：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -148,11 +204,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C15T4",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 15 Test 4",
+          "cambridge": "C15T4",
+          "full": "Cambridge 15 Test 4",
+          "module": "听力+写作 Cambridge 15 Test 4：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -179,11 +249,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C15T3",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 15 Test 3",
+          "cambridge": "C15T3",
+          "full": "Cambridge 15 Test 3",
+          "module": "听力+写作 Cambridge 15 Test 3：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -210,11 +294,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C15T2",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 15 Test 2",
+          "cambridge": "C15T2",
+          "full": "Cambridge 15 Test 2",
+          "module": "听力+写作 Cambridge 15 Test 2：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -241,11 +339,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C15T1",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 15 Test 1",
+          "cambridge": "C15T1",
+          "full": "Cambridge 15 Test 1",
+          "module": "听力+写作 Cambridge 15 Test 1：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -272,11 +384,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C14T4",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 14 Test 4",
+          "cambridge": "C14T4",
+          "full": "Cambridge 14 Test 4",
+          "module": "听力+写作 Cambridge 14 Test 4：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -303,11 +429,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C14T3",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 14 Test 3",
+          "cambridge": "C14T3",
+          "full": "Cambridge 14 Test 3",
+          "module": "听力+写作 Cambridge 14 Test 3：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -334,11 +474,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C14T2",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 14 Test 2",
+          "cambridge": "C14T2",
+          "full": "Cambridge 14 Test 2",
+          "module": "听力+写作 Cambridge 14 Test 2：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -365,11 +519,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C14T1",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 14 Test 1",
+          "cambridge": "C14T1",
+          "full": "Cambridge 14 Test 1",
+          "module": "听力+写作 Cambridge 14 Test 1：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -396,11 +564,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C13T4",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 13 Test 4",
+          "cambridge": "C13T4",
+          "full": "Cambridge 13 Test 4",
+          "module": "听力+写作 Cambridge 13 Test 4：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -427,11 +609,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C13T3",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 13 Test 3",
+          "cambridge": "C13T3",
+          "full": "Cambridge 13 Test 3",
+          "module": "听力+写作 Cambridge 13 Test 3：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -458,11 +654,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C13T2",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 13 Test 2",
+          "cambridge": "C13T2",
+          "full": "Cambridge 13 Test 2",
+          "module": "听力+写作 Cambridge 13 Test 2：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -489,11 +699,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C13T1",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 13 Test 1",
+          "cambridge": "C13T1",
+          "full": "Cambridge 13 Test 1",
+          "module": "听力+写作 Cambridge 13 Test 1：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -520,11 +744,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C12T4",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 12 Test 4",
+          "cambridge": "C12T4",
+          "full": "Cambridge 12 Test 4",
+          "module": "听力+写作 Cambridge 12 Test 4：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -551,11 +789,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C12T3",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 12 Test 3",
+          "cambridge": "C12T3",
+          "full": "Cambridge 12 Test 3",
+          "module": "听力+写作 Cambridge 12 Test 3：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -582,11 +834,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C12T2",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 12 Test 2",
+          "cambridge": "C12T2",
+          "full": "Cambridge 12 Test 2",
+          "module": "听力+写作 Cambridge 12 Test 2：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -613,11 +879,25 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
+        },
+        {
+          "id": "lw-C12T1",
+          "order": 2,
+          "kind": "lw",
+          "label": "听力+写作",
+          "title": "听力+写作 Cambridge 12 Test 1",
+          "cambridge": "C12T1",
+          "full": "Cambridge 12 Test 1",
+          "module": "听力+写作 Cambridge 12 Test 1：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "duration": "约2-2.5小时",
+          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
+          "status": "未开始",
+          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "只排第一池（蓝色）Cambridge 17-21 完整模考；每天一套",
+      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
@@ -636,7 +916,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 21 Test 4",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-2",
@@ -650,7 +930,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 21 Test 3",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-3",
@@ -664,7 +944,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 21 Test 2",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-4",
@@ -678,7 +958,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 21 Test 1",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-5",
@@ -692,7 +972,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 20 Test 4",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-6",
@@ -706,7 +986,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 20 Test 3",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-7",
@@ -720,7 +1000,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 20 Test 2",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-8",
@@ -734,7 +1014,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 20 Test 1",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-9",
@@ -748,7 +1028,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 19 Test 4",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-10",
@@ -762,7 +1042,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 19 Test 3",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-11",
@@ -776,7 +1056,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 19 Test 2",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-12",
@@ -790,7 +1070,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 19 Test 1",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-13",
@@ -804,7 +1084,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 18 Test 4",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-14",
@@ -818,7 +1098,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 18 Test 3",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-15",
@@ -832,7 +1112,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 18 Test 2",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-16",
@@ -846,7 +1126,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 18 Test 1",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-17",
@@ -860,7 +1140,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 17 Test 4",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-18",
@@ -874,7 +1154,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 17 Test 3",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-19",
@@ -888,7 +1168,7 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 17 Test 2",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
       "id": "daily-20",
@@ -902,9 +1182,9 @@ window.IELTS_PLANNER_DATA = {
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
       "mainTask": "完整模考 Cambridge 17 Test 1",
-      "notes": "只排第一池（蓝色）完整模考；当日总体安排时间：约4小时"
+      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     }
   ],
-  "planVersion": "2026-07-23-blue-pool-only-v39",
+  "planVersion": "2026-07-23-blue-plus-optional-purple-v40",
   "resetFromDate": "2026-07-21"
 };
