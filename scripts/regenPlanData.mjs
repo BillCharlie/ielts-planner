@@ -1,6 +1,7 @@
-// Regenerate plan-data.js for the 2026-07-23 blue-pool plan.
+// Regenerate plan-data.js for the 2026-07-26 blue-pool plan.
 // Rules:
-//  - Visible plan starts on 2026-07-23.
+//  - Visible plan starts on 2026-07-26.
+//  - 2026-07-23, 2026-07-24, and 2026-07-25 have no plan.
 //  - 2026-07-26 and 2026-07-27 are two-full-mock days.
 //  - 2026-07-28 has no plan.
 //  - Full mocks run from Cambridge 21 Test 4 down to Cambridge 17 Test 1 without duplicates.
@@ -13,9 +14,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
 const fullByDate = {
-  "2026-07-23": ["C21T4"],
-  "2026-07-24": ["C21T3"],
-  "2026-07-25": ["C21T2"],
   "2026-07-26": ["C21T1", "C20T4"],
   "2026-07-27": ["C20T3", "C20T2"],
   "2026-07-29": ["C20T1"],
@@ -34,9 +32,6 @@ const fullByDate = {
 };
 
 const optionalLwByDate = {
-  "2026-07-23": "C16T4",
-  "2026-07-24": "C16T3",
-  "2026-07-25": "C16T2",
   "2026-07-29": "C15T1",
   "2026-07-30": "C14T4",
   "2026-07-31": "C14T3",
@@ -183,11 +178,11 @@ for (const date of dates) {
 const payload = {
   generatedAt: "2026-07-25T00:00:00.000+08:00",
   source:
-    "Planner v41: 2026-07-26 and 2026-07-27 are two-full-mock days; 2026-07-28 has no plan; later full mock sequence is compacted without duplicates",
+    "Planner v42: 2026-07-23, 2026-07-24, and 2026-07-25 removed; 2026-07-26 and 2026-07-27 remain two-full-mock days; 2026-07-28 has no plan",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-26-27-double-full-28-empty-v41",
-  resetFromDate: "2026-07-26",
+  planVersion: "2026-07-23-25-removed-v42",
+  resetFromDate: "2026-07-23",
 };
 
 writeFileSync(outPath, `window.IELTS_PLANNER_DATA = ${JSON.stringify(payload, null, 2)};\n`, "utf8");
