@@ -1,16 +1,10 @@
-// Regenerate plan-data.js for the 2026-07-20 three-pool reset.
+// Regenerate plan-data.js for the 2026-07-23 blue-pool plan.
 // Rules:
-//  - Everything on/before 2026-07-19 is removed.
-//  - The former 2026-07-13 three-item plan is moved to 2026-08-09.
-//  - The former 2026-07-14/15/16 plans are moved to 2026-08-10/11/12.
-//  - The former 2026-07-17 C16T3 plan is copied to 2026-07-20.
-//  - The 2026-07-18 plan is copied over 2026-07-28.
-//  - The 2026-07-19 plan is copied over 2026-07-22.
-//  - Finish all IELTS pool items by 2026-08-12.
-//  - Mon/Fri/Sat/Sun are three-item days; Tue/Wed/Thu are one-item days.
-//  - 2026-07-18/20/21/22 are limited to one item internally before removals.
-//  - A three-item day must never contain three items from the same pool.
-//  - Two-item days are never generated.
+//  - Visible plan starts on 2026-07-23.
+//  - 2026-07-26 and 2026-07-27 are two-full-mock days.
+//  - 2026-07-28 has no plan.
+//  - Full mocks run from Cambridge 21 Test 4 down to Cambridge 17 Test 1 without duplicates.
+//  - Purple listening+writing items are optional and disabled by default.
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
@@ -18,232 +12,150 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outPath = resolve(__dirname, "..", "plan-data.js");
 
-const START = "2026-07-17";
-const NORMAL_END = "2026-08-08";
-const MOVED_DATE = "2026-08-09";
-const DELAYED_DATES = ["2026-08-10", "2026-08-11", "2026-08-12"];
-const DEADLINE = "2026-08-12";
-const COMPLETED_CODES = new Set(["C16T1", "C12T1", "C12T2"]);
-const SINGLE_LIMIT_DAYS = new Set([
-  "2026-07-18",
-  "2026-07-20",
-  "2026-07-21",
-  "2026-07-22",
-]);
+const fullByDate = {
+  "2026-07-23": ["C21T4"],
+  "2026-07-24": ["C21T3"],
+  "2026-07-25": ["C21T2"],
+  "2026-07-26": ["C21T1", "C20T4"],
+  "2026-07-27": ["C20T3", "C20T2"],
+  "2026-07-29": ["C20T1"],
+  "2026-07-30": ["C19T4"],
+  "2026-07-31": ["C19T3"],
+  "2026-08-01": ["C19T2"],
+  "2026-08-02": ["C19T1"],
+  "2026-08-03": ["C18T4"],
+  "2026-08-04": ["C18T3"],
+  "2026-08-05": ["C18T2"],
+  "2026-08-06": ["C18T1"],
+  "2026-08-07": ["C17T4"],
+  "2026-08-08": ["C17T3"],
+  "2026-08-09": ["C17T2"],
+  "2026-08-10": ["C17T1"],
+};
 
-const weekdayZh = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+const optionalLwByDate = {
+  "2026-07-23": "C16T4",
+  "2026-07-24": "C16T3",
+  "2026-07-25": "C16T2",
+  "2026-07-29": "C15T1",
+  "2026-07-30": "C14T4",
+  "2026-07-31": "C14T3",
+  "2026-08-01": "C14T2",
+  "2026-08-02": "C14T1",
+  "2026-08-03": "C13T4",
+  "2026-08-04": "C13T3",
+  "2026-08-05": "C13T2",
+  "2026-08-06": "C13T1",
+  "2026-08-07": "C12T4",
+  "2026-08-08": "C12T3",
+  "2026-08-09": "C12T2",
+  "2026-08-10": "C12T1",
+};
+
+function parseCode(code) {
+  const match = /^C(\d+)T(\d+)$/.exec(code);
+  if (!match) throw new Error(`Invalid Cambridge code: ${code}`);
+  return { book: Number(match[1]), test: Number(match[2]) };
+}
 
 function parseDate(date) {
   const [year, month, day] = date.split("-").map(Number);
   return new Date(year, month - 1, day);
 }
 
-function fmt(d) {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+function weekdayZh(date) {
+  return ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][parseDate(date).getDay()];
 }
 
-function eachDate(start, end) {
-  const out = [];
-  const d = parseDate(start);
-  const last = parseDate(end);
-  while (d <= last) {
-    out.push(fmt(d));
-    d.setDate(d.getDate() + 1);
-  }
-  return out;
+function fullTitle(code, label = "完整模考") {
+  const { book, test } = parseCode(code);
+  return `${label} Cambridge ${book} Test ${test}`;
 }
 
-function makePool(kind, label, startBook, endBook) {
-  const items = [];
-  for (let book = startBook; book <= endBook; book++) {
-    for (let test = 1; test <= 4; test++) {
-      const code = `C${book}T${test}`;
-      if (COMPLETED_CODES.has(code)) continue;
-      items.push({
-        kind,
-        label,
-        book,
-        test,
-        full: `Cambridge ${book} Test ${test}`,
-        code,
-      });
-    }
-  }
-  return { items, cursor: 0 };
+function fullName(code) {
+  const { book, test } = parseCode(code);
+  return `Cambridge ${book} Test ${test}`;
 }
 
-const pools = {
-  full: makePool("full", "完整模考", 16, 20),
-  mixed: makePool("mixed", "混合训练", 12, 15),
-  supplement: makePool("supplement", "专项补量", 7, 11),
-};
-
-const profiles = {
-  full: {
-    duration: [4, 4],
-    detail: "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
-    limit: "Cambridge 16-20 作为完整模考",
-  },
-  mixed: {
-    duration: [2.5, 3.5],
-    detail: "听力必做40分钟 + 写作必做60分钟；阅读/口语视状态补；整理30-45分钟；单套总用时约2.5-3.5小时",
-    limit: "Cambridge 12-15 作为混合训练：听力和写作必做",
-  },
-  supplement: {
-    duration: [2, 3],
-    detail: "听力必做40分钟，写作尽量做；阅读/口语按状态补；整理20-45分钟；单套总用时约2-3小时",
-    limit: "Cambridge 7-11 作为专项补量：听力必做，其他按状态补",
-  },
-};
-
-function isTripleDate(date) {
-  if (SINGLE_LIMIT_DAYS.has(date)) return false;
-  const wd = parseDate(date).getDay();
-  return [0, 1, 5, 6].includes(wd);
-}
-
-function take(poolName) {
-  const pool = pools[poolName];
-  if (pool.cursor >= pool.items.length) return null;
-  return pool.items[pool.cursor++];
-}
-
-function remaining(poolName) {
-  const pool = pools[poolName];
-  return pool.items.length - pool.cursor;
-}
-
-function chooseSinglePool(singleRemaining) {
-  if (singleRemaining.mixed > 0) return "mixed";
-  if (singleRemaining.supplement >= singleRemaining.full && singleRemaining.supplement > 0) return "supplement";
-  if (singleRemaining.full > 0) return "full";
-  if (singleRemaining.supplement > 0) return "supplement";
-  return null;
-}
-
-function timeText(items) {
-  const min = items.reduce((sum, item) => sum + profiles[item.kind].duration[0], 0);
-  const max = items.reduce((sum, item) => sum + profiles[item.kind].duration[1], 0);
-  return min === max ? `约${min}小时` : `约${min}-${max}小时`;
-}
-
-function itemTitle(item) {
-  return `${item.label} ${item.full}`;
-}
-
-function itemModule(item) {
-  return `${itemTitle(item)}：${profiles[item.kind].detail}`;
-}
-
-function trainingItemPayload(item, index) {
+function fullItem(code, order) {
+  const title = fullTitle(code);
+  const detail = "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时";
   return {
-    id: `${item.kind}-${item.code}`,
-    order: index + 1,
-    kind: item.kind,
-    label: item.label,
-    title: itemTitle(item),
-    cambridge: item.code,
-    full: item.full,
-    module: itemModule(item),
-    duration: timeText([item]),
-    detail: profiles[item.kind].detail,
+    id: `full-${code}`,
+    order,
+    kind: "full",
+    label: "完整模考",
+    title,
+    cambridge: code,
+    full: fullName(code),
+    module: `${title}：${detail}`,
+    duration: "约4小时",
+    detail,
     status: "未开始",
   };
 }
 
-function priorityFor(items) {
-  return items.map((item) => item.label).join(" + ");
+function lwItem(code, order) {
+  const title = fullTitle(code, "听力+写作");
+  const detail = "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时";
+  return {
+    id: `lw-${code}`,
+    order,
+    kind: "lw",
+    label: "听力+写作",
+    title,
+    cambridge: code,
+    full: fullName(code),
+    module: `${title}：${detail}`,
+    duration: "约2-2.5小时",
+    detail,
+    status: "未开始",
+    optional: true,
+  };
 }
 
-function planFor(items) {
-  return items.map(itemTitle).join(" / ");
+function fullPlanText(items) {
+  return items.map((item) => item.title).join(" / ");
 }
 
-function limitsFor(items) {
-  const seen = new Set();
-  const parts = [];
-  for (const item of items) {
-    if (!seen.has(item.kind)) {
-      seen.add(item.kind);
-      parts.push(profiles[item.kind].limit);
-    }
+function fullModuleText(items) {
+  const hours = items.length * 4;
+  return `${items.map((item) => item.module).join("；")}；当日总体安排时间：约${hours}小时`;
+}
+
+function limitsFor(date, fullItems) {
+  if (date === "2026-07-26" || date === "2026-07-27") {
+    return "两份完整模考必做；每份约4小时；当日总体安排时间：约8小时";
   }
-  parts.push(`当日总体安排时间：${timeText(items)}`);
-  return parts.join("；");
+  return "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭";
 }
 
-const movedItems = [take("full"), take("mixed"), take("supplement")].filter(Boolean);
-if (movedItems.length !== 3) {
-  throw new Error(`Cannot reserve moved 2026-07-13 plan: ${movedItems.map((item) => item?.code).join(" + ")}`);
-}
-
-const delayedItems = [take("mixed"), take("supplement"), take("supplement")].filter(Boolean);
-if (delayedItems.map((item) => item?.code).join(" + ") !== "C12T4 + C7T2 + C7T3") {
-  throw new Error(`Cannot reserve delayed 2026-07-14/15/16 plans: ${delayedItems.map((item) => item?.code).join(" + ")}`);
-}
-
-const dates = eachDate(START, NORMAL_END);
-const tripleDates = dates.filter(isTripleDate);
-const singleDates = dates.filter((date) => !isTripleDate(date));
-const totalItems = Object.keys(pools).reduce((sum, poolName) => sum + remaining(poolName), 0);
-const tripleDaysNeeded = (totalItems - singleDates.length) / 3;
-
-if (!Number.isInteger(tripleDaysNeeded) || tripleDaysNeeded < 0 || tripleDaysNeeded > tripleDates.length) {
-  throw new Error(`Cannot finish by ${DEADLINE} with 1/3-item days: ${JSON.stringify({ totalItems, singleDays: singleDates.length, tripleDays: tripleDates.length, tripleDaysNeeded })}`);
-}
-
-const singleRemaining = {
-  full: remaining("full") - tripleDaysNeeded,
-  mixed: remaining("mixed") - tripleDaysNeeded,
-  supplement: remaining("supplement") - tripleDaysNeeded,
-};
-
-if (Object.values(singleRemaining).some((count) => count < 0)) {
-  throw new Error(`Not enough pool items for ${tripleDaysNeeded} cross-pool triple days: ${JSON.stringify(singleRemaining)}`);
-}
-
+const dates = Object.keys(fullByDate).sort();
 const mainPlan = [];
 const dailyTemplates = [];
-let tripleDaysUsed = 0;
 
 for (const date of dates) {
-  let items = [];
-  if (isTripleDate(date) && tripleDaysUsed < tripleDaysNeeded) {
-    items = [take("full"), take("mixed"), take("supplement")].filter(Boolean);
-    tripleDaysUsed += 1;
-  } else if (!isTripleDate(date)) {
-    const poolName = chooseSinglePool(singleRemaining);
-    if (poolName) {
-      const item = take(poolName);
-      if (item) {
-        items = [item];
-        singleRemaining[poolName] -= 1;
-      }
-    }
-  }
+  const fullItems = fullByDate[date].map((code, index) => fullItem(code, index + 1));
+  const optionalCode = optionalLwByDate[date];
+  const trainingItems = [...fullItems];
+  if (optionalCode) trainingItems.push(lwItem(optionalCode, trainingItems.length + 1));
 
-  if (items.length === 0) continue;
-
-  const weekday = weekdayZh[parseDate(date).getDay()];
-  const plan = planFor(items);
-  const totalTime = timeText(items);
-  const moduleText = `${items.map(itemModule).join("；")}；当日总体安排时间：${totalTime}`;
-  const limits = limitsFor(items);
-  const trainingItems = items.map(trainingItemPayload);
+  const plan = fullPlanText(fullItems);
+  const totalHours = fullItems.length * 4;
 
   mainPlan.push({
     id: `main-${mainPlan.length + 1}`,
     date,
-    weekday,
+    weekday: weekdayZh(date),
     dayType: "正常",
-    ieltsPriority: priorityFor(items),
+    ieltsPriority: fullItems.length > 1 ? "完整模考 x2" : "完整模考",
     ieltsPlan: plan,
-    ieltsModule: moduleText,
-    cambridge: items.map((item) => item.code).join(" + "),
+    ieltsModule: fullModuleText(fullItems),
+    cambridge: fullItems.map((item) => item.cambridge).join(" + "),
     trainingItems,
     projectType: "",
     projectPlan: "",
-    limits,
+    limits: limitsFor(date, fullItems),
     status: "未开始",
     actual: "",
     projectModule: "",
@@ -252,178 +164,33 @@ for (const date of dates) {
   dailyTemplates.push({
     id: `daily-${dailyTemplates.length + 1}`,
     date,
-    weekday,
+    weekday: weekdayZh(date),
     dayType: "正常",
-    swim: items.length >= 3 ? "晚泳 20:30-21:30；必要时早泳" : "可选：当天体力允许再安排游泳",
+    swim: "可选：当天体力允许再安排游泳",
     morningEarly: "可选：早泳 / 早餐 / 热身",
-    morningCore: `${itemTitle(items[0])}；单项用时${timeText([items[0]])}`,
-    afternoon: items[1] ? `${itemTitle(items[1])}；单项用时${timeText([items[1]])}` : "可选：自由安排 / 午休 / 错题整理",
+    morningCore: `${fullItems[0].title}；单套约4小时`,
+    afternoon: fullItems[1] ? `${fullItems[1].title}；单套约4小时` : "可选：自由安排 / 午休 / 错题整理",
     evening: "可选：晚餐 + 缓冲",
-    night: items[2] ? `${itemTitle(items[2])}；单项用时${timeText([items[2]])}` : "可选：错题 / 单词 / 口语素材轻量收尾",
+    night: "可选：错题 / 单词 / 口语素材轻量收尾",
     mainTask: plan,
-    notes: `当日总体安排时间：${totalTime}`,
+    notes:
+      fullItems.length > 1
+        ? `两份完整模考必做；当日总体安排时间：约${totalHours}小时`
+        : "第一池完整模考必做；第二池听力+写作可选（默认关闭）",
   });
 }
-
-const leftovers = Object.fromEntries(Object.entries(pools).map(([name, pool]) => [name, remaining(name)]));
-if (Object.values(leftovers).some((count) => count !== 0)) {
-  throw new Error(`Plan ended with leftover items: ${JSON.stringify(leftovers)}`);
-}
-
-const carriedPlans = [
-  { date: MOVED_DATE, items: movedItems },
-  ...DELAYED_DATES.map((date, index) => ({ date, items: [delayedItems[index]] })),
-];
-
-for (const { date, items } of carriedPlans) {
-  const weekday = weekdayZh[parseDate(date).getDay()];
-  const plan = planFor(items);
-  const totalTime = timeText(items);
-  const moduleText = `${items.map(itemModule).join("；")}；当日总体安排时间：${totalTime}`;
-  const limits = limitsFor(items);
-  const trainingItems = items.map(trainingItemPayload);
-
-  mainPlan.push({
-    id: `main-${mainPlan.length + 1}`,
-    date,
-    weekday,
-    dayType: "正常",
-    ieltsPriority: priorityFor(items),
-    ieltsPlan: plan,
-    ieltsModule: moduleText,
-    cambridge: items.map((item) => item.code).join(" + "),
-    trainingItems,
-    projectType: "",
-    projectPlan: "",
-    limits,
-    status: "未开始",
-    actual: "",
-    projectModule: "",
-  });
-
-  dailyTemplates.push({
-    id: `daily-${dailyTemplates.length + 1}`,
-    date,
-    weekday,
-    dayType: "正常",
-    swim: items.length >= 3 ? "晚泳 20:30-21:30；必要时早泳" : "可选：当天体力允许再安排游泳",
-    morningEarly: "可选：早泳 / 早餐 / 热身",
-    morningCore: `${itemTitle(items[0])}；单项用时${timeText([items[0]])}`,
-    afternoon: items[1] ? `${itemTitle(items[1])}；单项用时${timeText([items[1]])}` : "可选：自由安排 / 午休 / 错题整理",
-    evening: "可选：晚餐 + 缓冲",
-    night: items[2] ? `${itemTitle(items[2])}；单项用时${timeText([items[2]])}` : "可选：错题 / 单词 / 口语素材轻量收尾",
-    mainTask: plan,
-    notes: `当日总体安排时间：${totalTime}`,
-  });
-}
-
-function copyPlanDate(sourceDate, targetDate) {
-  copyRow(mainPlan, sourceDate, targetDate);
-  copyRow(dailyTemplates, sourceDate, targetDate);
-}
-
-function replacePlanDateWithItems(date, items) {
-  const mainIndex = mainPlan.findIndex((row) => row.date === date);
-  const dailyIndex = dailyTemplates.findIndex((row) => row.date === date);
-  if (mainIndex < 0 || dailyIndex < 0) throw new Error(`Cannot replace missing date ${date}`);
-
-  const mainId = mainPlan[mainIndex].id;
-  const dailyId = dailyTemplates[dailyIndex].id;
-  const weekday = weekdayZh[parseDate(date).getDay()];
-  const plan = planFor(items);
-  const totalTime = timeText(items);
-  const moduleText = `${items.map(itemModule).join("；")}；当日总体安排时间：${totalTime}`;
-  const limits = limitsFor(items);
-  const trainingItems = items.map(trainingItemPayload);
-
-  mainPlan[mainIndex] = {
-    id: mainId,
-    date,
-    weekday,
-    dayType: "正常",
-    ieltsPriority: priorityFor(items),
-    ieltsPlan: plan,
-    ieltsModule: moduleText,
-    cambridge: items.map((item) => item.code).join(" + "),
-    trainingItems,
-    projectType: "",
-    projectPlan: "",
-    limits,
-    status: "未开始",
-    actual: "",
-    projectModule: "",
-  };
-
-  dailyTemplates[dailyIndex] = {
-    id: dailyId,
-    date,
-    weekday,
-    dayType: "正常",
-    swim: items.length >= 3 ? "晚泳 20:30-21:30；必要时早泳" : "可选：当天体力允许再安排游泳",
-    morningEarly: "可选：早泳 / 早餐 / 热身",
-    morningCore: `${itemTitle(items[0])}；单项用时${timeText([items[0]])}`,
-    afternoon: items[1] ? `${itemTitle(items[1])}；单项用时${timeText([items[1]])}` : "可选：自由安排 / 午休 / 错题整理",
-    evening: "可选：晚餐 + 缓冲",
-    night: items[2] ? `${itemTitle(items[2])}；单项用时${timeText([items[2]])}` : "可选：错题 / 单词 / 口语素材轻量收尾",
-    mainTask: plan,
-    notes: `当日总体安排时间：${totalTime}`,
-  };
-}
-
-function itemByCode(code) {
-  for (const pool of Object.values(pools)) {
-    const item = pool.items.find((candidate) => candidate.code === code);
-    if (item) return item;
-  }
-  throw new Error(`Cannot find IELTS item ${code}`);
-}
-
-function copyRow(rows, sourceDate, targetDate) {
-  const source = rows.find((row) => row.date === sourceDate);
-  const targetIndex = rows.findIndex((row) => row.date === targetDate);
-  if (!source || targetIndex < 0) {
-    throw new Error(`Cannot copy ${sourceDate} to ${targetDate}`);
-  }
-  const target = rows[targetIndex];
-  rows[targetIndex] = {
-    ...JSON.parse(JSON.stringify(source)),
-    id: target.id,
-    date: target.date,
-    weekday: target.weekday,
-  };
-}
-
-function removePlanDate(date) {
-  removeRow(mainPlan, date);
-  removeRow(dailyTemplates, date);
-}
-
-function removeRow(rows, date) {
-  const index = rows.findIndex((row) => row.date === date);
-  if (index < 0) throw new Error(`Cannot remove missing date ${date}`);
-  rows.splice(index, 1);
-}
-
-replacePlanDateWithItems("2026-07-20", [itemByCode("C16T3")]);
-removePlanDate("2026-07-17");
-copyPlanDate("2026-07-18", "2026-07-28");
-copyPlanDate("2026-07-19", "2026-07-22");
-removePlanDate("2026-07-18");
-removePlanDate("2026-07-19");
 
 const payload = {
-  generatedAt: "2026-07-19T00:00:00.000+08:00",
+  generatedAt: "2026-07-25T00:00:00.000+08:00",
   source:
-    "Planner v35: 2026-07-18 and 2026-07-19 removed; copied plans remain on 2026-07-28 and 2026-07-22; previous v34 changes retained",
+    "Planner v41: 2026-07-26 and 2026-07-27 are two-full-mock days; 2026-07-28 has no plan; later full mock sequence is compacted without duplicates",
   mainPlan,
   dailyTemplates,
-  planVersion: "2026-07-18-19-removed-v35",
-  resetFromDate: "2026-07-18",
+  planVersion: "2026-07-26-27-double-full-28-empty-v41",
+  resetFromDate: "2026-07-26",
 };
 
-const out = "window.IELTS_PLANNER_DATA = " + JSON.stringify(payload, null, 2) + ";\n";
-writeFileSync(outPath, out);
+writeFileSync(outPath, `window.IELTS_PLANNER_DATA = ${JSON.stringify(payload, null, 2)};\n`, "utf8");
 console.log(`Wrote ${mainPlan.length} mainPlan + ${dailyTemplates.length} dailyTemplates to ${outPath}`);
-console.log("First 8 days:");
-mainPlan.slice(0, 8).forEach((m) => console.log(`  ${m.date} ${m.weekday} [${m.ieltsPriority}] ${m.cambridge}`));
+console.log("First day:", mainPlan[0].date, mainPlan[0].cambridge);
 console.log("Last day:", mainPlan.at(-1).date, mainPlan.at(-1).cambridge);

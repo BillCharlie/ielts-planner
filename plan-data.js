@@ -1,6 +1,6 @@
 window.IELTS_PLANNER_DATA = {
-  "generatedAt": "2026-07-23T00:00:00.000+08:00",
-  "source": "Planner v40: from 2026-07-23, blue pool (C21T4->C17T1) mandatory daily; purple pool (C16T4->C12T1) attached to every day as optional, disabled by default and toggled per-day in the app",
+  "generatedAt": "2026-07-25T00:00:00.000+08:00",
+  "source": "Planner v41: 2026-07-26 and 2026-07-27 are two-full-mock days; 2026-07-28 has no plan; later full mock sequence is compacted without duplicates",
   "mainPlan": [
     {
       "id": "main-1",
@@ -142,10 +142,10 @@ window.IELTS_PLANNER_DATA = {
       "date": "2026-07-26",
       "weekday": "周日",
       "dayType": "正常",
-      "ieltsPriority": "完整模考",
-      "ieltsPlan": "完整模考 Cambridge 21 Test 1",
-      "ieltsModule": "完整模考 Cambridge 21 Test 1：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；当日总体安排时间：约4小时",
-      "cambridge": "C21T1",
+      "ieltsPriority": "完整模考 x2",
+      "ieltsPlan": "完整模考 Cambridge 21 Test 1 / 完整模考 Cambridge 20 Test 4",
+      "ieltsModule": "完整模考 Cambridge 21 Test 1：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；完整模考 Cambridge 20 Test 4：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；当日总体安排时间：约8小时",
+      "cambridge": "C21T1 + C20T4",
       "trainingItems": [
         {
           "id": "full-C21T1",
@@ -161,40 +161,8 @@ window.IELTS_PLANNER_DATA = {
           "status": "未开始"
         },
         {
-          "id": "lw-C16T1",
-          "order": 2,
-          "kind": "lw",
-          "label": "听力+写作",
-          "title": "听力+写作 Cambridge 16 Test 1",
-          "cambridge": "C16T1",
-          "full": "Cambridge 16 Test 1",
-          "module": "听力+写作 Cambridge 16 Test 1：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
-          "duration": "约2-2.5小时",
-          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
-          "status": "未开始",
-          "optional": true
-        }
-      ],
-      "projectType": "",
-      "projectPlan": "",
-      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
-      "status": "未开始",
-      "actual": "",
-      "projectModule": ""
-    },
-    {
-      "id": "main-5",
-      "date": "2026-07-27",
-      "weekday": "周一",
-      "dayType": "正常",
-      "ieltsPriority": "完整模考",
-      "ieltsPlan": "完整模考 Cambridge 20 Test 4",
-      "ieltsModule": "完整模考 Cambridge 20 Test 4：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；当日总体安排时间：约4小时",
-      "cambridge": "C20T4",
-      "trainingItems": [
-        {
           "id": "full-C20T4",
-          "order": 1,
+          "order": 2,
           "kind": "full",
           "label": "完整模考",
           "title": "完整模考 Cambridge 20 Test 4",
@@ -204,38 +172,24 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
-        },
-        {
-          "id": "lw-C15T4",
-          "order": 2,
-          "kind": "lw",
-          "label": "听力+写作",
-          "title": "听力+写作 Cambridge 15 Test 4",
-          "cambridge": "C15T4",
-          "full": "Cambridge 15 Test 4",
-          "module": "听力+写作 Cambridge 15 Test 4：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
-          "duration": "约2-2.5小时",
-          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
-          "status": "未开始",
-          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
+      "limits": "两份完整模考必做；每份约4小时；当日总体安排时间：约8小时",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-6",
-      "date": "2026-07-28",
-      "weekday": "周二",
+      "id": "main-5",
+      "date": "2026-07-27",
+      "weekday": "周一",
       "dayType": "正常",
-      "ieltsPriority": "完整模考",
-      "ieltsPlan": "完整模考 Cambridge 20 Test 3",
-      "ieltsModule": "完整模考 Cambridge 20 Test 3：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；当日总体安排时间：约4小时",
-      "cambridge": "C20T3",
+      "ieltsPriority": "完整模考 x2",
+      "ieltsPlan": "完整模考 Cambridge 20 Test 3 / 完整模考 Cambridge 20 Test 2",
+      "ieltsModule": "完整模考 Cambridge 20 Test 3：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；完整模考 Cambridge 20 Test 2：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；当日总体安排时间：约8小时",
+      "cambridge": "C20T3 + C20T2",
       "trainingItems": [
         {
           "id": "full-C20T3",
@@ -251,40 +205,8 @@ window.IELTS_PLANNER_DATA = {
           "status": "未开始"
         },
         {
-          "id": "lw-C15T3",
-          "order": 2,
-          "kind": "lw",
-          "label": "听力+写作",
-          "title": "听力+写作 Cambridge 15 Test 3",
-          "cambridge": "C15T3",
-          "full": "Cambridge 15 Test 3",
-          "module": "听力+写作 Cambridge 15 Test 3：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
-          "duration": "约2-2.5小时",
-          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
-          "status": "未开始",
-          "optional": true
-        }
-      ],
-      "projectType": "",
-      "projectPlan": "",
-      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
-      "status": "未开始",
-      "actual": "",
-      "projectModule": ""
-    },
-    {
-      "id": "main-7",
-      "date": "2026-07-29",
-      "weekday": "周三",
-      "dayType": "正常",
-      "ieltsPriority": "完整模考",
-      "ieltsPlan": "完整模考 Cambridge 20 Test 2",
-      "ieltsModule": "完整模考 Cambridge 20 Test 2：听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时；当日总体安排时间：约4小时",
-      "cambridge": "C20T2",
-      "trainingItems": [
-        {
           "id": "full-C20T2",
-          "order": 1,
+          "order": 2,
           "kind": "full",
           "label": "完整模考",
           "title": "完整模考 Cambridge 20 Test 2",
@@ -294,33 +216,19 @@ window.IELTS_PLANNER_DATA = {
           "duration": "约4小时",
           "detail": "听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语/对话15分钟 + 1小时细整理；单套总用时约4小时",
           "status": "未开始"
-        },
-        {
-          "id": "lw-C15T2",
-          "order": 2,
-          "kind": "lw",
-          "label": "听力+写作",
-          "title": "听力+写作 Cambridge 15 Test 2",
-          "cambridge": "C15T2",
-          "full": "Cambridge 15 Test 2",
-          "module": "听力+写作 Cambridge 15 Test 2：听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
-          "duration": "约2-2.5小时",
-          "detail": "听力必做40分钟 + 写作必做60分钟 + 整理30分钟；单项约2-2.5小时",
-          "status": "未开始",
-          "optional": true
         }
       ],
       "projectType": "",
       "projectPlan": "",
-      "limits": "第一池（蓝色）完整模考每日必做；第二池（紫色）听力+写作为可选，默认关闭",
+      "limits": "两份完整模考必做；每份约4小时；当日总体安排时间：约8小时",
       "status": "未开始",
       "actual": "",
       "projectModule": ""
     },
     {
-      "id": "main-8",
-      "date": "2026-07-30",
-      "weekday": "周四",
+      "id": "main-6",
+      "date": "2026-07-29",
+      "weekday": "周三",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 20 Test 1",
@@ -363,9 +271,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-9",
-      "date": "2026-07-31",
-      "weekday": "周五",
+      "id": "main-7",
+      "date": "2026-07-30",
+      "weekday": "周四",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 19 Test 4",
@@ -408,9 +316,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-10",
-      "date": "2026-08-01",
-      "weekday": "周六",
+      "id": "main-8",
+      "date": "2026-07-31",
+      "weekday": "周五",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 19 Test 3",
@@ -453,9 +361,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-11",
-      "date": "2026-08-02",
-      "weekday": "周日",
+      "id": "main-9",
+      "date": "2026-08-01",
+      "weekday": "周六",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 19 Test 2",
@@ -498,9 +406,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-12",
-      "date": "2026-08-03",
-      "weekday": "周一",
+      "id": "main-10",
+      "date": "2026-08-02",
+      "weekday": "周日",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 19 Test 1",
@@ -543,9 +451,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-13",
-      "date": "2026-08-04",
-      "weekday": "周二",
+      "id": "main-11",
+      "date": "2026-08-03",
+      "weekday": "周一",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 18 Test 4",
@@ -588,9 +496,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-14",
-      "date": "2026-08-05",
-      "weekday": "周三",
+      "id": "main-12",
+      "date": "2026-08-04",
+      "weekday": "周二",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 18 Test 3",
@@ -633,9 +541,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-15",
-      "date": "2026-08-06",
-      "weekday": "周四",
+      "id": "main-13",
+      "date": "2026-08-05",
+      "weekday": "周三",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 18 Test 2",
@@ -678,9 +586,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-16",
-      "date": "2026-08-07",
-      "weekday": "周五",
+      "id": "main-14",
+      "date": "2026-08-06",
+      "weekday": "周四",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 18 Test 1",
@@ -723,9 +631,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-17",
-      "date": "2026-08-08",
-      "weekday": "周六",
+      "id": "main-15",
+      "date": "2026-08-07",
+      "weekday": "周五",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 17 Test 4",
@@ -768,9 +676,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-18",
-      "date": "2026-08-09",
-      "weekday": "周日",
+      "id": "main-16",
+      "date": "2026-08-08",
+      "weekday": "周六",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 17 Test 3",
@@ -813,9 +721,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-19",
-      "date": "2026-08-10",
-      "weekday": "周一",
+      "id": "main-17",
+      "date": "2026-08-09",
+      "weekday": "周日",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 17 Test 2",
@@ -858,9 +766,9 @@ window.IELTS_PLANNER_DATA = {
       "projectModule": ""
     },
     {
-      "id": "main-20",
-      "date": "2026-08-11",
-      "weekday": "周二",
+      "id": "main-18",
+      "date": "2026-08-10",
+      "weekday": "周一",
       "dayType": "正常",
       "ieltsPriority": "完整模考",
       "ieltsPlan": "完整模考 Cambridge 17 Test 1",
@@ -954,11 +862,11 @@ window.IELTS_PLANNER_DATA = {
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
       "morningCore": "完整模考 Cambridge 21 Test 1；单套约4小时",
-      "afternoon": "可选：自由安排 / 午休 / 错题整理",
+      "afternoon": "完整模考 Cambridge 20 Test 4；单套约4小时",
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
-      "mainTask": "完整模考 Cambridge 21 Test 1",
-      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
+      "mainTask": "完整模考 Cambridge 21 Test 1 / 完整模考 Cambridge 20 Test 4",
+      "notes": "两份完整模考必做；当日总体安排时间：约8小时"
     },
     {
       "id": "daily-5",
@@ -967,45 +875,17 @@ window.IELTS_PLANNER_DATA = {
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
-      "morningCore": "完整模考 Cambridge 20 Test 4；单套约4小时",
-      "afternoon": "可选：自由安排 / 午休 / 错题整理",
+      "morningCore": "完整模考 Cambridge 20 Test 3；单套约4小时",
+      "afternoon": "完整模考 Cambridge 20 Test 2；单套约4小时",
       "evening": "可选：晚餐 + 缓冲",
       "night": "可选：错题 / 单词 / 口语素材轻量收尾",
-      "mainTask": "完整模考 Cambridge 20 Test 4",
-      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
+      "mainTask": "完整模考 Cambridge 20 Test 3 / 完整模考 Cambridge 20 Test 2",
+      "notes": "两份完整模考必做；当日总体安排时间：约8小时"
     },
     {
       "id": "daily-6",
-      "date": "2026-07-28",
-      "weekday": "周二",
-      "dayType": "正常",
-      "swim": "可选：当天体力允许再安排游泳",
-      "morningEarly": "可选：早泳 / 早餐 / 热身",
-      "morningCore": "完整模考 Cambridge 20 Test 3；单套约4小时",
-      "afternoon": "可选：自由安排 / 午休 / 错题整理",
-      "evening": "可选：晚餐 + 缓冲",
-      "night": "可选：错题 / 单词 / 口语素材轻量收尾",
-      "mainTask": "完整模考 Cambridge 20 Test 3",
-      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
-    },
-    {
-      "id": "daily-7",
       "date": "2026-07-29",
       "weekday": "周三",
-      "dayType": "正常",
-      "swim": "可选：当天体力允许再安排游泳",
-      "morningEarly": "可选：早泳 / 早餐 / 热身",
-      "morningCore": "完整模考 Cambridge 20 Test 2；单套约4小时",
-      "afternoon": "可选：自由安排 / 午休 / 错题整理",
-      "evening": "可选：晚餐 + 缓冲",
-      "night": "可选：错题 / 单词 / 口语素材轻量收尾",
-      "mainTask": "完整模考 Cambridge 20 Test 2",
-      "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
-    },
-    {
-      "id": "daily-8",
-      "date": "2026-07-30",
-      "weekday": "周四",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1017,9 +897,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-9",
-      "date": "2026-07-31",
-      "weekday": "周五",
+      "id": "daily-7",
+      "date": "2026-07-30",
+      "weekday": "周四",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1031,9 +911,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-10",
-      "date": "2026-08-01",
-      "weekday": "周六",
+      "id": "daily-8",
+      "date": "2026-07-31",
+      "weekday": "周五",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1045,9 +925,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-11",
-      "date": "2026-08-02",
-      "weekday": "周日",
+      "id": "daily-9",
+      "date": "2026-08-01",
+      "weekday": "周六",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1059,9 +939,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-12",
-      "date": "2026-08-03",
-      "weekday": "周一",
+      "id": "daily-10",
+      "date": "2026-08-02",
+      "weekday": "周日",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1073,9 +953,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-13",
-      "date": "2026-08-04",
-      "weekday": "周二",
+      "id": "daily-11",
+      "date": "2026-08-03",
+      "weekday": "周一",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1087,9 +967,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-14",
-      "date": "2026-08-05",
-      "weekday": "周三",
+      "id": "daily-12",
+      "date": "2026-08-04",
+      "weekday": "周二",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1101,9 +981,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-15",
-      "date": "2026-08-06",
-      "weekday": "周四",
+      "id": "daily-13",
+      "date": "2026-08-05",
+      "weekday": "周三",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1115,9 +995,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-16",
-      "date": "2026-08-07",
-      "weekday": "周五",
+      "id": "daily-14",
+      "date": "2026-08-06",
+      "weekday": "周四",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1129,9 +1009,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-17",
-      "date": "2026-08-08",
-      "weekday": "周六",
+      "id": "daily-15",
+      "date": "2026-08-07",
+      "weekday": "周五",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1143,9 +1023,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-18",
-      "date": "2026-08-09",
-      "weekday": "周日",
+      "id": "daily-16",
+      "date": "2026-08-08",
+      "weekday": "周六",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1157,9 +1037,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-19",
-      "date": "2026-08-10",
-      "weekday": "周一",
+      "id": "daily-17",
+      "date": "2026-08-09",
+      "weekday": "周日",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1171,9 +1051,9 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     },
     {
-      "id": "daily-20",
-      "date": "2026-08-11",
-      "weekday": "周二",
+      "id": "daily-18",
+      "date": "2026-08-10",
+      "weekday": "周一",
       "dayType": "正常",
       "swim": "可选：当天体力允许再安排游泳",
       "morningEarly": "可选：早泳 / 早餐 / 热身",
@@ -1185,6 +1065,6 @@ window.IELTS_PLANNER_DATA = {
       "notes": "第一池完整模考必做；第二池听力+写作可选（默认关闭）"
     }
   ],
-  "planVersion": "2026-07-23-blue-plus-optional-purple-v40",
-  "resetFromDate": "2026-07-21"
+  "planVersion": "2026-07-26-27-double-full-28-empty-v41",
+  "resetFromDate": "2026-07-26"
 };
