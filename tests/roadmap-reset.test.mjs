@@ -9,7 +9,7 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   vm.runInNewContext(source, context);
   const data = context.window.IELTS_PLANNER_DATA;
 
-  assert.equal(data.planVersion, "2026-08-16-cambridge-bank-v3");
+  assert.equal(data.planVersion, "2026-08-16-vocabulary-cards-v4");
   assert.equal(data.resetFromDate, "2026-08-24");
   assert.deepEqual(Array.from(data.dailyTemplates), []);
   assert.equal(data.mainPlan.length, 75);
@@ -45,10 +45,11 @@ test("generates the requested IELTS and process calendar through exam day", asyn
 });
 
 test("renders all merged planning surfaces and persists roadmap state", async () => {
-  const [html, app, styles] = await Promise.all([
+  const [html, app, styles, xlsx] = await Promise.all([
     readFile(new URL("../index.html", import.meta.url), "utf8"),
     readFile(new URL("../app.js", import.meta.url), "utf8"),
     readFile(new URL("../styles.css", import.meta.url), "utf8"),
+    readFile(new URL("../xlsx-export.js", import.meta.url), "utf8"),
   ]);
 
   for (const id of ["roadmapView", "roadmapGateGrid", "roadmapTimelineBody", "roadmapTaskGroups", "roadmapApplicationBody"]) {
@@ -62,13 +63,40 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /Speaking[\s\S]*待确认/);
   assert.match(html, /id="vocabularyButton"/);
   assert.match(html, /id="vocabularyPanel"/);
+  assert.match(html, /id="vocabularyInput"/);
+  assert.match(html, /id="exportVocabularyButton"/);
+  assert.match(html, /id="weeklyVocabularyGroups"/);
   assert.match(html, /id="testBankProgress"/);
   assert.match(app, /2026-11-06/);
-  assert.match(app, /VOCABULARY_BANK/);
-  assert.match(app, /Array\.from\(\{ length: 20 \}/);
+  assert.doesNotMatch(app, /VOCABULARY_BANK|vocabularyForDate/);
+  assert.match(app, /vocabularyCards: parsed\.vocabularyCards \|\| \{\}/);
+  assert.match(app, /function addVocabularyCard/);
+  assert.match(app, /function deleteVocabularyCard/);
+  assert.match(app, /TWO WEEKS AGO/);
+  assert.match(xlsx, /application\/vnd\.openxmlformats-officedocument\.spreadsheetml\.sheet/);
   assert.match(app, /scheduleCalendarDateRefresh/);
   assert.match(app, /roadmap:\s*\{/);
   assert.match(app, /candidate\.roadmap = candidate\.roadmap \|\| defaultRoadmapState\(\)/);
   assert.match(styles, /\.roadmap-gate-grid/);
   assert.match(styles, /\.roadmap-task-groups/);
+});
+
+test("builds a real Excel workbook with cards and weekly summary", async () => {
+  const source = await readFile(new URL("../xlsx-export.js", import.meta.url), "utf8");
+  const context = { window: {}, Blob, TextEncoder, Uint8Array, DataView, Date, Math, Number, Intl };
+  vm.runInNewContext(source, context);
+  const blob = context.window.VocabularyXlsx.buildVocabularyWorkbook([
+    { date: "2026-08-16", text: "take into account", createdAt: "2026-08-16T01:00:00.000Z" },
+    { date: "2026-08-15", text: "cause & effect", createdAt: "2026-08-15T01:00:00.000Z" },
+  ]);
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const text = new TextDecoder().decode(bytes);
+
+  assert.equal(view.getUint32(0, true), 0x04034b50);
+  assert.equal(view.getUint32(bytes.length - 22, true), 0x06054b50);
+  assert.match(text, /xl\/worksheets\/sheet1\.xml/);
+  assert.match(text, /Weekly Summary/);
+  assert.match(text, /take into account/);
+  assert.match(text, /cause &amp; effect/);
 });

@@ -45,7 +45,7 @@
       projectType: "",
       projectPlan: "",
       projectModule: "",
-      limits: "每天 20 个单词；从日历的单词按钮打开",
+      limits: "",
       status: "未开始",
       actual: "",
     };
@@ -77,7 +77,7 @@
       row.ieltsPlan = "1 份完整真题";
       row.ieltsModule = "完整计时 + 当日复盘";
       row.trainingItems = [fullPaper(date, 1, 1)];
-      row.limits = "8/24–8/28 每天 1 份完整真题 + 20 个单词";
+      row.limits = "8/24–8/28 每天 1 份完整真题";
       return row;
     }
 
@@ -85,7 +85,7 @@
       row.dayType = "休息";
       row.ieltsPlan = "休息／缓冲";
       row.ieltsModule = "不排雅思真题";
-      row.limits = "保留休息与调整；仍维持每天 20 个单词";
+      row.limits = "保留休息与调整";
       return row;
     }
 
@@ -93,7 +93,7 @@
       row.ieltsPlan = "2 份完整真题";
       row.ieltsModule = "完整计时 + 分开复盘";
       row.trainingItems = [fullPaper(date, 1, 2), fullPaper(date, 2, 2)];
-      row.limits = "周一 IELTS 主训练日：2 份完整真题 + 20 个单词";
+      row.limits = "周一 IELTS 主训练日：2 份完整真题";
       return row;
     }
 
@@ -103,7 +103,7 @@
       row.projectModule = "制程";
       row.ieltsPlan = "不排雅思真题";
       row.ieltsModule = "制程日";
-      row.limits = "周二全天制程；不排 IELTS 真题；只保留 20 个单词";
+      row.limits = "周二全天制程；不排 IELTS 真题";
       return row;
     }
 
@@ -113,7 +113,7 @@
       row.projectModule = "书报课程";
       row.ieltsPlan = "不排雅思真题";
       row.ieltsModule = "书报讨论与 Meeting";
-      row.limits = "周三不排 IELTS 真题；只保留 20 个单词";
+      row.limits = "周三不排 IELTS 真题";
       return row;
     }
 
@@ -124,13 +124,13 @@
       row.ieltsPlan = "1 份完整真题";
       row.ieltsModule = "非制程半天完成真题与复盘";
       row.trainingItems = [fullPaper(date, 1, 1)];
-      row.limits = "周四／五／六：半天制程 + 1 份完整真题 + 20 个单词";
+      row.limits = "周四／五／六：半天制程 + 1 份完整真题";
       return row;
     }
 
     row.ieltsPlan = "整理复习 + 错题归档";
     row.ieltsModule = "本周真题、单词与错题整理";
-    row.limits = "周日不做新真题；整理复习 + 20 个单词";
+    row.limits = "周日不做新真题；整理复习";
     return row;
   }
 
@@ -182,7 +182,7 @@
       scheduledCodes,
       remainingCodes,
     },
-    planVersion: "2026-08-16-cambridge-bank-v3",
+    planVersion: "2026-08-16-vocabulary-cards-v4",
     resetFromDate: "2026-08-24"
   };
 })();

@@ -1,9 +1,10 @@
-const CACHE_NAME = "planner-notebook-v29-cambridge-bank";
+const CACHE_NAME = "planner-notebook-v30-vocabulary-cards";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260816-cambridge-bank",
+  "./styles.css?v=20260816-vocabulary-cards",
   "./app.js",
+  "./xlsx-export.js",
   "./config.js",
   "./plan-data.js",
   "./manifest.webmanifest",

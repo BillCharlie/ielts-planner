@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260816-cambridge-bank" />
+    <link rel="stylesheet" href="styles.css?v=20260816-vocabulary-cards" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -155,19 +155,35 @@
                 <h1 id="selectedDateTitle"></h1>
               </div>
               <div class="day-actions">
-                <button id="vocabularyButton" class="vocabulary-button" type="button" aria-expanded="false" aria-controls="vocabularyPanel">单词 · 20</button>
+                <button id="vocabularyButton" class="vocabulary-button" type="button" aria-expanded="false" aria-controls="vocabularyPanel">单词卡</button>
                 <button id="fillTemplateButton" type="button">填入每日建议</button>
                 <button id="placeMainTasksButton" type="button">排入主任务</button>
                 <button id="clearAllButton" class="danger-button" type="button">全部清除</button>
               </div>
             </div>
 
-            <section id="vocabularyPanel" class="vocabulary-panel" hidden aria-label="每日 20 个单词">
+            <section id="vocabularyPanel" class="vocabulary-panel" hidden aria-label="自订英文单词卡">
               <header>
-                <div><span>DAILY VOCABULARY</span><h2 id="vocabularyDate"></h2></div>
-                <strong>20 WORDS</strong>
+                <div><span>VOCABULARY CARDS</span><h2 id="vocabularyDate"></h2></div>
+                <strong id="vocabularyCount">0 CARDS</strong>
               </header>
-              <div id="vocabularyGrid" class="vocabulary-grid"></div>
+              <form id="vocabularyForm" class="vocabulary-form">
+                <label for="vocabularyInput">WORD OR PHRASE</label>
+                <div>
+                  <input id="vocabularyInput" type="text" lang="en" maxlength="120" autocomplete="off" placeholder="Type an English word or phrase" />
+                  <button type="submit">ADD CARD</button>
+                  <button id="exportVocabularyButton" class="secondary-button" type="button">EXPORT EXCEL</button>
+                </div>
+              </form>
+              <section class="vocabulary-day-section">
+                <div class="vocabulary-section-title"><span>SELECTED DAY</span><strong id="vocabularyDayCount">0</strong></div>
+                <div id="vocabularyGrid" class="vocabulary-grid"></div>
+                <p id="vocabularyEmpty" class="vocabulary-empty">NO CARDS YET</p>
+              </section>
+              <section id="weeklyVocabulary" class="weekly-vocabulary" hidden>
+                <div class="vocabulary-section-title"><span>SUNDAY REVIEW</span><strong>3 WEEKS</strong></div>
+                <div id="weeklyVocabularyGroups" class="weekly-vocabulary-groups"></div>
+              </section>
             </section>
 
             <div id="reminderPanel" class="reminder-panel" hidden></div>
@@ -240,6 +256,7 @@
 
     <script src="plan-data.js"></script>
     <script src="config.js"></script>
+    <script src="xlsx-export.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

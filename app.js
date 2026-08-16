@@ -9,39 +9,6 @@
   const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
   const ACADEMIC_MODULES = ["课程", "书报课程", "组会", "研讨会"];
   const ALL_PLAN_MODULES = [...EXPERIMENT_MODULES, ...ACADEMIC_MODULES];
-  const VOCABULARY_BANK = [
-    ["abandon", "放弃"], ["abstract", "抽象的；摘要"], ["accommodate", "容纳；适应"], ["accumulate", "积累"],
-    ["accurate", "准确的"], ["adapt", "适应；改编"], ["adequate", "充足的"], ["advocate", "提倡；支持者"],
-    ["allocate", "分配"], ["alter", "改变"], ["ambiguous", "模糊不清的"], ["analyse", "分析"],
-    ["anticipate", "预期"], ["apparent", "明显的"], ["approach", "方法；接近"], ["appropriate", "合适的"],
-    ["approximate", "大约的"], ["assess", "评估"], ["assign", "分配；指派"], ["assume", "假设"],
-    ["attain", "达到"], ["attribute", "归因于；属性"], ["benefit", "益处"], ["capacity", "能力；容量"],
-    ["category", "类别"], ["coherent", "连贯的"], ["coincide", "同时发生"], ["compile", "汇编；编制"],
-    ["complement", "补充；互补"], ["complex", "复杂的"], ["component", "组成部分"], ["comprehensive", "全面的"],
-    ["concentrate", "集中"], ["conclude", "得出结论"], ["conduct", "进行；行为"], ["consequence", "后果"],
-    ["considerable", "相当大的"], ["consistent", "一致的"], ["constitute", "构成"], ["constrain", "限制"],
-    ["consume", "消耗"], ["context", "背景；语境"], ["contrast", "对比"], ["contribute", "贡献"],
-    ["convert", "转换"], ["crucial", "关键的"], ["decline", "下降；拒绝"], ["define", "定义"],
-    ["demonstrate", "证明；展示"], ["derive", "获得；源自"], ["distribute", "分配；分布"], ["diverse", "多样的"],
-    ["domestic", "国内的；家庭的"], ["dominate", "主导"], ["emerge", "出现"], ["empirical", "实证的"],
-    ["enable", "使能够"], ["encounter", "遇到"], ["enhance", "提升"], ["ensure", "确保"],
-    ["establish", "建立"], ["estimate", "估计"], ["evaluate", "评估"], ["evident", "明显的"],
-    ["exclude", "排除"], ["expand", "扩大"], ["expose", "暴露"], ["facilitate", "促进"],
-    ["factor", "因素"], ["feature", "特征"], ["fluctuate", "波动"], ["framework", "框架"],
-    ["fundamental", "基本的"], ["generate", "产生"], ["hypothesis", "假设"], ["identify", "识别"],
-    ["illustrate", "说明；阐明"], ["imply", "暗示"], ["incentive", "激励"], ["incidence", "发生率"],
-    ["indicate", "表明"], ["inevitable", "不可避免的"], ["infer", "推断"], ["inhibit", "抑制"],
-    ["initial", "最初的"], ["innovate", "创新"], ["integrate", "整合"], ["interpret", "解释"],
-    ["intervene", "干预"], ["justify", "证明合理"], ["maintain", "维持"], ["mechanism", "机制"],
-    ["modify", "修改"], ["monitor", "监测"], ["objective", "目标；客观的"], ["obtain", "获得"],
-    ["occur", "发生"], ["perceive", "感知；认为"], ["persist", "持续"], ["perspective", "观点；视角"],
-    ["potential", "潜在的"], ["predict", "预测"], ["predominant", "占主导的"], ["preliminary", "初步的"],
-    ["preserve", "保留；保护"], ["proportion", "比例"], ["pursue", "追求"], ["range", "范围"],
-    ["regulate", "规范；调节"], ["relevant", "相关的"], ["reliable", "可靠的"], ["require", "需要"],
-    ["respond", "回应"], ["restrict", "限制"], ["significant", "显著的"], ["specify", "明确说明"],
-    ["stable", "稳定的"], ["strategy", "策略"], ["sufficient", "足够的"], ["sustain", "维持；支撑"],
-    ["transform", "转变"], ["valid", "有效的"], ["vary", "变化"], ["widespread", "广泛的"],
-  ];
   const ROADMAP_GATES = [
     { id: "g1", code: "G1", name: "Process Ready", date: "2026-09-30", proof: "Fin lithography + etch recipe freeze；linewidth、etch depth、sidewall 有记录", pass: "进入正式 D / E-mode device", miss: "8 月毕业风险开始上升" },
     { id: "g2", code: "G2", name: "Device Ready", date: "2026-12-15", proof: "第一批 D-mode + E-mode Fin 完成，并开始 electrical measurement", pass: "Plan A 维持绿灯", miss: "8 月毕业进入黄灯" },
@@ -159,7 +126,15 @@
       "vocabularyButton",
       "vocabularyPanel",
       "vocabularyDate",
+      "vocabularyCount",
+      "vocabularyForm",
+      "vocabularyInput",
+      "exportVocabularyButton",
+      "vocabularyDayCount",
       "vocabularyGrid",
+      "vocabularyEmpty",
+      "weeklyVocabulary",
+      "weeklyVocabularyGroups",
       "fillTemplateButton",
       "placeMainTasksButton",
       "clearAllButton",
@@ -250,6 +225,19 @@
       el.vocabularyButton.setAttribute("aria-expanded", String(willOpen));
       if (willOpen) renderVocabulary();
     });
+
+    el.vocabularyForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      addVocabularyCard(selectedDate, el.vocabularyInput.value);
+    });
+
+    el.vocabularyPanel.addEventListener("click", (event) => {
+      const deleteButton = event.target.closest("[data-delete-vocabulary]");
+      if (!deleteButton) return;
+      deleteVocabularyCard(deleteButton.dataset.vocabularyDate, deleteButton.dataset.deleteVocabulary);
+    });
+
+    el.exportVocabularyButton.addEventListener("click", exportVocabularyCards);
 
     el.prevMonth.addEventListener("click", () => {
       visibleMonth = addMonths(visibleMonth, -1);
@@ -1674,17 +1662,120 @@
   }
 
   function renderVocabulary() {
-    const words = vocabularyForDate(selectedDate);
+    const cards = vocabularyCardsForDate(selectedDate);
+    const total = allVocabularyCards().length;
     el.vocabularyDate.textContent = `${formatDate(selectedDate)} · ${weekdayZh(selectedDate)}`;
-    el.vocabularyGrid.innerHTML = words.map(([word, meaning], index) => `
-      <article><span>${pad(index + 1)}</span><div><strong>${safe(word)}</strong><p>${safe(meaning)}</p></div></article>
-    `).join("");
+    el.vocabularyCount.textContent = `${total} ${total === 1 ? "CARD" : "CARDS"}`;
+    el.vocabularyDayCount.textContent = String(cards.length);
+    el.vocabularyButton.textContent = cards.length ? `单词卡 · ${cards.length}` : "单词卡";
+    el.vocabularyGrid.innerHTML = cards.map((card) => vocabularyCardMarkup(card, selectedDate)).join("");
+    el.vocabularyEmpty.hidden = cards.length > 0;
+    renderWeeklyVocabulary();
   }
 
-  function vocabularyForDate(date) {
-    const dayNumber = Math.floor(Date.parse(`${date}T00:00:00Z`) / 86400000);
-    const start = ((dayNumber * 20) % VOCABULARY_BANK.length + VOCABULARY_BANK.length) % VOCABULARY_BANK.length;
-    return Array.from({ length: 20 }, (_, index) => VOCABULARY_BANK[(start + index) % VOCABULARY_BANK.length]);
+  function addVocabularyCard(date, rawText) {
+    const text = `${rawText || ""}`.trim().replace(/\s+/g, " ");
+    if (!text) {
+      showSaved("请输入英文单词或短语");
+      el.vocabularyInput.focus();
+      return;
+    }
+    if (/[^\x20-\x7E]/.test(text)) {
+      showSaved("卡片仅接受英文内容");
+      el.vocabularyInput.focus();
+      return;
+    }
+    const cards = vocabularyCardsForDate(date);
+    if (cards.some((card) => card.text.toLowerCase() === text.toLowerCase())) {
+      showSaved("这张卡片今天已经存在");
+      return;
+    }
+    if (!state.vocabularyCards) state.vocabularyCards = {};
+    if (!state.vocabularyCards[date]) state.vocabularyCards[date] = [];
+    state.vocabularyCards[date].push({
+      id: `vocab-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      text,
+      createdAt: new Date().toISOString(),
+    });
+    el.vocabularyInput.value = "";
+    saveState();
+    renderVocabulary();
+    showSaved("英文卡片已保存");
+  }
+
+  function deleteVocabularyCard(date, cardId) {
+    const cards = vocabularyCardsForDate(date).filter((card) => card.id !== cardId);
+    if (cards.length) state.vocabularyCards[date] = cards;
+    else delete state.vocabularyCards[date];
+    saveState();
+    renderVocabulary();
+    showSaved("卡片已删除");
+  }
+
+  function vocabularyCardsForDate(date) {
+    const cards = state.vocabularyCards?.[date];
+    return Array.isArray(cards) ? cards : [];
+  }
+
+  function allVocabularyCards() {
+    return Object.entries(state.vocabularyCards || {})
+      .flatMap(([date, cards]) => (Array.isArray(cards) ? cards.map((card) => ({ ...card, date })) : []))
+      .sort((a, b) => a.date.localeCompare(b.date) || `${a.createdAt || ""}`.localeCompare(`${b.createdAt || ""}`));
+  }
+
+  function vocabularyCardMarkup(card, date) {
+    return `
+      <article class="word-card">
+        <strong lang="en">${safe(card.text)}</strong>
+        <button type="button" data-delete-vocabulary="${safeAttr(card.id)}" data-vocabulary-date="${safeAttr(date)}" aria-label="Delete ${safeAttr(card.text)}">×</button>
+      </article>
+    `;
+  }
+
+  function renderWeeklyVocabulary() {
+    const isSunday = new Date(`${selectedDate}T00:00:00Z`).getUTCDay() === 0;
+    el.weeklyVocabulary.hidden = !isSunday;
+    if (!isSunday) {
+      el.weeklyVocabularyGroups.innerHTML = "";
+      return;
+    }
+    const currentWeekStart = weekStartMonday(selectedDate);
+    const labels = ["THIS WEEK", "LAST WEEK", "TWO WEEKS AGO"];
+    el.weeklyVocabularyGroups.innerHTML = labels.map((label, index) => {
+      const start = addDays(currentWeekStart, index * -7);
+      const end = addDays(start, 6);
+      const cards = allVocabularyCards().filter((card) => card.date >= start && card.date <= end);
+      return `
+        <section class="weekly-vocabulary-group">
+          <header><div><span>${label}</span><small>${englishDateRange(start, end)}</small></div><strong>${cards.length} ${cards.length === 1 ? "CARD" : "CARDS"}</strong></header>
+          <div class="weekly-card-grid">${cards.length ? cards.map((card) => vocabularyCardMarkup(card, card.date)).join("") : '<p class="week-empty">NO CARDS</p>'}</div>
+        </section>
+      `;
+    }).join("");
+  }
+
+  function weekStartMonday(date) {
+    const day = new Date(`${date}T00:00:00Z`).getUTCDay();
+    return addDays(date, day === 0 ? -6 : 1 - day);
+  }
+
+  function englishDateRange(start, end) {
+    const formatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+    return `${formatter.format(new Date(`${start}T00:00:00Z`))} — ${formatter.format(new Date(`${end}T00:00:00Z`))}`.toUpperCase();
+  }
+
+  function exportVocabularyCards() {
+    const cards = allVocabularyCards();
+    if (!cards.length) {
+      showSaved("目前没有单词卡可以导出");
+      return;
+    }
+    if (!window.VocabularyXlsx?.exportVocabulary) {
+      showSaved("Excel 导出组件尚未载入");
+      return;
+    }
+    window.VocabularyXlsx.exportVocabulary(cards, `vocabulary-cards-${isoToday()}.xlsx`);
+    showSaved("Excel 已导出");
   }
 
   function scheduleCalendarDateRefresh() {
@@ -1734,6 +1825,7 @@
       planRows: parsed.planRows || [],
       planVersion: parsed.planVersion || "",
       optionalPools: parsed.optionalPools || {},
+      vocabularyCards: parsed.vocabularyCards || {},
       roadmap: {
         tasks: parsed.roadmap?.tasks || {},
         gates: parsed.roadmap?.gates || {},
@@ -1865,6 +1957,7 @@
     return Boolean(
       candidate.planRows?.length ||
         candidate.extraPlanRows?.length ||
+        Object.keys(candidate.vocabularyCards || {}).length ||
         Object.keys(candidate.schedule || {}).length ||
         Object.keys(candidate.moduleCatalog || {}).length
     );
