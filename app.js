@@ -17,9 +17,9 @@
   ];
   const ROADMAP_TASKS = [
     { id: "fin-doe", phase: "现在", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "dose、linewidth、etch depth、sidewall 整理成可决策表", due: "09/30" },
-    { id: "ielts-window", phase: "现在", category: "IELTS", title: "重新选择 IELTS 考试窗口", detail: "旧日期已清空；先根据诊断结果再报名", due: "未安排" },
-    { id: "ielts-diagnostic", phase: "现在", category: "IELTS", title: "完成 L / R 计时诊断", detail: "Writing / Speaking 同步做基线记录", due: "未安排" },
-    { id: "speaking-admin", phase: "现在", category: "IELTS", title: "建立 Speaking 行政检查表", detail: "考试时间、地点、报到方式与前后 buffer", due: "报名后" },
+    { id: "ielts-window", phase: "现在", category: "IELTS", title: "核对 IELTS 二战报名资料", detail: "考试日已定 2026/11/06；确认场次、证件与报到资讯", due: "11/06" },
+    { id: "ielts-diagnostic", phase: "现在", category: "IELTS", title: "完成 L / R 计时诊断", detail: "Writing / Speaking 同步做基线记录", due: "08/31" },
+    { id: "speaking-admin", phase: "现在", category: "IELTS", title: "补登 Speaking 场次", detail: "收到通知后记录考试时间、地点、报到方式与前后 buffer", due: "待通知" },
     { id: "iedms-assets", phase: "现在", category: "会议", title: "IEDMS figure inventory", detail: "论文 figure → poster → 口头解释，不重新做研究", due: "08/31" },
     { id: "cv-process", phase: "现在", category: "FinFET", title: "启动 C–V test process", detail: "建立 test structure 与 measurement flow", due: "09/15" },
     { id: "advisor-exit", phase: "现在", category: "沟通", title: "和老师确认毕业 exit criteria", detail: "带 G1–G4 询问 7–8 月口试的必要成果", due: "09/15" },
@@ -38,10 +38,10 @@
     { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
   ];
   const ROADMAP_MONTHS = [
-    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 重新诊断；IEDMS 已接受，整理 figure inventory；C–V 规划", "CV v1；写入两项 accepted conference contributions；建立港／欧／台大清单", "A / B 正常推进"],
-    ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 日期待诊断后安排；IEDMS poster 50–70%", "CV / Motivation Letter 初版；谈 exit criteria", "Plan A 必须通过 G1"],
-    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会", "只追踪高度匹配职位", "A：正式 wafer 已开始"],
-    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "IWN 已接受；11/04 poster freeze；11/08–13 参会", "低强度维护；更新两场 accepted conference", "B 最晚延至 12 月"],
+    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 二战已定 11/06；重新诊断；IEDMS figure inventory；C–V 规划", "CV v1；写入两项 accepted conference contributions；建立港／欧／台大清单", "A / B 正常推进"],
+    ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 核心训练；IEDMS poster 50–70%", "CV / Motivation Letter 初版；谈 exit criteria", "Plan A 必须通过 G1"],
+    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会；IELTS 维持训练", "只追踪高度匹配职位", "A：正式 wafer 已开始"],
+    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN poster freeze；11/06 IELTS 二战；11/08–13 IWN", "低强度维护；更新两场 accepted conference", "B 最晚延至 12 月"],
     ["2026/12", "First data", "Electrical measurement；C–V / Regrowth correlation", "整理 TCAD 对照与 journal story", "主申请；CV v3；请推荐信", "12/15 通过 G2"],
     ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "欧洲主投＋technical interview", "A：只做有限补实验"],
     ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "申请与面试高峰", "A：实验开始 freeze"],
@@ -148,6 +148,7 @@
       "roadmapTimelineBody",
       "roadmapTaskGroups",
       "roadmapApplicationBody",
+      "ieltsExamCountdown",
       "iedmsCountdown",
       "iwnCountdown",
     ].forEach((id) => {
@@ -362,6 +363,7 @@
     el.roadmapTaskProgress.textContent = `${doneTasks} / ${ROADMAP_TASKS.length}`;
     el.roadmapGateCountdown.textContent = `${formatDate(nextGate.date)} · ${remaining >= 0 ? `剩 ${remaining} 天` : "待补登结果"}`;
     el.roadmapTrackStatus.textContent = roadmap.gates.g3 ? "Plan A 有数据支持" : "A / B 同时保留";
+    el.ieltsExamCountdown.textContent = countdownLabel("2026-11-06");
     el.iedmsCountdown.textContent = countdownLabel("2026-10-22");
     el.iwnCountdown.textContent = countdownLabel("2026-11-08");
   }

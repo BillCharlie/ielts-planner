@@ -1754,6 +1754,25 @@ textarea {
   font-size: 14px;
 }
 
+.ielts-date-warning {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  margin: 14px 0 0;
+  padding: 14px 16px;
+  border: 1px solid #e4ca72;
+  border-radius: 6px;
+  background: #fff8d9;
+  color: #584d27;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ielts-date-warning b {
+  color: var(--teal-dark);
+  white-space: nowrap;
+}
+
 .ielts-restart-steps {
   margin: 22px 0 0;
   padding: 0;
