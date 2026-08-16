@@ -152,6 +152,8 @@
       "nextMonth",
       "monthTitle",
       "monthGrid",
+      "testBankProgress",
+      "testBankRemaining",
       "selectedDayType",
       "selectedDateTitle",
       "vocabularyButton",
@@ -488,6 +490,7 @@
 
   function renderCalendar() {
     el.monthTitle.textContent = monthLabel(visibleMonth);
+    renderTestBankStatus();
     el.monthGrid.innerHTML = "";
 
     const [year, month] = visibleMonth.split("-").map(Number);
@@ -529,6 +532,21 @@
       });
       el.monthGrid.appendChild(button);
     }
+  }
+
+  function renderTestBankStatus() {
+    const bank = data.testBank || {};
+    const scheduled = Number(bank.scheduled || 0);
+    const total = Number(bank.total || 0);
+    const remaining = Array.isArray(bank.remainingCodes) ? bank.remainingCodes : [];
+    el.testBankProgress.textContent = `${scheduled} / ${total} 已排`;
+    if (!remaining.length) {
+      el.testBankRemaining.textContent = "全部真题都已排入日历。";
+      return;
+    }
+    const books = [...new Set(remaining.map((code) => Number(String(code).match(/^C(\d+)T/)?.[1])).filter(Boolean))];
+    const bookRange = books.length > 1 ? `Cambridge ${books[0]}–${books.at(-1)}` : `Cambridge ${books[0]}`;
+    el.testBankRemaining.textContent = `依目前周规则，考试前尚余 ${remaining.length} 份：${bookRange}。`;
   }
 
   function renderSelectedDay() {

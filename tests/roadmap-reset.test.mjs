@@ -9,7 +9,7 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   vm.runInNewContext(source, context);
   const data = context.window.IELTS_PLANNER_DATA;
 
-  assert.equal(data.planVersion, "2026-08-16-ielts-routine-v2");
+  assert.equal(data.planVersion, "2026-08-16-cambridge-bank-v3");
   assert.equal(data.resetFromDate, "2026-08-24");
   assert.deepEqual(Array.from(data.dailyTemplates), []);
   assert.equal(data.mainPlan.length, 75);
@@ -31,6 +31,16 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   }
   assert.match(byDate.get("2026-09-13").ieltsPlan, /整理复习/);
   assert.equal(byDate.get("2026-11-06").dayType, "考试日");
+  assert.equal(data.testBank.range, "Cambridge 5–21");
+  assert.equal(data.testBank.perBook, 4);
+  assert.equal(data.testBank.total, 68);
+  assert.equal(data.testBank.scheduled, 48);
+  assert.equal(data.testBank.remainingCodes.length, 20);
+  assert.equal(byDate.get("2026-08-24").trainingItems[0].cambridge, "C5T1");
+  assert.equal(byDate.get("2026-08-25").trainingItems[0].cambridge, "C5T2");
+  assert.equal(byDate.get("2026-09-07").trainingItems[0].cambridge, "C6T2");
+  assert.equal(byDate.get("2026-11-05").trainingItems[0].cambridge, "C16T4");
+  assert.equal(new Set([...data.testBank.scheduledCodes, ...data.testBank.remainingCodes]).size, 68);
   assert.doesNotMatch(source, /2026-07-26|Cambridge 21 Test 4/);
 });
 
@@ -52,6 +62,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /Speaking[\s\S]*待确认/);
   assert.match(html, /id="vocabularyButton"/);
   assert.match(html, /id="vocabularyPanel"/);
+  assert.match(html, /id="testBankProgress"/);
   assert.match(app, /2026-11-06/);
   assert.match(app, /VOCABULARY_BANK/);
   assert.match(app, /Array\.from\(\{ length: 20 \}/);

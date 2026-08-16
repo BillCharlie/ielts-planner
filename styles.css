@@ -239,6 +239,39 @@ textarea {
   top: 72px;
 }
 
+.test-bank-status {
+  margin-top: 14px;
+  padding: 12px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+}
+
+.test-bank-status > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.test-bank-status span {
+  color: var(--teal-dark);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.test-bank-status strong {
+  font-size: 12px;
+}
+
+.test-bank-status p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
 .month-header {
   display: grid;
   grid-template-columns: 42px 1fr 42px;

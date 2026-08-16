@@ -139,13 +139,50 @@
     mainPlan.push(rowForDate(cursor));
   }
 
+  const testBank = [];
+  for (let book = 5; book <= 21; book += 1) {
+    for (let test = 1; test <= 4; test += 1) {
+      testBank.push({ book, test, code: `C${book}T${test}`, title: `Cambridge ${book} Test ${test}` });
+    }
+  }
+
+  const scheduledPapers = mainPlan.flatMap((row) => row.trainingItems
+    .filter((item) => item.kind === "full")
+    .map((item) => ({ row, item })));
+  scheduledPapers.forEach(({ row, item }, index) => {
+    const assigned = testBank[index];
+    if (!assigned) return;
+    item.id = `full-${row.date}-${assigned.code}`;
+    item.title = assigned.title;
+    item.cambridge = assigned.code;
+    item.full = assigned.title;
+    item.module = `${assigned.title}｜Listening + Reading + Writing + Speaking 完整计时`;
+  });
+  mainPlan.forEach((row) => {
+    row.cambridge = row.trainingItems
+      .filter((item) => item.kind === "full")
+      .map((item) => item.cambridge)
+      .join(" + ");
+  });
+
+  const scheduledCodes = testBank.slice(0, scheduledPapers.length).map((item) => item.code);
+  const remainingCodes = testBank.slice(scheduledPapers.length).map((item) => item.code);
+
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-08-16T00:00:00.000+08:00",
     source: "Automatic IELTS and process routine ending with the IELTS retake on 2026-11-06.",
     mainPlan,
     dailyTemplates: [],
     autoPlan: plan,
-    planVersion: "2026-08-16-ielts-routine-v2",
+    testBank: {
+      range: "Cambridge 5–21",
+      perBook: 4,
+      total: testBank.length,
+      scheduled: scheduledCodes.length,
+      scheduledCodes,
+      remainingCodes,
+    },
+    planVersion: "2026-08-16-cambridge-bank-v3",
     resetFromDate: "2026-08-24"
   };
 })();
