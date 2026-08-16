@@ -56,16 +56,12 @@
     ["2027/11", "Conservative window", "完成行政与离校", "Plan B：毕业窗口", "PhD 衔接", "B：目标毕业"],
     ["2027/12", "Final buffer", "只保留必要 contingency", "最终毕业缓冲", "完成转场", "B：最晚毕业窗口"],
   ];
-  const ROADMAP_APPLICATIONS = [
-    { id: "hkust", school: "HKUST", region: "香港", fit: "GaN / power devices / fabrication", next: "找 2–3 位高度匹配 PI" },
-    { id: "hku-cuhk", school: "HKU / CUHK", region: "香港", fit: "III-N / devices / materials", next: "比较设备与 funding" },
-    { id: "city-poly", school: "CityU / PolyU", region: "香港", fit: "Device integration / TCAD", next: "建立教授研究对照表" },
-    { id: "imec", school: "imec / KU Leuven", region: "欧洲", fit: "GaN integration / advanced devices", next: "追踪 project-based vacancies" },
-    { id: "iisb", school: "Fraunhofer IISB", region: "欧洲", fit: "Power semiconductor / TCAD", next: "准备 position-specific letter" },
-    { id: "eu", school: "TU Delft / EPFL / 其他", region: "欧洲", fit: "III-N / power devices", next: "只收录高度吻合职位" },
-    { id: "ntu", school: "台大电子所博士丙组", region: "台湾", fit: "元件、材料与异质整合", next: "等 116 简章确认规则" },
+  const PHD_REGION_PRESETS = [
+    { id: "hk", code: "HK", name: "香港", hint: "集中式 PhD 申请与导师联系", schools: ["HKUST", "HKU", "CUHK", "CityU", "PolyU"] },
+    { id: "tw", code: "TW", name: "台湾", hint: "学校招生规则与导师意愿并行确认", schools: ["NTU"] },
+    { id: "eu", code: "EU", name: "欧洲", hint: "以导师、实验室或 project vacancy 为单位", schools: ["KU Leuven / imec", "TU Delft", "EPFL", "Fraunhofer IISB"] },
   ];
-  const ROADMAP_APPLICATION_STATUSES = ["研究中", "短名单", "已联络", "备妥材料", "已送出", "面试", "Offer", "暂停"];
+  const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系", "待回复", "准备申请", "已送出", "面试", "Offer", "暂停"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
   let state = loadState();
   let mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
@@ -93,6 +89,7 @@
     bindCalendarControls();
     bindPlanControls();
     bindRoadmapControls();
+    bindPhdControls();
     bindPwa();
     showInitialView();
     scheduleCalendarDateRefresh();
@@ -109,6 +106,7 @@
       "navCalendar",
       "navPlan",
       "navRoadmap",
+      "navPhd",
       "dateRangeLabel",
       "installButton",
       "lockButton",
@@ -164,7 +162,12 @@
       "roadmapGateGrid",
       "roadmapTimelineBody",
       "roadmapTaskGroups",
-      "roadmapApplicationBody",
+      "phdView",
+      "phdRegionList",
+      "phdSchoolCount",
+      "phdAdvisorCount",
+      "phdCvCount",
+      "phdActiveCount",
       "ieltsExamCountdown",
       "iedmsCountdown",
       "iwnCountdown",
@@ -215,6 +218,7 @@
 
   function bindNavigation() {
     el.navRoadmap.addEventListener("click", () => setView("roadmap"));
+    el.navPhd.addEventListener("click", () => setView("phd"));
     el.navCalendar.addEventListener("click", () => setView("calendar"));
     el.navPlan.addEventListener("click", () => setView("plan"));
   }
@@ -296,7 +300,7 @@
 
   function bindRoadmapControls() {
     el.roadmapResetButton.addEventListener("click", () => {
-      if (!window.confirm("要把研究 Gate、任务和申请进度全部归零吗？")) return;
+      if (!window.confirm("要把研究 Gate 和任务进度全部归零吗？PhD 申请追踪不会被清除。")) return;
       state.roadmap = defaultRoadmapState();
       saveState();
       renderRoadmap();
@@ -319,12 +323,39 @@
       renderRoadmap();
     });
 
-    el.roadmapApplicationBody.addEventListener("change", (event) => {
-      const select = event.target.closest("[data-roadmap-application]");
-      if (!select) return;
-      state.roadmap.applications[select.dataset.roadmapApplication] = select.value;
-      saveState();
-      renderRoadmapStats();
+  }
+
+  function bindPhdControls() {
+    el.phdRegionList.addEventListener("submit", (event) => {
+      const schoolForm = event.target.closest("[data-add-phd-school]");
+      if (schoolForm) {
+        event.preventDefault();
+        addPhdSchool(schoolForm);
+        return;
+      }
+      const advisorForm = event.target.closest("[data-add-phd-advisor]");
+      if (advisorForm) {
+        event.preventDefault();
+        addPhdAdvisor(advisorForm);
+      }
+    });
+
+    el.phdRegionList.addEventListener("input", (event) => {
+      updatePhdTextField(event.target);
+    });
+
+    el.phdRegionList.addEventListener("change", (event) => {
+      updatePhdControl(event.target);
+    });
+
+    el.phdRegionList.addEventListener("click", (event) => {
+      const removeAdvisor = event.target.closest("[data-delete-phd-advisor]");
+      if (removeAdvisor) {
+        deletePhdAdvisor(removeAdvisor);
+        return;
+      }
+      const removeSchool = event.target.closest("[data-delete-phd-school]");
+      if (removeSchool) deletePhdSchool(removeSchool);
     });
   }
 
@@ -365,19 +396,24 @@
 
   function setView(viewName) {
     const isRoadmap = viewName === "roadmap";
+    const isPhd = viewName === "phd";
     const isCalendar = viewName === "calendar";
     el.navRoadmap.classList.toggle("active", isRoadmap);
+    el.navPhd.classList.toggle("active", isPhd);
     el.navCalendar.classList.toggle("active", isCalendar);
     el.navPlan.classList.toggle("active", viewName === "plan");
     el.roadmapView.classList.toggle("active", isRoadmap);
+    el.phdView.classList.toggle("active", isPhd);
     el.calendarView.classList.toggle("active", isCalendar);
     el.planView.classList.toggle("active", viewName === "plan");
     if (viewName === "plan") renderPlanTable();
     if (isRoadmap) renderRoadmap();
+    if (isPhd) renderPhdTracker();
   }
 
   function renderAll() {
     renderRoadmap();
+    renderPhdTracker();
     renderModuleCatalog();
     renderCalendar();
     renderSelectedDay();
@@ -389,7 +425,6 @@
     renderRoadmapGates();
     renderRoadmapTimeline();
     renderRoadmapTasks();
-    renderRoadmapApplications();
   }
 
   function renderRoadmapStats() {
@@ -461,20 +496,154 @@
     }).join("");
   }
 
-  function renderRoadmapApplications() {
-    const applicationState = state.roadmap?.applications || {};
-    el.roadmapApplicationBody.innerHTML = ROADMAP_APPLICATIONS.map((item) => {
-      const status = applicationState[item.id] || "研究中";
-      return `
-        <tr>
-          <td><strong>${safe(item.school)}</strong></td>
-          <td><span class="region-tag">${safe(item.region)}</span></td>
-          <td>${safe(item.fit)}</td>
-          <td>${safe(item.next)}</td>
-          <td><select data-roadmap-application="${safeAttr(item.id)}" aria-label="${safeAttr(item.school)} 申请状态">${ROADMAP_APPLICATION_STATUSES.map((option) => `<option${option === status ? " selected" : ""}>${safe(option)}</option>`).join("")}</select></td>
-        </tr>
-      `;
-    }).join("");
+  function renderPhdTracker() {
+    const regions = state.phdTracker?.regions || [];
+    const schools = regions.flatMap((region) => region.schools || []);
+    const advisors = schools.flatMap((school) => school.advisors || []);
+    const cvDone = advisors.filter((advisor) => advisor.cvDone).length;
+    const active = advisors.filter((advisor) => !["研究中", "准备联系", "暂停"].includes(advisor.status)).length;
+    el.phdSchoolCount.textContent = String(schools.length);
+    el.phdAdvisorCount.textContent = String(advisors.length);
+    el.phdCvCount.textContent = `${cvDone} / ${advisors.length}`;
+    el.phdActiveCount.textContent = String(active);
+    el.phdRegionList.innerHTML = regions.map((region) => `
+      <section class="phd-region" data-phd-region="${safeAttr(region.id)}">
+        <header class="phd-region-header">
+          <div class="phd-region-code">${safe(region.code)}</div>
+          <div><h2>${safe(region.name)}</h2><p>${safe(region.hint)}</p></div>
+          <span>${region.schools.length} 所 · ${region.schools.reduce((count, school) => count + school.advisors.length, 0)} 位导师</span>
+        </header>
+        <div class="phd-school-list">
+          ${region.schools.length ? region.schools.map((school) => renderPhdSchool(region, school)).join("") : '<p class="phd-region-empty">尚未加入学校。可从下方新增第一所学校。</p>'}
+        </div>
+        <form class="phd-add-school" data-add-phd-school="${safeAttr(region.id)}">
+          <label><span>新增学校／机构</span><input name="schoolName" type="text" placeholder="输入学校名称" required /></label>
+          <button type="submit">＋ 添加学校</button>
+        </form>
+      </section>
+    `).join("");
+  }
+
+  function renderPhdSchool(region, school) {
+    return `
+      <article class="phd-school" data-phd-school="${safeAttr(school.id)}">
+        <header class="phd-school-header">
+          <label><span>学校／机构</span><input data-phd-school-name="true" data-region-id="${safeAttr(region.id)}" data-school-id="${safeAttr(school.id)}" value="${safeAttr(school.name)}" aria-label="学校名称" /></label>
+          <span>${school.advisors.length} 位导师</span>
+          <button class="phd-delete-button" type="button" data-delete-phd-school="${safeAttr(school.id)}" data-region-id="${safeAttr(region.id)}">删除学校</button>
+        </header>
+        <div class="phd-advisor-table">
+          <div class="phd-advisor-table-head" aria-hidden="true"><span>导师</span><span>Email</span><span>对应 CV</span><span>状态</span><span></span></div>
+          ${school.advisors.length ? school.advisors.map((advisor) => renderPhdAdvisor(region, school, advisor)).join("") : '<p class="phd-advisor-empty">还没有导师记录。</p>'}
+        </div>
+        <form class="phd-add-advisor" data-add-phd-advisor="${safeAttr(school.id)}" data-region-id="${safeAttr(region.id)}">
+          <label><span>导师姓名</span><input name="advisorName" type="text" placeholder="Professor name" required /></label>
+          <label><span>Email</span><input name="advisorEmail" type="email" placeholder="name@university.edu" /></label>
+          <button type="submit">＋ 添加导师</button>
+        </form>
+      </article>
+    `;
+  }
+
+  function renderPhdAdvisor(region, school, advisor) {
+    const common = `data-region-id="${safeAttr(region.id)}" data-school-id="${safeAttr(school.id)}" data-advisor-id="${safeAttr(advisor.id)}"`;
+    return `
+      <div class="phd-advisor-row">
+        <label><span>导师</span><input ${common} data-phd-advisor-field="name" value="${safeAttr(advisor.name)}" placeholder="Professor name" aria-label="导师姓名" /></label>
+        <label><span>Email</span><input ${common} data-phd-advisor-field="email" type="email" value="${safeAttr(advisor.email)}" placeholder="name@university.edu" aria-label="导师 Email" /></label>
+        <label class="phd-cv-check"><input ${common} data-phd-advisor-cv="true" type="checkbox"${advisor.cvDone ? " checked" : ""} /><span>${advisor.cvDone ? "✓ 已完成" : "○ 未完成"}</span></label>
+        <label><span>状态</span><select ${common} data-phd-advisor-status="true" aria-label="申请状态">${PHD_APPLICATION_STATUSES.map((status) => `<option${status === advisor.status ? " selected" : ""}>${safe(status)}</option>`).join("")}</select></label>
+        <button class="phd-delete-button advisor" type="button" ${common} data-delete-phd-advisor="true" aria-label="删除 ${safeAttr(advisor.name || "导师")}">删除</button>
+      </div>
+    `;
+  }
+
+  function addPhdSchool(form) {
+    const region = state.phdTracker.regions.find((item) => item.id === form.dataset.addPhdSchool);
+    const name = new FormData(form).get("schoolName")?.trim();
+    if (!region || !name) return;
+    region.schools.push({ id: makePhdId("school"), name, advisors: [] });
+    form.reset();
+    saveState();
+    renderPhdTracker();
+    showSaved("学校已添加");
+  }
+
+  function addPhdAdvisor(form) {
+    const school = findPhdSchool(form.dataset.regionId, form.dataset.addPhdAdvisor);
+    const formData = new FormData(form);
+    const name = formData.get("advisorName")?.trim();
+    const email = formData.get("advisorEmail")?.trim() || "";
+    if (!school || !name) return;
+    school.advisors.push({ id: makePhdId("advisor"), name, email, cvDone: false, status: "研究中" });
+    form.reset();
+    saveState();
+    renderPhdTracker();
+    showSaved("导师已添加");
+  }
+
+  function updatePhdTextField(target) {
+    if (target.matches("[data-phd-school-name]")) {
+      const school = findPhdSchool(target.dataset.regionId, target.dataset.schoolId);
+      if (!school) return;
+      school.name = target.value;
+      saveState();
+      return;
+    }
+    if (!target.matches("[data-phd-advisor-field]")) return;
+    const advisor = findPhdAdvisor(target.dataset.regionId, target.dataset.schoolId, target.dataset.advisorId);
+    if (!advisor) return;
+    advisor[target.dataset.phdAdvisorField] = target.value;
+    saveState();
+  }
+
+  function updatePhdControl(target) {
+    if (target.matches("[data-phd-school-name]")) {
+      const school = findPhdSchool(target.dataset.regionId, target.dataset.schoolId);
+      if (!school) return;
+      school.name = target.value.trim() || "未命名学校";
+      saveState();
+      renderPhdTracker();
+      return;
+    }
+    const advisor = findPhdAdvisor(target.dataset.regionId, target.dataset.schoolId, target.dataset.advisorId);
+    if (!advisor) return;
+    if (target.matches("[data-phd-advisor-cv]")) advisor.cvDone = target.checked;
+    if (target.matches("[data-phd-advisor-status]")) advisor.status = target.value;
+    saveState();
+    renderPhdTracker();
+  }
+
+  function deletePhdAdvisor(button) {
+    const school = findPhdSchool(button.dataset.regionId, button.dataset.schoolId);
+    const advisor = findPhdAdvisor(button.dataset.regionId, button.dataset.schoolId, button.dataset.advisorId);
+    if (!school || !advisor || !window.confirm(`要删除导师「${advisor.name || "未命名"}」吗？`)) return;
+    school.advisors = school.advisors.filter((item) => item.id !== advisor.id);
+    saveState();
+    renderPhdTracker();
+    showSaved("导师已删除");
+  }
+
+  function deletePhdSchool(button) {
+    const region = state.phdTracker.regions.find((item) => item.id === button.dataset.regionId);
+    const school = findPhdSchool(button.dataset.regionId, button.dataset.deletePhdSchool);
+    if (!region || !school || !window.confirm(`要删除「${school.name || "未命名学校"}」和其中的 ${school.advisors.length} 位导师吗？`)) return;
+    region.schools = region.schools.filter((item) => item.id !== school.id);
+    saveState();
+    renderPhdTracker();
+    showSaved("学校已删除");
+  }
+
+  function findPhdSchool(regionId, schoolId) {
+    return state.phdTracker?.regions.find((region) => region.id === regionId)?.schools.find((school) => school.id === schoolId);
+  }
+
+  function findPhdAdvisor(regionId, schoolId, advisorId) {
+    return findPhdSchool(regionId, schoolId)?.advisors.find((advisor) => advisor.id === advisorId);
+  }
+
+  function makePhdId(prefix) {
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   }
 
   function renderCalendar() {
@@ -1845,8 +2014,8 @@
       roadmap: {
         tasks: parsed.roadmap?.tasks || {},
         gates: parsed.roadmap?.gates || {},
-        applications: parsed.roadmap?.applications || {},
       },
+      phdTracker: normalizePhdTracker(parsed.phdTracker),
     };
     ensureAcademicCatalog(normalized);
     return migratePlanState(normalized);
@@ -1894,8 +2063,47 @@
     return candidate;
   }
 
+  function defaultPhdTracker() {
+    return {
+      regions: PHD_REGION_PRESETS.map((preset) => ({
+        id: preset.id,
+        code: preset.code,
+        name: preset.name,
+        hint: preset.hint,
+        schools: preset.schools.map((name, index) => ({
+          id: `${preset.id}-school-${index + 1}`,
+          name,
+          advisors: [],
+        })),
+      })),
+    };
+  }
+
+  function normalizePhdTracker(candidate) {
+    const fallback = defaultPhdTracker();
+    if (!Array.isArray(candidate?.regions)) return fallback;
+    return {
+      regions: PHD_REGION_PRESETS.map((preset) => {
+        const incoming = candidate.regions.find((region) => region.id === preset.id);
+        const defaultRegion = fallback.regions.find((region) => region.id === preset.id);
+        const schools = Array.isArray(incoming?.schools) ? incoming.schools.map((school, schoolIndex) => ({
+          id: `${school.id || `${preset.id}-school-${schoolIndex + 1}`}`,
+          name: `${school.name || "未命名学校"}`,
+          advisors: Array.isArray(school.advisors) ? school.advisors.map((advisor, advisorIndex) => ({
+            id: `${advisor.id || `${preset.id}-advisor-${schoolIndex + 1}-${advisorIndex + 1}`}`,
+            name: `${advisor.name || ""}`,
+            email: `${advisor.email || ""}`,
+            cvDone: Boolean(advisor.cvDone),
+            status: PHD_APPLICATION_STATUSES.includes(advisor.status) ? advisor.status : "研究中",
+          })) : [],
+        })) : defaultRegion.schools;
+        return { id: preset.id, code: preset.code, name: preset.name, hint: preset.hint, schools };
+      }),
+    };
+  }
+
   function defaultRoadmapState() {
-    return { tasks: {}, gates: {}, applications: {} };
+    return { tasks: {}, gates: {} };
   }
 
   function resolveApiBase() {
@@ -1973,6 +2181,7 @@
     return Boolean(
       candidate.planRows?.length ||
         candidate.extraPlanRows?.length ||
+        candidate.phdTracker?.regions?.some((region) => region.schools?.length) ||
         Object.keys(candidate.vocabularyCards || {}).length ||
         Object.keys(candidate.schedule || {}).length ||
         Object.keys(candidate.moduleCatalog || {}).length

@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v34-preexam-buffer";
+const CACHE_NAME = "planner-notebook-v35-phd-tracker";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260816-paper-only-calendar",
+  "./styles.css?v=20260816-phd-tracker",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",

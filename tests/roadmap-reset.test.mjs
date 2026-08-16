@@ -60,7 +60,10 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
     readFile(new URL("../xlsx-export.js", import.meta.url), "utf8"),
   ]);
 
-  for (const id of ["roadmapView", "roadmapGateGrid", "roadmapTimelineBody", "roadmapTaskGroups", "roadmapApplicationBody"]) {
+  for (const id of ["roadmapView", "roadmapGateGrid", "roadmapTimelineBody", "roadmapTaskGroups"]) {
+    assert.match(html, new RegExp(`id=["']${id}["']`));
+  }
+  for (const id of ["navPhd", "phdView", "phdRegionList", "phdSchoolCount", "phdAdvisorCount", "phdCvCount", "phdActiveCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
   assert.match(html, /GaN FinFET/);
@@ -92,8 +95,18 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(styles, /\.day-cell\.paper-day/);
   assert.match(app, /roadmap:\s*\{/);
   assert.match(app, /candidate\.roadmap = candidate\.roadmap \|\| defaultRoadmapState\(\)/);
+  assert.match(app, /PHD_REGION_PRESETS[\s\S]*code: "HK"[\s\S]*code: "TW"[\s\S]*code: "EU"/);
+  assert.match(app, /phdTracker: normalizePhdTracker\(parsed\.phdTracker\)/);
+  assert.match(app, /function addPhdSchool/);
+  assert.match(app, /function addPhdAdvisor/);
+  assert.match(app, /data-phd-advisor-field="email"/);
+  assert.match(app, /data-phd-advisor-cv="true"/);
+  assert.match(app, /data-phd-advisor-status="true"/);
+  assert.doesNotMatch(html, /id="roadmapApplicationBody"/);
   assert.match(styles, /\.roadmap-gate-grid/);
   assert.match(styles, /\.roadmap-task-groups/);
+  assert.match(styles, /\.phd-region-list/);
+  assert.match(styles, /\.phd-advisor-row/);
 });
 
 test("builds a real Excel workbook with cards and weekly summary", async () => {
