@@ -128,9 +128,10 @@
       return row;
     }
 
-    row.ieltsPlan = "整理复习 + 错题归档";
-    row.ieltsModule = "本周真题、单词与错题整理";
-    row.limits = "周日不做新真题；整理复习";
+    row.ieltsPlan = "1 份完整真题";
+    row.ieltsModule = "完整计时 + 本周错题整理";
+    row.trainingItems = [fullPaper(date, 1, 1)];
+    row.limits = "周日：1 份完整真题";
     return row;
   }
 
@@ -149,13 +150,16 @@
   const scheduledPapers = mainPlan.flatMap((row) => row.trainingItems
     .filter((item) => item.kind === "full")
     .map((item) => ({ row, item })));
-  const assignmentPool = testBank.filter((item) => item.book >= 13 || item.test <= 3);
+  const retakeBank = testBank
+    .filter((item) => item.test === 4 && item.book >= 18)
+    .map((item) => ({ ...item, displayCode: `R·${item.code}`, title: `${item.title} Retake` }));
+  const assignmentPool = [...testBank, ...retakeBank];
   scheduledPapers.forEach(({ row, item }, index) => {
     const assigned = assignmentPool[index];
     if (!assigned) return;
     item.id = `full-${row.date}-${assigned.code}`;
     item.title = assigned.title;
-    item.cambridge = assigned.code;
+    item.cambridge = assigned.displayCode || assigned.code;
     item.full = assigned.title;
     item.module = `${assigned.title}｜Listening + Reading + Writing + Speaking 完整计时`;
   });
@@ -166,9 +170,10 @@
       .join(" + ");
   });
 
-  const scheduledCodes = assignmentPool.slice(0, scheduledPapers.length).map((item) => item.code);
+  const scheduledCodes = testBank.map((item) => item.code);
   const scheduledCodeSet = new Set(scheduledCodes);
   const remainingCodes = testBank.filter((item) => !scheduledCodeSet.has(item.code)).map((item) => item.code);
+  const retakeCodes = retakeBank.map((item) => item.code);
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-08-16T00:00:00.000+08:00",
@@ -183,8 +188,10 @@
       scheduled: scheduledCodes.length,
       scheduledCodes,
       remainingCodes,
+      scheduledSlots: scheduledPapers.length,
+      retakeCodes,
     },
-    planVersion: "2026-08-16-cambridge-9-21-v5",
+    planVersion: "2026-08-16-sunday-paper-v6",
     resetFromDate: "2026-08-24"
   };
 })();

@@ -526,9 +526,12 @@
     const scheduled = Number(bank.scheduled || 0);
     const total = Number(bank.total || 0);
     const remaining = Array.isArray(bank.remainingCodes) ? bank.remainingCodes : [];
+    const retakes = Array.isArray(bank.retakeCodes) ? bank.retakeCodes : [];
     el.testBankProgress.textContent = `${scheduled} / ${total} 已排`;
     if (!remaining.length) {
-      el.testBankRemaining.textContent = "全部真题都已排入日历。";
+      el.testBankRemaining.textContent = retakes.length
+        ? `全部真题已排；考前重做 ${retakes.join("、")}。`
+        : "全部真题都已排入日历。";
       return;
     }
     el.testBankRemaining.textContent = `依目前周规则，考试前尚余 ${remaining.length} 份：${remaining.join("、")}。`;
