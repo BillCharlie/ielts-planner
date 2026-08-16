@@ -65,6 +65,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /id="vocabularyPanel"/);
   assert.match(html, /id="vocabularyInput"/);
   assert.match(html, /id="exportVocabularyButton"/);
+  assert.match(html, /id="weeklyVocabularyCount"/);
   assert.match(html, /id="weeklyVocabularyGroups"/);
   assert.match(html, /id="testBankProgress"/);
   assert.match(app, /2026-11-06/);
@@ -72,7 +73,10 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /vocabularyCards: parsed\.vocabularyCards \|\| \{\}/);
   assert.match(app, /function addVocabularyCard/);
   assert.match(app, /function deleteVocabularyCard/);
-  assert.match(app, /TWO WEEKS AGO/);
+  assert.match(app, /card\.date <= selectedDate/);
+  assert.match(app, /cardsByWeek/);
+  assert.match(app, /WEEK OF/);
+  assert.doesNotMatch(app, /THIS WEEK|LAST WEEK|TWO WEEKS AGO/);
   assert.match(xlsx, /application\/vnd\.openxmlformats-officedocument\.spreadsheetml\.sheet/);
   assert.match(app, /scheduleCalendarDateRefresh/);
   assert.match(app, /roadmap:\s*\{/);

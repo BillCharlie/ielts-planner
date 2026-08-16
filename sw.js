@@ -1,4 +1,4 @@
-const CACHE_NAME = "planner-notebook-v30-vocabulary-cards";
+const CACHE_NAME = "planner-notebook-v31-weekly-vocabulary-history";
 const ASSETS = [
   "./",
   "./index.html",

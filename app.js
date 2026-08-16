@@ -134,6 +134,7 @@
       "vocabularyGrid",
       "vocabularyEmpty",
       "weeklyVocabulary",
+      "weeklyVocabularyCount",
       "weeklyVocabularyGroups",
       "fillTemplateButton",
       "placeMainTasksButton",
@@ -1736,19 +1737,30 @@
     const isSunday = new Date(`${selectedDate}T00:00:00Z`).getUTCDay() === 0;
     el.weeklyVocabulary.hidden = !isSunday;
     if (!isSunday) {
+      el.weeklyVocabularyCount.textContent = "0 CARDS";
       el.weeklyVocabularyGroups.innerHTML = "";
       return;
     }
-    const currentWeekStart = weekStartMonday(selectedDate);
-    const labels = ["THIS WEEK", "LAST WEEK", "TWO WEEKS AGO"];
-    el.weeklyVocabularyGroups.innerHTML = labels.map((label, index) => {
-      const start = addDays(currentWeekStart, index * -7);
+    const cardsToReview = allVocabularyCards().filter((card) => card.date <= selectedDate);
+    el.weeklyVocabularyCount.textContent = `${cardsToReview.length} ${cardsToReview.length === 1 ? "CARD" : "CARDS"}`;
+    if (!cardsToReview.length) {
+      el.weeklyVocabularyGroups.innerHTML = '<p class="week-empty">NO CARDS BEFORE THIS SUNDAY</p>';
+      return;
+    }
+    const cardsByWeek = new Map();
+    cardsToReview.forEach((card) => {
+      const start = weekStartMonday(card.date);
+      if (!cardsByWeek.has(start)) cardsByWeek.set(start, []);
+      cardsByWeek.get(start).push(card);
+    });
+    el.weeklyVocabularyGroups.innerHTML = [...cardsByWeek.entries()]
+      .sort(([a], [b]) => b.localeCompare(a))
+      .map(([start, cards]) => {
       const end = addDays(start, 6);
-      const cards = allVocabularyCards().filter((card) => card.date >= start && card.date <= end);
       return `
         <section class="weekly-vocabulary-group">
-          <header><div><span>${label}</span><small>${englishDateRange(start, end)}</small></div><strong>${cards.length} ${cards.length === 1 ? "CARD" : "CARDS"}</strong></header>
-          <div class="weekly-card-grid">${cards.length ? cards.map((card) => vocabularyCardMarkup(card, card.date)).join("") : '<p class="week-empty">NO CARDS</p>'}</div>
+          <header><div><span>WEEK OF ${englishDateLabel(start)}</span><small>${englishDateRange(start, end)}</small></div><strong>${cards.length} ${cards.length === 1 ? "CARD" : "CARDS"}</strong></header>
+          <div class="weekly-card-grid">${cards.map((card) => vocabularyCardMarkup(card, card.date)).join("")}</div>
         </section>
       `;
     }).join("");
@@ -1762,6 +1774,11 @@
   function englishDateRange(start, end) {
     const formatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
     return `${formatter.format(new Date(`${start}T00:00:00Z`))} — ${formatter.format(new Date(`${end}T00:00:00Z`))}`.toUpperCase();
+  }
+
+  function englishDateLabel(date) {
+    const formatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+    return formatter.format(new Date(`${date}T00:00:00Z`)).toUpperCase();
   }
 
   function exportVocabularyCards() {
