@@ -38,10 +38,10 @@
     { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
   ];
   const ROADMAP_MONTHS = [
-    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 重新诊断；IEDMS figure inventory；C–V 规划", "CV v1；建立港／欧／台大清单", "A / B 正常推进"],
+    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 重新诊断；IEDMS 已接受，整理 figure inventory；C–V 规划", "CV v1；写入两项 accepted conference contributions；建立港／欧／台大清单", "A / B 正常推进"],
     ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 日期待诊断后安排；IEDMS poster 50–70%", "CV / Motivation Letter 初版；谈 exit criteria", "Plan A 必须通过 G1"],
-    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "10/15 IEDMS freeze；10/22–23 会议", "只追踪高度匹配职位", "A：正式 wafer 已开始"],
-    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN freeze；11/08–13 会议", "低强度维护；更新两场会议", "B 最晚延至 12 月"],
+    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会", "只追踪高度匹配职位", "A：正式 wafer 已开始"],
+    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "IWN 已接受；11/04 poster freeze；11/08–13 参会", "低强度维护；更新两场 accepted conference", "B 最晚延至 12 月"],
     ["2026/12", "First data", "Electrical measurement；C–V / Regrowth correlation", "整理 TCAD 对照与 journal story", "主申请；CV v3；请推荐信", "12/15 通过 G2"],
     ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "欧洲主投＋technical interview", "A：只做有限补实验"],
     ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "申请与面试高峰", "A：实验开始 freeze"],

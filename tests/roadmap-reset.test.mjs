@@ -28,6 +28,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   }
   assert.match(html, /GaN FinFET/);
   assert.match(html, /Plan A \/ Plan B/);
+  assert.match(html, /两场会议均已接受/);
+  assert.match(html, /已投中并接受/g);
   assert.match(app, /roadmap:\s*\{/);
   assert.match(app, /candidate\.roadmap = defaultRoadmapState\(\)/);
   assert.match(styles, /\.roadmap-gate-grid/);

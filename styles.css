@@ -1824,6 +1824,18 @@ textarea {
   font-size: 15px;
 }
 
+.conference-acceptance {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+}
+
 .conference-panel p {
   margin: 0;
   color: rgba(255, 255, 255, 0.76);
