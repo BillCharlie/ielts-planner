@@ -5,6 +5,7 @@
     routineStartDate: "2026-09-07",
     examDate: "2026-11-06",
   };
+  const blankDates = new Set(["2026-11-01", "2026-11-02", "2026-11-05"]);
 
   function addDays(iso, days) {
     const date = new Date(`${iso}T00:00:00Z`);
@@ -70,6 +71,10 @@
         detail: "Speaking 具体时间与地点待通知后补登",
       }];
       row.limits = "考试优先：不排制程与其他真题；单词只做轻量复习";
+      return row;
+    }
+
+    if (blankDates.has(date)) {
       return row;
     }
 
@@ -150,16 +155,12 @@
   const scheduledPapers = mainPlan.flatMap((row) => row.trainingItems
     .filter((item) => item.kind === "full")
     .map((item) => ({ row, item })));
-  const retakeBank = testBank
-    .filter((item) => item.test === 4 && item.book >= 18)
-    .map((item) => ({ ...item, displayCode: `R·${item.code}`, title: `${item.title} Retake` }));
-  const assignmentPool = [...testBank, ...retakeBank];
   scheduledPapers.forEach(({ row, item }, index) => {
-    const assigned = assignmentPool[index];
+    const assigned = testBank[index];
     if (!assigned) return;
     item.id = `full-${row.date}-${assigned.code}`;
     item.title = assigned.title;
-    item.cambridge = assigned.displayCode || assigned.code;
+    item.cambridge = assigned.code;
     item.full = assigned.title;
     item.module = `${assigned.title}｜Listening + Reading + Writing + Speaking 完整计时`;
   });
@@ -173,7 +174,6 @@
   const scheduledCodes = testBank.map((item) => item.code);
   const scheduledCodeSet = new Set(scheduledCodes);
   const remainingCodes = testBank.filter((item) => !scheduledCodeSet.has(item.code)).map((item) => item.code);
-  const retakeCodes = retakeBank.map((item) => item.code);
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-08-16T00:00:00.000+08:00",
@@ -189,9 +189,9 @@
       scheduledCodes,
       remainingCodes,
       scheduledSlots: scheduledPapers.length,
-      retakeCodes,
+      retakeCodes: [],
     },
-    planVersion: "2026-08-16-sunday-paper-v6",
+    planVersion: "2026-08-16-preexam-buffer-v7",
     resetFromDate: "2026-08-24"
   };
 })();

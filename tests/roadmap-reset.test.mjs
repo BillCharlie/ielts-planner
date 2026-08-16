@@ -9,7 +9,7 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   vm.runInNewContext(source, context);
   const data = context.window.IELTS_PLANNER_DATA;
 
-  assert.equal(data.planVersion, "2026-08-16-sunday-paper-v6");
+  assert.equal(data.planVersion, "2026-08-16-preexam-buffer-v7");
   assert.equal(data.resetFromDate, "2026-08-24");
   assert.deepEqual(Array.from(data.dailyTemplates), []);
   assert.equal(data.mainPlan.length, 75);
@@ -36,15 +36,18 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   assert.equal(data.testBank.perBook, 4);
   assert.equal(data.testBank.total, 52);
   assert.equal(data.testBank.scheduled, 52);
-  assert.equal(data.testBank.scheduledSlots, 56);
+  assert.equal(data.testBank.scheduledSlots, 52);
   assert.deepEqual(Array.from(data.testBank.remainingCodes), []);
-  assert.deepEqual(Array.from(data.testBank.retakeCodes), ["C18T4", "C19T4", "C20T4", "C21T4"]);
+  assert.deepEqual(Array.from(data.testBank.retakeCodes), []);
   assert.equal(byDate.get("2026-08-24").trainingItems[0].cambridge, "C9T1");
   assert.equal(byDate.get("2026-08-25").trainingItems[0].cambridge, "C9T2");
   assert.equal(byDate.get("2026-09-07").trainingItems[0].cambridge, "C10T2");
   assert.equal(byDate.get("2026-10-31").trainingItems[0].cambridge, "C21T4");
-  assert.equal(byDate.get("2026-11-01").trainingItems[0].cambridge, "R·C18T4");
-  assert.equal(byDate.get("2026-11-05").trainingItems[0].cambridge, "R·C21T4");
+  for (const date of ["2026-11-01", "2026-11-02", "2026-11-05"]) {
+    assert.equal(byDate.get(date).trainingItems.length, 0);
+    assert.equal(byDate.get(date).projectType, "");
+    assert.equal(byDate.get(date).projectPlan, "");
+  }
   assert.equal(new Set([...data.testBank.scheduledCodes, ...data.testBank.remainingCodes]).size, 52);
   assert.doesNotMatch(source, /2026-07-26|Cambridge 21 Test 4/);
 });
