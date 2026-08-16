@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v27-ielts1106";
+const CACHE_NAME = "planner-notebook-v28-calendar-routine";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260816-ielts1106",
+  "./styles.css?v=20260816-calendar-routine",
   "./app.js",
   "./config.js",
   "./plan-data.js",

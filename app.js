@@ -9,6 +9,39 @@
   const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
   const ACADEMIC_MODULES = ["课程", "书报课程", "组会", "研讨会"];
   const ALL_PLAN_MODULES = [...EXPERIMENT_MODULES, ...ACADEMIC_MODULES];
+  const VOCABULARY_BANK = [
+    ["abandon", "放弃"], ["abstract", "抽象的；摘要"], ["accommodate", "容纳；适应"], ["accumulate", "积累"],
+    ["accurate", "准确的"], ["adapt", "适应；改编"], ["adequate", "充足的"], ["advocate", "提倡；支持者"],
+    ["allocate", "分配"], ["alter", "改变"], ["ambiguous", "模糊不清的"], ["analyse", "分析"],
+    ["anticipate", "预期"], ["apparent", "明显的"], ["approach", "方法；接近"], ["appropriate", "合适的"],
+    ["approximate", "大约的"], ["assess", "评估"], ["assign", "分配；指派"], ["assume", "假设"],
+    ["attain", "达到"], ["attribute", "归因于；属性"], ["benefit", "益处"], ["capacity", "能力；容量"],
+    ["category", "类别"], ["coherent", "连贯的"], ["coincide", "同时发生"], ["compile", "汇编；编制"],
+    ["complement", "补充；互补"], ["complex", "复杂的"], ["component", "组成部分"], ["comprehensive", "全面的"],
+    ["concentrate", "集中"], ["conclude", "得出结论"], ["conduct", "进行；行为"], ["consequence", "后果"],
+    ["considerable", "相当大的"], ["consistent", "一致的"], ["constitute", "构成"], ["constrain", "限制"],
+    ["consume", "消耗"], ["context", "背景；语境"], ["contrast", "对比"], ["contribute", "贡献"],
+    ["convert", "转换"], ["crucial", "关键的"], ["decline", "下降；拒绝"], ["define", "定义"],
+    ["demonstrate", "证明；展示"], ["derive", "获得；源自"], ["distribute", "分配；分布"], ["diverse", "多样的"],
+    ["domestic", "国内的；家庭的"], ["dominate", "主导"], ["emerge", "出现"], ["empirical", "实证的"],
+    ["enable", "使能够"], ["encounter", "遇到"], ["enhance", "提升"], ["ensure", "确保"],
+    ["establish", "建立"], ["estimate", "估计"], ["evaluate", "评估"], ["evident", "明显的"],
+    ["exclude", "排除"], ["expand", "扩大"], ["expose", "暴露"], ["facilitate", "促进"],
+    ["factor", "因素"], ["feature", "特征"], ["fluctuate", "波动"], ["framework", "框架"],
+    ["fundamental", "基本的"], ["generate", "产生"], ["hypothesis", "假设"], ["identify", "识别"],
+    ["illustrate", "说明；阐明"], ["imply", "暗示"], ["incentive", "激励"], ["incidence", "发生率"],
+    ["indicate", "表明"], ["inevitable", "不可避免的"], ["infer", "推断"], ["inhibit", "抑制"],
+    ["initial", "最初的"], ["innovate", "创新"], ["integrate", "整合"], ["interpret", "解释"],
+    ["intervene", "干预"], ["justify", "证明合理"], ["maintain", "维持"], ["mechanism", "机制"],
+    ["modify", "修改"], ["monitor", "监测"], ["objective", "目标；客观的"], ["obtain", "获得"],
+    ["occur", "发生"], ["perceive", "感知；认为"], ["persist", "持续"], ["perspective", "观点；视角"],
+    ["potential", "潜在的"], ["predict", "预测"], ["predominant", "占主导的"], ["preliminary", "初步的"],
+    ["preserve", "保留；保护"], ["proportion", "比例"], ["pursue", "追求"], ["range", "范围"],
+    ["regulate", "规范；调节"], ["relevant", "相关的"], ["reliable", "可靠的"], ["require", "需要"],
+    ["respond", "回应"], ["restrict", "限制"], ["significant", "显著的"], ["specify", "明确说明"],
+    ["stable", "稳定的"], ["strategy", "策略"], ["sufficient", "足够的"], ["sustain", "维持；支撑"],
+    ["transform", "转变"], ["valid", "有效的"], ["vary", "变化"], ["widespread", "广泛的"],
+  ];
   const ROADMAP_GATES = [
     { id: "g1", code: "G1", name: "Process Ready", date: "2026-09-30", proof: "Fin lithography + etch recipe freeze；linewidth、etch depth、sidewall 有记录", pass: "进入正式 D / E-mode device", miss: "8 月毕业风险开始上升" },
     { id: "g2", code: "G2", name: "Device Ready", date: "2026-12-15", proof: "第一批 D-mode + E-mode Fin 完成，并开始 electrical measurement", pass: "Plan A 维持绿灯", miss: "8 月毕业进入黄灯" },
@@ -76,7 +109,8 @@
   let cloudSaveTimer = null;
   let applyingRemoteState = false;
 
-  let selectedDate = mainPlan[0]?.date || isoToday();
+  let calendarToday = isoToday();
+  let selectedDate = calendarToday;
   let visibleMonth = selectedDate.slice(0, 7);
   let activeHour = 9;
   let deferredInstallPrompt = null;
@@ -94,6 +128,7 @@
     bindRoadmapControls();
     bindPwa();
     showInitialView();
+    scheduleCalendarDateRefresh();
     registerServiceWorker();
   }
 
@@ -119,6 +154,10 @@
       "monthGrid",
       "selectedDayType",
       "selectedDateTitle",
+      "vocabularyButton",
+      "vocabularyPanel",
+      "vocabularyDate",
+      "vocabularyGrid",
       "fillTemplateButton",
       "placeMainTasksButton",
       "clearAllButton",
@@ -203,6 +242,13 @@
   }
 
   function bindCalendarControls() {
+    el.vocabularyButton.addEventListener("click", () => {
+      const willOpen = el.vocabularyPanel.hidden;
+      el.vocabularyPanel.hidden = !willOpen;
+      el.vocabularyButton.setAttribute("aria-expanded", String(willOpen));
+      if (willOpen) renderVocabulary();
+    });
+
     el.prevMonth.addEventListener("click", () => {
       visibleMonth = addMonths(visibleMonth, -1);
       renderCalendar();
@@ -461,6 +507,9 @@
       button.classList.toggle("normal-day", !!plan && !isRestDay(plan));
       button.classList.toggle("outside", iso.slice(0, 7) !== visibleMonth);
       button.classList.toggle("selected", iso === selectedDate);
+      button.classList.toggle("today", iso === calendarToday);
+      button.classList.toggle("exam-day", isExamDay(plan));
+      if (iso === calendarToday) button.setAttribute("aria-current", "date");
       button.classList.toggle("has-warning", !!plan && missingTasksForDate(iso).length > 0);
       button.classList.toggle("has-done", scheduledTaskIds(iso).size > 0);
       button.classList.toggle("day-complete", isDayFullySaved(iso));
@@ -501,6 +550,7 @@
     el.summaryStatus.textContent = getPlanOverride(selectedDate, "status") || plan.status || "未开始";
     el.summaryLimits.textContent = plan.limits || template.notes || "";
 
+    renderVocabulary();
     renderTaskPicker();
     renderReminders();
     renderHourGrid();
@@ -600,6 +650,7 @@
   }
 
   function labelForTrainingKind(kind) {
+    if (kind === "exam") return "正式考试";
     if (kind === "full") return "完整模考";
     if (kind === "mixed") return "混合训练";
     if (kind === "supplement") return "专项补量";
@@ -889,7 +940,7 @@
         </td>
         <td data-label="日类型">
           <select class="plan-edit-input" data-field="dayType" data-date="${safeAttr(item.date)}">
-            ${["正常", "休息"].map((type) => `<option value="${type}">${type}</option>`).join("")}
+            ${["正常", "考试日", "休息"].map((type) => `<option value="${type}">${type}</option>`).join("")}
           </select>
         </td>
         <td class="project-cell" data-label="实验专案 / 学务">
@@ -1450,6 +1501,7 @@
 
   function projectSummaryText(plan, date) {
     if (!plan?.projectType) return "";
+    if (plan.projectPlan) return plan.projectPlan;
     if (normalizedProjectType(plan) === "实验专案" || normalizedProjectType(plan) === "学务") {
       const item = getSelectedProjectItem(plan);
       const progress = projectItemProgressForDate(date, item.id);
@@ -1603,6 +1655,32 @@
     el.planRangeTitle.textContent = planRangeLabel();
   }
 
+  function renderVocabulary() {
+    const words = vocabularyForDate(selectedDate);
+    el.vocabularyDate.textContent = `${formatDate(selectedDate)} · ${weekdayZh(selectedDate)}`;
+    el.vocabularyGrid.innerHTML = words.map(([word, meaning], index) => `
+      <article><span>${pad(index + 1)}</span><div><strong>${safe(word)}</strong><p>${safe(meaning)}</p></div></article>
+    `).join("");
+  }
+
+  function vocabularyForDate(date) {
+    const dayNumber = Math.floor(Date.parse(`${date}T00:00:00Z`) / 86400000);
+    const start = ((dayNumber * 20) % VOCABULARY_BANK.length + VOCABULARY_BANK.length) % VOCABULARY_BANK.length;
+    return Array.from({ length: 20 }, (_, index) => VOCABULARY_BANK[(start + index) % VOCABULARY_BANK.length]);
+  }
+
+  function scheduleCalendarDateRefresh() {
+    window.setInterval(() => {
+      const nextToday = isoToday();
+      if (nextToday === calendarToday) return;
+      calendarToday = nextToday;
+      selectedDate = nextToday;
+      visibleMonth = nextToday.slice(0, 7);
+      renderCalendar();
+      renderSelectedDay();
+    }, 60000);
+  }
+
   function planRangeLabel() {
     if (!mainPlan.length) return "IELTS 日期尚未安排";
     return `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
@@ -1670,17 +1748,21 @@
     candidate.planRows = JSON.parse(JSON.stringify(data.mainPlan || []));
     candidate.extraPlanRows = [];
     candidate.modulePlans = {};
-    candidate.moduleCatalog = {};
-    candidate.moduleTotals = {};
-    candidate.savedSlots = {};
-    candidate.optionalPools = {};
-    candidate.roadmap = defaultRoadmapState();
+    candidate.savedSlots = candidate.savedSlots || {};
+    candidate.optionalPools = candidate.optionalPools || {};
+    candidate.roadmap = candidate.roadmap || defaultRoadmapState();
     ensureAcademicCatalog(candidate);
     Object.keys(candidate.schedule || {}).forEach((date) => {
       if (date >= resetFromDate) delete candidate.schedule[date];
     });
     Object.keys(candidate.planOverrides || {}).forEach((date) => {
       if (date >= resetFromDate) delete candidate.planOverrides[date];
+    });
+    Object.keys(candidate.savedSlots || {}).forEach((date) => {
+      if (date >= resetFromDate) delete candidate.savedSlots[date];
+    });
+    Object.keys(candidate.optionalPools || {}).forEach((date) => {
+      if (date >= resetFromDate) delete candidate.optionalPools[date];
     });
     candidate.planVersion = planVersion;
     return candidate;
@@ -1750,7 +1832,7 @@
     localStorage.setItem(STATE_KEY, JSON.stringify(state));
     rebuildPlanIndexes();
     if (!mainByDate.has(selectedDate)) {
-      selectedDate = mainPlan[0]?.date || isoToday();
+      selectedDate = isoToday();
       visibleMonth = selectedDate.slice(0, 7);
     }
     renderAll();
@@ -1803,9 +1885,10 @@
   }
 
   function tagForDay(dayType) {
-    const type = dayType === "休息" ? "休息" : "正常";
+    const type = dayType === "考试日" ? "考试日" : dayType === "休息" ? "休息" : "正常";
     let cls = "";
     if (type.includes("休息")) cls = "rest";
+    if (type.includes("考试")) cls = "exam";
     return `<span class="tag ${cls}">${safe(type)}</span>`;
   }
 
@@ -1820,6 +1903,7 @@
   }
 
   function normalizedDayType(row) {
+    if (isExamDay(row)) return "考试日";
     return isRestDay(row) ? "休息" : "正常";
   }
 
@@ -1834,6 +1918,11 @@
   function isRestDay(row) {
     if (!row) return false;
     return /休息|端午/.test(`${row.dayType || ""} ${row.projectType || ""} ${row.ieltsPlan || ""}`);
+  }
+
+  function isExamDay(row) {
+    if (!row) return false;
+    return /考试日|正式考试|IELTS 二战/.test(`${row.dayType || ""} ${row.ieltsPlan || ""}`);
   }
 
   function trimLabel(text) {

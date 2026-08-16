@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260816-ielts1106" />
+    <link rel="stylesheet" href="styles.css?v=20260816-calendar-routine" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -151,11 +151,20 @@
                 <h1 id="selectedDateTitle"></h1>
               </div>
               <div class="day-actions">
+                <button id="vocabularyButton" class="vocabulary-button" type="button" aria-expanded="false" aria-controls="vocabularyPanel">单词 · 20</button>
                 <button id="fillTemplateButton" type="button">填入每日建议</button>
                 <button id="placeMainTasksButton" type="button">排入主任务</button>
                 <button id="clearAllButton" class="danger-button" type="button">全部清除</button>
               </div>
             </div>
+
+            <section id="vocabularyPanel" class="vocabulary-panel" hidden aria-label="每日 20 个单词">
+              <header>
+                <div><span>DAILY VOCABULARY</span><h2 id="vocabularyDate"></h2></div>
+                <strong>20 WORDS</strong>
+              </header>
+              <div id="vocabularyGrid" class="vocabulary-grid"></div>
+            </section>
 
             <div id="reminderPanel" class="reminder-panel" hidden></div>
 
