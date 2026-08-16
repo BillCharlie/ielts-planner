@@ -9,7 +9,7 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   vm.runInNewContext(source, context);
   const data = context.window.IELTS_PLANNER_DATA;
 
-  assert.equal(data.planVersion, "2026-08-16-vocabulary-cards-v4");
+  assert.equal(data.planVersion, "2026-08-16-cambridge-9-21-v5");
   assert.equal(data.resetFromDate, "2026-08-24");
   assert.deepEqual(Array.from(data.dailyTemplates), []);
   assert.equal(data.mainPlan.length, 75);
@@ -31,16 +31,16 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   }
   assert.match(byDate.get("2026-09-13").ieltsPlan, /整理复习/);
   assert.equal(byDate.get("2026-11-06").dayType, "考试日");
-  assert.equal(data.testBank.range, "Cambridge 5–21");
+  assert.equal(data.testBank.range, "Cambridge 9–21");
   assert.equal(data.testBank.perBook, 4);
-  assert.equal(data.testBank.total, 68);
+  assert.equal(data.testBank.total, 52);
   assert.equal(data.testBank.scheduled, 48);
-  assert.equal(data.testBank.remainingCodes.length, 20);
-  assert.equal(byDate.get("2026-08-24").trainingItems[0].cambridge, "C5T1");
-  assert.equal(byDate.get("2026-08-25").trainingItems[0].cambridge, "C5T2");
-  assert.equal(byDate.get("2026-09-07").trainingItems[0].cambridge, "C6T2");
-  assert.equal(byDate.get("2026-11-05").trainingItems[0].cambridge, "C16T4");
-  assert.equal(new Set([...data.testBank.scheduledCodes, ...data.testBank.remainingCodes]).size, 68);
+  assert.deepEqual(Array.from(data.testBank.remainingCodes), ["C9T4", "C10T4", "C11T4", "C12T4"]);
+  assert.equal(byDate.get("2026-08-24").trainingItems[0].cambridge, "C9T1");
+  assert.equal(byDate.get("2026-08-25").trainingItems[0].cambridge, "C9T2");
+  assert.equal(byDate.get("2026-09-07").trainingItems[0].cambridge, "C10T3");
+  assert.equal(byDate.get("2026-11-05").trainingItems[0].cambridge, "C21T4");
+  assert.equal(new Set([...data.testBank.scheduledCodes, ...data.testBank.remainingCodes]).size, 52);
   assert.doesNotMatch(source, /2026-07-26|Cambridge 21 Test 4/);
 });
 
@@ -79,6 +79,9 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.doesNotMatch(app, /THIS WEEK|LAST WEEK|TWO WEEKS AGO/);
   assert.match(xlsx, /application\/vnd\.openxmlformats-officedocument\.spreadsheetml\.sheet/);
   assert.match(app, /scheduleCalendarDateRefresh/);
+  assert.match(app, /classList\.toggle\("paper-day"/);
+  assert.doesNotMatch(app, /const monthMeta|const projectMeta/);
+  assert.match(styles, /\.day-cell\.paper-day/);
   assert.match(app, /roadmap:\s*\{/);
   assert.match(app, /candidate\.roadmap = candidate\.roadmap \|\| defaultRoadmapState\(\)/);
   assert.match(styles, /\.roadmap-gate-grid/);

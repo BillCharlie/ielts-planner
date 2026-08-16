@@ -140,7 +140,7 @@
   }
 
   const testBank = [];
-  for (let book = 5; book <= 21; book += 1) {
+  for (let book = 9; book <= 21; book += 1) {
     for (let test = 1; test <= 4; test += 1) {
       testBank.push({ book, test, code: `C${book}T${test}`, title: `Cambridge ${book} Test ${test}` });
     }
@@ -149,8 +149,9 @@
   const scheduledPapers = mainPlan.flatMap((row) => row.trainingItems
     .filter((item) => item.kind === "full")
     .map((item) => ({ row, item })));
+  const assignmentPool = testBank.filter((item) => item.book >= 13 || item.test <= 3);
   scheduledPapers.forEach(({ row, item }, index) => {
-    const assigned = testBank[index];
+    const assigned = assignmentPool[index];
     if (!assigned) return;
     item.id = `full-${row.date}-${assigned.code}`;
     item.title = assigned.title;
@@ -165,8 +166,9 @@
       .join(" + ");
   });
 
-  const scheduledCodes = testBank.slice(0, scheduledPapers.length).map((item) => item.code);
-  const remainingCodes = testBank.slice(scheduledPapers.length).map((item) => item.code);
+  const scheduledCodes = assignmentPool.slice(0, scheduledPapers.length).map((item) => item.code);
+  const scheduledCodeSet = new Set(scheduledCodes);
+  const remainingCodes = testBank.filter((item) => !scheduledCodeSet.has(item.code)).map((item) => item.code);
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-08-16T00:00:00.000+08:00",
@@ -175,14 +177,14 @@
     dailyTemplates: [],
     autoPlan: plan,
     testBank: {
-      range: "Cambridge 5–21",
+      range: "Cambridge 9–21",
       perBook: 4,
       total: testBank.length,
       scheduled: scheduledCodes.length,
       scheduledCodes,
       remainingCodes,
     },
-    planVersion: "2026-08-16-vocabulary-cards-v4",
+    planVersion: "2026-08-16-cambridge-9-21-v5",
     resetFromDate: "2026-08-24"
   };
 })();

@@ -492,26 +492,24 @@
       current.setDate(start.getDate() + index);
       const iso = toIso(current);
       const plan = mainByDate.get(iso);
+      const trainingItems = trainingItemsForPlan(plan);
+      const missingIelts = missingTasksForDate(iso).some((task) => task.kind === "ielts");
+      const scheduledIelts = [...scheduledTaskIds(iso)].some((taskId) => taskId.includes(":ielts"));
       const button = document.createElement("button");
       button.type = "button";
       button.className = "day-cell";
-      button.classList.toggle("rest-day", isRestDay(plan));
-      button.classList.toggle("normal-day", !!plan && !isRestDay(plan));
+      button.classList.toggle("paper-day", trainingItems.length > 0);
       button.classList.toggle("outside", iso.slice(0, 7) !== visibleMonth);
       button.classList.toggle("selected", iso === selectedDate);
       button.classList.toggle("today", iso === calendarToday);
       button.classList.toggle("exam-day", isExamDay(plan));
       if (iso === calendarToday) button.setAttribute("aria-current", "date");
-      button.classList.toggle("has-warning", !!plan && missingTasksForDate(iso).length > 0);
-      button.classList.toggle("has-done", scheduledTaskIds(iso).size > 0);
-      button.classList.toggle("day-complete", isDayFullySaved(iso));
-      const hasPlanWarning = !!plan && missingTasksForDate(iso).length > 0;
-      const trainingItems = trainingItemsForPlan(plan);
-      const projectMeta = plan && !isRestDay(plan) ? projectSummaryText(plan, iso) : "";
-      const monthMeta = plan ? projectMeta || plan.cambridge || plan.ieltsPlan : "";
+      button.classList.toggle("has-warning", trainingItems.length > 0 && missingIelts);
+      button.classList.toggle("has-done", trainingItems.length > 0 && scheduledIelts);
+      button.classList.toggle("day-complete", trainingItems.length > 0 && isDayFullySaved(iso));
       button.innerHTML = `
-        <span class="day-num">${current.getDate()}${hasPlanWarning ? '<i class="warning-dot"></i>' : ""}</span>
-        <span class="day-meta">${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { compact: true }) : safe(monthMeta)}</span>
+        <span class="day-num">${current.getDate()}${trainingItems.length > 0 && missingIelts ? '<i class="warning-dot"></i>' : ""}</span>
+        <span class="day-meta">${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { compact: true }) : ""}</span>
       `;
       button.addEventListener("click", () => {
         selectedDate = iso;
@@ -533,9 +531,7 @@
       el.testBankRemaining.textContent = "全部真题都已排入日历。";
       return;
     }
-    const books = [...new Set(remaining.map((code) => Number(String(code).match(/^C(\d+)T/)?.[1])).filter(Boolean))];
-    const bookRange = books.length > 1 ? `Cambridge ${books[0]}–${books.at(-1)}` : `Cambridge ${books[0]}`;
-    el.testBankRemaining.textContent = `依目前周规则，考试前尚余 ${remaining.length} 份：${bookRange}。`;
+    el.testBankRemaining.textContent = `依目前周规则，考试前尚余 ${remaining.length} 份：${remaining.join("、")}。`;
   }
 
   function renderSelectedDay() {

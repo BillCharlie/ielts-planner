@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v31-weekly-vocabulary-history";
+const CACHE_NAME = "planner-notebook-v32-paper-only-calendar";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260816-vocabulary-cards",
+  "./styles.css?v=20260816-paper-only-calendar",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",
