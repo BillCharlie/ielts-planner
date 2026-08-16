@@ -9,6 +9,63 @@
   const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
   const ACADEMIC_MODULES = ["课程", "书报课程", "组会", "研讨会"];
   const ALL_PLAN_MODULES = [...EXPERIMENT_MODULES, ...ACADEMIC_MODULES];
+  const ROADMAP_GATES = [
+    { id: "g1", code: "G1", name: "Process Ready", date: "2026-09-30", proof: "Fin lithography + etch recipe freeze；linewidth、etch depth、sidewall 有记录", pass: "进入正式 D / E-mode device", miss: "8 月毕业风险开始上升" },
+    { id: "g2", code: "G2", name: "Device Ready", date: "2026-12-15", proof: "第一批 D-mode + E-mode Fin 完成，并开始 electrical measurement", pass: "Plan A 维持绿灯", miss: "8 月毕业进入黄灯" },
+    { id: "g3", code: "G3", name: "Data Ready", date: "2027-03-31", proof: "Id–Vg / Id–Vd / Vth / Ron / leakage / C–V / Ohmic / TCAD comparison 齐全", pass: "7–8 月毕业仍然现实", miss: "停止硬追，正式切换 Plan B" },
+    { id: "g4", code: "G4", name: "Thesis Ready", date: "2027-05-31", proof: "完整硕论初稿已交给老师，口试简报框架建立", pass: "送审并安排 7 月口试", miss: "口试顺延到秋季" },
+  ];
+  const ROADMAP_TASKS = [
+    { id: "fin-doe", phase: "现在", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "dose、linewidth、etch depth、sidewall 整理成可决策表", due: "09/30" },
+    { id: "ielts-window", phase: "现在", category: "IELTS", title: "重新选择 IELTS 考试窗口", detail: "旧日期已清空；先根据诊断结果再报名", due: "未安排" },
+    { id: "ielts-diagnostic", phase: "现在", category: "IELTS", title: "完成 L / R 计时诊断", detail: "Writing / Speaking 同步做基线记录", due: "未安排" },
+    { id: "speaking-admin", phase: "现在", category: "IELTS", title: "建立 Speaking 行政检查表", detail: "考试时间、地点、报到方式与前后 buffer", due: "报名后" },
+    { id: "iedms-assets", phase: "现在", category: "会议", title: "IEDMS figure inventory", detail: "论文 figure → poster → 口头解释，不重新做研究", due: "08/31" },
+    { id: "cv-process", phase: "现在", category: "FinFET", title: "启动 C–V test process", detail: "建立 test structure 与 measurement flow", due: "09/15" },
+    { id: "advisor-exit", phase: "现在", category: "沟通", title: "和老师确认毕业 exit criteria", detail: "带 G1–G4 询问 7–8 月口试的必要成果", due: "09/15" },
+    { id: "tcad-archive", phase: "现在", category: "TCAD / AI", title: "封存 TCAD model 与参数版本", detail: "让 experiment comparison 可以重现", due: "09/30" },
+    { id: "iedms-freeze", phase: "接下来", category: "会议", title: "IEDMS poster freeze", detail: "完成版面、输出与 3 / 10 分钟讲法", due: "10/15" },
+    { id: "regrowth", phase: "接下来", category: "FinFET", title: "Ohmic Regrowth test", detail: "建立条件、结果与 contact 行为对照", due: "10/31" },
+    { id: "iwn-freeze", phase: "接下来", category: "会议", title: "IWN poster freeze", detail: "IEDMS 后集中完成，11/04 后只改错误", due: "11/04" },
+    { id: "devices", phase: "接下来", category: "FinFET", title: "第一批 D / E-mode Fin 完成", detail: "建立待量测 device matrix", due: "11/30" },
+    { id: "first-data", phase: "接下来", category: "FinFET", title: "第一批完整 electrical data", detail: "Id–Vg、Id–Vd、Vth、Ron、leakage；必要时 BV", due: "12/15" },
+    { id: "recommend", phase: "接下来", category: "PhD", title: "正式请推荐信", detail: "附 CV v3、研究摘要、目标清单与 deadline", due: "12/20" },
+    { id: "tcad-compare", phase: "稍后", category: "TCAD / AI", title: "完成 TCAD–experiment 核心比较图", detail: "串联 electrostatics、Fin width、Vth 与 leakage", due: "2027/02" },
+    { id: "paper-draft", phase: "稍后", category: "论文", title: "Fin / TCAD journal paper 初稿", detail: "只保留能支撑主张的结果", due: "2027/02" },
+    { id: "data-freeze", phase: "稍后", category: "FinFET", title: "主要实验 data freeze", detail: "3 月后不再无限制开 wafer 或扩张 DOE", due: "2027/03" },
+    { id: "thesis-half", phase: "稍后", category: "论文", title: "Thesis 初稿达到 50–60%", detail: "Methods、results、discussion 可供老师审阅", due: "2027/04" },
+    { id: "thesis-full", phase: "稍后", category: "论文", title: "完整 Thesis 初稿交老师", detail: "同时提出口试日期与修改 buffer", due: "2027/05" },
+    { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
+  ];
+  const ROADMAP_MONTHS = [
+    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 重新诊断；IEDMS figure inventory；C–V 规划", "CV v1；建立港／欧／台大清单", "A / B 正常推进"],
+    ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 日期待诊断后安排；IEDMS poster 50–70%", "CV / Motivation Letter 初版；谈 exit criteria", "Plan A 必须通过 G1"],
+    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "10/15 IEDMS freeze；10/22–23 会议", "只追踪高度匹配职位", "A：正式 wafer 已开始"],
+    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN freeze；11/08–13 会议", "低强度维护；更新两场会议", "B 最晚延至 12 月"],
+    ["2026/12", "First data", "Electrical measurement；C–V / Regrowth correlation", "整理 TCAD 对照与 journal story", "主申请；CV v3；请推荐信", "12/15 通过 G2"],
+    ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "欧洲主投＋technical interview", "A：只做有限补实验"],
+    ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "申请与面试高峰", "A：实验开始 freeze"],
+    ["2027/03", "Data freeze", "主要 dataset 收敛", "Fin paper 投稿或接近投稿；thesis 架构", "Interview / offer 并行", "3/31 通过 G3，否则切 B"],
+    ["2027/04", "Write", "只补必要量测；不做开放式新制程", "硕论初稿 50–60%", "比较题目、PI、funding、fab access", "A：写作主导；B：data 收敛"],
+    ["2027/05", "Thesis ready", "原则上不开新 wafer", "5/31 完整初稿给老师", "确定去向与弹性 start date", "A 通过 G4；B 开始主写"],
+    ["2027/06", "Defense prep", "补最后必要数据；研究交接", "送审／申请口试；简报问答", "签证／行政", "A：Defense ready；B：30–50%"],
+    ["2027/07", "Plan A defense", "完成交接文件", "Plan A：硕士口试与修改", "确认报到节点", "A：口试；B：Thesis 60–80%"],
+    ["2027/08", "Target graduation", "结案／资料封存", "Plan A：修改、离校、毕业", "若 A 成功则衔接 PhD", "A：目标毕业；B：Thesis final"],
+    ["2027/09", "Buffer", "只处理口试必要修正", "Plan B：口试准备", "维持 offer，确认延后报到", "B：Defense ready"],
+    ["2027/10", "Plan B defense", "收尾与交接", "Plan B：口试、修改", "更新 availability", "B：硕士口试"],
+    ["2027/11", "Conservative window", "完成行政与离校", "Plan B：毕业窗口", "PhD 衔接", "B：目标毕业"],
+    ["2027/12", "Final buffer", "只保留必要 contingency", "最终毕业缓冲", "完成转场", "B：最晚毕业窗口"],
+  ];
+  const ROADMAP_APPLICATIONS = [
+    { id: "hkust", school: "HKUST", region: "香港", fit: "GaN / power devices / fabrication", next: "找 2–3 位高度匹配 PI" },
+    { id: "hku-cuhk", school: "HKU / CUHK", region: "香港", fit: "III-N / devices / materials", next: "比较设备与 funding" },
+    { id: "city-poly", school: "CityU / PolyU", region: "香港", fit: "Device integration / TCAD", next: "建立教授研究对照表" },
+    { id: "imec", school: "imec / KU Leuven", region: "欧洲", fit: "GaN integration / advanced devices", next: "追踪 project-based vacancies" },
+    { id: "iisb", school: "Fraunhofer IISB", region: "欧洲", fit: "Power semiconductor / TCAD", next: "准备 position-specific letter" },
+    { id: "eu", school: "TU Delft / EPFL / 其他", region: "欧洲", fit: "III-N / power devices", next: "只收录高度吻合职位" },
+    { id: "ntu", school: "台大电子所博士丙组", region: "台湾", fit: "元件、材料与异质整合", next: "等 116 简章确认规则" },
+  ];
+  const ROADMAP_APPLICATION_STATUSES = ["研究中", "短名单", "已联络", "备妥材料", "已送出", "面试", "Offer", "暂停"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
   let state = loadState();
   let mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
@@ -34,6 +91,7 @@
     bindNavigation();
     bindCalendarControls();
     bindPlanControls();
+    bindRoadmapControls();
     bindPwa();
     showInitialView();
     registerServiceWorker();
@@ -48,11 +106,13 @@
       "authError",
       "navCalendar",
       "navPlan",
+      "navRoadmap",
       "dateRangeLabel",
       "installButton",
       "lockButton",
       "calendarView",
       "planView",
+      "roadmapView",
       "prevMonth",
       "nextMonth",
       "monthTitle",
@@ -80,6 +140,16 @@
       "moduleCatalog",
       "planWarningStrip",
       "planTableBody",
+      "roadmapResetButton",
+      "roadmapGateCountdown",
+      "roadmapTaskProgress",
+      "roadmapTrackStatus",
+      "roadmapGateGrid",
+      "roadmapTimelineBody",
+      "roadmapTaskGroups",
+      "roadmapApplicationBody",
+      "iedmsCountdown",
+      "iwnCountdown",
     ].forEach((id) => {
       el[id] = document.getElementById(id);
     });
@@ -126,6 +196,7 @@
   }
 
   function bindNavigation() {
+    el.navRoadmap.addEventListener("click", () => setView("roadmap"));
     el.navCalendar.addEventListener("click", () => setView("calendar"));
     el.navPlan.addEventListener("click", () => setView("plan"));
   }
@@ -185,6 +256,40 @@
     });
   }
 
+  function bindRoadmapControls() {
+    el.roadmapResetButton.addEventListener("click", () => {
+      if (!window.confirm("要把研究 Gate、任务和申请进度全部归零吗？")) return;
+      state.roadmap = defaultRoadmapState();
+      saveState();
+      renderRoadmap();
+      showSaved("研究进度已归零");
+    });
+
+    el.roadmapGateGrid.addEventListener("change", (event) => {
+      const input = event.target.closest("[data-roadmap-gate]");
+      if (!input) return;
+      state.roadmap.gates[input.dataset.roadmapGate] = input.checked;
+      saveState();
+      renderRoadmap();
+    });
+
+    el.roadmapTaskGroups.addEventListener("change", (event) => {
+      const input = event.target.closest("[data-roadmap-task]");
+      if (!input) return;
+      state.roadmap.tasks[input.dataset.roadmapTask] = input.checked;
+      saveState();
+      renderRoadmap();
+    });
+
+    el.roadmapApplicationBody.addEventListener("change", (event) => {
+      const select = event.target.closest("[data-roadmap-application]");
+      if (!select) return;
+      state.roadmap.applications[select.dataset.roadmapApplication] = select.value;
+      saveState();
+      renderRoadmapStats();
+    });
+  }
+
   function bindPwa() {
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
@@ -214,25 +319,123 @@
   function openApp() {
     el.authView.hidden = true;
     el.appView.hidden = false;
-    el.dateRangeLabel.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
-    el.planRangeTitle.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
+    el.dateRangeLabel.textContent = planRangeLabel();
+    el.planRangeTitle.textContent = planRangeLabel();
     renderAll();
+    setView("roadmap");
   }
 
   function setView(viewName) {
+    const isRoadmap = viewName === "roadmap";
     const isCalendar = viewName === "calendar";
+    el.navRoadmap.classList.toggle("active", isRoadmap);
     el.navCalendar.classList.toggle("active", isCalendar);
-    el.navPlan.classList.toggle("active", !isCalendar);
+    el.navPlan.classList.toggle("active", viewName === "plan");
+    el.roadmapView.classList.toggle("active", isRoadmap);
     el.calendarView.classList.toggle("active", isCalendar);
-    el.planView.classList.toggle("active", !isCalendar);
-    if (!isCalendar) renderPlanTable();
+    el.planView.classList.toggle("active", viewName === "plan");
+    if (viewName === "plan") renderPlanTable();
+    if (isRoadmap) renderRoadmap();
   }
 
   function renderAll() {
+    renderRoadmap();
     renderModuleCatalog();
     renderCalendar();
     renderSelectedDay();
     renderPlanTable();
+  }
+
+  function renderRoadmap() {
+    renderRoadmapStats();
+    renderRoadmapGates();
+    renderRoadmapTimeline();
+    renderRoadmapTasks();
+    renderRoadmapApplications();
+  }
+
+  function renderRoadmapStats() {
+    const roadmap = state.roadmap || defaultRoadmapState();
+    const doneTasks = ROADMAP_TASKS.filter((task) => roadmap.tasks[task.id]).length;
+    const nextGate = ROADMAP_GATES.find((gate) => !roadmap.gates[gate.id]) || ROADMAP_GATES.at(-1);
+    const remaining = daysUntil(nextGate.date);
+    el.roadmapTaskProgress.textContent = `${doneTasks} / ${ROADMAP_TASKS.length}`;
+    el.roadmapGateCountdown.textContent = `${formatDate(nextGate.date)} · ${remaining >= 0 ? `剩 ${remaining} 天` : "待补登结果"}`;
+    el.roadmapTrackStatus.textContent = roadmap.gates.g3 ? "Plan A 有数据支持" : "A / B 同时保留";
+    el.iedmsCountdown.textContent = countdownLabel("2026-10-22");
+    el.iwnCountdown.textContent = countdownLabel("2026-11-08");
+  }
+
+  function renderRoadmapGates() {
+    const gatesState = state.roadmap?.gates || {};
+    el.roadmapGateGrid.innerHTML = ROADMAP_GATES.map((gate) => {
+      const done = Boolean(gatesState[gate.id]);
+      return `
+        <label class="roadmap-gate-card${done ? " complete" : ""}">
+          <input type="checkbox" data-roadmap-gate="${safeAttr(gate.id)}"${done ? " checked" : ""} />
+          <div class="roadmap-gate-head"><span>${safe(gate.code)}</span><time>${safe(formatDate(gate.date))}</time></div>
+          <h3>${safe(gate.name)}</h3>
+          <p>${safe(gate.proof)}</p>
+          <dl><div><dt>通过</dt><dd>${safe(gate.pass)}</dd></div><div><dt>未过</dt><dd>${safe(gate.miss)}</dd></div></dl>
+          <strong class="gate-check-label">${done ? "✓ 已通过" : "○ 未开始"}</strong>
+        </label>
+      `;
+    }).join("");
+  }
+
+  function renderRoadmapTimeline() {
+    el.roadmapTimelineBody.innerHTML = ROADMAP_MONTHS.map((row) => `
+      <tr>
+        <td><strong>${safe(row[0])}</strong></td>
+        <td><span class="roadmap-phase-tag">${safe(row[1])}</span></td>
+        <td>${safe(row[2])}</td>
+        <td>${safe(row[3])}</td>
+        <td>${safe(row[4])}</td>
+        <td>${safe(row[5])}</td>
+      </tr>
+    `).join("");
+  }
+
+  function renderRoadmapTasks() {
+    const taskState = state.roadmap?.tasks || {};
+    el.roadmapTaskGroups.innerHTML = ["现在", "接下来", "稍后"].map((phase) => {
+      const tasks = ROADMAP_TASKS.filter((task) => task.phase === phase);
+      const done = tasks.filter((task) => taskState[task.id]).length;
+      return `
+        <section class="roadmap-task-column">
+          <header><h3>${safe(phase)}</h3><span>${done}/${tasks.length}</span></header>
+          <div>
+            ${tasks.map((task) => {
+              const checked = Boolean(taskState[task.id]);
+              return `
+                <label class="roadmap-task${checked ? " complete" : ""}">
+                  <input type="checkbox" data-roadmap-task="${safeAttr(task.id)}"${checked ? " checked" : ""} />
+                  <span class="roadmap-task-check">${checked ? "✓" : ""}</span>
+                  <span class="roadmap-task-copy"><small>${safe(task.category)}</small><strong>${safe(task.title)}</strong><p>${safe(task.detail)}</p></span>
+                  <time>${safe(task.due)}</time>
+                </label>
+              `;
+            }).join("")}
+          </div>
+        </section>
+      `;
+    }).join("");
+  }
+
+  function renderRoadmapApplications() {
+    const applicationState = state.roadmap?.applications || {};
+    el.roadmapApplicationBody.innerHTML = ROADMAP_APPLICATIONS.map((item) => {
+      const status = applicationState[item.id] || "研究中";
+      return `
+        <tr>
+          <td><strong>${safe(item.school)}</strong></td>
+          <td><span class="region-tag">${safe(item.region)}</span></td>
+          <td>${safe(item.fit)}</td>
+          <td>${safe(item.next)}</td>
+          <td><select data-roadmap-application="${safeAttr(item.id)}" aria-label="${safeAttr(item.school)} 申请状态">${ROADMAP_APPLICATION_STATUSES.map((option) => `<option${option === status ? " selected" : ""}>${safe(option)}</option>`).join("")}</select></td>
+        </tr>
+      `;
+    }).join("");
   }
 
   function renderCalendar() {
@@ -762,9 +965,11 @@
     });
 
     const warningCount = mainPlan.reduce((count, item) => count + (missingTasksForDate(item.date).length ? 1 : 0), 0);
-    el.planWarningStrip.textContent = warningCount
-      ? `还有 ${warningCount} 天的总体计划事项未排入小时表。`
-      : "所有总体计划事项都已经排入小时表。";
+    el.planWarningStrip.textContent = !mainPlan.length
+      ? "旧 IELTS 日期与安排已清空。点击“延伸7天”建立第一批空白日期。"
+      : warningCount
+        ? `还有 ${warningCount} 天的总体计划事项未排入小时表。`
+        : "所有总体计划事项都已经排入小时表。";
   }
 
   function applyDailyTemplate(date) {
@@ -1363,7 +1568,7 @@
 
   function extendPlan(days) {
     const additions = [];
-    let cursor = mainPlan.at(-1)?.date || isoToday();
+    let cursor = mainPlan.at(-1)?.date || addDays(isoToday(), -1);
     for (let index = 0; index < days; index += 1) {
       cursor = addDays(cursor, 1);
       additions.push({
@@ -1392,16 +1597,25 @@
 
   function rebuildPlanIndexes() {
     mainByDate = new Map(mainPlan.map((item) => [item.date, item]));
-    el.dateRangeLabel.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
-    el.planRangeTitle.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
+    el.dateRangeLabel.textContent = planRangeLabel();
+    el.planRangeTitle.textContent = planRangeLabel();
+  }
+
+  function planRangeLabel() {
+    if (!mainPlan.length) return "IELTS 日期尚未安排";
+    return `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
   }
 
   function loadState() {
     try {
       const parsed = JSON.parse(localStorage.getItem(STATE_KEY) || "{}");
-      return normalizeState(parsed);
+      const normalized = normalizeState(parsed);
+      localStorage.setItem(STATE_KEY, JSON.stringify(normalized));
+      return normalized;
     } catch {
-      return normalizeState({});
+      const normalized = normalizeState({});
+      localStorage.setItem(STATE_KEY, JSON.stringify(normalized));
+      return normalized;
     }
   }
 
@@ -1422,6 +1636,11 @@
       planRows: parsed.planRows || [],
       planVersion: parsed.planVersion || "",
       optionalPools: parsed.optionalPools || {},
+      roadmap: {
+        tasks: parsed.roadmap?.tasks || {},
+        gates: parsed.roadmap?.gates || {},
+        applications: parsed.roadmap?.applications || {},
+      },
     };
     ensureAcademicCatalog(normalized);
     return migratePlanState(normalized);
@@ -1452,6 +1671,8 @@
     candidate.moduleCatalog = {};
     candidate.moduleTotals = {};
     candidate.savedSlots = {};
+    candidate.optionalPools = {};
+    candidate.roadmap = defaultRoadmapState();
     ensureAcademicCatalog(candidate);
     Object.keys(candidate.schedule || {}).forEach((date) => {
       if (date >= resetFromDate) delete candidate.schedule[date];
@@ -1461,6 +1682,10 @@
     });
     candidate.planVersion = planVersion;
     return candidate;
+  }
+
+  function defaultRoadmapState() {
+    return { tasks: {}, gates: {}, applications: {} };
   }
 
   function resolveApiBase() {
@@ -1623,6 +1848,20 @@
     if (!iso) return "";
     const [year, month, day] = iso.split("-");
     return `${year}/${month}/${day}`;
+  }
+
+  function daysUntil(iso) {
+    const target = new Date(`${iso}T00:00:00`);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return Math.ceil((target.getTime() - today.getTime()) / 86400000);
+  }
+
+  function countdownLabel(iso) {
+    const remaining = daysUntil(iso);
+    if (remaining < 0) return "已结束";
+    if (remaining === 0) return "今天";
+    return `${remaining} 天`;
   }
 
   function addMonths(monthValue, delta) {
