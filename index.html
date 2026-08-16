@@ -4,17 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0f766e" />
-    <title>规划记事薄</title>
+    <title>研究与 IELTS 规划记事薄</title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260723-optional" />
+    <link rel="stylesheet" href="styles.css?v=20260816-phd-tracker" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
       <main class="auth-panel" aria-labelledby="authTitle">
         <div class="brand-mark">B</div>
-        <h1 id="authTitle">规划记事薄</h1>
+        <h1 id="authTitle">研究与 IELTS 规划记事薄</h1>
         <p>请输入保存密码后进入。</p>
         <form id="authForm" class="auth-form">
           <label for="passwordInput">保存密码</label>
@@ -27,17 +27,128 @@
 
     <div id="appView" class="app-shell" hidden>
       <header class="topbar">
-        <button id="navCalendar" class="tab-button active" type="button">日历</button>
+        <button id="navRoadmap" class="tab-button active" type="button">研究路线</button>
+        <button id="navPhd" class="tab-button" type="button">PhD 申请</button>
+        <button id="navCalendar" class="tab-button" type="button">日历</button>
         <button id="navPlan" class="tab-button" type="button">总体计划</button>
         <div class="topbar-title">
-          <strong>规划记事薄</strong>
+          <strong>研究与 IELTS 规划记事薄</strong>
           <span id="dateRangeLabel"></span>
         </div>
         <button id="installButton" class="ghost-button" type="button" hidden>安装</button>
         <button id="lockButton" class="ghost-button" type="button">锁定</button>
       </header>
 
-      <section id="calendarView" class="view active">
+      <section id="roadmapView" class="view active">
+        <main class="roadmap-page">
+          <header class="roadmap-hero">
+            <div>
+              <p class="eyebrow">MASTER → PHD · 2026—2027</p>
+              <h1>研究是主线，其他任务依 Gate 错峰推进。</h1>
+              <p>GaN FinFET、TCAD / AI、IELTS、IEDMS / IWN 与双轨毕业计划统一放在行动图里；PhD 学校与导师另设独立追踪栏目。</p>
+            </div>
+            <button id="roadmapResetButton" class="danger-button" type="button">研究进度归零</button>
+          </header>
+
+          <section class="roadmap-stats" aria-label="规划摘要">
+            <article><span>当前主战场</span><strong>Fin test + IELTS 11/06</strong><p>同一阶段最多两项高优先任务</p></article>
+            <article><span>下一 Gate</span><strong>G1 · Process Ready</strong><p id="roadmapGateCountdown">2026/09/30</p></article>
+            <article><span>研究任务</span><strong id="roadmapTaskProgress">0 / 0</strong><p>勾选后自动保存</p></article>
+            <article><span>毕业轨道</span><strong id="roadmapTrackStatus">A / B 同时保留</strong><p>2027/03/31 决定是否切换</p></article>
+          </section>
+
+          <section class="roadmap-section">
+            <div class="roadmap-section-head"><div><span>01</span><h2>现在先做什么</h2></div><p>不是每天全部推进，而是控制同时进行中的任务</p></div>
+            <div class="focus-board">
+              <article class="focus-primary"><span>PRIMARY 01</span><h3>Fin exposure / etch DOE</h3><p>整理 dose、linewidth、etch depth 与 sidewall；9 月底前让正式 wafer 可以进线。</p><footer>目标 · 2026/09/30</footer></article>
+              <article class="focus-secondary"><span>PRIMARY 02</span><h3>IELTS 二战进入倒数</h3><p>旧练习记录仍维持归零，从诊断重新建立节奏；考试日已经固定，Speaking 场次待通知后补上。</p><footer>考试日 · 2026/11/06</footer></article>
+              <article><span>ACCEPTED · 02</span><h3>两场会议均已接受</h3><p>IEDMS 与 IWN 都已投中；现在只需错峰准备 poster、现场表达与会后履历更新。</p><footer>状态 · Accepted</footer></article>
+            </div>
+          </section>
+
+          <section class="roadmap-section">
+            <div class="roadmap-section-head"><div><span>02</span><h2>关键 Gate</h2></div><p>用成果证据判断 Plan A 是否仍成立</p></div>
+            <div id="roadmapGateGrid" class="roadmap-gate-grid"></div>
+          </section>
+
+          <section class="roadmap-section">
+            <div class="roadmap-section-head"><div><span>03</span><h2>月度总时间轴</h2></div><p>研究、外部节点、申请与毕业情景放在同一行比较</p></div>
+            <div class="table-wrap roadmap-table-wrap">
+              <table class="roadmap-table">
+                <thead><tr><th>月份</th><th>阶段</th><th>研究主线</th><th>IELTS / 会议 / 论文</th><th>PhD 申请</th><th>Plan A / B</th></tr></thead>
+                <tbody id="roadmapTimelineBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="roadmap-section">
+            <div class="roadmap-section-head"><div><span>04</span><h2>研究任务看板</h2></div><p>全部从未开始归零，完成一项再勾一项</p></div>
+            <div id="roadmapTaskGroups" class="roadmap-task-groups"></div>
+          </section>
+
+          <section class="roadmap-section split-roadmap-section">
+            <article class="ielts-reset-panel">
+              <div class="panel-title"><span>05 · IELTS RETAKE</span><strong id="ieltsExamCountdown">—</strong></div>
+              <h2>11 月 6 日二战，训练记录从零重新建立。</h2>
+              <div class="reset-metrics"><div><span>考试日期</span><strong>2026/11/06</strong></div><div><span>训练进度</span><strong>0 / 0</strong></div><div><span>Speaking</span><strong>待确认</strong></div></div>
+              <p class="ielts-date-warning"><b>关键衔接</b><span>11/04 IWN 海报冻结 → 11/06 IELTS 二战 → 11/08 进入 IWN。Speaking 的具体时间与地点收到通知后立即补登。</span></p>
+              <ol class="ielts-restart-steps">
+                <li><span>1</span><p><b>诊断周</b>完成一回 L / R 计时，确定 W / S 的真实弱项。</p></li>
+                <li><span>2</span><p><b>强化周</b>维持 L / R，固定输出 Writing 与 Speaking。</p></li>
+                <li><span>3</span><p><b>模考周</b>加入完整计时与错题复盘，依 11/06 反推收敛弱项。</p></li>
+                <li><span>4</span><p><b>考前周</b>确认 Speaking 时间、地点与报到方式，11/04 后不排关键制程。</p></li>
+              </ol>
+            </article>
+            <div class="conference-column">
+              <article class="conference-panel"><div><span>IEDMS</span><strong id="iedmsCountdown">—</strong></div><small class="conference-acceptance">✓ 已投中并接受</small><h3>2026/10/22—23</h3><p>9 月底 50–70% → 10/10 90% → 10/15 freeze</p></article>
+              <article class="conference-panel iwn"><div><span>IWN</span><strong id="iwnCountdown">—</strong></div><small class="conference-acceptance">✓ 已投中并接受</small><h3>2026/11/08—13</h3><p>10 月前只建版型 → 10/24–11/03 集中完成 → 11/04 freeze</p></article>
+              <p class="conference-caption">两项投稿均已接受。CV 中列为 Accepted Conference Presentations / Contributions，不包装成有 DOI 的期刊论文。</p>
+            </div>
+          </section>
+
+          <section class="roadmap-section">
+            <div class="roadmap-section-head"><div><span>06</span><h2>Plan A / Plan B</h2></div><p>现在不二选一；依据 Gate 决定是否切换</p></div>
+            <div class="graduation-tracks">
+              <article><div class="track-title"><span>A</span><div><small>TARGET</small><h3>2027/07—08 毕业</h3></div></div><ol><li>2026/09 · Process ready</li><li>2026/12 · Device + first data</li><li>2027/03 · Major data freeze</li><li>2027/05 · Full thesis draft</li><li>2027/07—08 · Defense + graduation</li></ol><p>成立条件：G1–G4 依序通过，3 月后不再开放式扩张实验。</p></article>
+              <article><div class="track-title"><span>B</span><div><small>CONSERVATIVE</small><h3>2027/11—12 毕业</h3></div></div><ol><li>Gate 延迟 · 保留 2–3 个月 buffer</li><li>2027/04—06 · Dataset 收敛</li><li>2027/07—08 · Thesis 60–100%</li><li>2027/09—10 · Defense preparation</li><li>2027/11—12 · Graduation window</li></ol><p>切换条件：G3 未过，或老师要求新增不可压缩的成果。</p></article>
+            </div>
+          </section>
+
+          <section class="roadmap-section">
+            <div class="roadmap-section-head"><div><span>07</span><h2>老师沟通节点</h2></div><p>问成果条件，不要求现在承诺毕业日期</p></div>
+            <div class="advisor-nodes"><article><span>AUG—SEP</span><h3>毕业条件</h3><p>7–8 月口试需要哪些必要成果？</p></article><article><span>DEC</span><h3>成果＋推荐信</h3><p>用第一批 device data 更新研究故事。</p></article><article><span>MAR</span><h3>确认轨道</h3><p>Dataset 是否足以支撑 thesis？A 或 B 当场确认。</p></article><article><span>MAY</span><h3>口试与报到</h3><p>确认初稿、送审、口试与弹性 start date。</p></article></div>
+            <blockquote class="advisor-quote">老师，我目前目标是 9 月底完成 Fin 曝光与蚀刻测试，11 月底完成第一批 D / E-mode 元件，明年 3 月底收敛主要数据。如果按这个进度，希望争取明年 7、8 月口试。您觉得要达到这个时间点，我还缺哪些必要成果？</blockquote>
+          </section>
+        </main>
+      </section>
+
+      <section id="phdView" class="view">
+        <main class="phd-page">
+          <header class="phd-hero">
+            <div>
+              <p class="eyebrow">PHD APPLICATION TRACKER · 2026—2027</p>
+              <h1>从地区到学校，再落实到每一位导师。</h1>
+              <p>依 HK、TW、EU 分区管理学校与导师；Email、CV 准备情况和联系状态会自动保存。</p>
+            </div>
+            <div class="phd-hero-note"><span>研究定位</span><strong>GaN · III-N · TCAD · Power devices · Fabrication</strong><small>Expected M.S. graduation: 2027</small></div>
+          </header>
+
+          <section class="phd-summary" aria-label="PhD 申请摘要">
+            <article><span>学校／机构</span><strong id="phdSchoolCount">0</strong><p>可在每个地区自行增加</p></article>
+            <article><span>导师</span><strong id="phdAdvisorCount">0</strong><p>每位导师独立追踪</p></article>
+            <article><span>CV 已完成</span><strong id="phdCvCount">0 / 0</strong><p>对应导师版本确认</p></article>
+            <article><span>积极推进</span><strong id="phdActiveCount">0</strong><p>已联系至 Offer</p></article>
+          </section>
+
+          <div id="phdRegionList" class="phd-region-list"></div>
+
+          <aside class="phd-guidance">
+            <b>TW 提醒：</b><span>台大先锁定「电子所博士班丙组／元件材料与异质整合」；甄试、一般招生、笔试与口试以正式简章为准。</span>
+          </aside>
+        </main>
+      </section>
+
+      <section id="calendarView" class="view">
         <div class="calendar-layout">
           <aside class="month-pane">
             <div class="month-header">
@@ -49,6 +160,10 @@
               <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
             </div>
             <div id="monthGrid" class="month-grid" aria-label="月份日历"></div>
+            <section class="test-bank-status" aria-label="Cambridge 真题排程进度">
+              <div><span>CAMBRIDGE 9–21</span><strong id="testBankProgress">—</strong></div>
+              <p id="testBankRemaining"></p>
+            </section>
           </aside>
 
           <main class="day-pane">
@@ -58,11 +173,36 @@
                 <h1 id="selectedDateTitle"></h1>
               </div>
               <div class="day-actions">
+                <button id="vocabularyButton" class="vocabulary-button" type="button" aria-expanded="false" aria-controls="vocabularyPanel">单词卡</button>
                 <button id="fillTemplateButton" type="button">填入每日建议</button>
                 <button id="placeMainTasksButton" type="button">排入主任务</button>
                 <button id="clearAllButton" class="danger-button" type="button">全部清除</button>
               </div>
             </div>
+
+            <section id="vocabularyPanel" class="vocabulary-panel" hidden aria-label="自订英文单词卡">
+              <header>
+                <div><span>VOCABULARY CARDS</span><h2 id="vocabularyDate"></h2></div>
+                <strong id="vocabularyCount">0 CARDS</strong>
+              </header>
+              <form id="vocabularyForm" class="vocabulary-form">
+                <label for="vocabularyInput">WORD OR PHRASE</label>
+                <div>
+                  <input id="vocabularyInput" type="text" lang="en" maxlength="120" autocomplete="off" placeholder="Type an English word or phrase" />
+                  <button type="submit">ADD CARD</button>
+                  <button id="exportVocabularyButton" class="secondary-button" type="button">EXPORT EXCEL</button>
+                </div>
+              </form>
+              <section class="vocabulary-day-section">
+                <div class="vocabulary-section-title"><span>SELECTED DAY</span><strong id="vocabularyDayCount">0</strong></div>
+                <div id="vocabularyGrid" class="vocabulary-grid"></div>
+                <p id="vocabularyEmpty" class="vocabulary-empty">NO CARDS YET</p>
+              </section>
+              <section id="weeklyVocabulary" class="weekly-vocabulary" hidden>
+                <div class="vocabulary-section-title"><span>WEEKLY REVIEW</span><strong id="weeklyVocabularyCount">0 CARDS</strong></div>
+                <div id="weeklyVocabularyGroups" class="weekly-vocabulary-groups"></div>
+              </section>
+            </section>
 
             <div id="reminderPanel" class="reminder-panel" hidden></div>
 
@@ -134,6 +274,7 @@
 
     <script src="plan-data.js"></script>
     <script src="config.js"></script>
+    <script src="xlsx-export.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

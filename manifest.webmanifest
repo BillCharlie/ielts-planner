@@ -1,7 +1,7 @@
 {
-  "name": "规划记事薄",
-  "short_name": "记事薄",
-  "description": "可云端同步的计划、日历与记事工具。",
+  "name": "研究与 IELTS 规划记事薄",
+  "short_name": "研究规划",
+  "description": "整合硕士研究、IELTS、会议、PhD 申请、日历与云端同步的个人规划工具。",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

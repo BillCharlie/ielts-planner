@@ -1,57 +1,70 @@
-# 规划记事薄
+# 研究与 IELTS 规划记事薄
 
-这是一个 PWA 日历 + 总体计划，现在支持 Railway 后端云端同步，也保留 GitHub Pages 纯前端部署能力。
+这是一个可安装的个人规划网站，现已把原 IELTS 日历与完整的硕士研究／PhD 路线整合到同一个项目中。
 
-## 本地/网页使用
+## 主要页面
 
-1. 打开网页。
-2. 输入密码 `Bill`。
-3. 日历以小时编辑 06:00 到 24:00 的安排。
-4. 总体计划支持编辑、保存、复制行、插入行、删除行、上下移动和继续延伸。
-5. 未保存的日历小时或总体计划行会在保存按钮上变色提醒。
-6. 每天的 IELTS 和游泳是固定提醒；总体计划当天事项未排进小时表时会提示。
+- **研究路线**：GaN FinFET、TCAD / AI、IELTS、IEDMS / IWN、Gate 与 Plan A / B。
+- **PhD 申请**：独立栏目，按 HK、TW、EU 分区，再按学校／机构与导师管理。
+- **日历**：按小时安排 06:00–24:00 的任务。
+- **总体计划**：建立日期后，可编辑、复制、插入、删除与延伸计划行。
 
-## Railway 后端部署
+任务、Gate、PhD 学校与导师、日期与小时安排都会保存在浏览器；连接 Railway 后也会同步到云端。
 
-Railway 直接连接这个 GitHub 仓库即可。项目根目录已有：
+PhD 申请追踪可在每个地区自行新增或删除学校，并在学校下新增或删除导师。每位导师都有可编辑的 Email、对应 CV 完成勾选和状态栏；状态包括研究中、准备联系、已联系、待回复、准备申请、已送出、面试、Offer 与暂停。
 
-- `package.json`
-- `server/server.js`
-- `railway.json`
+IEDMS 与 IWN 两项投稿均已接受，目前追踪的是 poster、现场表达与参会节点。
 
-建议在 Railway 添加一个 Postgres 数据库，并设置环境变量：
+IELTS 二战考试日已定于 `2026/11/06`；Speaking 的具体时间与地点待通知后补登。
 
-- `BILL_PASSWORD=Bill`
-- `SESSION_SECRET=一个随机长字符串`
-- `DATABASE_URL=Railway Postgres 自动提供`
+日历会自动定位当天，并已预排：
 
-部署后访问 Railway 域名，网页和 API 在同一个域名下，登录 `Bill` 后就会自动云端同步。
+- `2026/08/24–08/28`：每天 1 份完整真题
+- 从 `2026/09/07` 起：周一 2 份；周二全天制程；周三半天制程＋书报讨论＋Meeting；周四至周日每天 1 份
+- 周二、周三不排 IELTS 真题
+- `2026/11/01、11/02、11/05`：完全留白，不排真题、重做或制程
+- `2026/11/06`：IELTS 二战考试日，不排制程与其他真题
 
-## GitHub Pages + Railway API
+日历中的“单词卡”按钮可输入当天的纯英文单词或短语，并可随时删除。选择任一周日时，会显示截至该周日为止的全部历史卡片，并依自然周分组累计，不限制周数；全部卡片可导出为 `.xlsx`，其中包含 `Cards` 与 `Weekly Summary` 两个工作表。
 
-如果继续用 GitHub Pages 打开前端，也可以同步到 Railway 后端。部署 Railway 后，把 `config.js` 里的地址改成：
+完整真题范围为 Cambridge 9–21，共 52 份。`C9T1` 至 `C21T4` 会依序排完并在 `2026/10/31` 结束；取消考试前的重做安排后，`11/01、11/02、11/05` 保持空白。
 
-```js
-window.IELTS_API_BASE = "https://你的-railway-域名";
+## 本次资料重置
+
+版本 `2026-08-16-preexam-buffer-v7` 会在首次打开时自动：
+
+- 清空旧 IELTS 日期与 Cambridge 题目安排
+- 清空旧小时表、完成记录与备注
+- 清空旧专案行与模块进度
+- 将新的研究任务与 Gate 归零，并初始化独立的 PhD 学校／导师追踪栏
+
+旧内容仍可从 Git 历史找回，但不会继续出现在新计划中。
+
+## 本地运行
+
+```powershell
+npm install
+npm run dev
 ```
 
-或者第一次打开 GitHub Pages 时在 URL 后加：
+默认打开：
 
 ```text
-?api=https://你的-railway-域名
+http://localhost:3000
 ```
 
-这个地址会保存到浏览器本地，以后不用重复输入。
+登录密码仍为 `Bill`。
 
-## Android App / Widget
+## Railway 云端同步
 
-Android 工程在 `android-widget/`。
+项目可直接部署到 Railway。建议连接 Postgres，并设置：
 
-使用方法：
+- `BILL_PASSWORD`
+- `SESSION_SECRET`
+- `DATABASE_URL`
 
-1. 用 Android Studio 打开 `android-widget/`。
-2. 构建并安装到手机。
-3. 打开 App，输入 Railway URL 和密码 `Bill`。
-4. 回到桌面添加 `规划记事薄 Today` 小组件。
+GitHub Pages 若要连接 Railway API，可在 `config.js` 填入地址，或首次打开时加上 `?api=https://你的-railway-域名`。
 
-Widget 会读取同一个 Railway 后端的 `/api/widget/today`，显示今天的总体计划和小时安排。
+## Android Widget
+
+Android 工程位于 `android-widget/`，Widget 会读取相同后端的 `/api/widget/today`。日期归零期间会显示没有当日主计划，直到你重新建立日期。

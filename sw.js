@@ -1,9 +1,10 @@
-const CACHE_NAME = "planner-notebook-v24";
+const CACHE_NAME = "planner-notebook-v35-phd-tracker";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260723-optional",
+  "./styles.css?v=20260816-phd-tracker",
   "./app.js",
+  "./xlsx-export.js",
   "./config.js",
   "./plan-data.js",
   "./manifest.webmanifest",

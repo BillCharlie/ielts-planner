@@ -9,6 +9,59 @@
   const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
   const ACADEMIC_MODULES = ["课程", "书报课程", "组会", "研讨会"];
   const ALL_PLAN_MODULES = [...EXPERIMENT_MODULES, ...ACADEMIC_MODULES];
+  const ROADMAP_GATES = [
+    { id: "g1", code: "G1", name: "Process Ready", date: "2026-09-30", proof: "Fin lithography + etch recipe freeze；linewidth、etch depth、sidewall 有记录", pass: "进入正式 D / E-mode device", miss: "8 月毕业风险开始上升" },
+    { id: "g2", code: "G2", name: "Device Ready", date: "2026-12-15", proof: "第一批 D-mode + E-mode Fin 完成，并开始 electrical measurement", pass: "Plan A 维持绿灯", miss: "8 月毕业进入黄灯" },
+    { id: "g3", code: "G3", name: "Data Ready", date: "2027-03-31", proof: "Id–Vg / Id–Vd / Vth / Ron / leakage / C–V / Ohmic / TCAD comparison 齐全", pass: "7–8 月毕业仍然现实", miss: "停止硬追，正式切换 Plan B" },
+    { id: "g4", code: "G4", name: "Thesis Ready", date: "2027-05-31", proof: "完整硕论初稿已交给老师，口试简报框架建立", pass: "送审并安排 7 月口试", miss: "口试顺延到秋季" },
+  ];
+  const ROADMAP_TASKS = [
+    { id: "fin-doe", phase: "现在", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "dose、linewidth、etch depth、sidewall 整理成可决策表", due: "09/30" },
+    { id: "ielts-window", phase: "现在", category: "IELTS", title: "核对 IELTS 二战报名资料", detail: "考试日已定 2026/11/06；确认场次、证件与报到资讯", due: "11/06" },
+    { id: "ielts-diagnostic", phase: "现在", category: "IELTS", title: "完成 L / R 计时诊断", detail: "Writing / Speaking 同步做基线记录", due: "08/31" },
+    { id: "speaking-admin", phase: "现在", category: "IELTS", title: "补登 Speaking 场次", detail: "收到通知后记录考试时间、地点、报到方式与前后 buffer", due: "待通知" },
+    { id: "iedms-assets", phase: "现在", category: "会议", title: "IEDMS figure inventory", detail: "论文 figure → poster → 口头解释，不重新做研究", due: "08/31" },
+    { id: "cv-process", phase: "现在", category: "FinFET", title: "启动 C–V test process", detail: "建立 test structure 与 measurement flow", due: "09/15" },
+    { id: "advisor-exit", phase: "现在", category: "沟通", title: "和老师确认毕业 exit criteria", detail: "带 G1–G4 询问 7–8 月口试的必要成果", due: "09/15" },
+    { id: "tcad-archive", phase: "现在", category: "TCAD / AI", title: "封存 TCAD model 与参数版本", detail: "让 experiment comparison 可以重现", due: "09/30" },
+    { id: "iedms-freeze", phase: "接下来", category: "会议", title: "IEDMS poster freeze", detail: "完成版面、输出与 3 / 10 分钟讲法", due: "10/15" },
+    { id: "regrowth", phase: "接下来", category: "FinFET", title: "Ohmic Regrowth test", detail: "建立条件、结果与 contact 行为对照", due: "10/31" },
+    { id: "iwn-freeze", phase: "接下来", category: "会议", title: "IWN poster freeze", detail: "IEDMS 后集中完成，11/04 后只改错误", due: "11/04" },
+    { id: "devices", phase: "接下来", category: "FinFET", title: "第一批 D / E-mode Fin 完成", detail: "建立待量测 device matrix", due: "11/30" },
+    { id: "first-data", phase: "接下来", category: "FinFET", title: "第一批完整 electrical data", detail: "Id–Vg、Id–Vd、Vth、Ron、leakage；必要时 BV", due: "12/15" },
+    { id: "recommend", phase: "接下来", category: "PhD", title: "正式请推荐信", detail: "附 CV v3、研究摘要、目标清单与 deadline", due: "12/20" },
+    { id: "tcad-compare", phase: "稍后", category: "TCAD / AI", title: "完成 TCAD–experiment 核心比较图", detail: "串联 electrostatics、Fin width、Vth 与 leakage", due: "2027/02" },
+    { id: "paper-draft", phase: "稍后", category: "论文", title: "Fin / TCAD journal paper 初稿", detail: "只保留能支撑主张的结果", due: "2027/02" },
+    { id: "data-freeze", phase: "稍后", category: "FinFET", title: "主要实验 data freeze", detail: "3 月后不再无限制开 wafer 或扩张 DOE", due: "2027/03" },
+    { id: "thesis-half", phase: "稍后", category: "论文", title: "Thesis 初稿达到 50–60%", detail: "Methods、results、discussion 可供老师审阅", due: "2027/04" },
+    { id: "thesis-full", phase: "稍后", category: "论文", title: "完整 Thesis 初稿交老师", detail: "同时提出口试日期与修改 buffer", due: "2027/05" },
+    { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
+  ];
+  const ROADMAP_MONTHS = [
+    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 二战已定 11/06；重新诊断；IEDMS figure inventory；C–V 规划", "CV v1；写入两项 accepted conference contributions；建立港／欧／台大清单", "A / B 正常推进"],
+    ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 核心训练；IEDMS poster 50–70%", "CV / Motivation Letter 初版；谈 exit criteria", "Plan A 必须通过 G1"],
+    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会；IELTS 维持训练", "只追踪高度匹配职位", "A：正式 wafer 已开始"],
+    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN poster freeze；11/06 IELTS 二战；11/08–13 IWN", "低强度维护；更新两场 accepted conference", "B 最晚延至 12 月"],
+    ["2026/12", "First data", "Electrical measurement；C–V / Regrowth correlation", "整理 TCAD 对照与 journal story", "主申请；CV v3；请推荐信", "12/15 通过 G2"],
+    ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "欧洲主投＋technical interview", "A：只做有限补实验"],
+    ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "申请与面试高峰", "A：实验开始 freeze"],
+    ["2027/03", "Data freeze", "主要 dataset 收敛", "Fin paper 投稿或接近投稿；thesis 架构", "Interview / offer 并行", "3/31 通过 G3，否则切 B"],
+    ["2027/04", "Write", "只补必要量测；不做开放式新制程", "硕论初稿 50–60%", "比较题目、PI、funding、fab access", "A：写作主导；B：data 收敛"],
+    ["2027/05", "Thesis ready", "原则上不开新 wafer", "5/31 完整初稿给老师", "确定去向与弹性 start date", "A 通过 G4；B 开始主写"],
+    ["2027/06", "Defense prep", "补最后必要数据；研究交接", "送审／申请口试；简报问答", "签证／行政", "A：Defense ready；B：30–50%"],
+    ["2027/07", "Plan A defense", "完成交接文件", "Plan A：硕士口试与修改", "确认报到节点", "A：口试；B：Thesis 60–80%"],
+    ["2027/08", "Target graduation", "结案／资料封存", "Plan A：修改、离校、毕业", "若 A 成功则衔接 PhD", "A：目标毕业；B：Thesis final"],
+    ["2027/09", "Buffer", "只处理口试必要修正", "Plan B：口试准备", "维持 offer，确认延后报到", "B：Defense ready"],
+    ["2027/10", "Plan B defense", "收尾与交接", "Plan B：口试、修改", "更新 availability", "B：硕士口试"],
+    ["2027/11", "Conservative window", "完成行政与离校", "Plan B：毕业窗口", "PhD 衔接", "B：目标毕业"],
+    ["2027/12", "Final buffer", "只保留必要 contingency", "最终毕业缓冲", "完成转场", "B：最晚毕业窗口"],
+  ];
+  const PHD_REGION_PRESETS = [
+    { id: "hk", code: "HK", name: "香港", hint: "集中式 PhD 申请与导师联系", schools: ["HKUST", "HKU", "CUHK", "CityU", "PolyU"] },
+    { id: "tw", code: "TW", name: "台湾", hint: "学校招生规则与导师意愿并行确认", schools: ["NTU"] },
+    { id: "eu", code: "EU", name: "欧洲", hint: "以导师、实验室或 project vacancy 为单位", schools: ["KU Leuven / imec", "TU Delft", "EPFL", "Fraunhofer IISB"] },
+  ];
+  const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系", "待回复", "准备申请", "已送出", "面试", "Offer", "暂停"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
   let state = loadState();
   let mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
@@ -19,7 +72,8 @@
   let cloudSaveTimer = null;
   let applyingRemoteState = false;
 
-  let selectedDate = mainPlan[0]?.date || isoToday();
+  let calendarToday = isoToday();
+  let selectedDate = calendarToday;
   let visibleMonth = selectedDate.slice(0, 7);
   let activeHour = 9;
   let deferredInstallPrompt = null;
@@ -34,8 +88,11 @@
     bindNavigation();
     bindCalendarControls();
     bindPlanControls();
+    bindRoadmapControls();
+    bindPhdControls();
     bindPwa();
     showInitialView();
+    scheduleCalendarDateRefresh();
     registerServiceWorker();
   }
 
@@ -48,17 +105,35 @@
       "authError",
       "navCalendar",
       "navPlan",
+      "navRoadmap",
+      "navPhd",
       "dateRangeLabel",
       "installButton",
       "lockButton",
       "calendarView",
       "planView",
+      "roadmapView",
       "prevMonth",
       "nextMonth",
       "monthTitle",
       "monthGrid",
+      "testBankProgress",
+      "testBankRemaining",
       "selectedDayType",
       "selectedDateTitle",
+      "vocabularyButton",
+      "vocabularyPanel",
+      "vocabularyDate",
+      "vocabularyCount",
+      "vocabularyForm",
+      "vocabularyInput",
+      "exportVocabularyButton",
+      "vocabularyDayCount",
+      "vocabularyGrid",
+      "vocabularyEmpty",
+      "weeklyVocabulary",
+      "weeklyVocabularyCount",
+      "weeklyVocabularyGroups",
       "fillTemplateButton",
       "placeMainTasksButton",
       "clearAllButton",
@@ -80,6 +155,22 @@
       "moduleCatalog",
       "planWarningStrip",
       "planTableBody",
+      "roadmapResetButton",
+      "roadmapGateCountdown",
+      "roadmapTaskProgress",
+      "roadmapTrackStatus",
+      "roadmapGateGrid",
+      "roadmapTimelineBody",
+      "roadmapTaskGroups",
+      "phdView",
+      "phdRegionList",
+      "phdSchoolCount",
+      "phdAdvisorCount",
+      "phdCvCount",
+      "phdActiveCount",
+      "ieltsExamCountdown",
+      "iedmsCountdown",
+      "iwnCountdown",
     ].forEach((id) => {
       el[id] = document.getElementById(id);
     });
@@ -126,11 +217,33 @@
   }
 
   function bindNavigation() {
+    el.navRoadmap.addEventListener("click", () => setView("roadmap"));
+    el.navPhd.addEventListener("click", () => setView("phd"));
     el.navCalendar.addEventListener("click", () => setView("calendar"));
     el.navPlan.addEventListener("click", () => setView("plan"));
   }
 
   function bindCalendarControls() {
+    el.vocabularyButton.addEventListener("click", () => {
+      const willOpen = el.vocabularyPanel.hidden;
+      el.vocabularyPanel.hidden = !willOpen;
+      el.vocabularyButton.setAttribute("aria-expanded", String(willOpen));
+      if (willOpen) renderVocabulary();
+    });
+
+    el.vocabularyForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      addVocabularyCard(selectedDate, el.vocabularyInput.value);
+    });
+
+    el.vocabularyPanel.addEventListener("click", (event) => {
+      const deleteButton = event.target.closest("[data-delete-vocabulary]");
+      if (!deleteButton) return;
+      deleteVocabularyCard(deleteButton.dataset.vocabularyDate, deleteButton.dataset.deleteVocabulary);
+    });
+
+    el.exportVocabularyButton.addEventListener("click", exportVocabularyCards);
+
     el.prevMonth.addEventListener("click", () => {
       visibleMonth = addMonths(visibleMonth, -1);
       renderCalendar();
@@ -185,6 +298,67 @@
     });
   }
 
+  function bindRoadmapControls() {
+    el.roadmapResetButton.addEventListener("click", () => {
+      if (!window.confirm("要把研究 Gate 和任务进度全部归零吗？PhD 申请追踪不会被清除。")) return;
+      state.roadmap = defaultRoadmapState();
+      saveState();
+      renderRoadmap();
+      showSaved("研究进度已归零");
+    });
+
+    el.roadmapGateGrid.addEventListener("change", (event) => {
+      const input = event.target.closest("[data-roadmap-gate]");
+      if (!input) return;
+      state.roadmap.gates[input.dataset.roadmapGate] = input.checked;
+      saveState();
+      renderRoadmap();
+    });
+
+    el.roadmapTaskGroups.addEventListener("change", (event) => {
+      const input = event.target.closest("[data-roadmap-task]");
+      if (!input) return;
+      state.roadmap.tasks[input.dataset.roadmapTask] = input.checked;
+      saveState();
+      renderRoadmap();
+    });
+
+  }
+
+  function bindPhdControls() {
+    el.phdRegionList.addEventListener("submit", (event) => {
+      const schoolForm = event.target.closest("[data-add-phd-school]");
+      if (schoolForm) {
+        event.preventDefault();
+        addPhdSchool(schoolForm);
+        return;
+      }
+      const advisorForm = event.target.closest("[data-add-phd-advisor]");
+      if (advisorForm) {
+        event.preventDefault();
+        addPhdAdvisor(advisorForm);
+      }
+    });
+
+    el.phdRegionList.addEventListener("input", (event) => {
+      updatePhdTextField(event.target);
+    });
+
+    el.phdRegionList.addEventListener("change", (event) => {
+      updatePhdControl(event.target);
+    });
+
+    el.phdRegionList.addEventListener("click", (event) => {
+      const removeAdvisor = event.target.closest("[data-delete-phd-advisor]");
+      if (removeAdvisor) {
+        deletePhdAdvisor(removeAdvisor);
+        return;
+      }
+      const removeSchool = event.target.closest("[data-delete-phd-school]");
+      if (removeSchool) deletePhdSchool(removeSchool);
+    });
+  }
+
   function bindPwa() {
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
@@ -214,29 +388,267 @@
   function openApp() {
     el.authView.hidden = true;
     el.appView.hidden = false;
-    el.dateRangeLabel.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
-    el.planRangeTitle.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
+    el.dateRangeLabel.textContent = planRangeLabel();
+    el.planRangeTitle.textContent = planRangeLabel();
     renderAll();
+    setView("roadmap");
   }
 
   function setView(viewName) {
+    const isRoadmap = viewName === "roadmap";
+    const isPhd = viewName === "phd";
     const isCalendar = viewName === "calendar";
+    el.navRoadmap.classList.toggle("active", isRoadmap);
+    el.navPhd.classList.toggle("active", isPhd);
     el.navCalendar.classList.toggle("active", isCalendar);
-    el.navPlan.classList.toggle("active", !isCalendar);
+    el.navPlan.classList.toggle("active", viewName === "plan");
+    el.roadmapView.classList.toggle("active", isRoadmap);
+    el.phdView.classList.toggle("active", isPhd);
     el.calendarView.classList.toggle("active", isCalendar);
-    el.planView.classList.toggle("active", !isCalendar);
-    if (!isCalendar) renderPlanTable();
+    el.planView.classList.toggle("active", viewName === "plan");
+    if (viewName === "plan") renderPlanTable();
+    if (isRoadmap) renderRoadmap();
+    if (isPhd) renderPhdTracker();
   }
 
   function renderAll() {
+    renderRoadmap();
+    renderPhdTracker();
     renderModuleCatalog();
     renderCalendar();
     renderSelectedDay();
     renderPlanTable();
   }
 
+  function renderRoadmap() {
+    renderRoadmapStats();
+    renderRoadmapGates();
+    renderRoadmapTimeline();
+    renderRoadmapTasks();
+  }
+
+  function renderRoadmapStats() {
+    const roadmap = state.roadmap || defaultRoadmapState();
+    const doneTasks = ROADMAP_TASKS.filter((task) => roadmap.tasks[task.id]).length;
+    const nextGate = ROADMAP_GATES.find((gate) => !roadmap.gates[gate.id]) || ROADMAP_GATES.at(-1);
+    const remaining = daysUntil(nextGate.date);
+    el.roadmapTaskProgress.textContent = `${doneTasks} / ${ROADMAP_TASKS.length}`;
+    el.roadmapGateCountdown.textContent = `${formatDate(nextGate.date)} · ${remaining >= 0 ? `剩 ${remaining} 天` : "待补登结果"}`;
+    el.roadmapTrackStatus.textContent = roadmap.gates.g3 ? "Plan A 有数据支持" : "A / B 同时保留";
+    el.ieltsExamCountdown.textContent = countdownLabel("2026-11-06");
+    el.iedmsCountdown.textContent = countdownLabel("2026-10-22");
+    el.iwnCountdown.textContent = countdownLabel("2026-11-08");
+  }
+
+  function renderRoadmapGates() {
+    const gatesState = state.roadmap?.gates || {};
+    el.roadmapGateGrid.innerHTML = ROADMAP_GATES.map((gate) => {
+      const done = Boolean(gatesState[gate.id]);
+      return `
+        <label class="roadmap-gate-card${done ? " complete" : ""}">
+          <input type="checkbox" data-roadmap-gate="${safeAttr(gate.id)}"${done ? " checked" : ""} />
+          <div class="roadmap-gate-head"><span>${safe(gate.code)}</span><time>${safe(formatDate(gate.date))}</time></div>
+          <h3>${safe(gate.name)}</h3>
+          <p>${safe(gate.proof)}</p>
+          <dl><div><dt>通过</dt><dd>${safe(gate.pass)}</dd></div><div><dt>未过</dt><dd>${safe(gate.miss)}</dd></div></dl>
+          <strong class="gate-check-label">${done ? "✓ 已通过" : "○ 未开始"}</strong>
+        </label>
+      `;
+    }).join("");
+  }
+
+  function renderRoadmapTimeline() {
+    el.roadmapTimelineBody.innerHTML = ROADMAP_MONTHS.map((row) => `
+      <tr>
+        <td><strong>${safe(row[0])}</strong></td>
+        <td><span class="roadmap-phase-tag">${safe(row[1])}</span></td>
+        <td>${safe(row[2])}</td>
+        <td>${safe(row[3])}</td>
+        <td>${safe(row[4])}</td>
+        <td>${safe(row[5])}</td>
+      </tr>
+    `).join("");
+  }
+
+  function renderRoadmapTasks() {
+    const taskState = state.roadmap?.tasks || {};
+    el.roadmapTaskGroups.innerHTML = ["现在", "接下来", "稍后"].map((phase) => {
+      const tasks = ROADMAP_TASKS.filter((task) => task.phase === phase);
+      const done = tasks.filter((task) => taskState[task.id]).length;
+      return `
+        <section class="roadmap-task-column">
+          <header><h3>${safe(phase)}</h3><span>${done}/${tasks.length}</span></header>
+          <div>
+            ${tasks.map((task) => {
+              const checked = Boolean(taskState[task.id]);
+              return `
+                <label class="roadmap-task${checked ? " complete" : ""}">
+                  <input type="checkbox" data-roadmap-task="${safeAttr(task.id)}"${checked ? " checked" : ""} />
+                  <span class="roadmap-task-check">${checked ? "✓" : ""}</span>
+                  <span class="roadmap-task-copy"><small>${safe(task.category)}</small><strong>${safe(task.title)}</strong><p>${safe(task.detail)}</p></span>
+                  <time>${safe(task.due)}</time>
+                </label>
+              `;
+            }).join("")}
+          </div>
+        </section>
+      `;
+    }).join("");
+  }
+
+  function renderPhdTracker() {
+    const regions = state.phdTracker?.regions || [];
+    const schools = regions.flatMap((region) => region.schools || []);
+    const advisors = schools.flatMap((school) => school.advisors || []);
+    const cvDone = advisors.filter((advisor) => advisor.cvDone).length;
+    const active = advisors.filter((advisor) => !["研究中", "准备联系", "暂停"].includes(advisor.status)).length;
+    el.phdSchoolCount.textContent = String(schools.length);
+    el.phdAdvisorCount.textContent = String(advisors.length);
+    el.phdCvCount.textContent = `${cvDone} / ${advisors.length}`;
+    el.phdActiveCount.textContent = String(active);
+    el.phdRegionList.innerHTML = regions.map((region) => `
+      <section class="phd-region" data-phd-region="${safeAttr(region.id)}">
+        <header class="phd-region-header">
+          <div class="phd-region-code">${safe(region.code)}</div>
+          <div><h2>${safe(region.name)}</h2><p>${safe(region.hint)}</p></div>
+          <span>${region.schools.length} 所 · ${region.schools.reduce((count, school) => count + school.advisors.length, 0)} 位导师</span>
+        </header>
+        <div class="phd-school-list">
+          ${region.schools.length ? region.schools.map((school) => renderPhdSchool(region, school)).join("") : '<p class="phd-region-empty">尚未加入学校。可从下方新增第一所学校。</p>'}
+        </div>
+        <form class="phd-add-school" data-add-phd-school="${safeAttr(region.id)}">
+          <label><span>新增学校／机构</span><input name="schoolName" type="text" placeholder="输入学校名称" required /></label>
+          <button type="submit">＋ 添加学校</button>
+        </form>
+      </section>
+    `).join("");
+  }
+
+  function renderPhdSchool(region, school) {
+    return `
+      <article class="phd-school" data-phd-school="${safeAttr(school.id)}">
+        <header class="phd-school-header">
+          <label><span>学校／机构</span><input data-phd-school-name="true" data-region-id="${safeAttr(region.id)}" data-school-id="${safeAttr(school.id)}" value="${safeAttr(school.name)}" aria-label="学校名称" /></label>
+          <span>${school.advisors.length} 位导师</span>
+          <button class="phd-delete-button" type="button" data-delete-phd-school="${safeAttr(school.id)}" data-region-id="${safeAttr(region.id)}">删除学校</button>
+        </header>
+        <div class="phd-advisor-table">
+          <div class="phd-advisor-table-head" aria-hidden="true"><span>导师</span><span>Email</span><span>对应 CV</span><span>状态</span><span></span></div>
+          ${school.advisors.length ? school.advisors.map((advisor) => renderPhdAdvisor(region, school, advisor)).join("") : '<p class="phd-advisor-empty">还没有导师记录。</p>'}
+        </div>
+        <form class="phd-add-advisor" data-add-phd-advisor="${safeAttr(school.id)}" data-region-id="${safeAttr(region.id)}">
+          <label><span>导师姓名</span><input name="advisorName" type="text" placeholder="Professor name" required /></label>
+          <label><span>Email</span><input name="advisorEmail" type="email" placeholder="name@university.edu" /></label>
+          <button type="submit">＋ 添加导师</button>
+        </form>
+      </article>
+    `;
+  }
+
+  function renderPhdAdvisor(region, school, advisor) {
+    const common = `data-region-id="${safeAttr(region.id)}" data-school-id="${safeAttr(school.id)}" data-advisor-id="${safeAttr(advisor.id)}"`;
+    return `
+      <div class="phd-advisor-row">
+        <label><span>导师</span><input ${common} data-phd-advisor-field="name" value="${safeAttr(advisor.name)}" placeholder="Professor name" aria-label="导师姓名" /></label>
+        <label><span>Email</span><input ${common} data-phd-advisor-field="email" type="email" value="${safeAttr(advisor.email)}" placeholder="name@university.edu" aria-label="导师 Email" /></label>
+        <label class="phd-cv-check"><input ${common} data-phd-advisor-cv="true" type="checkbox"${advisor.cvDone ? " checked" : ""} /><span>${advisor.cvDone ? "✓ 已完成" : "○ 未完成"}</span></label>
+        <label><span>状态</span><select ${common} data-phd-advisor-status="true" aria-label="申请状态">${PHD_APPLICATION_STATUSES.map((status) => `<option${status === advisor.status ? " selected" : ""}>${safe(status)}</option>`).join("")}</select></label>
+        <button class="phd-delete-button advisor" type="button" ${common} data-delete-phd-advisor="true" aria-label="删除 ${safeAttr(advisor.name || "导师")}">删除</button>
+      </div>
+    `;
+  }
+
+  function addPhdSchool(form) {
+    const region = state.phdTracker.regions.find((item) => item.id === form.dataset.addPhdSchool);
+    const name = new FormData(form).get("schoolName")?.trim();
+    if (!region || !name) return;
+    region.schools.push({ id: makePhdId("school"), name, advisors: [] });
+    form.reset();
+    saveState();
+    renderPhdTracker();
+    showSaved("学校已添加");
+  }
+
+  function addPhdAdvisor(form) {
+    const school = findPhdSchool(form.dataset.regionId, form.dataset.addPhdAdvisor);
+    const formData = new FormData(form);
+    const name = formData.get("advisorName")?.trim();
+    const email = formData.get("advisorEmail")?.trim() || "";
+    if (!school || !name) return;
+    school.advisors.push({ id: makePhdId("advisor"), name, email, cvDone: false, status: "研究中" });
+    form.reset();
+    saveState();
+    renderPhdTracker();
+    showSaved("导师已添加");
+  }
+
+  function updatePhdTextField(target) {
+    if (target.matches("[data-phd-school-name]")) {
+      const school = findPhdSchool(target.dataset.regionId, target.dataset.schoolId);
+      if (!school) return;
+      school.name = target.value;
+      saveState();
+      return;
+    }
+    if (!target.matches("[data-phd-advisor-field]")) return;
+    const advisor = findPhdAdvisor(target.dataset.regionId, target.dataset.schoolId, target.dataset.advisorId);
+    if (!advisor) return;
+    advisor[target.dataset.phdAdvisorField] = target.value;
+    saveState();
+  }
+
+  function updatePhdControl(target) {
+    if (target.matches("[data-phd-school-name]")) {
+      const school = findPhdSchool(target.dataset.regionId, target.dataset.schoolId);
+      if (!school) return;
+      school.name = target.value.trim() || "未命名学校";
+      saveState();
+      renderPhdTracker();
+      return;
+    }
+    const advisor = findPhdAdvisor(target.dataset.regionId, target.dataset.schoolId, target.dataset.advisorId);
+    if (!advisor) return;
+    if (target.matches("[data-phd-advisor-cv]")) advisor.cvDone = target.checked;
+    if (target.matches("[data-phd-advisor-status]")) advisor.status = target.value;
+    saveState();
+    renderPhdTracker();
+  }
+
+  function deletePhdAdvisor(button) {
+    const school = findPhdSchool(button.dataset.regionId, button.dataset.schoolId);
+    const advisor = findPhdAdvisor(button.dataset.regionId, button.dataset.schoolId, button.dataset.advisorId);
+    if (!school || !advisor || !window.confirm(`要删除导师「${advisor.name || "未命名"}」吗？`)) return;
+    school.advisors = school.advisors.filter((item) => item.id !== advisor.id);
+    saveState();
+    renderPhdTracker();
+    showSaved("导师已删除");
+  }
+
+  function deletePhdSchool(button) {
+    const region = state.phdTracker.regions.find((item) => item.id === button.dataset.regionId);
+    const school = findPhdSchool(button.dataset.regionId, button.dataset.deletePhdSchool);
+    if (!region || !school || !window.confirm(`要删除「${school.name || "未命名学校"}」和其中的 ${school.advisors.length} 位导师吗？`)) return;
+    region.schools = region.schools.filter((item) => item.id !== school.id);
+    saveState();
+    renderPhdTracker();
+    showSaved("学校已删除");
+  }
+
+  function findPhdSchool(regionId, schoolId) {
+    return state.phdTracker?.regions.find((region) => region.id === regionId)?.schools.find((school) => school.id === schoolId);
+  }
+
+  function findPhdAdvisor(regionId, schoolId, advisorId) {
+    return findPhdSchool(regionId, schoolId)?.advisors.find((advisor) => advisor.id === advisorId);
+  }
+
+  function makePhdId(prefix) {
+    return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  }
+
   function renderCalendar() {
     el.monthTitle.textContent = monthLabel(visibleMonth);
+    renderTestBankStatus();
     el.monthGrid.innerHTML = "";
 
     const [year, month] = visibleMonth.split("-").map(Number);
@@ -249,23 +661,24 @@
       current.setDate(start.getDate() + index);
       const iso = toIso(current);
       const plan = mainByDate.get(iso);
+      const trainingItems = trainingItemsForPlan(plan);
+      const missingIelts = missingTasksForDate(iso).some((task) => task.kind === "ielts");
+      const scheduledIelts = [...scheduledTaskIds(iso)].some((taskId) => taskId.includes(":ielts"));
       const button = document.createElement("button");
       button.type = "button";
       button.className = "day-cell";
-      button.classList.toggle("rest-day", isRestDay(plan));
-      button.classList.toggle("normal-day", !!plan && !isRestDay(plan));
+      button.classList.toggle("paper-day", trainingItems.length > 0);
       button.classList.toggle("outside", iso.slice(0, 7) !== visibleMonth);
       button.classList.toggle("selected", iso === selectedDate);
-      button.classList.toggle("has-warning", !!plan && missingTasksForDate(iso).length > 0);
-      button.classList.toggle("has-done", scheduledTaskIds(iso).size > 0);
-      button.classList.toggle("day-complete", isDayFullySaved(iso));
-      const hasPlanWarning = !!plan && missingTasksForDate(iso).length > 0;
-      const trainingItems = trainingItemsForPlan(plan);
-      const projectMeta = plan && !isRestDay(plan) ? projectSummaryText(plan, iso) : "";
-      const monthMeta = plan ? projectMeta || plan.cambridge || plan.ieltsPlan : "";
+      button.classList.toggle("today", iso === calendarToday);
+      button.classList.toggle("exam-day", isExamDay(plan));
+      if (iso === calendarToday) button.setAttribute("aria-current", "date");
+      button.classList.toggle("has-warning", trainingItems.length > 0 && missingIelts);
+      button.classList.toggle("has-done", trainingItems.length > 0 && scheduledIelts);
+      button.classList.toggle("day-complete", trainingItems.length > 0 && isDayFullySaved(iso));
       button.innerHTML = `
-        <span class="day-num">${current.getDate()}${hasPlanWarning ? '<i class="warning-dot"></i>' : ""}</span>
-        <span class="day-meta">${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { compact: true }) : safe(monthMeta)}</span>
+        <span class="day-num">${current.getDate()}${trainingItems.length > 0 && missingIelts ? '<i class="warning-dot"></i>' : ""}</span>
+        <span class="day-meta">${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { compact: true }) : ""}</span>
       `;
       button.addEventListener("click", () => {
         selectedDate = iso;
@@ -275,6 +688,22 @@
       });
       el.monthGrid.appendChild(button);
     }
+  }
+
+  function renderTestBankStatus() {
+    const bank = data.testBank || {};
+    const scheduled = Number(bank.scheduled || 0);
+    const total = Number(bank.total || 0);
+    const remaining = Array.isArray(bank.remainingCodes) ? bank.remainingCodes : [];
+    const retakes = Array.isArray(bank.retakeCodes) ? bank.retakeCodes : [];
+    el.testBankProgress.textContent = `${scheduled} / ${total} 已排`;
+    if (!remaining.length) {
+      el.testBankRemaining.textContent = retakes.length
+        ? `全部真题已排；考前重做 ${retakes.join("、")}。`
+        : "全部真题都已排入日历。";
+      return;
+    }
+    el.testBankRemaining.textContent = `依目前周规则，考试前尚余 ${remaining.length} 份：${remaining.join("、")}。`;
   }
 
   function renderSelectedDay() {
@@ -296,6 +725,7 @@
     el.summaryStatus.textContent = getPlanOverride(selectedDate, "status") || plan.status || "未开始";
     el.summaryLimits.textContent = plan.limits || template.notes || "";
 
+    renderVocabulary();
     renderTaskPicker();
     renderReminders();
     renderHourGrid();
@@ -395,6 +825,7 @@
   }
 
   function labelForTrainingKind(kind) {
+    if (kind === "exam") return "正式考试";
     if (kind === "full") return "完整模考";
     if (kind === "mixed") return "混合训练";
     if (kind === "supplement") return "专项补量";
@@ -684,7 +1115,7 @@
         </td>
         <td data-label="日类型">
           <select class="plan-edit-input" data-field="dayType" data-date="${safeAttr(item.date)}">
-            ${["正常", "休息"].map((type) => `<option value="${type}">${type}</option>`).join("")}
+            ${["正常", "考试日", "休息"].map((type) => `<option value="${type}">${type}</option>`).join("")}
           </select>
         </td>
         <td class="project-cell" data-label="实验专案 / 学务">
@@ -762,9 +1193,11 @@
     });
 
     const warningCount = mainPlan.reduce((count, item) => count + (missingTasksForDate(item.date).length ? 1 : 0), 0);
-    el.planWarningStrip.textContent = warningCount
-      ? `还有 ${warningCount} 天的总体计划事项未排入小时表。`
-      : "所有总体计划事项都已经排入小时表。";
+    el.planWarningStrip.textContent = !mainPlan.length
+      ? "旧 IELTS 日期与安排已清空。点击“延伸7天”建立第一批空白日期。"
+      : warningCount
+        ? `还有 ${warningCount} 天的总体计划事项未排入小时表。`
+        : "所有总体计划事项都已经排入小时表。";
   }
 
   function applyDailyTemplate(date) {
@@ -1243,6 +1676,7 @@
 
   function projectSummaryText(plan, date) {
     if (!plan?.projectType) return "";
+    if (plan.projectPlan) return plan.projectPlan;
     if (normalizedProjectType(plan) === "实验专案" || normalizedProjectType(plan) === "学务") {
       const item = getSelectedProjectItem(plan);
       const progress = projectItemProgressForDate(date, item.id);
@@ -1363,7 +1797,7 @@
 
   function extendPlan(days) {
     const additions = [];
-    let cursor = mainPlan.at(-1)?.date || isoToday();
+    let cursor = mainPlan.at(-1)?.date || addDays(isoToday(), -1);
     for (let index = 0; index < days; index += 1) {
       cursor = addDays(cursor, 1);
       additions.push({
@@ -1392,16 +1826,170 @@
 
   function rebuildPlanIndexes() {
     mainByDate = new Map(mainPlan.map((item) => [item.date, item]));
-    el.dateRangeLabel.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
-    el.planRangeTitle.textContent = `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
+    el.dateRangeLabel.textContent = planRangeLabel();
+    el.planRangeTitle.textContent = planRangeLabel();
+  }
+
+  function renderVocabulary() {
+    const cards = vocabularyCardsForDate(selectedDate);
+    const total = allVocabularyCards().length;
+    el.vocabularyDate.textContent = `${formatDate(selectedDate)} · ${weekdayZh(selectedDate)}`;
+    el.vocabularyCount.textContent = `${total} ${total === 1 ? "CARD" : "CARDS"}`;
+    el.vocabularyDayCount.textContent = String(cards.length);
+    el.vocabularyButton.textContent = cards.length ? `单词卡 · ${cards.length}` : "单词卡";
+    el.vocabularyGrid.innerHTML = cards.map((card) => vocabularyCardMarkup(card, selectedDate)).join("");
+    el.vocabularyEmpty.hidden = cards.length > 0;
+    renderWeeklyVocabulary();
+  }
+
+  function addVocabularyCard(date, rawText) {
+    const text = `${rawText || ""}`.trim().replace(/\s+/g, " ");
+    if (!text) {
+      showSaved("请输入英文单词或短语");
+      el.vocabularyInput.focus();
+      return;
+    }
+    if (/[^\x20-\x7E]/.test(text)) {
+      showSaved("卡片仅接受英文内容");
+      el.vocabularyInput.focus();
+      return;
+    }
+    const cards = vocabularyCardsForDate(date);
+    if (cards.some((card) => card.text.toLowerCase() === text.toLowerCase())) {
+      showSaved("这张卡片今天已经存在");
+      return;
+    }
+    if (!state.vocabularyCards) state.vocabularyCards = {};
+    if (!state.vocabularyCards[date]) state.vocabularyCards[date] = [];
+    state.vocabularyCards[date].push({
+      id: `vocab-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      text,
+      createdAt: new Date().toISOString(),
+    });
+    el.vocabularyInput.value = "";
+    saveState();
+    renderVocabulary();
+    showSaved("英文卡片已保存");
+  }
+
+  function deleteVocabularyCard(date, cardId) {
+    const cards = vocabularyCardsForDate(date).filter((card) => card.id !== cardId);
+    if (cards.length) state.vocabularyCards[date] = cards;
+    else delete state.vocabularyCards[date];
+    saveState();
+    renderVocabulary();
+    showSaved("卡片已删除");
+  }
+
+  function vocabularyCardsForDate(date) {
+    const cards = state.vocabularyCards?.[date];
+    return Array.isArray(cards) ? cards : [];
+  }
+
+  function allVocabularyCards() {
+    return Object.entries(state.vocabularyCards || {})
+      .flatMap(([date, cards]) => (Array.isArray(cards) ? cards.map((card) => ({ ...card, date })) : []))
+      .sort((a, b) => a.date.localeCompare(b.date) || `${a.createdAt || ""}`.localeCompare(`${b.createdAt || ""}`));
+  }
+
+  function vocabularyCardMarkup(card, date) {
+    return `
+      <article class="word-card">
+        <strong lang="en">${safe(card.text)}</strong>
+        <button type="button" data-delete-vocabulary="${safeAttr(card.id)}" data-vocabulary-date="${safeAttr(date)}" aria-label="Delete ${safeAttr(card.text)}">×</button>
+      </article>
+    `;
+  }
+
+  function renderWeeklyVocabulary() {
+    const isSunday = new Date(`${selectedDate}T00:00:00Z`).getUTCDay() === 0;
+    el.weeklyVocabulary.hidden = !isSunday;
+    if (!isSunday) {
+      el.weeklyVocabularyCount.textContent = "0 CARDS";
+      el.weeklyVocabularyGroups.innerHTML = "";
+      return;
+    }
+    const cardsToReview = allVocabularyCards().filter((card) => card.date <= selectedDate);
+    el.weeklyVocabularyCount.textContent = `${cardsToReview.length} ${cardsToReview.length === 1 ? "CARD" : "CARDS"}`;
+    if (!cardsToReview.length) {
+      el.weeklyVocabularyGroups.innerHTML = '<p class="week-empty">NO CARDS BEFORE THIS SUNDAY</p>';
+      return;
+    }
+    const cardsByWeek = new Map();
+    cardsToReview.forEach((card) => {
+      const start = weekStartMonday(card.date);
+      if (!cardsByWeek.has(start)) cardsByWeek.set(start, []);
+      cardsByWeek.get(start).push(card);
+    });
+    el.weeklyVocabularyGroups.innerHTML = [...cardsByWeek.entries()]
+      .sort(([a], [b]) => b.localeCompare(a))
+      .map(([start, cards]) => {
+      const end = addDays(start, 6);
+      return `
+        <section class="weekly-vocabulary-group">
+          <header><div><span>WEEK OF ${englishDateLabel(start)}</span><small>${englishDateRange(start, end)}</small></div><strong>${cards.length} ${cards.length === 1 ? "CARD" : "CARDS"}</strong></header>
+          <div class="weekly-card-grid">${cards.map((card) => vocabularyCardMarkup(card, card.date)).join("")}</div>
+        </section>
+      `;
+    }).join("");
+  }
+
+  function weekStartMonday(date) {
+    const day = new Date(`${date}T00:00:00Z`).getUTCDay();
+    return addDays(date, day === 0 ? -6 : 1 - day);
+  }
+
+  function englishDateRange(start, end) {
+    const formatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+    return `${formatter.format(new Date(`${start}T00:00:00Z`))} — ${formatter.format(new Date(`${end}T00:00:00Z`))}`.toUpperCase();
+  }
+
+  function englishDateLabel(date) {
+    const formatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+    return formatter.format(new Date(`${date}T00:00:00Z`)).toUpperCase();
+  }
+
+  function exportVocabularyCards() {
+    const cards = allVocabularyCards();
+    if (!cards.length) {
+      showSaved("目前没有单词卡可以导出");
+      return;
+    }
+    if (!window.VocabularyXlsx?.exportVocabulary) {
+      showSaved("Excel 导出组件尚未载入");
+      return;
+    }
+    window.VocabularyXlsx.exportVocabulary(cards, `vocabulary-cards-${isoToday()}.xlsx`);
+    showSaved("Excel 已导出");
+  }
+
+  function scheduleCalendarDateRefresh() {
+    window.setInterval(() => {
+      const nextToday = isoToday();
+      if (nextToday === calendarToday) return;
+      calendarToday = nextToday;
+      selectedDate = nextToday;
+      visibleMonth = nextToday.slice(0, 7);
+      renderCalendar();
+      renderSelectedDay();
+    }, 60000);
+  }
+
+  function planRangeLabel() {
+    if (!mainPlan.length) return "IELTS 日期尚未安排";
+    return `${formatDate(mainPlan[0]?.date)} - ${formatDate(mainPlan.at(-1)?.date)}`;
   }
 
   function loadState() {
     try {
       const parsed = JSON.parse(localStorage.getItem(STATE_KEY) || "{}");
-      return normalizeState(parsed);
+      const normalized = normalizeState(parsed);
+      localStorage.setItem(STATE_KEY, JSON.stringify(normalized));
+      return normalized;
     } catch {
-      return normalizeState({});
+      const normalized = normalizeState({});
+      localStorage.setItem(STATE_KEY, JSON.stringify(normalized));
+      return normalized;
     }
   }
 
@@ -1422,6 +2010,12 @@
       planRows: parsed.planRows || [],
       planVersion: parsed.planVersion || "",
       optionalPools: parsed.optionalPools || {},
+      vocabularyCards: parsed.vocabularyCards || {},
+      roadmap: {
+        tasks: parsed.roadmap?.tasks || {},
+        gates: parsed.roadmap?.gates || {},
+      },
+      phdTracker: normalizePhdTracker(parsed.phdTracker),
     };
     ensureAcademicCatalog(normalized);
     return migratePlanState(normalized);
@@ -1449,9 +2043,9 @@
     candidate.planRows = JSON.parse(JSON.stringify(data.mainPlan || []));
     candidate.extraPlanRows = [];
     candidate.modulePlans = {};
-    candidate.moduleCatalog = {};
-    candidate.moduleTotals = {};
-    candidate.savedSlots = {};
+    candidate.savedSlots = candidate.savedSlots || {};
+    candidate.optionalPools = candidate.optionalPools || {};
+    candidate.roadmap = candidate.roadmap || defaultRoadmapState();
     ensureAcademicCatalog(candidate);
     Object.keys(candidate.schedule || {}).forEach((date) => {
       if (date >= resetFromDate) delete candidate.schedule[date];
@@ -1459,8 +2053,57 @@
     Object.keys(candidate.planOverrides || {}).forEach((date) => {
       if (date >= resetFromDate) delete candidate.planOverrides[date];
     });
+    Object.keys(candidate.savedSlots || {}).forEach((date) => {
+      if (date >= resetFromDate) delete candidate.savedSlots[date];
+    });
+    Object.keys(candidate.optionalPools || {}).forEach((date) => {
+      if (date >= resetFromDate) delete candidate.optionalPools[date];
+    });
     candidate.planVersion = planVersion;
     return candidate;
+  }
+
+  function defaultPhdTracker() {
+    return {
+      regions: PHD_REGION_PRESETS.map((preset) => ({
+        id: preset.id,
+        code: preset.code,
+        name: preset.name,
+        hint: preset.hint,
+        schools: preset.schools.map((name, index) => ({
+          id: `${preset.id}-school-${index + 1}`,
+          name,
+          advisors: [],
+        })),
+      })),
+    };
+  }
+
+  function normalizePhdTracker(candidate) {
+    const fallback = defaultPhdTracker();
+    if (!Array.isArray(candidate?.regions)) return fallback;
+    return {
+      regions: PHD_REGION_PRESETS.map((preset) => {
+        const incoming = candidate.regions.find((region) => region.id === preset.id);
+        const defaultRegion = fallback.regions.find((region) => region.id === preset.id);
+        const schools = Array.isArray(incoming?.schools) ? incoming.schools.map((school, schoolIndex) => ({
+          id: `${school.id || `${preset.id}-school-${schoolIndex + 1}`}`,
+          name: `${school.name || "未命名学校"}`,
+          advisors: Array.isArray(school.advisors) ? school.advisors.map((advisor, advisorIndex) => ({
+            id: `${advisor.id || `${preset.id}-advisor-${schoolIndex + 1}-${advisorIndex + 1}`}`,
+            name: `${advisor.name || ""}`,
+            email: `${advisor.email || ""}`,
+            cvDone: Boolean(advisor.cvDone),
+            status: PHD_APPLICATION_STATUSES.includes(advisor.status) ? advisor.status : "研究中",
+          })) : [],
+        })) : defaultRegion.schools;
+        return { id: preset.id, code: preset.code, name: preset.name, hint: preset.hint, schools };
+      }),
+    };
+  }
+
+  function defaultRoadmapState() {
+    return { tasks: {}, gates: {} };
   }
 
   function resolveApiBase() {
@@ -1523,7 +2166,7 @@
     localStorage.setItem(STATE_KEY, JSON.stringify(state));
     rebuildPlanIndexes();
     if (!mainByDate.has(selectedDate)) {
-      selectedDate = mainPlan[0]?.date || isoToday();
+      selectedDate = isoToday();
       visibleMonth = selectedDate.slice(0, 7);
     }
     renderAll();
@@ -1538,6 +2181,8 @@
     return Boolean(
       candidate.planRows?.length ||
         candidate.extraPlanRows?.length ||
+        candidate.phdTracker?.regions?.some((region) => region.schools?.length) ||
+        Object.keys(candidate.vocabularyCards || {}).length ||
         Object.keys(candidate.schedule || {}).length ||
         Object.keys(candidate.moduleCatalog || {}).length
     );
@@ -1576,9 +2221,10 @@
   }
 
   function tagForDay(dayType) {
-    const type = dayType === "休息" ? "休息" : "正常";
+    const type = dayType === "考试日" ? "考试日" : dayType === "休息" ? "休息" : "正常";
     let cls = "";
     if (type.includes("休息")) cls = "rest";
+    if (type.includes("考试")) cls = "exam";
     return `<span class="tag ${cls}">${safe(type)}</span>`;
   }
 
@@ -1593,6 +2239,7 @@
   }
 
   function normalizedDayType(row) {
+    if (isExamDay(row)) return "考试日";
     return isRestDay(row) ? "休息" : "正常";
   }
 
@@ -1609,6 +2256,11 @@
     return /休息|端午/.test(`${row.dayType || ""} ${row.projectType || ""} ${row.ieltsPlan || ""}`);
   }
 
+  function isExamDay(row) {
+    if (!row) return false;
+    return /考试日|正式考试|IELTS 二战/.test(`${row.dayType || ""} ${row.ieltsPlan || ""}`);
+  }
+
   function trimLabel(text) {
     const value = `${text || ""}`;
     return value.length > 24 ? `${value.slice(0, 24)}...` : value;
@@ -1623,6 +2275,20 @@
     if (!iso) return "";
     const [year, month, day] = iso.split("-");
     return `${year}/${month}/${day}`;
+  }
+
+  function daysUntil(iso) {
+    const target = new Date(`${iso}T00:00:00`);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return Math.ceil((target.getTime() - today.getTime()) / 86400000);
+  }
+
+  function countdownLabel(iso) {
+    const remaining = daysUntil(iso);
+    if (remaining < 0) return "已结束";
+    if (remaining === 0) return "今天";
+    return `${remaining} 天`;
   }
 
   function addMonths(monthValue, delta) {
