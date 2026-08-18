@@ -9,11 +9,16 @@
   const EXPERIMENT_MODULES = ["制程", "量测", "TCAD", "光罩"];
   const ACADEMIC_MODULES = ["课程", "书报课程", "组会", "研讨会"];
   const ALL_PLAN_MODULES = [...EXPERIMENT_MODULES, ...ACADEMIC_MODULES];
-  const ROADMAP_GATES = [
+  const RESEARCH_GATES = [
     { id: "g1", code: "G1", name: "Process Ready", date: "2026-09-30", proof: "Fin lithography + etch recipe freeze；linewidth、etch depth、sidewall 有记录", pass: "进入正式 D / E-mode device", miss: "8 月毕业风险开始上升" },
     { id: "g2", code: "G2", name: "Device Ready", date: "2026-12-15", proof: "第一批 D-mode + E-mode Fin 完成，并开始 electrical measurement", pass: "Plan A 维持绿灯", miss: "8 月毕业进入黄灯" },
     { id: "g3", code: "G3", name: "Data Ready", date: "2027-03-31", proof: "Id–Vg / Id–Vd / Vth / Ron / leakage / C–V / Ohmic / TCAD comparison 齐全", pass: "7–8 月毕业仍然现实", miss: "停止硬追，正式切换 Plan B" },
     { id: "g4", code: "G4", name: "Thesis Ready", date: "2027-05-31", proof: "完整硕论初稿已交给老师，口试简报框架建立", pass: "送审并安排 7 月口试", miss: "口试顺延到秋季" },
+  ];
+  const APPLICATION_GATES = [
+    { id: "a1", code: "A1", name: "Taiwan PhD Ready", date: "2026-09-25", displayDate: "预留 10/01—10/09", proof: "台大／阳明交大导师清单、CV、研究计划、成绩单与第一阶段推荐人全部确认", pass: "116 简章公布后核对差异，并在开放前两天完成投递", miss: "台湾本土申请窗口进入高风险" },
+    { id: "a2", code: "A2", name: "HK Application Window", date: "2026-11-15", displayDate: "11/15—12/31", proof: "两场会议已更新至 CV；依学校与导师调整 proposal，并启动第二阶段推荐信", pass: "12 月底前完成 HK 主申请", miss: "只保留高度匹配且仍开放的学校" },
+    { id: "a3", code: "A3", name: "Europe PhD Pipeline", date: "2026-12-15", displayDate: "12/15—2027/03", proof: "建立 project vacancy 清单；每个职位都有对应 CV、motivation letter 与研究证据", pass: "1–3 月持续投递并进入 technical interview", miss: "减少泛投，集中有 funding 与 fab access 的职位" },
   ];
   const ROADMAP_TASKS = [
     { id: "fin-doe", phase: "现在", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "dose、linewidth、etch depth、sidewall 整理成可决策表", due: "09/30" },
@@ -29,7 +34,8 @@
     { id: "iwn-freeze", phase: "接下来", category: "会议", title: "IWN poster freeze", detail: "IEDMS 后集中完成，11/04 后只改错误", due: "11/04" },
     { id: "devices", phase: "接下来", category: "FinFET", title: "第一批 D / E-mode Fin 完成", detail: "建立待量测 device matrix", due: "11/30" },
     { id: "first-data", phase: "接下来", category: "FinFET", title: "第一批完整 electrical data", detail: "Id–Vg、Id–Vd、Vth、Ron、leakage；必要时 BV", due: "12/15" },
-    { id: "recommend", phase: "接下来", category: "PhD", title: "正式请推荐信", detail: "附 CV v3、研究摘要、目标清单与 deadline", due: "12/20" },
+    { id: "recommend-tw", phase: "现在", category: "PhD · TW", title: "台湾本土申请推荐信", detail: "附 CV v2、研究摘要、台大／阳明交大清单与预留 deadline", due: "09/15" },
+    { id: "recommend-overseas", phase: "接下来", category: "PhD · HK / EU", title: "香港／欧洲申请推荐信", detail: "加入两场会议与第一批 device data，附 CV v3、目标清单与 deadline", due: "12/20" },
     { id: "tcad-compare", phase: "稍后", category: "TCAD / AI", title: "完成 TCAD–experiment 核心比较图", detail: "串联 electrostatics、Fin width、Vth 与 leakage", due: "2027/02" },
     { id: "paper-draft", phase: "稍后", category: "论文", title: "Fin / TCAD journal paper 初稿", detail: "只保留能支撑主张的结果", due: "2027/02" },
     { id: "data-freeze", phase: "稍后", category: "FinFET", title: "主要实验 data freeze", detail: "3 月后不再无限制开 wafer 或扩张 DOE", due: "2027/03" },
@@ -38,14 +44,14 @@
     { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
   ];
   const ROADMAP_MONTHS = [
-    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 二战已定 11/06；重新诊断；IEDMS figure inventory；C–V 规划", "CV v1；写入两项 accepted conference contributions；建立港／欧／台大清单", "A / B 正常推进"],
-    ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 核心训练；IEDMS poster 50–70%", "CV / Motivation Letter 初版；谈 exit criteria", "Plan A 必须通过 G1"],
-    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会；IELTS 维持训练", "只追踪高度匹配职位", "A：正式 wafer 已开始"],
-    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN poster freeze；11/06 IELTS 二战；11/08–13 IWN", "低强度维护；更新两场 accepted conference", "B 最晚延至 12 月"],
-    ["2026/12", "First data", "Electrical measurement；C–V / Regrowth correlation", "整理 TCAD 对照与 journal story", "主申请；CV v3；请推荐信", "12/15 通过 G2"],
-    ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "欧洲主投＋technical interview", "A：只做有限补实验"],
-    ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "申请与面试高峰", "A：实验开始 freeze"],
-    ["2027/03", "Data freeze", "主要 dataset 收敛", "Fin paper 投稿或接近投稿；thesis 架构", "Interview / offer 并行", "3/31 通过 G3，否则切 B"],
+    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 二战已定 11/06；重新诊断；IEDMS figure inventory；C–V 规划", "台湾：建立台大／阳明交大导师清单；CV v1；116 简章尚未公告", "A / B 正常推进"],
+    ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 核心训练；IEDMS poster 50–70%", "台湾 Stage 1：9/15 前请推荐信；9/25 材料 ready；持续检查 116 简章", "Plan A 必须通过 G1"],
+    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会；IELTS 维持训练", "台湾主申请：预留台大 10/01–10/09、阳明交大 10/01–10/08；依 116 正式简章修正并提前提交", "A：正式 wafer 已开始"],
+    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN poster freeze；11/06 IELTS 二战；11/08–13 IWN", "台湾口试／结果追踪；HK 11/15 启动；更新两场 accepted conference", "B 最晚延至 12 月"],
+    ["2026/12", "First data", "Electrical measurement；C–V / Regrowth correlation", "整理 TCAD 对照与 journal story", "HK 主申请至 12/31；Stage 2 推荐信；12/15 启动欧洲 position materials", "12/15 通过 G2"],
+    ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "欧洲主投；HK follow-up；technical interview", "A：只做有限补实验"],
+    ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "欧洲 rolling positions 持续投递；申请与面试高峰", "A：实验开始 freeze"],
+    ["2027/03", "Data freeze", "主要 dataset 收敛", "Fin paper 投稿或接近投稿；thesis 架构", "欧洲投递收敛；Interview / offer 并行", "3/31 通过 G3，否则切 B"],
     ["2027/04", "Write", "只补必要量测；不做开放式新制程", "硕论初稿 50–60%", "比较题目、PI、funding、fab access", "A：写作主导；B：data 收敛"],
     ["2027/05", "Thesis ready", "原则上不开新 wafer", "5/31 完整初稿给老师", "确定去向与弹性 start date", "A 通过 G4；B 开始主写"],
     ["2027/06", "Defense prep", "补最后必要数据；研究交接", "送审／申请口试；简报问答", "签证／行政", "A：Defense ready；B：30–50%"],
@@ -159,7 +165,9 @@
       "roadmapGateCountdown",
       "roadmapTaskProgress",
       "roadmapTrackStatus",
-      "roadmapGateGrid",
+      "roadmapGateGroups",
+      "roadmapResearchGateGrid",
+      "roadmapApplicationGateGrid",
       "roadmapTimelineBody",
       "roadmapTaskGroups",
       "phdView",
@@ -307,7 +315,7 @@
       showSaved("研究进度已归零");
     });
 
-    el.roadmapGateGrid.addEventListener("change", (event) => {
+    el.roadmapGateGroups.addEventListener("change", (event) => {
       const input = event.target.closest("[data-roadmap-gate]");
       if (!input) return;
       state.roadmap.gates[input.dataset.roadmapGate] = input.checked;
@@ -430,7 +438,7 @@
   function renderRoadmapStats() {
     const roadmap = state.roadmap || defaultRoadmapState();
     const doneTasks = ROADMAP_TASKS.filter((task) => roadmap.tasks[task.id]).length;
-    const nextGate = ROADMAP_GATES.find((gate) => !roadmap.gates[gate.id]) || ROADMAP_GATES.at(-1);
+    const nextGate = RESEARCH_GATES.find((gate) => !roadmap.gates[gate.id]) || RESEARCH_GATES.at(-1);
     const remaining = daysUntil(nextGate.date);
     el.roadmapTaskProgress.textContent = `${doneTasks} / ${ROADMAP_TASKS.length}`;
     el.roadmapGateCountdown.textContent = `${formatDate(nextGate.date)} · ${remaining >= 0 ? `剩 ${remaining} 天` : "待补登结果"}`;
@@ -442,16 +450,21 @@
 
   function renderRoadmapGates() {
     const gatesState = state.roadmap?.gates || {};
-    el.roadmapGateGrid.innerHTML = ROADMAP_GATES.map((gate) => {
+    el.roadmapResearchGateGrid.innerHTML = renderGateCards(RESEARCH_GATES, gatesState, "research");
+    el.roadmapApplicationGateGrid.innerHTML = renderGateCards(APPLICATION_GATES, gatesState, "application");
+  }
+
+  function renderGateCards(gates, gatesState, type) {
+    return gates.map((gate) => {
       const done = Boolean(gatesState[gate.id]);
       return `
-        <label class="roadmap-gate-card${done ? " complete" : ""}">
+        <label class="roadmap-gate-card ${safeAttr(type)}${done ? " complete" : ""}">
           <input type="checkbox" data-roadmap-gate="${safeAttr(gate.id)}"${done ? " checked" : ""} />
-          <div class="roadmap-gate-head"><span>${safe(gate.code)}</span><time>${safe(formatDate(gate.date))}</time></div>
+          <div class="roadmap-gate-head"><span>${safe(gate.code)}</span><time>${safe(gate.displayDate || formatDate(gate.date))}</time></div>
           <h3>${safe(gate.name)}</h3>
           <p>${safe(gate.proof)}</p>
-          <dl><div><dt>通过</dt><dd>${safe(gate.pass)}</dd></div><div><dt>未过</dt><dd>${safe(gate.miss)}</dd></div></dl>
-          <strong class="gate-check-label">${done ? "✓ 已通过" : "○ 未开始"}</strong>
+          <dl><div><dt>${type === "application" ? "完成" : "通过"}</dt><dd>${safe(gate.pass)}</dd></div><div><dt>未过</dt><dd>${safe(gate.miss)}</dd></div></dl>
+          <strong class="gate-check-label">${done ? `✓ ${type === "application" ? "已完成" : "已通过"}` : "○ 未开始"}</strong>
         </label>
       `;
     }).join("");

@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v35-phd-tracker";
+const CACHE_NAME = "planner-notebook-v36-roadmap-gates";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260816-phd-tracker",
+  "./styles.css?v=20260818-roadmap-gates",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",

@@ -1579,7 +1579,6 @@ textarea {
 }
 
 .roadmap-stats span,
-.focus-board article > span,
 .panel-title > span,
 .roadmap-section-head > div > span {
   color: var(--teal-dark);
@@ -1633,62 +1632,52 @@ textarea {
   font-size: 12px;
 }
 
-.focus-board {
+
+.roadmap-gate-groups {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.roadmap-gate-lane {
+  padding: 16px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  overflow: hidden;
+  background: #f8faf9;
 }
 
-.focus-board article {
-  min-height: 250px;
-  padding: 25px;
+.roadmap-gate-lane > header {
+  padding: 3px 3px 14px;
   display: flex;
-  flex-direction: column;
-  border-right: 1px solid var(--line);
-  background: #fff;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
 }
 
-.focus-board article:last-child {
-  border-right: 0;
+.roadmap-gate-lane > header > div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
 
-.focus-board .focus-primary {
-  background: var(--teal);
-  color: #fff;
+.roadmap-gate-lane > header span {
+  color: var(--teal-dark);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
 }
 
-.focus-board .focus-primary > span,
-.focus-board .focus-primary p {
-  color: rgba(255, 255, 255, 0.76);
-}
-
-.focus-board .focus-secondary {
-  background: #eef8ff;
-}
-
-.focus-board h3 {
-  margin: 42px 0 12px;
-  font-size: 22px;
-  letter-spacing: -0.035em;
-}
-
-.focus-board p {
+.roadmap-gate-lane > header h3,
+.roadmap-gate-lane > header p {
   margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.65;
 }
 
-.focus-board footer {
-  margin-top: auto;
-  padding-top: 18px;
-  border-top: 1px solid currentColor;
-  color: inherit;
+.roadmap-gate-lane > header h3 {
+  font-size: 20px;
+}
+
+.roadmap-gate-lane > header p {
+  color: var(--muted);
   font-size: 11px;
-  font-weight: 800;
-  opacity: 0.68;
 }
 
 .roadmap-gate-grid {
@@ -1697,6 +1686,10 @@ textarea {
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
+}
+
+.application-gate-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .roadmap-gate-card {
@@ -1716,6 +1709,30 @@ textarea {
 
 .roadmap-gate-card.complete {
   background: var(--surface-2);
+}
+
+.roadmap-gate-card.application {
+  min-height: 375px;
+}
+
+.roadmap-gate-card.application .roadmap-gate-head span {
+  background: var(--blue);
+}
+
+.roadmap-gate-card.application.complete {
+  background: #eff6ff;
+}
+
+.roadmap-gate-card.application dt,
+.roadmap-gate-card.application .gate-check-label {
+  color: #1d4ed8;
+}
+
+.application-gate-note {
+  margin: 12px 4px 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
 }
 
 .roadmap-gate-card > input {
@@ -2627,6 +2644,22 @@ textarea {
   overflow: hidden;
 }
 
+.advisor-nodes.five-nodes {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+}
+
+.advisor-nodes.five-nodes article {
+  border: 0;
+  background: #fff;
+}
+
+.advisor-nodes.five-nodes .recommendation-node {
+  box-shadow: inset 0 4px 0 var(--blue);
+  background: #f8fbff;
+}
+
 .advisor-nodes article {
   min-height: 185px;
   padding: 22px;
@@ -2673,6 +2706,10 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .advisor-nodes.five-nodes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .roadmap-stats article:nth-child(2),
   .roadmap-gate-card:nth-child(2),
   .advisor-nodes article:nth-child(2) {
@@ -2715,20 +2752,14 @@ textarea {
     width: 100%;
   }
 
-  .focus-board,
   .split-roadmap-section,
   .graduation-tracks {
     grid-template-columns: 1fr;
   }
 
-  .focus-board article {
-    min-height: 225px;
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .focus-board article:last-child {
-    border-bottom: 0;
+  .roadmap-gate-lane > header {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .application-banner {
@@ -2763,6 +2794,10 @@ textarea {
   .roadmap-stats,
   .roadmap-gate-grid,
   .advisor-nodes {
+    grid-template-columns: 1fr;
+  }
+
+  .advisor-nodes.five-nodes {
     grid-template-columns: 1fr;
   }
 

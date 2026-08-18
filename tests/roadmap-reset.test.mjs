@@ -60,7 +60,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
     readFile(new URL("../xlsx-export.js", import.meta.url), "utf8"),
   ]);
 
-  for (const id of ["roadmapView", "roadmapGateGrid", "roadmapTimelineBody", "roadmapTaskGroups"]) {
+  for (const id of ["roadmapView", "roadmapGateGroups", "roadmapResearchGateGrid", "roadmapApplicationGateGrid", "roadmapTimelineBody", "roadmapTaskGroups"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
   for (const id of ["navPhd", "phdView", "phdRegionList", "phdSchoolCount", "phdAdvisorCount", "phdCvCount", "phdActiveCount"]) {
@@ -68,7 +68,10 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   }
   assert.match(html, /GaN FinFET/);
   assert.match(html, /Plan A \/ Plan B/);
-  assert.match(html, /两场会议均已接受/);
+  assert.doesNotMatch(html, /现在先做什么|focus-board/);
+  assert.match(html, /老师沟通节点[\s\S]*台湾本土推荐信[\s\S]*HK／欧洲推荐信[\s\S]*关键 Gate/);
+  assert.match(html, /当前研究 Gate[\s\S]*申请 Gate/);
+  assert.match(html, /两项投稿均已接受/);
   assert.match(html, /已投中并接受/g);
   assert.match(html, /2026\/11\/06/);
   assert.match(html, /Speaking[\s\S]*待确认/);
@@ -95,6 +98,10 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(styles, /\.day-cell\.paper-day/);
   assert.match(app, /roadmap:\s*\{/);
   assert.match(app, /candidate\.roadmap = candidate\.roadmap \|\| defaultRoadmapState\(\)/);
+  assert.match(app, /RESEARCH_GATES[\s\S]*APPLICATION_GATES/);
+  assert.match(app, /Taiwan PhD Ready[\s\S]*HK Application Window[\s\S]*Europe PhD Pipeline/);
+  assert.match(app, /预留台大 10\/01–10\/09、阳明交大 10\/01–10\/08/);
+  assert.match(app, /recommend-tw[\s\S]*recommend-overseas/);
   assert.match(app, /PHD_REGION_PRESETS[\s\S]*code: "HK"[\s\S]*code: "TW"[\s\S]*code: "EU"/);
   assert.match(app, /phdTracker: normalizePhdTracker\(parsed\.phdTracker\)/);
   assert.match(app, /function addPhdSchool/);
@@ -104,6 +111,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /data-phd-advisor-status="true"/);
   assert.doesNotMatch(html, /id="roadmapApplicationBody"/);
   assert.match(styles, /\.roadmap-gate-grid/);
+  assert.match(styles, /\.roadmap-gate-groups/);
+  assert.match(styles, /\.application-gate-grid/);
   assert.match(styles, /\.roadmap-task-groups/);
   assert.match(styles, /\.phd-region-list/);
   assert.match(styles, /\.phd-advisor-row/);
