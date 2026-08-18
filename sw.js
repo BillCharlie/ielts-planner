@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v45-region-tracker";
+const CACHE_NAME = "planner-notebook-v46-drag-pager";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260819-region-tracker",
+  "./styles.css?v=20260819-drag-pager",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",

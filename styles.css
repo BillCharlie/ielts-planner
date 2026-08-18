@@ -2387,17 +2387,35 @@ textarea {
 /* Region timeline panels laid out as a horizontally-scrollable strip. */
 .application-panels-scroller {
   display: flex;
-  align-items: flex-start;
-  gap: 20px;
+  align-items: stretch;
+  gap: 16px;
   overflow-x: auto;
-  padding-bottom: 10px;
-  scroll-snap-type: x proximity;
-  scrollbar-color: rgba(37, 99, 235, 0.35) transparent;
+  overflow-y: hidden;
+  padding-bottom: 4px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  scrollbar-width: none; /* Firefox: hide the horizontal bar, drag/swipe instead */
 }
 
+.application-panels-scroller::-webkit-scrollbar {
+  display: none; /* WebKit: hide the horizontal bar */
+}
+
+.application-panels-scroller.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+  user-select: none;
+}
+
+/* Each country fills a full page and scrolls up/down independently. */
 .application-panels-scroller > .hk-application-panel {
-  flex: 0 0 min(94vw, 1000px);
-  scroll-snap-align: start;
+  flex: 0 0 100%;
+  height: clamp(420px, 78vh, 900px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-align: center;
 }
 
 .hk-application-panel {

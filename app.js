@@ -389,7 +389,62 @@
 
   }
 
+  function enableDragScroll(container) {
+    if (!container) return;
+    let down = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+    container.addEventListener("pointerdown", (event) => {
+      // Reset first so a stale drag never swallows the next real click.
+      moved = false;
+      // Only hijack a plain mouse drag on empty panel space — let touch/pen use
+      // native swipe, and never steal drags from controls or the inner timeline.
+      if (event.pointerType !== "mouse" || event.button !== 0) return;
+      if (event.target.closest("input, select, textarea, button, a, label, .hk-timeline-scroll")) return;
+      down = true;
+      startX = event.clientX;
+      startScroll = container.scrollLeft;
+      container.classList.add("dragging");
+      try {
+        container.setPointerCapture(event.pointerId);
+      } catch {
+        /* no active pointer (e.g. synthetic event) — harmless */
+      }
+    });
+    container.addEventListener("pointermove", (event) => {
+      if (!down) return;
+      const dx = event.clientX - startX;
+      if (Math.abs(dx) > 3) moved = true;
+      container.scrollLeft = startScroll - dx;
+    });
+    const release = (event) => {
+      if (!down) return;
+      down = false;
+      container.classList.remove("dragging");
+      if (event.pointerId != null && container.hasPointerCapture?.(event.pointerId)) {
+        container.releasePointerCapture(event.pointerId);
+      }
+    };
+    container.addEventListener("pointerup", release);
+    container.addEventListener("pointercancel", release);
+    // Swallow the click that ends a drag so links/buttons don't fire on release.
+    container.addEventListener(
+      "click",
+      (event) => {
+        if (moved) {
+          event.preventDefault();
+          event.stopPropagation();
+          moved = false;
+        }
+      },
+      true,
+    );
+  }
+
   function bindPhdControls() {
+    enableDragScroll(el.phdView.querySelector(".application-panels-scroller"));
+
     el.phdView.addEventListener("submit", (event) => {
       const schoolForm = event.target.closest("[data-add-phd-school]");
       if (schoolForm) {
