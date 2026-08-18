@@ -70,6 +70,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /Plan A \/ Plan B/);
   assert.doesNotMatch(html, /现在先做什么|focus-board/);
   assert.match(html, /老师沟通节点[\s\S]*台湾本土推荐信[\s\S]*HK／欧洲推荐信[\s\S]*关键 Gate/);
+  assert.match(html, /NOV · STAGE 2[\s\S]*HK／欧洲推荐信/);
   assert.match(html, /当前研究 Gate[\s\S]*申请 Gate/);
   assert.match(html, /两项投稿均已接受/);
   assert.match(html, /已投中并接受/g);
@@ -102,6 +103,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /Taiwan PhD Ready[\s\S]*HK Application Window[\s\S]*Europe PhD Pipeline/);
   assert.match(app, /预留台大 10\/01–10\/09、阳明交大 10\/01–10\/08/);
   assert.match(app, /recommend-tw[\s\S]*recommend-overseas/);
+  assert.match(app, /recommend-overseas[\s\S]*due: "11\/20"/);
   assert.match(app, /PHD_REGION_PRESETS[\s\S]*code: "HK"[\s\S]*code: "TW"[\s\S]*code: "EU"/);
   assert.match(app, /phdTracker: normalizePhdTracker\(parsed\.phdTracker\)/);
   assert.match(app, /function addPhdSchool/);
