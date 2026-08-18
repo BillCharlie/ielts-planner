@@ -111,7 +111,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /id="roadmapTaskGroups"[\s\S]*id="roadmapTimelineBody"/);
   assert.match(html, /03—04[\s\S]*月度甘特任务表/);
   assert.doesNotMatch(html, /研究任务看板/);
-  assert.match(html, /05[\s\S]*IELTS 与会议[\s\S]*IELTS · RETAKE[\s\S]*conference-column[\s\S]*CONFERENCES[\s\S]*会议/);
+  assert.match(html, /IELTS 与会议[\s\S]*IELTS · RETAKE[\s\S]*conference-column[\s\S]*CONFERENCES[\s\S]*会议/);
+  assert.doesNotMatch(html, /<span>05<\/span>/);
   assert.doesNotMatch(html, /class="roadmap-table"/);
   assert.match(app, /vertical-gantt-row/);
   assert.match(app, /vertical-gantt-time/);

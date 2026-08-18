@@ -1,4 +1,4 @@
-const CACHE_NAME = "planner-notebook-v40-merged-tasks";
+const CACHE_NAME = "planner-notebook-v41-no-section-number";
 const ASSETS = [
   "./",
   "./index.html",
