@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v39-vertical-gantt";
+const CACHE_NAME = "planner-notebook-v40-merged-tasks";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260818-vertical-gantt",
+  "./styles.css?v=20260818-merged-tasks",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",

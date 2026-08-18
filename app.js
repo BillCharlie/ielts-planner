@@ -55,6 +55,29 @@
     { id: "thesis-full", phase: "稍后", category: "论文", title: "完整 Thesis 初稿交老师", detail: "同时提出口试日期与修改 buffer", due: "2027/05" },
     { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
   ];
+  const ROADMAP_TASK_PLACEMENTS = {
+    "fin-doe": ["2026/09", "research"],
+    "ielts-window": ["2026/11", "external"],
+    "ielts-diagnostic": ["2026/08", "external"],
+    "speaking-admin": ["2026/11", "external"],
+    "iedms-assets": ["2026/08", "external"],
+    "cv-process": ["2026/09", "research"],
+    "advisor-exit": ["2026/09", "research"],
+    "tcad-archive": ["2026/09", "research"],
+    "iedms-freeze": ["2026/10", "external"],
+    "regrowth": ["2026/10", "research"],
+    "iwn-freeze": ["2026/11", "external"],
+    "devices": ["2026/11", "research"],
+    "first-data": ["2026/12", "research"],
+    "recommend-tw": ["2026/09", "application"],
+    "recommend-overseas": ["2026/11", "application"],
+    "tcad-compare": ["2027/02", "research"],
+    "paper-draft": ["2027/02", "external"],
+    "data-freeze": ["2027/03", "research"],
+    "thesis-half": ["2027/04", "external"],
+    "thesis-full": ["2027/05", "external"],
+    "defense": ["2027/07", "external"],
+  };
   const ROADMAP_MONTHS = [
     ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 二战已定 11/06；重新诊断；IEDMS figure inventory；C–V 规划", "台湾：建立台大／阳明交大导师清单；CV v1；116 简章尚未公告", "A / B 正常推进"],
     ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 核心训练；IEDMS poster 50–70%", "台湾 Stage 1：9/15 前请推荐信；9/25 材料 ready；持续检查 116 简章", "Plan A 必须通过 G1"],
@@ -444,7 +467,6 @@
     renderRoadmapStats();
     renderRoadmapGates();
     renderRoadmapTimeline();
-    renderRoadmapTasks();
   }
 
   function renderRoadmapStats() {
@@ -505,6 +527,7 @@
 
   function renderRoadmapTimeline() {
     const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    const taskState = state.roadmap?.tasks || {};
     el.roadmapTimelineBody.innerHTML = ROADMAP_MONTHS.map((row, index) => {
       const [year, month] = row[0].split("/");
       const monthNumber = Number(month);
@@ -515,39 +538,39 @@
             <time datetime="${safeAttr(`${year}-${month}`)}"><b>${safe(year)}</b><strong>${safe(monthNames[monthNumber - 1])}</strong></time>
             <span class="roadmap-phase-tag">${safe(row[1])}</span>
           </div>
-          <div class="vertical-gantt-cell research" role="cell"><div>${safe(row[2])}</div></div>
-          <div class="vertical-gantt-cell external" role="cell"><div>${safe(row[3])}</div></div>
-          <div class="vertical-gantt-cell application" role="cell"><div>${safe(row[4])}</div></div>
-          <div class="vertical-gantt-cell graduation" role="cell"><div>${safe(row[5])}</div></div>
+          ${renderVerticalGanttCell(row[0], "research", row[2], taskState)}
+          ${renderVerticalGanttCell(row[0], "external", row[3], taskState)}
+          ${renderVerticalGanttCell(row[0], "application", row[4], taskState)}
+          ${renderVerticalGanttCell(row[0], "graduation", row[5], taskState)}
         </div>
       `;
     }).join("");
   }
 
-  function renderRoadmapTasks() {
-    const taskState = state.roadmap?.tasks || {};
-    el.roadmapTaskGroups.innerHTML = ["现在", "接下来", "稍后"].map((phase) => {
-      const tasks = ROADMAP_TASKS.filter((task) => task.phase === phase);
-      const done = tasks.filter((task) => taskState[task.id]).length;
-      return `
-        <section class="roadmap-task-column">
-          <header><h3>${safe(phase)}</h3><span>${done}/${tasks.length}</span></header>
-          <div>
-            ${tasks.map((task) => {
-              const checked = Boolean(taskState[task.id]);
-              return `
-                <label class="roadmap-task${checked ? " complete" : ""}">
-                  <input type="checkbox" data-roadmap-task="${safeAttr(task.id)}"${checked ? " checked" : ""} />
-                  <span class="roadmap-task-check">${checked ? "✓" : ""}</span>
-                  <span class="roadmap-task-copy"><small>${safe(task.category)}</small><strong>${safe(task.title)}</strong><p>${safe(task.detail)}</p></span>
-                  <time>${safe(task.due)}</time>
-                </label>
-              `;
-            }).join("")}
-          </div>
-        </section>
-      `;
-    }).join("");
+  function renderVerticalGanttCell(month, track, summary, taskState) {
+    const tasks = ROADMAP_TASKS.filter((task) => {
+      const placement = ROADMAP_TASK_PLACEMENTS[task.id];
+      return placement?.[0] === month && placement?.[1] === track;
+    });
+    return `
+      <div class="vertical-gantt-cell ${safeAttr(track)}" role="cell">
+        <div class="vertical-gantt-cell-content">
+          <p>${safe(summary)}</p>
+          ${tasks.length ? `<div class="vertical-gantt-checklist">${tasks.map((task) => renderVerticalGanttTask(task, taskState)).join("")}</div>` : ""}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderVerticalGanttTask(task, taskState) {
+    const checked = Boolean(taskState[task.id]);
+    return `
+      <label class="vertical-gantt-task${checked ? " complete" : ""}" title="${safeAttr(task.detail)}">
+        <input type="checkbox" data-roadmap-task="${safeAttr(task.id)}" aria-label="${safeAttr(`${task.title}，${checked ? "已完成" : "未完成"}`)}"${checked ? " checked" : ""} />
+        <span class="vertical-gantt-task-check">${checked ? "✓" : ""}</span>
+        <span><b>${safe(task.title)}</b><small>${safe(task.category)} · ${safe(task.due)}</small></span>
+      </label>
+    `;
   }
 
   function renderPhdTracker() {

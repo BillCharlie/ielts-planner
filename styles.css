@@ -2112,12 +2112,10 @@ textarea {
   --track-soft: #f5f3ff;
 }
 
-.vertical-gantt-cell > div {
+.vertical-gantt-cell-content {
   position: relative;
   flex: 1;
   padding: 13px 14px 13px 18px;
-  display: flex;
-  align-items: center;
   border: 1px solid color-mix(in srgb, var(--track-color) 18%, transparent);
   border-left: 5px solid var(--track-color);
   border-radius: 7px;
@@ -2128,9 +2126,91 @@ textarea {
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
-.vertical-gantt-row:hover .vertical-gantt-cell > div {
+.vertical-gantt-cell-content > p {
+  margin: 0;
+}
+
+.vertical-gantt-row:hover .vertical-gantt-cell-content {
   transform: translateX(2px);
   box-shadow: 0 6px 15px rgba(15, 23, 42, 0.07);
+}
+
+.vertical-gantt-checklist {
+  margin-top: 10px;
+  padding-top: 9px;
+  display: grid;
+  gap: 6px;
+  border-top: 1px solid color-mix(in srgb, var(--track-color) 20%, transparent);
+}
+
+.vertical-gantt-task {
+  position: relative;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.86);
+  cursor: pointer;
+  transition: border-color 150ms ease, opacity 150ms ease;
+}
+
+.vertical-gantt-task:hover,
+.vertical-gantt-task:focus-within {
+  border-color: var(--track-color);
+  outline: none;
+}
+
+.vertical-gantt-task > input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vertical-gantt-task-check {
+  width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--track-color) 45%, transparent);
+  border-radius: 4px;
+  background: #fff;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.vertical-gantt-task > span:last-child {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.vertical-gantt-task b {
+  color: var(--ink);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.vertical-gantt-task small {
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.35;
+}
+
+.vertical-gantt-task.complete {
+  opacity: 0.58;
+}
+
+.vertical-gantt-task.complete .vertical-gantt-task-check {
+  border-color: var(--track-color);
+  background: var(--track-color);
+}
+
+.vertical-gantt-task.complete b {
+  text-decoration: line-through;
 }
 
 .roadmap-phase-tag,
@@ -2154,124 +2234,6 @@ textarea {
   white-space: normal;
 }
 
-.roadmap-task-groups {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.roadmap-task-column {
-  min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--bg);
-}
-
-.roadmap-task-column > header {
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--line);
-  background: var(--surface-2);
-}
-
-.roadmap-task-column > header h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.roadmap-task-column > header span {
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: #fff;
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.roadmap-task-column > div {
-  padding: 8px;
-  display: grid;
-  gap: 7px;
-}
-
-.roadmap-task {
-  min-height: 112px;
-  padding: 13px;
-  display: grid;
-  grid-template-columns: 22px 1fr auto;
-  gap: 10px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: #fff;
-  cursor: pointer;
-}
-
-.roadmap-task > input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.roadmap-task-check {
-  width: 21px;
-  height: 21px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  color: #fff;
-  font-size: 12px;
-}
-
-.roadmap-task.complete {
-  opacity: 0.58;
-}
-
-.roadmap-task.complete .roadmap-task-check {
-  border-color: var(--teal);
-  background: var(--teal);
-}
-
-.roadmap-task.complete .roadmap-task-copy strong,
-.roadmap-task.complete .roadmap-task-copy p {
-  text-decoration: line-through;
-}
-
-.roadmap-task-copy {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.roadmap-task-copy small {
-  margin-bottom: 7px;
-  color: var(--teal-dark);
-  font-size: 9px;
-  font-weight: 800;
-}
-
-.roadmap-task-copy strong {
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.roadmap-task-copy p {
-  margin: 6px 0 0;
-  color: var(--muted);
-  font-size: 10px;
-  line-height: 1.5;
-}
-
-.roadmap-task time {
-  color: var(--muted);
-  font-size: 9px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-
 .split-roadmap-section {
   display: grid;
   grid-template-columns: 1.25fr 0.85fr;
@@ -2283,6 +2245,7 @@ textarea {
 }
 
 .ielts-reset-panel,
+.conference-column-title,
 .conference-panel,
 .conference-caption {
   border: 1px solid var(--line);
@@ -2398,6 +2361,27 @@ textarea {
 .conference-column {
   display: grid;
   gap: 12px;
+}
+
+.conference-column-title {
+  padding: 15px 18px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  background: #f8faf9;
+}
+
+.conference-column-title span {
+  color: var(--blue);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.conference-column-title h3 {
+  margin: 0;
+  font-size: 20px;
 }
 
 .conference-panel {
@@ -3005,24 +2989,6 @@ textarea {
     border-bottom: 1px solid var(--line);
   }
 
-  .roadmap-task-groups {
-    grid-template-columns: 1fr;
-  }
-
-  .roadmap-task-column {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-  }
-
-  .roadmap-task-column > header {
-    align-items: flex-start;
-    border-right: 1px solid var(--line);
-    border-bottom: 0;
-  }
-
-  .roadmap-task-column > div {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 800px) {
@@ -3097,19 +3063,6 @@ textarea {
 
   .roadmap-section-head p {
     display: none;
-  }
-
-  .roadmap-task-column {
-    display: block;
-  }
-
-  .roadmap-task-column > header {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .roadmap-task-column > div {
-    grid-template-columns: 1fr;
   }
 
   .reset-metrics {
