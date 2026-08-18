@@ -390,7 +390,7 @@
   }
 
   function bindPhdControls() {
-    el.phdRegionList.addEventListener("submit", (event) => {
+    el.phdView.addEventListener("submit", (event) => {
       const schoolForm = event.target.closest("[data-add-phd-school]");
       if (schoolForm) {
         event.preventDefault();
@@ -404,15 +404,15 @@
       }
     });
 
-    el.phdRegionList.addEventListener("input", (event) => {
+    el.phdView.addEventListener("input", (event) => {
       updatePhdTextField(event.target);
     });
 
-    el.phdRegionList.addEventListener("change", (event) => {
+    el.phdView.addEventListener("change", (event) => {
       updatePhdControl(event.target);
     });
 
-    el.phdRegionList.addEventListener("click", (event) => {
+    el.phdView.addEventListener("click", (event) => {
       const removeAdvisor = event.target.closest("[data-delete-phd-advisor]");
       if (removeAdvisor) {
         deletePhdAdvisor(removeAdvisor);
@@ -615,22 +615,27 @@
     el.phdAdvisorCount.textContent = String(advisors.length);
     el.phdCvCount.textContent = `${cvDone} / ${advisors.length}`;
     el.phdActiveCount.textContent = String(active);
-    el.phdRegionList.innerHTML = regions.map((region) => `
-      <section class="phd-region" data-phd-region="${safeAttr(region.id)}">
-        <header class="phd-region-header">
-          <div class="phd-region-code">${safe(region.code)}</div>
-          <div><h2>${safe(region.name)}</h2><p>${safe(region.hint)}</p></div>
-          <span>${region.schools.length} 所 · ${region.schools.reduce((count, school) => count + school.advisors.length, 0)} 位导师</span>
-        </header>
+    // Each region's school/advisor tracker renders into the slot inside its own
+    // timeline panel (HK / TW) or region column (EU), so the roster lines up
+    // with the panel above it.
+    regions.forEach((region) => {
+      const slot = document.querySelector(`[data-region-slot="${region.id}"]`);
+      if (!slot) return;
+      const advisorTotal = region.schools.reduce((count, school) => count + school.advisors.length, 0);
+      slot.innerHTML = `
+        <div class="phd-region-tracker-head">
+          <h3>导师追踪</h3>
+          <span>${region.schools.length} 所 · ${advisorTotal} 位导师</span>
+        </div>
         <div class="phd-school-list">
-          ${region.schools.length ? region.schools.map((school) => renderPhdSchool(region, school)).join("") : '<p class="phd-region-empty">尚未加入学校。可从下方新增第一所学校。</p>'}
+          ${region.schools.length ? region.schools.map((school) => renderPhdSchool(region, school)).join("") : '<p class="phd-region-empty">尚未加入学校。可在下方新增第一所。</p>'}
         </div>
         <form class="phd-add-school" data-add-phd-school="${safeAttr(region.id)}">
           <label><span>新增学校／机构</span><input name="schoolName" type="text" placeholder="输入学校名称" required /></label>
           <button type="submit">＋ 添加学校</button>
         </form>
-      </section>
-    `).join("");
+      `;
+    });
   }
 
   function renderPhdSchool(region, school) {

@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260819-tw-panel" />
+    <link rel="stylesheet" href="styles.css?v=20260819-region-tracker" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -207,6 +207,7 @@
             </div>
 
             <p class="hk-source-note">日期标记“预计”表示依据目前最新官方周期建立的个人规划，不是 2027/28 已正式公布的截止日；个人执行以 11/20 为内部截止。</p>
+            <div class="phd-region-tracker" data-region-slot="hk"></div>
           </section>
 
           <section class="hk-application-panel tw-application-panel" aria-labelledby="twApplicationTimelineTitle">
@@ -256,10 +257,21 @@
             </div>
 
             <p class="hk-source-note">日期标记“预留／预计”表示依上一届周期建立的个人规划，不是 116 学年度已正式公布的截止日；学校连结为官方主页，正式报名方式与截止请以 116 学年度简章为准；个人执行以 11/20 为内部截止。</p>
+            <div class="phd-region-tracker" data-region-slot="tw"></div>
+          </section>
+
+          <section class="hk-application-panel eu-application-panel" aria-labelledby="euApplicationTitle">
+            <header class="hk-application-head">
+              <div>
+                <p class="eyebrow">EU · PROJECT-BASED</p>
+                <h2 id="euApplicationTitle">欧洲博士申请</h2>
+                <p>以导师、实验室或 project vacancy 为单位；采 rolling 投递，职位截止以当期公告为准。</p>
+              </div>
+              <span class="hk-cycle-status">职位截止依公告</span>
+            </header>
+            <div class="phd-region-tracker" data-region-slot="eu"></div>
           </section>
           </div>
-
-          <div id="phdRegionList" class="phd-region-list"></div>
 
           <aside class="phd-guidance">
             <b>TW 提醒：</b><span>台大先锁定「电子所博士班丙组／元件材料与异质整合」；甄试、一般招生、笔试与口试以正式简章为准。</span>
