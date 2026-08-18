@@ -504,16 +504,24 @@
   }
 
   function renderRoadmapTimeline() {
-    el.roadmapTimelineBody.innerHTML = ROADMAP_MONTHS.map((row) => `
-      <tr>
-        <td><strong>${safe(row[0])}</strong></td>
-        <td><span class="roadmap-phase-tag">${safe(row[1])}</span></td>
-        <td>${safe(row[2])}</td>
-        <td>${safe(row[3])}</td>
-        <td>${safe(row[4])}</td>
-        <td>${safe(row[5])}</td>
-      </tr>
-    `).join("");
+    const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    el.roadmapTimelineBody.innerHTML = ROADMAP_MONTHS.map((row, index) => {
+      const [year, month] = row[0].split("/");
+      const monthNumber = Number(month);
+      const yearBoundary = monthNumber === 1 ? " year-boundary" : "";
+      return `
+        <div class="vertical-gantt-row${yearBoundary}" role="row">
+          <div class="vertical-gantt-time${index === 0 ? " first" : ""}${index === ROADMAP_MONTHS.length - 1 ? " last" : ""}" role="rowheader">
+            <time datetime="${safeAttr(`${year}-${month}`)}"><b>${safe(year)}</b><strong>${safe(monthNames[monthNumber - 1])}</strong></time>
+            <span class="roadmap-phase-tag">${safe(row[1])}</span>
+          </div>
+          <div class="vertical-gantt-cell research" role="cell"><div>${safe(row[2])}</div></div>
+          <div class="vertical-gantt-cell external" role="cell"><div>${safe(row[3])}</div></div>
+          <div class="vertical-gantt-cell application" role="cell"><div>${safe(row[4])}</div></div>
+          <div class="vertical-gantt-cell graduation" role="cell"><div>${safe(row[5])}</div></div>
+        </div>
+      `;
+    }).join("");
   }
 
   function renderRoadmapTasks() {

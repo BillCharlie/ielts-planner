@@ -1955,41 +1955,182 @@ textarea {
   line-height: 1.6;
 }
 
-.roadmap-table-wrap {
+.roadmap-vertical-gantt-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
   border-radius: 8px;
+  background: #f8faf9;
+  scrollbar-color: rgba(15, 118, 110, 0.35) transparent;
 }
 
-.roadmap-table {
-  width: 100%;
-  min-width: 1120px;
-  border-collapse: collapse;
+.roadmap-vertical-gantt {
+  min-width: 1160px;
   background: #fff;
-  font-size: 12px;
 }
 
-.roadmap-table th {
-  padding: 13px 15px;
-  background: var(--teal-dark);
-  color: #fff;
-  text-align: left;
+.vertical-gantt-header,
+.vertical-gantt-row {
+  display: grid;
+  grid-template-columns: 150px repeat(4, minmax(0, 1fr));
+}
+
+.vertical-gantt-header {
+  position: relative;
+  z-index: 3;
+  border-bottom: 1px solid var(--line);
+  background: #f1f5f4;
+}
+
+.vertical-gantt-header > span {
+  padding: 14px 15px 12px;
+  border-top: 4px solid var(--teal-dark);
+  border-right: 1px solid var(--line);
+  color: var(--ink);
   font-size: 10px;
+  font-weight: 900;
   letter-spacing: 0.04em;
 }
 
-.roadmap-table td {
-  max-width: 280px;
-  padding: 14px 15px;
-  border-bottom: 1px solid var(--line);
-  line-height: 1.55;
-  vertical-align: top;
+.vertical-gantt-header > span:first-child {
+  background: var(--teal-dark);
+  color: #fff;
+  letter-spacing: 0.12em;
 }
 
-.roadmap-table tbody tr:last-child td {
+.vertical-gantt-header > span.external {
+  border-top-color: #c26a16;
+}
+
+.vertical-gantt-header > span.application {
+  border-top-color: var(--blue);
+}
+
+.vertical-gantt-header > span.graduation {
+  border-top-color: #7c3aed;
+  border-right: 0;
+}
+
+.vertical-gantt-row {
+  min-height: 112px;
+  border-bottom: 1px solid var(--line);
+}
+
+.vertical-gantt-row:last-child {
   border-bottom: 0;
 }
 
-.roadmap-table tbody tr:hover {
-  background: var(--surface-2);
+.vertical-gantt-row.year-boundary {
+  border-top: 3px solid rgba(15, 118, 110, 0.42);
+}
+
+.vertical-gantt-time {
+  position: relative;
+  padding: 17px 12px 17px 38px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 11px;
+  border-right: 1px solid var(--line);
+  background: #f8faf9;
+}
+
+.vertical-gantt-time::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 19px;
+  width: 2px;
+  background: rgba(15, 118, 110, 0.28);
+}
+
+.vertical-gantt-time.first::before {
+  top: 50%;
+}
+
+.vertical-gantt-time.last::before {
+  bottom: 50%;
+}
+
+.vertical-gantt-time::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 12px;
+  height: 12px;
+  transform: translateY(-50%);
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 1px rgba(15, 118, 110, 0.5);
+}
+
+.vertical-gantt-time time {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.vertical-gantt-time time b {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.vertical-gantt-time time strong {
+  color: var(--teal-dark);
+  font-size: 17px;
+  letter-spacing: 0.04em;
+}
+
+.vertical-gantt-cell {
+  --track-color: var(--teal);
+  --track-soft: #edf9f6;
+  padding: 11px;
+  display: flex;
+  border-right: 1px solid var(--line);
+  background: rgba(248, 250, 249, 0.38);
+}
+
+.vertical-gantt-cell:last-child {
+  border-right: 0;
+}
+
+.vertical-gantt-cell.external {
+  --track-color: #c26a16;
+  --track-soft: #fff7ed;
+}
+
+.vertical-gantt-cell.application {
+  --track-color: var(--blue);
+  --track-soft: #eff6ff;
+}
+
+.vertical-gantt-cell.graduation {
+  --track-color: #7c3aed;
+  --track-soft: #f5f3ff;
+}
+
+.vertical-gantt-cell > div {
+  position: relative;
+  flex: 1;
+  padding: 13px 14px 13px 18px;
+  display: flex;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--track-color) 18%, transparent);
+  border-left: 5px solid var(--track-color);
+  border-radius: 7px;
+  background: var(--track-soft);
+  color: #334155;
+  font-size: 10px;
+  line-height: 1.55;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.vertical-gantt-row:hover .vertical-gantt-cell > div {
+  transform: translateX(2px);
+  box-shadow: 0 6px 15px rgba(15, 23, 42, 0.07);
 }
 
 .roadmap-phase-tag,
@@ -2003,6 +2144,14 @@ textarea {
   font-size: 10px;
   font-weight: 800;
   white-space: nowrap;
+}
+
+.vertical-gantt-time .roadmap-phase-tag {
+  max-width: 100%;
+  padding: 4px 7px;
+  font-size: 8px;
+  line-height: 1.35;
+  white-space: normal;
 }
 
 .roadmap-task-groups {

@@ -107,6 +107,12 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /function ganttPosition/);
   assert.match(app, /gantt-milestone/);
   assert.match(html, /roadmap-gantt-axis[\s\S]*SEP[\s\S]*OCT[\s\S]*NOV[\s\S]*DEC[\s\S]*JAN[\s\S]*FEB[\s\S]*MAR[\s\S]*APR[\s\S]*MAY/);
+  assert.match(html, /roadmap-vertical-gantt[\s\S]*研究主线[\s\S]*IELTS／会议／论文[\s\S]*PhD 申请[\s\S]*Plan A／B/);
+  assert.doesNotMatch(html, /class="roadmap-table"/);
+  assert.match(app, /vertical-gantt-row/);
+  assert.match(app, /vertical-gantt-time/);
+  assert.match(app, /vertical-gantt-cell research/);
+  assert.match(app, /year-boundary/);
   assert.match(app, /预留台大 10\/01–10\/09、阳明交大 10\/01–10\/08/);
   assert.match(app, /recommend-tw[\s\S]*recommend-overseas/);
   assert.match(app, /recommend-overseas[\s\S]*due: "11\/20"/);
@@ -123,6 +129,9 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(styles, /\.roadmap-gantt-track/);
   assert.match(styles, /\.gantt-gate-bar/);
   assert.match(styles, /\.gantt-milestone/);
+  assert.match(styles, /\.roadmap-vertical-gantt/);
+  assert.match(styles, /\.vertical-gantt-row/);
+  assert.match(styles, /\.vertical-gantt-cell/);
   assert.match(styles, /\.roadmap-task-groups/);
   assert.match(styles, /\.phd-region-list/);
   assert.match(styles, /\.phd-advisor-row/);

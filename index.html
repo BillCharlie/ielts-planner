@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260818-gantt-gates" />
+    <link rel="stylesheet" href="styles.css?v=20260818-vertical-gantt" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -102,12 +102,18 @@
           </section>
 
           <section class="roadmap-section">
-            <div class="roadmap-section-head"><div><span>03</span><h2>月度总时间轴</h2></div><p>研究、外部节点、申请与毕业情景放在同一行比较</p></div>
-            <div class="table-wrap roadmap-table-wrap">
-              <table class="roadmap-table">
-                <thead><tr><th>月份</th><th>阶段</th><th>研究主线</th><th>IELTS / 会议 / 论文</th><th>PhD 申请</th><th>Plan A / B</th></tr></thead>
-                <tbody id="roadmapTimelineBody"></tbody>
-              </table>
+            <div class="roadmap-section-head"><div><span>03</span><h2>月度总时间轴</h2></div><p>时间从上往下推进，四条泳道同步比较</p></div>
+            <div class="roadmap-vertical-gantt-wrap">
+              <div class="roadmap-vertical-gantt" role="table" aria-label="2026 年 8 月至 2027 年 12 月月度总时间轴">
+                <div class="vertical-gantt-header" role="row">
+                  <span role="columnheader">TIME ↓</span>
+                  <span class="research" role="columnheader">研究主线</span>
+                  <span class="external" role="columnheader">IELTS／会议／论文</span>
+                  <span class="application" role="columnheader">PhD 申请</span>
+                  <span class="graduation" role="columnheader">Plan A／B</span>
+                </div>
+                <div id="roadmapTimelineBody" class="vertical-gantt-body" role="rowgroup"></div>
+              </div>
             </div>
           </section>
 
