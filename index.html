@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260818-gate-timeline" />
+    <link rel="stylesheet" href="styles.css?v=20260818-gantt-gates" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -72,26 +72,31 @@
           <section class="roadmap-section">
             <div class="roadmap-section-head"><div><span>02</span><h2>关键 Gate</h2></div><p>研究与申请分开判断，避免一个进度遮盖另一个</p></div>
             <div id="roadmapGateGroups" class="roadmap-gate-groups">
-              <div class="roadmap-gate-timeline-scroll">
-                <div class="roadmap-gate-timeline">
-                  <div class="roadmap-gate-axis" aria-label="Gate 时间轴">
+              <div class="roadmap-gantt-scroll">
+                <div class="roadmap-gantt" role="group" aria-label="研究与申请关键 Gate 甘特图">
+                  <div class="roadmap-gantt-axis" aria-label="2026 年 9 月至 2027 年 5 月">
                     <span>TIME</span>
                     <time datetime="2026-09"><b>SEP</b><small>2026</small></time>
+                    <time datetime="2026-10"><b>OCT</b><small>2026</small></time>
                     <time datetime="2026-11"><b>NOV</b><small>2026</small></time>
                     <time datetime="2026-12"><b>DEC</b><small>2026</small></time>
+                    <time datetime="2027-01"><b>JAN</b><small>2027</small></time>
+                    <time datetime="2027-02"><b>FEB</b><small>2027</small></time>
                     <time datetime="2027-03"><b>MAR</b><small>2027</small></time>
+                    <time datetime="2027-04"><b>APR</b><small>2027</small></time>
                     <time datetime="2027-05"><b>MAY</b><small>2027</small></time>
                   </div>
-                  <section class="roadmap-gate-timeline-row">
-                    <header><span>RESEARCH</span><h3>研究 Gate</h3><p>用实验与论文成果判断 Plan A 是否仍成立</p></header>
-                    <div id="roadmapResearchGateGrid" class="roadmap-gate-grid timeline-gate-grid"></div>
+                  <section class="roadmap-gantt-row">
+                    <header><span>RESEARCH</span><h3>研究 Gate</h3><p>实验与论文里程碑</p></header>
+                    <div id="roadmapResearchGateGrid" class="roadmap-gantt-track research-track"></div>
                   </section>
-                  <section class="roadmap-gate-timeline-row application-row">
-                    <header><span>APPLICATION</span><h3>申请 Gate</h3><p>台湾 → HK → 欧洲，完成材料、推荐信与投递</p></header>
-                    <div id="roadmapApplicationGateGrid" class="roadmap-gate-grid timeline-gate-grid"></div>
+                  <section class="roadmap-gantt-row application-row">
+                    <header><span>APPLICATION</span><h3>申请 Gate</h3><p>台湾、HK 与欧洲窗口</p></header>
+                    <div id="roadmapApplicationGateGrid" class="roadmap-gantt-track application-track"></div>
                   </section>
                 </div>
               </div>
+              <div class="roadmap-gantt-legend"><span><i></i>条带＝准备／申请区间</span><span><i class="milestone"></i>菱形＝Gate 截止点</span><span>点击条带可标记完成</span></div>
               <p class="application-gate-note">台湾日期依据上一届预留，等待 116 学年度正式简章确认；HK 与欧洲为个人内部申请窗口，各校／职位截止仍以当期公告为准。</p>
             </div>
           </section>

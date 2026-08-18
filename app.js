@@ -20,12 +20,17 @@
     { id: "a2", code: "A2", name: "HK Application Window", date: "2026-11-15", displayDate: "11/15—12/31", proof: "两场会议已更新至 CV；依学校与导师调整 proposal，并启动第二阶段推荐信", pass: "12 月底前完成 HK 主申请", miss: "只保留高度匹配且仍开放的学校" },
     { id: "a3", code: "A3", name: "Europe PhD Pipeline", date: "2026-12-15", displayDate: "12/15—2027/03", proof: "建立 project vacancy 清单；每个职位都有对应 CV、motivation letter 与研究证据", pass: "1–3 月持续投递并进入 technical interview", miss: "减少泛投，集中有 funding 与 fab access 的职位" },
   ];
-  const GATE_TIMELINE_SLOTS = [
-    { month: "2026-09", research: "g1", application: "a1" },
-    { month: "2026-11", research: null, application: "a2" },
-    { month: "2026-12", research: "g2", application: "a3" },
-    { month: "2027-03", research: "g3", application: null },
-    { month: "2027-05", research: "g4", application: null },
+  const GATE_GANTT_MONTHS = ["2026-09", "2026-10", "2026-11", "2026-12", "2027-01", "2027-02", "2027-03", "2027-04", "2027-05"];
+  const RESEARCH_GANTT_BARS = [
+    { gateId: "g1", start: "2026-09-01", end: "2026-09-30", lane: 1 },
+    { gateId: "g2", start: "2026-10-01", end: "2026-12-15", lane: 1 },
+    { gateId: "g3", start: "2026-12-16", end: "2027-03-31", lane: 1 },
+    { gateId: "g4", start: "2027-04-01", end: "2027-05-31", lane: 1 },
+  ];
+  const APPLICATION_GANTT_BARS = [
+    { gateId: "a1", start: "2026-09-01", end: "2026-10-09", lane: 1 },
+    { gateId: "a2", start: "2026-11-15", end: "2026-12-31", lane: 1 },
+    { gateId: "a3", start: "2026-12-15", end: "2027-03-31", lane: 2 },
   ];
   const ROADMAP_TASKS = [
     { id: "fin-doe", phase: "现在", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "dose、linewidth、etch depth、sidewall 整理成可决策表", due: "09/30" },
@@ -457,30 +462,45 @@
 
   function renderRoadmapGates() {
     const gatesState = state.roadmap?.gates || {};
-    el.roadmapResearchGateGrid.innerHTML = renderTimelineGateRow(RESEARCH_GATES, gatesState, "research");
-    el.roadmapApplicationGateGrid.innerHTML = renderTimelineGateRow(APPLICATION_GATES, gatesState, "application");
+    el.roadmapResearchGateGrid.innerHTML = renderGanttLane(RESEARCH_GATES, RESEARCH_GANTT_BARS, gatesState, "research");
+    el.roadmapApplicationGateGrid.innerHTML = renderGanttLane(APPLICATION_GATES, APPLICATION_GANTT_BARS, gatesState, "application");
   }
 
-  function renderTimelineGateRow(gates, gatesState, type) {
+  function renderGanttLane(gates, bars, gatesState, type) {
     const gateById = new Map(gates.map((gate) => [gate.id, gate]));
-    return GATE_TIMELINE_SLOTS.map((slot) => {
-      const gate = gateById.get(slot[type]);
-      return gate ? renderGateCard(gate, gatesState, type) : '<div class="roadmap-gate-spacer" aria-hidden="true"></div>';
-    }).join("");
+    return `
+      <div class="gantt-month-bands" aria-hidden="true">${GATE_GANTT_MONTHS.map(() => "<span></span>").join("")}</div>
+      <div class="gantt-baseline" aria-hidden="true"></div>
+      ${bars.map((bar) => renderGanttBar(gateById.get(bar.gateId), bar, gatesState, type)).join("")}
+    `;
   }
 
-  function renderGateCard(gate, gatesState, type) {
+  function renderGanttBar(gate, bar, gatesState, type) {
     const done = Boolean(gatesState[gate.id]);
+    const position = ganttPosition(bar.start, bar.end);
+    const status = done ? (type === "application" ? "已完成" : "已通过") : "未开始";
     return `
-      <label class="roadmap-gate-card ${safeAttr(type)}${done ? " complete" : ""}">
-        <input type="checkbox" data-roadmap-gate="${safeAttr(gate.id)}"${done ? " checked" : ""} />
-        <div class="roadmap-gate-head"><span>${safe(gate.code)}</span><time>${safe(gate.displayDate || formatDate(gate.date))}</time></div>
-        <h3>${safe(gate.name)}</h3>
-        <p>${safe(gate.proof)}</p>
-        <dl><div><dt>${type === "application" ? "完成" : "通过"}</dt><dd>${safe(gate.pass)}</dd></div><div><dt>未过</dt><dd>${safe(gate.miss)}</dd></div></dl>
-        <strong class="gate-check-label">${done ? `✓ ${type === "application" ? "已完成" : "已通过"}` : "○ 未开始"}</strong>
+      <label class="gantt-gate-bar ${safeAttr(type)} lane-${bar.lane}${done ? " complete" : ""}" style="--gantt-left:${position.left}%;--gantt-width:${position.width}%" title="${safeAttr(`${gate.proof}｜完成：${gate.pass}｜未过：${gate.miss}`)}">
+        <input type="checkbox" data-roadmap-gate="${safeAttr(gate.id)}" aria-label="${safeAttr(`${gate.code} ${gate.name}，${status}`)}"${done ? " checked" : ""} />
+        <span class="gantt-gate-copy"><b>${safe(gate.code)} · ${safe(gate.name)}</b><small>${safe(gate.displayDate || formatDate(gate.date))}</small></span>
+        <strong>${done ? "✓" : "○"}<span>${safe(status)}</span></strong>
+        <i class="gantt-milestone" aria-hidden="true"></i>
       </label>
     `;
+  }
+
+  function ganttPosition(start, end) {
+    const point = (value, endOfDay) => {
+      const [year, month, day] = value.split("-").map(Number);
+      const monthKey = `${year}-${String(month).padStart(2, "0")}`;
+      const monthIndex = GATE_GANTT_MONTHS.indexOf(monthKey);
+      const daysInMonth = new Date(year, month, 0).getDate();
+      const dayOffset = endOfDay ? day / daysInMonth : (day - 1) / daysInMonth;
+      return ((monthIndex + dayOffset) / GATE_GANTT_MONTHS.length) * 100;
+    };
+    const left = point(start, false);
+    const right = point(end, true);
+    return { left: left.toFixed(3), width: Math.max(right - left, 1.5).toFixed(3) };
   }
 
   function renderRoadmapTimeline() {
