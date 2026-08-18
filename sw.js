@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v46-drag-pager";
+const CACHE_NAME = "planner-notebook-v47-drag-fix";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260819-drag-pager",
+  "./styles.css?v=20260819-drag-fix",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",

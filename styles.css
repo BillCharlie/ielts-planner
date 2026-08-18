@@ -2406,6 +2406,7 @@ textarea {
 .application-panels-scroller.dragging {
   cursor: grabbing;
   scroll-behavior: auto;
+  scroll-snap-type: none; /* let the drag move freely; snap back on release */
   user-select: none;
 }
 

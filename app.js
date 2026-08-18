@@ -425,6 +425,15 @@
       if (event.pointerId != null && container.hasPointerCapture?.(event.pointerId)) {
         container.releasePointerCapture(event.pointerId);
       }
+      // Snap to the nearest country page (step = panel width + gap).
+      const pages = container.querySelectorAll(".hk-application-panel");
+      if (pages.length) {
+        const step = pages.length > 1 ? pages[1].offsetLeft - pages[0].offsetLeft : pages[0].offsetWidth;
+        if (step > 0) {
+          const page = Math.round(container.scrollLeft / step);
+          container.scrollTo({ left: page * step, behavior: "smooth" });
+        }
+      }
     };
     container.addEventListener("pointerup", release);
     container.addEventListener("pointercancel", release);
