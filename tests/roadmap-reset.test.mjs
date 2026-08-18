@@ -72,10 +72,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /老师沟通节点[\s\S]*台湾本土推荐信[\s\S]*HK／欧洲推荐信[\s\S]*关键 Gate/);
   assert.match(html, /NOV · STAGE 2[\s\S]*HK／欧洲推荐信/);
   assert.match(html, /研究 Gate[\s\S]*申请 Gate/);
-  assert.match(html, /两项投稿均已接受/);
-  assert.match(html, /已投中并接受/g);
-  assert.match(html, /2026\/11\/06/);
-  assert.match(html, /Speaking[\s\S]*待确认/);
+  assert.doesNotMatch(html, /两项投稿均已接受|已投中并接受/);
+  assert.doesNotMatch(html, /ieltsExamCountdown|iedmsCountdown|iwnCountdown/);
   assert.match(html, /id="vocabularyButton"/);
   assert.match(html, /id="vocabularyPanel"/);
   assert.match(html, /id="vocabularyInput"/);
@@ -83,7 +81,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /id="weeklyVocabularyCount"/);
   assert.match(html, /id="weeklyVocabularyGroups"/);
   assert.match(html, /id="testBankProgress"/);
-  assert.match(app, /2026-11-06/);
+  assert.match(app, /2026\/11\/06/);
   assert.doesNotMatch(app, /VOCABULARY_BANK|vocabularyForDate/);
   assert.match(app, /vocabularyCards: parsed\.vocabularyCards \|\| \{\}/);
   assert.match(app, /function addVocabularyCard/);
@@ -111,8 +109,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /id="roadmapTaskGroups"[\s\S]*id="roadmapTimelineBody"/);
   assert.match(html, /03—04[\s\S]*月度甘特任务表/);
   assert.doesNotMatch(html, /研究任务看板/);
-  assert.match(html, /IELTS 与会议[\s\S]*IELTS · RETAKE[\s\S]*conference-column[\s\S]*CONFERENCES[\s\S]*会议/);
-  assert.doesNotMatch(html, /<span>05<\/span>/);
+  assert.doesNotMatch(html, /IELTS 与会议|IELTS · RETAKE|conference-column/);
   assert.doesNotMatch(html, /class="roadmap-table"/);
   assert.match(app, /vertical-gantt-row/);
   assert.match(app, /vertical-gantt-time/);
@@ -123,6 +120,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /function renderVerticalGanttTask/);
   assert.match(app, /data-roadmap-task/);
   assert.doesNotMatch(app, /function renderRoadmapTasks/);
+  assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
+  assert.match(app, /补登 Speaking 场次/);
   assert.match(app, /预留台大 10\/01–10\/09、阳明交大 10\/01–10\/08/);
   assert.match(app, /recommend-tw[\s\S]*recommend-overseas/);
   assert.match(app, /recommend-overseas[\s\S]*due: "11\/20"/);
@@ -144,7 +143,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(styles, /\.vertical-gantt-cell/);
   assert.match(styles, /\.vertical-gantt-checklist/);
   assert.match(styles, /\.vertical-gantt-task/);
-  assert.match(styles, /\.conference-column-title/);
+  assert.doesNotMatch(styles, /\.conference-column-title|\.ielts-reset-panel|\.split-roadmap-section/);
   assert.match(styles, /\.phd-region-list/);
   assert.match(styles, /\.phd-advisor-row/);
 });

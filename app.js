@@ -211,9 +211,6 @@
       "phdAdvisorCount",
       "phdCvCount",
       "phdActiveCount",
-      "ieltsExamCountdown",
-      "iedmsCountdown",
-      "iwnCountdown",
     ].forEach((id) => {
       el[id] = document.getElementById(id);
     });
@@ -477,9 +474,6 @@
     el.roadmapTaskProgress.textContent = `${doneTasks} / ${ROADMAP_TASKS.length}`;
     el.roadmapGateCountdown.textContent = `${formatDate(nextGate.date)} · ${remaining >= 0 ? `剩 ${remaining} 天` : "待补登结果"}`;
     el.roadmapTrackStatus.textContent = roadmap.gates.g3 ? "Plan A 有数据支持" : "A / B 同时保留";
-    el.ieltsExamCountdown.textContent = countdownLabel("2026-11-06");
-    el.iedmsCountdown.textContent = countdownLabel("2026-10-22");
-    el.iwnCountdown.textContent = countdownLabel("2026-11-08");
   }
 
   function renderRoadmapGates() {
@@ -2359,13 +2353,6 @@
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     return Math.ceil((target.getTime() - today.getTime()) / 86400000);
-  }
-
-  function countdownLabel(iso) {
-    const remaining = daysUntil(iso);
-    if (remaining < 0) return "已结束";
-    if (remaining === 0) return "今天";
-    return `${remaining} 天`;
   }
 
   function addMonths(monthValue, delta) {

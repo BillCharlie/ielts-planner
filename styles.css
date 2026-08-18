@@ -1579,7 +1579,6 @@ textarea {
 }
 
 .roadmap-stats span,
-.panel-title > span,
 .roadmap-section-head > div > span {
   color: var(--teal-dark);
   font-size: 11px;
@@ -2234,215 +2233,6 @@ textarea {
   white-space: normal;
 }
 
-.split-roadmap-section {
-  display: grid;
-  grid-template-columns: 1.25fr 0.85fr;
-  gap: 14px;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  padding: 0;
-}
-
-.ielts-reset-panel,
-.conference-column-title,
-.conference-panel,
-.conference-caption {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  box-shadow: var(--shadow);
-}
-
-.ielts-reset-panel {
-  padding: 30px;
-}
-
-.panel-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-
-.panel-title > strong {
-  font-size: 34px;
-  color: var(--teal);
-}
-
-.ielts-reset-panel > h2 {
-  max-width: 670px;
-  margin: 36px 0 24px;
-  font-size: clamp(26px, 3.4vw, 42px);
-  line-height: 1.12;
-  letter-spacing: -0.045em;
-}
-
-.reset-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.reset-metrics > div {
-  padding: 15px;
-  border-right: 1px solid var(--line);
-}
-
-.reset-metrics > div:last-child {
-  border-right: 0;
-}
-
-.reset-metrics span {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--muted);
-  font-size: 10px;
-}
-
-.reset-metrics strong {
-  font-size: 14px;
-}
-
-.ielts-date-warning {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 12px;
-  margin: 14px 0 0;
-  padding: 14px 16px;
-  border: 1px solid #e4ca72;
-  border-radius: 6px;
-  background: #fff8d9;
-  color: #584d27;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.ielts-date-warning b {
-  color: var(--teal-dark);
-  white-space: nowrap;
-}
-
-.ielts-restart-steps {
-  margin: 22px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.ielts-restart-steps li {
-  padding: 13px 0;
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 10px;
-  border-top: 1px solid var(--line);
-}
-
-.ielts-restart-steps li > span {
-  width: 25px;
-  height: 25px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--surface-2);
-  color: var(--teal-dark);
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.ielts-restart-steps p {
-  margin: 2px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.55;
-}
-
-.conference-column {
-  display: grid;
-  gap: 12px;
-}
-
-.conference-column-title {
-  padding: 15px 18px;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  background: #f8faf9;
-}
-
-.conference-column-title span {
-  color: var(--blue);
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-}
-
-.conference-column-title h3 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.conference-panel {
-  min-height: 185px;
-  padding: 24px;
-  background: var(--teal);
-  color: #fff;
-}
-
-.conference-panel.iwn {
-  background: #2563eb;
-}
-
-.conference-panel > div {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.conference-panel > div span {
-  font-size: 29px;
-  font-weight: 800;
-}
-
-.conference-panel > div strong {
-  font-size: 20px;
-}
-
-.conference-panel h3 {
-  margin: 28px 0 8px;
-  font-size: 15px;
-}
-
-.conference-acceptance {
-  display: inline-block;
-  margin-top: 16px;
-  padding: 5px 9px;
-  border: 1px solid rgba(255, 255, 255, 0.42);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.conference-panel p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 11px;
-  line-height: 1.55;
-}
-
-.conference-caption {
-  margin: 0;
-  padding: 14px 16px;
-  color: var(--muted);
-  font-size: 10px;
-  line-height: 1.55;
-}
-
 /* Standalone PhD application tracker. */
 .phd-page {
   display: grid;
@@ -3001,7 +2791,6 @@ textarea {
     width: 100%;
   }
 
-  .split-roadmap-section,
   .graduation-tracks {
     grid-template-columns: 1fr;
   }
@@ -3026,8 +2815,7 @@ textarea {
   }
 
   .roadmap-hero,
-  .roadmap-section,
-  .ielts-reset-panel {
+  .roadmap-section {
     padding: 22px 18px;
   }
 
@@ -3065,18 +2853,6 @@ textarea {
     display: none;
   }
 
-  .reset-metrics {
-    grid-template-columns: 1fr;
-  }
-
-  .reset-metrics > div {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .reset-metrics > div:last-child {
-    border-bottom: 0;
-  }
 }
 
 @media (max-width: 1100px) {

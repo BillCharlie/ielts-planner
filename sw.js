@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v41-no-section-number";
+const CACHE_NAME = "planner-notebook-v42-remove-ielts-section";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260818-merged-tasks",
+  "./styles.css?v=20260818-remove-ielts-section",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",
