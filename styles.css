@@ -2417,6 +2417,16 @@ textarea {
   overflow-y: auto;
   overflow-x: hidden;
   scroll-snap-align: center;
+  /* Flex column (not grid) so the fixed height can't collapse the inner
+     scroll-container rows — otherwise the timeline squishes to the scrollbar
+     height and overflows onto the school row below. */
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.application-panels-scroller > .hk-application-panel > * {
+  flex: 0 0 auto; /* keep natural height; the panel itself scrolls */
 }
 
 .hk-application-panel {
