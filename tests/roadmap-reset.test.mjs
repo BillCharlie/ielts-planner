@@ -71,7 +71,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.doesNotMatch(html, /现在先做什么|focus-board/);
   assert.match(html, /老师沟通节点[\s\S]*台湾本土推荐信[\s\S]*HK／欧洲推荐信[\s\S]*关键 Gate/);
   assert.match(html, /NOV · STAGE 2[\s\S]*HK／欧洲推荐信/);
-  assert.match(html, /当前研究 Gate[\s\S]*申请 Gate/);
+  assert.match(html, /研究 Gate[\s\S]*申请 Gate/);
   assert.match(html, /两项投稿均已接受/);
   assert.match(html, /已投中并接受/g);
   assert.match(html, /2026\/11\/06/);
@@ -101,6 +101,10 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /candidate\.roadmap = candidate\.roadmap \|\| defaultRoadmapState\(\)/);
   assert.match(app, /RESEARCH_GATES[\s\S]*APPLICATION_GATES/);
   assert.match(app, /Taiwan PhD Ready[\s\S]*HK Application Window[\s\S]*Europe PhD Pipeline/);
+  assert.match(app, /GATE_TIMELINE_SLOTS[\s\S]*2026-09[\s\S]*2026-11[\s\S]*2026-12[\s\S]*2027-03[\s\S]*2027-05/);
+  assert.match(app, /function renderTimelineGateRow/);
+  assert.match(app, /roadmap-gate-spacer/);
+  assert.match(html, /roadmap-gate-axis[\s\S]*SEP[\s\S]*NOV[\s\S]*DEC[\s\S]*MAR[\s\S]*MAY/);
   assert.match(app, /预留台大 10\/01–10\/09、阳明交大 10\/01–10\/08/);
   assert.match(app, /recommend-tw[\s\S]*recommend-overseas/);
   assert.match(app, /recommend-overseas[\s\S]*due: "11\/20"/);
@@ -114,7 +118,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.doesNotMatch(html, /id="roadmapApplicationBody"/);
   assert.match(styles, /\.roadmap-gate-grid/);
   assert.match(styles, /\.roadmap-gate-groups/);
-  assert.match(styles, /\.application-gate-grid/);
+  assert.match(styles, /\.roadmap-gate-timeline/);
+  assert.match(styles, /\.roadmap-gate-spacer/);
   assert.match(styles, /\.roadmap-task-groups/);
   assert.match(styles, /\.phd-region-list/);
   assert.match(styles, /\.phd-advisor-row/);

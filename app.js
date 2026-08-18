@@ -20,6 +20,13 @@
     { id: "a2", code: "A2", name: "HK Application Window", date: "2026-11-15", displayDate: "11/15—12/31", proof: "两场会议已更新至 CV；依学校与导师调整 proposal，并启动第二阶段推荐信", pass: "12 月底前完成 HK 主申请", miss: "只保留高度匹配且仍开放的学校" },
     { id: "a3", code: "A3", name: "Europe PhD Pipeline", date: "2026-12-15", displayDate: "12/15—2027/03", proof: "建立 project vacancy 清单；每个职位都有对应 CV、motivation letter 与研究证据", pass: "1–3 月持续投递并进入 technical interview", miss: "减少泛投，集中有 funding 与 fab access 的职位" },
   ];
+  const GATE_TIMELINE_SLOTS = [
+    { month: "2026-09", research: "g1", application: "a1" },
+    { month: "2026-11", research: null, application: "a2" },
+    { month: "2026-12", research: "g2", application: "a3" },
+    { month: "2027-03", research: "g3", application: null },
+    { month: "2027-05", research: "g4", application: null },
+  ];
   const ROADMAP_TASKS = [
     { id: "fin-doe", phase: "现在", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "dose、linewidth、etch depth、sidewall 整理成可决策表", due: "09/30" },
     { id: "ielts-window", phase: "现在", category: "IELTS", title: "核对 IELTS 二战报名资料", detail: "考试日已定 2026/11/06；确认场次、证件与报到资讯", due: "11/06" },
@@ -450,24 +457,30 @@
 
   function renderRoadmapGates() {
     const gatesState = state.roadmap?.gates || {};
-    el.roadmapResearchGateGrid.innerHTML = renderGateCards(RESEARCH_GATES, gatesState, "research");
-    el.roadmapApplicationGateGrid.innerHTML = renderGateCards(APPLICATION_GATES, gatesState, "application");
+    el.roadmapResearchGateGrid.innerHTML = renderTimelineGateRow(RESEARCH_GATES, gatesState, "research");
+    el.roadmapApplicationGateGrid.innerHTML = renderTimelineGateRow(APPLICATION_GATES, gatesState, "application");
   }
 
-  function renderGateCards(gates, gatesState, type) {
-    return gates.map((gate) => {
-      const done = Boolean(gatesState[gate.id]);
-      return `
-        <label class="roadmap-gate-card ${safeAttr(type)}${done ? " complete" : ""}">
-          <input type="checkbox" data-roadmap-gate="${safeAttr(gate.id)}"${done ? " checked" : ""} />
-          <div class="roadmap-gate-head"><span>${safe(gate.code)}</span><time>${safe(gate.displayDate || formatDate(gate.date))}</time></div>
-          <h3>${safe(gate.name)}</h3>
-          <p>${safe(gate.proof)}</p>
-          <dl><div><dt>${type === "application" ? "完成" : "通过"}</dt><dd>${safe(gate.pass)}</dd></div><div><dt>未过</dt><dd>${safe(gate.miss)}</dd></div></dl>
-          <strong class="gate-check-label">${done ? `✓ ${type === "application" ? "已完成" : "已通过"}` : "○ 未开始"}</strong>
-        </label>
-      `;
+  function renderTimelineGateRow(gates, gatesState, type) {
+    const gateById = new Map(gates.map((gate) => [gate.id, gate]));
+    return GATE_TIMELINE_SLOTS.map((slot) => {
+      const gate = gateById.get(slot[type]);
+      return gate ? renderGateCard(gate, gatesState, type) : '<div class="roadmap-gate-spacer" aria-hidden="true"></div>';
     }).join("");
+  }
+
+  function renderGateCard(gate, gatesState, type) {
+    const done = Boolean(gatesState[gate.id]);
+    return `
+      <label class="roadmap-gate-card ${safeAttr(type)}${done ? " complete" : ""}">
+        <input type="checkbox" data-roadmap-gate="${safeAttr(gate.id)}"${done ? " checked" : ""} />
+        <div class="roadmap-gate-head"><span>${safe(gate.code)}</span><time>${safe(gate.displayDate || formatDate(gate.date))}</time></div>
+        <h3>${safe(gate.name)}</h3>
+        <p>${safe(gate.proof)}</p>
+        <dl><div><dt>${type === "application" ? "完成" : "通过"}</dt><dd>${safe(gate.pass)}</dd></div><div><dt>未过</dt><dd>${safe(gate.miss)}</dd></div></dl>
+        <strong class="gate-check-label">${done ? `✓ ${type === "application" ? "已完成" : "已通过"}` : "○ 未开始"}</strong>
+      </label>
+    `;
   }
 
   function renderRoadmapTimeline() {
