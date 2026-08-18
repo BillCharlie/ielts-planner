@@ -17,7 +17,7 @@
   ];
   const APPLICATION_GATES = [
     { id: "a1", code: "A1", name: "Taiwan PhD Ready", date: "2026-09-25", displayDate: "预留 10/01—10/09", proof: "台大／阳明交大导师清单、CV、研究计划、成绩单与第一阶段推荐人全部确认", pass: "116 简章公布后核对差异，并在开放前两天完成投递", miss: "台湾本土申请窗口进入高风险" },
-    { id: "a2", code: "A2", name: "HK Application Window", date: "2026-11-15", displayDate: "11/15—12/31", proof: "两场会议已更新至 CV；依学校与导师调整 proposal，并启动第二阶段推荐信", pass: "12 月底前完成 HK 主申请", miss: "只保留高度匹配且仍开放的学校" },
+    { id: "a2", code: "A2", name: "HK Application Window", date: "2026-11-20", displayDate: "09/01—11/20 · 官方截止预计 12/01", proof: "HKU／HKUST／CityU／PolyU 的导师版 CV、proposal、两位推荐人和完整申请均已准备；HKPFS 第一、第二志愿已经锁定", pass: "11/20 内部封版，12/1 前只做复核并完成 RGC 初申与学校完整申请", miss: "不得把月底当作主申请截止；只保留最后复核与系统异常缓冲" },
     { id: "a3", code: "A3", name: "Europe PhD Pipeline", date: "2026-12-15", displayDate: "12/15—2027/03", proof: "建立 project vacancy 清单；每个职位都有对应 CV、motivation letter 与研究证据", pass: "1–3 月持续投递并进入 technical interview", miss: "减少泛投，集中有 funding 与 fab access 的职位" },
   ];
   const GATE_GANTT_MONTHS = ["2026-09", "2026-10", "2026-11", "2026-12", "2027-01", "2027-02", "2027-03", "2027-04", "2027-05"];
@@ -29,8 +29,8 @@
   ];
   const APPLICATION_GANTT_BARS = [
     { gateId: "a1", start: "2026-09-01", end: "2026-10-09", lane: 1 },
-    { gateId: "a2", start: "2026-11-15", end: "2026-12-31", lane: 1 },
-    { gateId: "a3", start: "2026-12-15", end: "2027-03-31", lane: 2 },
+    { gateId: "a2", start: "2026-09-01", end: "2026-11-20", lane: 2 },
+    { gateId: "a3", start: "2026-12-15", end: "2027-03-31", lane: 1 },
   ];
   const ROADMAP_TASKS = [
     { id: "fin-doe", phase: "现在", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "dose、linewidth、etch depth、sidewall 整理成可决策表", due: "09/30" },
@@ -48,6 +48,14 @@
     { id: "first-data", phase: "接下来", category: "FinFET", title: "第一批完整 electrical data", detail: "Id–Vg、Id–Vd、Vth、Ron、leakage；必要时 BV", due: "12/15" },
     { id: "recommend-tw", phase: "现在", category: "PhD · TW", title: "台湾本土申请推荐信", detail: "附 CV v2、研究摘要、台大／阳明交大清单与预留 deadline", due: "09/15" },
     { id: "recommend-overseas", phase: "接下来", category: "PhD · HK / EU", title: "香港／欧洲申请推荐信", detail: "IWN 结束后加入两场会议成果与最新 Fin 进度，附 CV v3、目标清单与 deadline", due: "11/20" },
+    { id: "hk-shortlist", phase: "现在", category: "PhD · HK", title: "完成香港四校导师长名单", detail: "HKU、HKUST、CityU、PolyU 各保留 2–4 位与 GaN、III-N、TCAD、power device 或 fabrication 匹配的导师", due: "08/31" },
+    { id: "hk-contact-wave", phase: "现在", category: "PhD · HK", title: "完成第一轮香港导师联系", detail: "确认 2027 intake、funding、实验室名额与研究契合度；同步检查 2027/28 新版简章", due: "09/20" },
+    { id: "hk-materials", phase: "接下来", category: "PhD · HK", title: "四校申请材料完成", detail: "完成主 CV、四校适配版本、research proposal、成绩单与成果附件", due: "10/15" },
+    { id: "hk-hkpfs-priority", phase: "接下来", category: "PhD · HKPFS", title: "锁定 HKPFS 两个志愿", detail: "RGC 最多只能填两个 programme choices；确认第一、第二志愿及对应导师", due: "11/10" },
+    { id: "hk-internal-freeze", phase: "接下来", category: "PhD · HK", title: "香港申请内部封版", detail: "四校表单、附件、推荐人邀请和 HKPFS 选项全部完成；之后只允许复核与修正", due: "11/20" },
+    { id: "hk-rgc-submit", phase: "接下来", category: "PhD · HKPFS", title: "提交 RGC HKPFS 初步申请", detail: "预计硬截止为 12/01 12:00 HKT；取得 HKPFS reference number", due: "12/01 12:00" },
+    { id: "hk-school-submit", phase: "接下来", category: "PhD · HK", title: "完成四校完整申请", detail: "预计 HKPFS 学校端硬截止为 12/01 23:59 HKT；确认付款、附件和推荐信状态", due: "12/01 23:59" },
+    { id: "hk-interview-prep", phase: "稍后", category: "PhD · HK", title: "香港 PhD 面试与 follow-up", detail: "准备研究简报、研究契合度、未来计划与毕业时间说明；持续追踪 3–5 月结果", due: "2027/03" },
     { id: "tcad-compare", phase: "稍后", category: "TCAD / AI", title: "完成 TCAD–experiment 核心比较图", detail: "串联 electrostatics、Fin width、Vth 与 leakage", due: "2027/02" },
     { id: "paper-draft", phase: "稍后", category: "论文", title: "Fin / TCAD journal paper 初稿", detail: "只保留能支撑主张的结果", due: "2027/02" },
     { id: "data-freeze", phase: "稍后", category: "FinFET", title: "主要实验 data freeze", detail: "3 月后不再无限制开 wafer 或扩张 DOE", due: "2027/03" },
@@ -71,6 +79,14 @@
     "first-data": ["2026/12", "research"],
     "recommend-tw": ["2026/09", "application"],
     "recommend-overseas": ["2026/11", "application"],
+    "hk-shortlist": ["2026/08", "application"],
+    "hk-contact-wave": ["2026/09", "application"],
+    "hk-materials": ["2026/10", "application"],
+    "hk-hkpfs-priority": ["2026/11", "application"],
+    "hk-internal-freeze": ["2026/11", "application"],
+    "hk-rgc-submit": ["2026/12", "application"],
+    "hk-school-submit": ["2026/12", "application"],
+    "hk-interview-prep": ["2027/01", "application"],
     "tcad-compare": ["2027/02", "research"],
     "paper-draft": ["2027/02", "external"],
     "data-freeze": ["2027/03", "research"],
@@ -79,14 +95,14 @@
     "defense": ["2027/07", "external"],
   };
   const ROADMAP_MONTHS = [
-    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 二战已定 11/06；重新诊断；IEDMS figure inventory；C–V 规划", "台湾：建立台大／阳明交大导师清单；CV v1；116 简章尚未公告", "A / B 正常推进"],
-    ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 核心训练；IEDMS poster 50–70%", "台湾 Stage 1：9/15 前请推荐信；9/25 材料 ready；持续检查 116 简章", "Plan A 必须通过 G1"],
-    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会；IELTS 维持训练", "台湾主申请：预留台大 10/01–10/09、阳明交大 10/01–10/08；依 116 正式简章修正并提前提交", "A：正式 wafer 已开始"],
-    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN poster freeze；11/06 IELTS 二战；11/08–13 IWN", "台湾口试／结果追踪；HK 11/15 启动；IWN 后提出 HK／欧洲 Stage 2 推荐信", "B 最晚延至 12 月"],
-    ["2026/12", "First data", "Electrical measurement；C–V / Regrowth correlation", "整理 TCAD 对照与 journal story", "HK 主申请至 12/31；12/15 启动欧洲 position materials", "12/15 通过 G2"],
-    ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "欧洲主投；HK follow-up；technical interview", "A：只做有限补实验"],
-    ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "欧洲 rolling positions 持续投递；申请与面试高峰", "A：实验开始 freeze"],
-    ["2027/03", "Data freeze", "主要 dataset 收敛", "Fin paper 投稿或接近投稿；thesis 架构", "欧洲投递收敛；Interview / offer 并行", "3/31 通过 G3，否则切 B"],
+    ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 二战已定 11/06；重新诊断；IEDMS figure inventory；C–V 规划", "台湾导师清单与 CV v1；HKU／HKUST／CityU／PolyU 导师长名单；等待 2027/28 简章", "A / B 正常推进"],
+    ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 核心训练；IEDMS poster 50–70%", "台湾 Stage 1 推荐信；香港预计 9/1 开放门户／HKPFS，9/20 前完成第一轮导师联系", "Plan A 必须通过 G1"],
+    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会；IELTS 维持训练", "台湾主申请：预留台大 10/01–10/09、阳明交大 10/01–10/08；香港四校材料 10/15 ready", "A：正式 wafer 已开始"],
+    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN poster freeze；11/06 IELTS 二战；11/08–13 IWN", "台湾结果追踪；11/10 锁定 HKPFS 两个志愿；IWN 后请 HK／欧洲推荐信；11/20 香港内部封版", "B 最晚延至 12 月"],
+    ["2026/12", "First data", "Electrical measurement；C–V / Regrowth correlation", "整理 TCAD 对照与 journal story", "香港预计 12/1 12:00 RGC 初申、23:59 学校完整申请；之后面试追踪；12/15 启动欧洲", "12/15 通过 G2"],
+    ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "欧洲主投；香港面试、补件与 follow-up", "A：只做有限补实验"],
+    ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "欧洲 rolling positions；香港面试／offer 追踪", "A：实验开始 freeze"],
+    ["2027/03", "Data freeze", "主要 dataset 收敛", "Fin paper 投稿或接近投稿；thesis 架构", "欧洲投递收敛；香港与欧洲 Interview／offer 并行", "3/31 通过 G3，否则切 B"],
     ["2027/04", "Write", "只补必要量测；不做开放式新制程", "硕论初稿 50–60%", "比较题目、PI、funding、fab access", "A：写作主导；B：data 收敛"],
     ["2027/05", "Thesis ready", "原则上不开新 wafer", "5/31 完整初稿给老师", "确定去向与弹性 start date", "A 通过 G4；B 开始主写"],
     ["2027/06", "Defense prep", "补最后必要数据；研究交接", "送审／申请口试；简报问答", "签证／行政", "A：Defense ready；B：30–50%"],

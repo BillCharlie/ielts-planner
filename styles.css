@@ -2384,6 +2384,263 @@ textarea {
   font-size: 11px;
 }
 
+.hk-application-panel {
+  padding: clamp(22px, 3vw, 34px);
+  display: grid;
+  gap: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(145deg, #ffffff 0%, #f7faff 100%);
+  box-shadow: var(--shadow);
+}
+
+.hk-application-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.hk-application-head h2,
+.hk-application-head p {
+  margin: 0;
+}
+
+.hk-application-head h2 {
+  margin-top: 5px;
+  font-size: clamp(25px, 3vw, 38px);
+  letter-spacing: -0.035em;
+}
+
+.hk-application-head div > p:last-child {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.hk-cycle-status {
+  flex: 0 0 auto;
+  padding: 8px 11px;
+  border: 1px solid #fcd34d;
+  border-radius: 999px;
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.hk-deadline-alert {
+  padding: 15px 17px;
+  display: grid;
+  grid-template-columns: auto auto minmax(180px, 0.85fr) auto minmax(240px, 1.25fr);
+  align-items: center;
+  gap: 10px 15px;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-left: 5px solid var(--blue);
+  border-radius: 7px;
+  background: #eff6ff;
+}
+
+.hk-deadline-alert > span {
+  color: #1e40af;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.hk-deadline-alert strong {
+  color: #1d4ed8;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.hk-deadline-alert p {
+  margin: 0;
+  color: #475569;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.hk-timeline-scroll {
+  overflow-x: auto;
+  padding: 2px 2px 12px;
+  scrollbar-color: rgba(37, 99, 235, 0.35) transparent;
+}
+
+.hk-application-timeline {
+  position: relative;
+  min-width: 1370px;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 12px;
+  list-style: none;
+}
+
+.hk-application-timeline::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 35px;
+  right: 5%;
+  left: 5%;
+  height: 2px;
+  background: linear-gradient(90deg, #93c5fd, var(--blue), #93c5fd);
+}
+
+.hk-application-timeline li {
+  position: relative;
+  z-index: 1;
+  min-height: 165px;
+  padding: 55px 14px 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.hk-application-timeline li::before {
+  content: "";
+  position: absolute;
+  top: 29px;
+  left: 17px;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+
+.hk-application-timeline li.internal {
+  border-color: rgba(15, 118, 110, 0.35);
+  background: #f0fdfa;
+}
+
+.hk-application-timeline li.internal::before {
+  background: var(--teal);
+  box-shadow: 0 0 0 1px var(--teal);
+}
+
+.hk-application-timeline li.deadline {
+  border-color: rgba(225, 29, 72, 0.28);
+  background: #fff1f2;
+}
+
+.hk-application-timeline li.deadline::before {
+  border-radius: 2px;
+  background: var(--rose);
+  box-shadow: 0 0 0 1px var(--rose);
+  transform: rotate(45deg);
+}
+
+.hk-application-timeline time {
+  display: block;
+  color: #1d4ed8;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.hk-application-timeline b {
+  display: block;
+  margin-top: 7px;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.hk-application-timeline p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+.hk-school-deadlines {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hk-school-deadlines article {
+  min-width: 0;
+  padding: 17px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--blue);
+  border-radius: 7px;
+  background: #fff;
+}
+
+.hk-school-deadlines header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.hk-school-deadlines header span {
+  padding: 5px 7px;
+  border-radius: 4px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.hk-school-deadlines h3,
+.hk-school-deadlines p {
+  margin: 0;
+}
+
+.hk-school-deadlines h3 {
+  font-size: 16px;
+}
+
+.hk-school-deadlines p {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.hk-school-deadlines p b {
+  color: var(--ink);
+}
+
+.hk-school-deadlines nav {
+  margin-top: auto;
+  padding-top: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.hk-school-deadlines a {
+  padding: 6px 8px;
+  border-radius: 5px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 9px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.hk-school-deadlines a:hover,
+.hk-school-deadlines a:focus {
+  background: #dbeafe;
+}
+
+.hk-source-note {
+  margin: -4px 0 0;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.6;
+}
+
 .phd-region-list {
   display: grid;
   gap: 18px;
@@ -2911,6 +3168,18 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .hk-deadline-alert {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .hk-deadline-alert > span {
+    grid-column: 1 / -1;
+  }
+
+  .hk-school-deadlines {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .phd-summary article:nth-child(2) {
     border-right: 0;
   }
@@ -2929,6 +3198,14 @@ textarea {
   .phd-hero {
     min-height: 0;
     flex-direction: column;
+  }
+
+  .hk-application-head {
+    flex-direction: column;
+  }
+
+  .hk-cycle-status {
+    align-self: flex-start;
   }
 
   .phd-hero-note {
@@ -2996,6 +3273,22 @@ textarea {
 @media (max-width: 640px) {
   .phd-page {
     padding: 10px 10px 34px;
+  }
+
+  .hk-application-panel {
+    padding: 20px 16px;
+  }
+
+  .hk-deadline-alert {
+    grid-template-columns: 1fr;
+  }
+
+  .hk-deadline-alert > span {
+    grid-column: auto;
+  }
+
+  .hk-school-deadlines {
+    grid-template-columns: 1fr;
   }
 
   .phd-hero {

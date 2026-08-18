@@ -66,6 +66,11 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   for (const id of ["navPhd", "phdView", "phdRegionList", "phdSchoolCount", "phdAdvisorCount", "phdCvCount", "phdActiveCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
+  assert.match(html, /id="hkApplicationTimelineTitle"/);
+  assert.match(html, /香港博士申请时间线[\s\S]*HKU[\s\S]*HKUST[\s\S]*CITYU[\s\S]*POLYU/);
+  assert.match(html, /12\/01 · 12:00[\s\S]*12\/01 · 23:59/);
+  assert.match(html, /最多只能填两个 programme choices/);
+  assert.match(html, /11\/20 · INTERNAL[\s\S]*香港申请封版/);
   assert.match(html, /GaN FinFET/);
   assert.match(html, /Plan A \/ Plan B/);
   assert.doesNotMatch(html, /现在先做什么|focus-board/);
@@ -99,6 +104,9 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /candidate\.roadmap = candidate\.roadmap \|\| defaultRoadmapState\(\)/);
   assert.match(app, /RESEARCH_GATES[\s\S]*APPLICATION_GATES/);
   assert.match(app, /Taiwan PhD Ready[\s\S]*HK Application Window[\s\S]*Europe PhD Pipeline/);
+  assert.match(app, /HK Application Window[\s\S]*date: "2026-11-20"[\s\S]*官方截止预计 12\/01/);
+  assert.match(app, /gateId: "a2", start: "2026-09-01", end: "2026-11-20", lane: 2/);
+  assert.doesNotMatch(app, /HK 11\/15 启动|HK 主申请至 12\/31/);
   assert.match(app, /GATE_GANTT_MONTHS[\s\S]*2026-09[\s\S]*2026-10[\s\S]*2026-11[\s\S]*2026-12[\s\S]*2027-01[\s\S]*2027-02[\s\S]*2027-03[\s\S]*2027-04[\s\S]*2027-05/);
   assert.match(app, /RESEARCH_GANTT_BARS[\s\S]*APPLICATION_GANTT_BARS/);
   assert.match(app, /function renderGanttLane/);
@@ -130,6 +138,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /预留台大 10\/01–10\/09、阳明交大 10\/01–10\/08/);
   assert.match(app, /recommend-tw[\s\S]*recommend-overseas/);
   assert.match(app, /recommend-overseas[\s\S]*due: "11\/20"/);
+  assert.match(app, /hk-shortlist[\s\S]*hk-contact-wave[\s\S]*hk-materials[\s\S]*hk-hkpfs-priority[\s\S]*hk-internal-freeze[\s\S]*hk-rgc-submit[\s\S]*hk-school-submit[\s\S]*hk-interview-prep/);
   assert.match(app, /PHD_REGION_PRESETS[\s\S]*code: "HK"[\s\S]*code: "TW"[\s\S]*code: "EU"/);
   assert.match(app, /phdTracker: normalizePhdTracker\(parsed\.phdTracker\)/);
   assert.match(app, /function addPhdSchool/);
@@ -153,6 +162,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.doesNotMatch(styles, /\.conference-column-title|\.ielts-reset-panel|\.split-roadmap-section/);
   assert.match(styles, /\.phd-region-list/);
   assert.match(styles, /\.phd-advisor-row/);
+  assert.match(styles, /\.hk-application-timeline/);
+  assert.match(styles, /\.hk-school-deadlines/);
 });
 
 test("builds a real Excel workbook with cards and weekly summary", async () => {
