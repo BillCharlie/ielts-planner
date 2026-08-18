@@ -119,6 +119,11 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /function renderVerticalGanttCell/);
   assert.match(app, /function renderVerticalGanttTask/);
   assert.match(app, /data-roadmap-task/);
+  assert.match(app, /data-roadmap-monthly/);
+  assert.match(app, /state\.roadmap\.monthly/);
+  assert.match(app, /monthly: parsed\.roadmap\?\.monthly \|\| \{\}/);
+  assert.match(app, /return \{ tasks: \{\}, gates: \{\}, monthly: \{\} \}/);
+  assert.match(app, /track === "graduation"[\s\S]*vertical-gantt-summary-check/);
   assert.doesNotMatch(app, /function renderRoadmapTasks/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(app, /补登 Speaking 场次/);
@@ -143,6 +148,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(styles, /\.vertical-gantt-cell/);
   assert.match(styles, /\.vertical-gantt-checklist/);
   assert.match(styles, /\.vertical-gantt-task/);
+  assert.match(styles, /\.vertical-gantt-summary-check/);
+  assert.match(styles, /\.vertical-gantt-summary-box/);
   assert.doesNotMatch(styles, /\.conference-column-title|\.ielts-reset-panel|\.split-roadmap-section/);
   assert.match(styles, /\.phd-region-list/);
   assert.match(styles, /\.phd-advisor-row/);

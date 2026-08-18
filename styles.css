@@ -2129,6 +2129,57 @@ textarea {
   margin: 0;
 }
 
+.vertical-gantt-summary-check {
+  position: relative;
+  min-height: 38px;
+  display: grid;
+  grid-template-columns: 21px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.vertical-gantt-summary-check > input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vertical-gantt-summary-box {
+  width: 21px;
+  height: 21px;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--track-color) 55%, transparent);
+  border-radius: 4px;
+  background: #fff;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.vertical-gantt-summary-check:hover .vertical-gantt-summary-box,
+.vertical-gantt-summary-check:focus-within .vertical-gantt-summary-box {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--track-color) 14%, transparent);
+}
+
+.vertical-gantt-summary-check.complete {
+  opacity: 0.62;
+}
+
+.vertical-gantt-summary-check.complete .vertical-gantt-summary-box {
+  border-color: var(--track-color);
+  background: var(--track-color);
+}
+
+.vertical-gantt-summary-check.complete > span:last-child {
+  text-decoration: line-through;
+}
+
+.vertical-gantt-cell-content.monthly-complete {
+  border-left-color: color-mix(in srgb, var(--track-color) 55%, #94a3b8);
+}
+
 .vertical-gantt-row:hover .vertical-gantt-cell-content {
   transform: translateX(2px);
   box-shadow: 0 6px 15px rgba(15, 23, 42, 0.07);

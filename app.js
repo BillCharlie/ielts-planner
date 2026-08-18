@@ -356,6 +356,14 @@
     });
 
     el.roadmapTaskGroups.addEventListener("change", (event) => {
+      const monthlyInput = event.target.closest("[data-roadmap-monthly]");
+      if (monthlyInput) {
+        state.roadmap.monthly ||= {};
+        state.roadmap.monthly[monthlyInput.dataset.roadmapMonthly] = monthlyInput.checked;
+        saveState();
+        renderRoadmap();
+        return;
+      }
       const input = event.target.closest("[data-roadmap-task]");
       if (!input) return;
       state.roadmap.tasks[input.dataset.roadmapTask] = input.checked;
@@ -469,9 +477,11 @@
   function renderRoadmapStats() {
     const roadmap = state.roadmap || defaultRoadmapState();
     const doneTasks = ROADMAP_TASKS.filter((task) => roadmap.tasks[task.id]).length;
+    const monthlyKeys = ROADMAP_MONTHS.flatMap((row) => ["research", "external", "application"].map((track) => `${row[0]}:${track}`));
+    const doneMonthly = monthlyKeys.filter((key) => roadmap.monthly?.[key]).length;
     const nextGate = RESEARCH_GATES.find((gate) => !roadmap.gates[gate.id]) || RESEARCH_GATES.at(-1);
     const remaining = daysUntil(nextGate.date);
-    el.roadmapTaskProgress.textContent = `${doneTasks} / ${ROADMAP_TASKS.length}`;
+    el.roadmapTaskProgress.textContent = `${doneTasks + doneMonthly} / ${ROADMAP_TASKS.length + monthlyKeys.length}`;
     el.roadmapGateCountdown.textContent = `${formatDate(nextGate.date)} · ${remaining >= 0 ? `剩 ${remaining} 天` : "待补登结果"}`;
     el.roadmapTrackStatus.textContent = roadmap.gates.g3 ? "Plan A 有数据支持" : "A / B 同时保留";
   }
@@ -522,6 +532,7 @@
   function renderRoadmapTimeline() {
     const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     const taskState = state.roadmap?.tasks || {};
+    const monthlyState = state.roadmap?.monthly || {};
     el.roadmapTimelineBody.innerHTML = ROADMAP_MONTHS.map((row, index) => {
       const [year, month] = row[0].split("/");
       const monthNumber = Number(month);
@@ -532,24 +543,35 @@
             <time datetime="${safeAttr(`${year}-${month}`)}"><b>${safe(year)}</b><strong>${safe(monthNames[monthNumber - 1])}</strong></time>
             <span class="roadmap-phase-tag">${safe(row[1])}</span>
           </div>
-          ${renderVerticalGanttCell(row[0], "research", row[2], taskState)}
-          ${renderVerticalGanttCell(row[0], "external", row[3], taskState)}
-          ${renderVerticalGanttCell(row[0], "application", row[4], taskState)}
-          ${renderVerticalGanttCell(row[0], "graduation", row[5], taskState)}
+          ${renderVerticalGanttCell(row[0], "research", row[2], taskState, monthlyState)}
+          ${renderVerticalGanttCell(row[0], "external", row[3], taskState, monthlyState)}
+          ${renderVerticalGanttCell(row[0], "application", row[4], taskState, monthlyState)}
+          ${renderVerticalGanttCell(row[0], "graduation", row[5], taskState, monthlyState)}
         </div>
       `;
     }).join("");
   }
 
-  function renderVerticalGanttCell(month, track, summary, taskState) {
+  function renderVerticalGanttCell(month, track, summary, taskState, monthlyState) {
     const tasks = ROADMAP_TASKS.filter((task) => {
       const placement = ROADMAP_TASK_PLACEMENTS[task.id];
       return placement?.[0] === month && placement?.[1] === track;
     });
+    const monthlyKey = `${month}:${track}`;
+    const monthlyDone = Boolean(monthlyState[monthlyKey]);
+    const summaryContent = track === "graduation"
+      ? `<p>${safe(summary)}</p>`
+      : `
+        <label class="vertical-gantt-summary-check${monthlyDone ? " complete" : ""}">
+          <input type="checkbox" data-roadmap-monthly="${safeAttr(monthlyKey)}" aria-label="${safeAttr(`${month} ${summary}，${monthlyDone ? "已完成" : "未完成"}`)}"${monthlyDone ? " checked" : ""} />
+          <span class="vertical-gantt-summary-box">${monthlyDone ? "✓" : ""}</span>
+          <span>${safe(summary)}</span>
+        </label>
+      `;
     return `
       <div class="vertical-gantt-cell ${safeAttr(track)}" role="cell">
-        <div class="vertical-gantt-cell-content">
-          <p>${safe(summary)}</p>
+        <div class="vertical-gantt-cell-content${monthlyDone && track !== "graduation" ? " monthly-complete" : ""}">
+          ${summaryContent}
           ${tasks.length ? `<div class="vertical-gantt-checklist">${tasks.map((task) => renderVerticalGanttTask(task, taskState)).join("")}</div>` : ""}
         </div>
       </div>
@@ -2085,6 +2107,7 @@
       roadmap: {
         tasks: parsed.roadmap?.tasks || {},
         gates: parsed.roadmap?.gates || {},
+        monthly: parsed.roadmap?.monthly || {},
       },
       phdTracker: normalizePhdTracker(parsed.phdTracker),
     };
@@ -2174,7 +2197,7 @@
   }
 
   function defaultRoadmapState() {
-    return { tasks: {}, gates: {} };
+    return { tasks: {}, gates: {}, monthly: {} };
   }
 
   function resolveApiBase() {
