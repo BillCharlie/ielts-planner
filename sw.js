@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v43-monthly-checks";
+const CACHE_NAME = "planner-notebook-v44-monthly-checks";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260818-monthly-checks",
+  "./styles.css?v=20260819-tw-panel",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",

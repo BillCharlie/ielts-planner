@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260818-monthly-checks" />
+    <link rel="stylesheet" href="styles.css?v=20260819-tw-panel" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -146,6 +146,7 @@
             <article><span>积极推进</span><strong id="phdActiveCount">0</strong><p>已联系至 Offer</p></article>
           </section>
 
+          <div class="application-panels-scroller" aria-label="各地区博士申请时间线（可左右滚动）">
           <section class="hk-application-panel" aria-labelledby="hkApplicationTimelineTitle">
             <header class="hk-application-head">
               <div>
@@ -207,6 +208,56 @@
 
             <p class="hk-source-note">日期标记“预计”表示依据目前最新官方周期建立的个人规划，不是 2027/28 已正式公布的截止日；个人执行以 11/20 为内部截止。</p>
           </section>
+
+          <section class="hk-application-panel tw-application-panel" aria-labelledby="twApplicationTimelineTitle">
+            <header class="hk-application-head">
+              <div>
+                <p class="eyebrow">TW · 116 学年度 · 2027 ENTRY</p>
+                <h2 id="twApplicationTimelineTitle">台湾博士申请时间线</h2>
+                <p>依上一届（115 学年度）招生周期顺延预留；116 学年度正式简章公布后，需要逐校复核一次。</p>
+              </div>
+              <span class="hk-cycle-status">116 学年度正式简章待更新</span>
+            </header>
+
+            <div class="hk-deadline-alert">
+              <span>台大主申请</span>
+              <strong>预留 10/01 · 开放</strong>
+              <p>依上一届窗口预留；开放当天起投递，不留到最后一天。</p>
+              <strong>预留 10/09 · 截止</strong>
+              <p>台大电子所博士班丙组（元件材料与异质整合）为首选；甄试与一般招生资格、笔试与口试以正式简章为准。</p>
+            </div>
+
+            <div class="hk-timeline-scroll">
+              <ol class="hk-application-timeline">
+                <li><time>NOW—08/31</time><b>建立台湾名单</b><p>台大电子所丙组为主、阳明交大为辅；确认元件材料、异质整合、GaN／III-N 方向导师。</p></li>
+                <li><time>09/15</time><b>本土推荐信 Stage 1</b><p>用 CV v2、研究摘要与台大／阳明交大清单，请老师支持 10 月申请。</p></li>
+                <li><time>预计 09 月</time><b>正式简章核对</b><p>等 116 学年度简章公布，核对报名方式、甄试／一般招生资格、英文与笔试口试规则。</p></li>
+                <li><time>预留 10/01—10/09</time><b>台大投递</b><p>电子所博士班丙组；备妥 CV、研究计划、成绩单与推荐信，开放两天内送出。</p></li>
+                <li><time>预留 10/01—10/08</time><b>阳明交大投递</b><p>对应元件／半导体领域博士班；材料与截止依正式简章确认。</p></li>
+                <li class="internal"><time>11/20 · INTERNAL</time><b>台湾申请内部封版</b><p>各校表单、附件与推荐人邀请全部完成；此后只做复核。</p></li>
+                <li class="deadline"><time>预计 11 月</time><b>资料审查／笔试</b><p>依简章可能有书面审查或笔试；准备研究计划与专业科目。</p></li>
+                <li><time>DEC—2027</time><b>口试与结果</b><p>准备研究契合度、未来计划与毕业时间说明；追踪甄试与一般招生结果。</p></li>
+              </ol>
+            </div>
+
+            <div class="hk-school-deadlines">
+              <article>
+                <header><span>NTU</span><h3>台湾大学</h3></header>
+                <p><b>预留主申请：</b>10/01—10/09</p>
+                <p>电子所博士班丙组（元件材料与异质整合）为首选；甄试、一般招生、笔试与口试以正式简章为准。</p>
+                <nav><a href="https://www.aca.ntu.edu.tw/" target="_blank" rel="noopener">台大招生</a><a href="https://www.giee.ntu.edu.tw/" target="_blank" rel="noopener">电子所 GIEE</a></nav>
+              </article>
+              <article>
+                <header><span>NYCU</span><h3>阳明交大</h3></header>
+                <p><b>预留主申请：</b>10/01—10/08</p>
+                <p>对应元件／半导体领域博士班；甄试与一般招生并行，材料与时程依正式简章。</p>
+                <nav><a href="https://www.nycu.edu.tw/" target="_blank" rel="noopener">阳明交大</a><a href="https://exam.nycu.edu.tw/" target="_blank" rel="noopener">招生资讯</a></nav>
+              </article>
+            </div>
+
+            <p class="hk-source-note">日期标记“预留／预计”表示依上一届周期建立的个人规划，不是 116 学年度已正式公布的截止日；学校连结为官方主页，正式报名方式与截止请以 116 学年度简章为准；个人执行以 11/20 为内部截止。</p>
+          </section>
+          </div>
 
           <div id="phdRegionList" class="phd-region-list"></div>
 

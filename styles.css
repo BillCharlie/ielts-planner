@@ -2384,6 +2384,21 @@ textarea {
   font-size: 11px;
 }
 
+/* Region timeline panels laid out as a horizontally-scrollable strip. */
+.application-panels-scroller {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x proximity;
+  scrollbar-color: rgba(37, 99, 235, 0.35) transparent;
+}
+
+.application-panels-scroller > .hk-application-panel {
+  flex: 0 0 min(94vw, 1000px);
+  scroll-snap-align: start;
+}
+
 .hk-application-panel {
   padding: clamp(22px, 3vw, 34px);
   display: grid;
@@ -2393,6 +2408,30 @@ textarea {
   border-radius: 8px;
   background: linear-gradient(145deg, #ffffff 0%, #f7faff 100%);
   box-shadow: var(--shadow);
+}
+
+/* Taiwan panel: teal accent to distinguish it from the blue Hong Kong panel. */
+.tw-application-panel {
+  border-color: rgba(15, 118, 110, 0.22);
+  background: linear-gradient(145deg, #ffffff 0%, #f2fbf8 100%);
+}
+
+.tw-application-panel .hk-deadline-alert {
+  border-color: rgba(15, 118, 110, 0.22);
+  border-left-color: var(--teal);
+  background: #ecfdf5;
+}
+
+.tw-application-panel .hk-deadline-alert > span {
+  color: var(--teal-dark);
+}
+
+.tw-application-panel .hk-deadline-alert strong {
+  color: var(--teal-dark);
+}
+
+.tw-application-panel .hk-application-timeline::before {
+  background: linear-gradient(90deg, rgba(15, 118, 110, 0.15), rgba(15, 118, 110, 0.55));
 }
 
 .hk-application-head {
