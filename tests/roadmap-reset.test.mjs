@@ -105,6 +105,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /id="vocabularyButton"/);
   assert.match(html, /id="vocabularyPanel"/);
   assert.match(html, /id="vocabularyInput"/);
+  assert.match(html, /id="vocabularyTranslationInput"/);
   assert.match(html, /id="exportVocabularyButton"/);
   assert.match(html, /id="weeklyVocabularyCount"/);
   assert.match(html, /id="weeklyVocabularyGroups"/);
@@ -114,6 +115,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /vocabularyCards: parsed\.vocabularyCards \|\| \{\}/);
   assert.match(app, /function addVocabularyCard/);
   assert.match(app, /function deleteVocabularyCard/);
+  assert.match(app, /data-flip-vocabulary/);
+  assert.match(app, /function hydrateMissingVocabularyTranslations/);
   assert.match(app, /card\.date <= selectedDate/);
   assert.match(app, /cardsByWeek/);
   assert.match(app, /WEEK OF/);
@@ -194,8 +197,8 @@ test("builds a real Excel workbook with cards and weekly summary", async () => {
   const context = { window: {}, Blob, TextEncoder, Uint8Array, DataView, Date, Math, Number, Intl };
   vm.runInNewContext(source, context);
   const blob = context.window.VocabularyXlsx.buildVocabularyWorkbook([
-    { date: "2026-08-16", text: "take into account", createdAt: "2026-08-16T01:00:00.000Z" },
-    { date: "2026-08-15", text: "cause & effect", createdAt: "2026-08-15T01:00:00.000Z" },
+    { date: "2026-08-16", text: "take into account", translation: "考虑到", createdAt: "2026-08-16T01:00:00.000Z" },
+    { date: "2026-08-15", text: "cause & effect", translation: "因果", createdAt: "2026-08-15T01:00:00.000Z" },
   ]);
   const bytes = new Uint8Array(await blob.arrayBuffer());
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
@@ -207,4 +210,6 @@ test("builds a real Excel workbook with cards and weekly summary", async () => {
   assert.match(text, /Weekly Summary/);
   assert.match(text, /take into account/);
   assert.match(text, /cause &amp; effect/);
+  assert.match(text, /Chinese Translation/);
+  assert.match(text, /考虑到/);
 });

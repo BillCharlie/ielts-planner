@@ -16,11 +16,16 @@
 
   function buildVocabularyWorkbook(cards) {
     const normalized = [...(cards || [])]
-      .map((card) => ({ date: `${card.date || ""}`, text: `${card.text || ""}`.trim(), createdAt: `${card.createdAt || ""}` }))
+      .map((card) => ({
+        date: `${card.date || ""}`,
+        text: `${card.text || ""}`.trim(),
+        translation: `${card.translation || ""}`.trim(),
+        createdAt: `${card.createdAt || ""}`,
+      }))
       .filter((card) => card.date && card.text)
       .sort((a, b) => a.date.localeCompare(b.date) || a.createdAt.localeCompare(b.createdAt) || a.text.localeCompare(b.text));
 
-    const cardRows = [["Date", "Week Start", "Word or Phrase"], ...normalized.map((card) => [card.date, weekStartIso(card.date), card.text])];
+    const cardRows = [["Date", "Week Start", "Word or Phrase", "Chinese Translation"], ...normalized.map((card) => [card.date, weekStartIso(card.date), card.text, card.translation])];
     const weeklyCounts = new Map();
     normalized.forEach((card) => {
       const start = weekStartIso(card.date);
@@ -39,7 +44,7 @@
       ["xl/workbook.xml", workbookXml()],
       ["xl/_rels/workbook.xml.rels", workbookRelationshipsXml()],
       ["xl/styles.xml", stylesXml()],
-      ["xl/worksheets/sheet1.xml", worksheetXml(cardRows, [14, 14, 44])],
+      ["xl/worksheets/sheet1.xml", worksheetXml(cardRows, [14, 14, 36, 36])],
       ["xl/worksheets/sheet2.xml", worksheetXml(summaryRows, [14, 14, 13])],
     ];
 

@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v51-mid-autumn-travel";
+const CACHE_NAME = "planner-notebook-v52-bilingual-vocabulary";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260819-panel-flex",
+  "./styles.css?v=20260829-bilingual-cards",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",

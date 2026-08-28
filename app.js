@@ -184,6 +184,7 @@
       "vocabularyCount",
       "vocabularyForm",
       "vocabularyInput",
+      "vocabularyTranslationInput",
       "exportVocabularyButton",
       "vocabularyDayCount",
       "vocabularyGrid",
@@ -288,13 +289,23 @@
 
     el.vocabularyForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      addVocabularyCard(selectedDate, el.vocabularyInput.value);
+      addVocabularyCard(selectedDate, el.vocabularyInput.value, el.vocabularyTranslationInput.value);
     });
 
     el.vocabularyPanel.addEventListener("click", (event) => {
       const deleteButton = event.target.closest("[data-delete-vocabulary]");
-      if (!deleteButton) return;
-      deleteVocabularyCard(deleteButton.dataset.vocabularyDate, deleteButton.dataset.deleteVocabulary);
+      if (deleteButton) {
+        deleteVocabularyCard(deleteButton.dataset.vocabularyDate, deleteButton.dataset.deleteVocabulary);
+        return;
+      }
+      const flipButton = event.target.closest("[data-flip-vocabulary]");
+      if (!flipButton) return;
+      const card = flipButton.closest(".word-card");
+      const isFlipped = card.classList.toggle("is-flipped");
+      flipButton.setAttribute("aria-pressed", String(isFlipped));
+      flipButton.setAttribute("aria-label", isFlipped ? "显示英文" : "显示中文翻译");
+      card.querySelector(".word-card-front")?.setAttribute("aria-hidden", String(isFlipped));
+      card.querySelector(".word-card-back")?.setAttribute("aria-hidden", String(!isFlipped));
     });
 
     el.exportVocabularyButton.addEventListener("click", exportVocabularyCards);
@@ -2017,10 +2028,12 @@
     el.vocabularyGrid.innerHTML = cards.map((card) => vocabularyCardMarkup(card, selectedDate)).join("");
     el.vocabularyEmpty.hidden = cards.length > 0;
     renderWeeklyVocabulary();
+    hydrateMissingVocabularyTranslations();
   }
 
-  function addVocabularyCard(date, rawText) {
+  function addVocabularyCard(date, rawText, rawTranslation) {
     const text = `${rawText || ""}`.trim().replace(/\s+/g, " ");
+    const translation = `${rawTranslation || ""}`.trim().replace(/\s+/g, " ");
     if (!text) {
       showSaved("请输入英文单词或短语");
       el.vocabularyInput.focus();
@@ -2029,6 +2042,16 @@
     if (/[^\x20-\x7E]/.test(text)) {
       showSaved("卡片仅接受英文内容");
       el.vocabularyInput.focus();
+      return;
+    }
+    if (!translation) {
+      showSaved("请输入中文翻译");
+      el.vocabularyTranslationInput.focus();
+      return;
+    }
+    if (!/[\u3400-\u9fff]/.test(translation)) {
+      showSaved("中文翻译中需要包含中文");
+      el.vocabularyTranslationInput.focus();
       return;
     }
     const cards = vocabularyCardsForDate(date);
@@ -2041,12 +2064,14 @@
     state.vocabularyCards[date].push({
       id: `vocab-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       text,
+      translation,
       createdAt: new Date().toISOString(),
     });
     el.vocabularyInput.value = "";
+    el.vocabularyTranslationInput.value = "";
     saveState();
     renderVocabulary();
-    showSaved("英文卡片已保存");
+    showSaved("中英文卡片已保存");
   }
 
   function deleteVocabularyCard(date, cardId) {
@@ -2070,12 +2095,77 @@
   }
 
   function vocabularyCardMarkup(card, date) {
+    const translation = `${card.translation || ""}`.trim();
     return `
       <article class="word-card">
-        <strong lang="en">${safe(card.text)}</strong>
-        <button type="button" data-delete-vocabulary="${safeAttr(card.id)}" data-vocabulary-date="${safeAttr(date)}" aria-label="Delete ${safeAttr(card.text)}">×</button>
+        <button class="word-card-flip" type="button" data-flip-vocabulary="${safeAttr(card.id)}" aria-pressed="false" aria-label="显示中文翻译">
+          <span class="word-card-inner">
+            <span class="word-card-face word-card-front" lang="en" aria-hidden="false">${safe(card.text)}</span>
+            <span class="word-card-face word-card-back" lang="zh-Hans" aria-hidden="true">${safe(translation || "中文翻译补充中…")}</span>
+          </span>
+        </button>
+        <button class="word-card-delete" type="button" data-delete-vocabulary="${safeAttr(card.id)}" data-vocabulary-date="${safeAttr(date)}" aria-label="删除 ${safeAttr(card.text)}">×</button>
       </article>
     `;
+  }
+
+  const vocabularyTranslationAttempts = new Set();
+  let vocabularyTranslationPromise = null;
+
+  function hydrateMissingVocabularyTranslations() {
+    if (vocabularyTranslationPromise) return;
+    const missing = allVocabularyCards().filter((card) => {
+      return card.text && !`${card.translation || ""}`.trim() && !vocabularyTranslationAttempts.has(card.id);
+    });
+    if (!missing.length) return;
+    missing.forEach((card) => vocabularyTranslationAttempts.add(card.id));
+    vocabularyTranslationPromise = translateVocabularyCards(missing).finally(() => {
+      vocabularyTranslationPromise = null;
+      hydrateMissingVocabularyTranslations();
+    });
+  }
+
+  async function translateVocabularyCards(cards) {
+    showSaved(`正在补全 ${cards.length} 张旧词卡的中文翻译…`);
+    let translatedCount = 0;
+    for (let index = 0; index < cards.length; index += 3) {
+      const batch = cards.slice(index, index + 3);
+      const translations = await Promise.all(batch.map((card) => translateVocabularyText(card.text)));
+      batch.forEach((card, batchIndex) => {
+        const translation = translations[batchIndex];
+        if (!translation) return;
+        const storedCard = state.vocabularyCards?.[card.date]?.find((candidate) => candidate.id === card.id);
+        if (!storedCard || `${storedCard.translation || ""}`.trim()) return;
+        storedCard.translation = translation;
+        translatedCount += 1;
+      });
+    }
+    if (!translatedCount) {
+      showSaved("旧词卡翻译暂时无法自动补全，下次打开应用时会重试");
+      return;
+    }
+    saveState();
+    renderVocabulary();
+    showSaved(`已补全 ${translatedCount} 张旧词卡的中文翻译`);
+  }
+
+  async function translateVocabularyText(text) {
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), 12000);
+    try {
+      const url = new URL("https://api.mymemory.translated.net/get");
+      url.searchParams.set("q", text);
+      url.searchParams.set("langpair", "en|zh-CN");
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) return "";
+      const result = await response.json();
+      const translation = `${result.responseData?.translatedText || ""}`.trim();
+      return /[\u3400-\u9fff]/.test(translation) ? translation : "";
+    } catch {
+      return "";
+    } finally {
+      window.clearTimeout(timer);
+    }
   }
 
   function renderWeeklyVocabulary() {
