@@ -15,6 +15,10 @@
     ["2026-09-03", ["C9T3"]],
   ]);
   const excludedTestCodes = new Set(["C9T2"]);
+  const travelPeriod = {
+    startDate: "2026-09-24",
+    endDate: "2026-09-30",
+  };
 
   function addDays(iso, days) {
     const date = new Date(`${iso}T00:00:00Z`);
@@ -88,6 +92,15 @@
         detail: "Speaking 具体时间与地点待通知后补登",
       }];
       row.limits = "考试优先：不排制程与其他真题；单词只做轻量复习";
+      return row;
+    }
+
+    if (date >= travelPeriod.startDate && date <= travelPeriod.endDate) {
+      row.dayType = "旅行";
+      row.ieltsPriority = "暂停";
+      row.ieltsPlan = "中秋旅行";
+      row.ieltsModule = "不排雅思真题";
+      row.limits = "旅行期间不排真题、制程、Meeting 或其他任务";
       return row;
     }
 
@@ -222,7 +235,7 @@
       scheduledSlots: scheduledPapers.length,
       retakeCodes: [],
     },
-    planVersion: "2026-08-28-ielts-single-pass-v9",
-    resetFromDate: "2026-09-01"
+    planVersion: "2026-08-28-mid-autumn-travel-v10",
+    resetFromDate: "2026-09-24"
   };
 })();

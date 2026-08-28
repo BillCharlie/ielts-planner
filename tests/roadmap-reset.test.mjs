@@ -9,8 +9,8 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   vm.runInNewContext(source, context);
   const data = context.window.IELTS_PLANNER_DATA;
 
-  assert.equal(data.planVersion, "2026-08-28-ielts-single-pass-v9");
-  assert.equal(data.resetFromDate, "2026-09-01");
+  assert.equal(data.planVersion, "2026-08-28-mid-autumn-travel-v10");
+  assert.equal(data.resetFromDate, "2026-09-24");
   assert.deepEqual(Array.from(data.dailyTemplates), []);
   assert.equal(data.mainPlan.length, 67);
   assert.equal(data.mainPlan[0].date, "2026-09-01");
@@ -36,14 +36,22 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   assert.equal(byDate.get("2026-09-13").trainingItems.length, 0);
   assert.match(byDate.get("2026-09-13").ieltsPlan, /休息/);
 
+  for (const date of ["2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30"]) {
+    const row = byDate.get(date);
+    assert.equal(row.dayType, "旅行");
+    assert.equal(row.trainingItems.length, 0);
+    assert.equal(row.projectPlan, "");
+    assert.match(row.ieltsPlan, /中秋旅行/);
+  }
+
   const weeklyPaperCounts = [0, 2, 1, 1, 2, 2, 1];
-  for (const row of data.mainPlan.filter((item) => item.date >= "2026-09-07" && item.date <= "2026-10-10")) {
+  for (const row of data.mainPlan.filter((item) => item.date >= "2026-09-07" && item.date <= "2026-10-17" && !(item.date >= "2026-09-24" && item.date <= "2026-09-30"))) {
     const weekday = new Date(`${row.date}T00:00:00Z`).getUTCDay();
     assert.equal(row.trainingItems.length, weeklyPaperCounts[weekday], `${row.date} 应安排 ${weeklyPaperCounts[weekday]} 份真题`);
   }
 
-  assert.deepEqual(Array.from(byDate.get("2026-10-12").trainingItems, (item) => item.cambridge), ["C21T4"]);
-  for (const row of data.mainPlan.filter((item) => item.date > "2026-10-12" && item.date < "2026-11-06")) {
+  assert.deepEqual(Array.from(byDate.get("2026-10-19").trainingItems, (item) => item.cambridge), ["C21T4"]);
+  for (const row of data.mainPlan.filter((item) => item.date > "2026-10-19" && item.date < "2026-11-06")) {
     assert.equal(row.trainingItems.length, 0, `${row.date} 不应安排第二轮真题`);
     assert.match(row.ieltsPlan, /已完成/);
   }
