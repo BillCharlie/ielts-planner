@@ -222,7 +222,6 @@
       "roadmapTimelineBody",
       "roadmapTaskGroups",
       "phdView",
-      "phdRegionList",
       "phdSchoolCount",
       "phdAdvisorCount",
       "phdCvCount",
