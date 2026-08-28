@@ -157,48 +157,57 @@
     }
   }
 
-  const scheduledPapers = mainPlan.flatMap((row) => row.trainingItems
+  const scheduledCandidates = mainPlan.flatMap((row) => row.trainingItems
     .filter((item) => item.kind === "full")
     .map((item) => ({ row, item })));
   const testByCode = new Map(testBank.map((item) => [item.code, item]));
   const fixedTestCodes = new Set(Array.from(fixedTestCodesByDate.values()).flat());
   const firstRoundQueue = testBank.filter((item) => !fixedTestCodes.has(item.code));
   let firstRoundIndex = 0;
-  let retakeIndex = 0;
-  scheduledPapers.forEach(({ row, item }) => {
+  scheduledCandidates.forEach(({ row, item }) => {
     const fixedCode = fixedTestCodesByDate.get(row.date)?.[item.order - 1];
     let assigned = fixedCode ? testByCode.get(fixedCode) : null;
-    let round = 1;
     if (!assigned && firstRoundIndex < firstRoundQueue.length) {
       assigned = firstRoundQueue[firstRoundIndex];
       firstRoundIndex += 1;
-    } else if (!assigned) {
-      assigned = testBank[retakeIndex % testBank.length];
-      round = Math.floor(retakeIndex / testBank.length) + 2;
-      retakeIndex += 1;
+    }
+    if (!assigned) {
+      item.omit = true;
+      return;
     }
     item.id = `full-${row.date}-${assigned.code}`;
     item.title = assigned.title;
     item.cambridge = assigned.code;
     item.full = assigned.title;
-    item.round = round;
     item.module = `${assigned.title}｜Listening + Reading + Writing + Speaking 完整计时`;
   });
+  const scheduledPapers = scheduledCandidates.filter(({ item }) => !item.omit);
+  const lastScheduledDate = scheduledPapers.at(-1)?.row.date || "";
   mainPlan.forEach((row) => {
-    row.cambridge = row.trainingItems
-      .filter((item) => item.kind === "full")
-      .map((item) => item.cambridge)
-      .join(" + ");
+    row.trainingItems = row.trainingItems.filter((item) => !item.omit);
+    const fullPapers = row.trainingItems.filter((item) => item.kind === "full");
+    row.cambridge = fullPapers.map((item) => item.cambridge).join(" + ");
+    if (row.date === plan.examDate) return;
+    if (row.date === lastScheduledDate) {
+      row.ieltsPlan = `${fullPapers.length} 份完整真题`;
+      row.ieltsModule = "完整计时 + 完成 Cambridge 9–21 第一轮";
+      row.limits = "完成 C21T4；之后不再排新的 Cambridge 真题";
+      return;
+    }
+    if (row.date > lastScheduledDate) {
+      row.ieltsPlan = "Cambridge 9–21 已完成";
+      row.ieltsModule = "不排新的完整真题";
+      row.limits = `${row.projectPlan ? `${row.projectPlan}；` : ""}不再排 Cambridge 真题`;
+    }
   });
 
   const scheduledCodes = scheduledPapers.map(({ item }) => item.cambridge);
   const scheduledCodeSet = new Set(scheduledCodes);
   const remainingCodes = testBank.filter((item) => !scheduledCodeSet.has(item.code)).map((item) => item.code);
-  const retakeCodes = scheduledPapers.filter(({ item }) => item.round > 1).map(({ item }) => item.cambridge);
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-08-28T00:00:00.000+08:00",
-    source: "Automatic IELTS and process routine ending with the IELTS retake on 2026-11-06.",
+    source: "Single-pass Cambridge 9–21 IELTS routine ending with the IELTS retake on 2026-11-06.",
     mainPlan,
     dailyTemplates: [],
     autoPlan: plan,
@@ -211,9 +220,9 @@
       scheduledCodes,
       remainingCodes,
       scheduledSlots: scheduledPapers.length,
-      retakeCodes,
+      retakeCodes: [],
     },
-    planVersion: "2026-08-28-ielts-routine-v8",
+    planVersion: "2026-08-28-ielts-single-pass-v9",
     resetFromDate: "2026-09-01"
   };
 })();

@@ -9,7 +9,7 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   vm.runInNewContext(source, context);
   const data = context.window.IELTS_PLANNER_DATA;
 
-  assert.equal(data.planVersion, "2026-08-28-ielts-routine-v8");
+  assert.equal(data.planVersion, "2026-08-28-ielts-single-pass-v9");
   assert.equal(data.resetFromDate, "2026-09-01");
   assert.deepEqual(Array.from(data.dailyTemplates), []);
   assert.equal(data.mainPlan.length, 67);
@@ -37,24 +37,27 @@ test("generates the requested IELTS and process calendar through exam day", asyn
   assert.match(byDate.get("2026-09-13").ieltsPlan, /休息/);
 
   const weeklyPaperCounts = [0, 2, 1, 1, 2, 2, 1];
-  for (const row of data.mainPlan.filter((item) => item.date >= "2026-09-07" && item.date < "2026-11-06")) {
+  for (const row of data.mainPlan.filter((item) => item.date >= "2026-09-07" && item.date <= "2026-10-10")) {
     const weekday = new Date(`${row.date}T00:00:00Z`).getUTCDay();
     assert.equal(row.trainingItems.length, weeklyPaperCounts[weekday], `${row.date} 应安排 ${weeklyPaperCounts[weekday]} 份真题`);
   }
 
-  assert.deepEqual(Array.from(byDate.get("2026-10-12").trainingItems, (item) => item.cambridge), ["C21T4", "C9T1"]);
-  assert.equal(byDate.get("2026-11-02").trainingItems.length, 2);
-  assert.equal(byDate.get("2026-11-05").trainingItems.length, 2);
+  assert.deepEqual(Array.from(byDate.get("2026-10-12").trainingItems, (item) => item.cambridge), ["C21T4"]);
+  for (const row of data.mainPlan.filter((item) => item.date > "2026-10-12" && item.date < "2026-11-06")) {
+    assert.equal(row.trainingItems.length, 0, `${row.date} 不应安排第二轮真题`);
+    assert.match(row.ieltsPlan, /已完成/);
+  }
+  assert.equal(byDate.get("2026-11-02").trainingItems.length, 0);
+  assert.equal(byDate.get("2026-11-05").trainingItems.length, 0);
   assert.equal(byDate.get("2026-11-06").dayType, "考试日");
   assert.equal(data.testBank.range, "Cambridge 9–21（不含 C9T2）");
   assert.equal(data.testBank.perBook, 4);
   assert.equal(data.testBank.total, 51);
   assert.equal(data.testBank.scheduled, 51);
-  assert.equal(data.testBank.scheduledSlots, 83);
+  assert.equal(data.testBank.scheduledSlots, 51);
   assert.deepEqual(Array.from(data.testBank.excludedCodes), ["C9T2"]);
   assert.deepEqual(Array.from(data.testBank.remainingCodes), []);
-  assert.equal(data.testBank.retakeCodes.length, 32);
-  assert.equal(data.testBank.retakeCodes[0], "C9T1");
+  assert.deepEqual(Array.from(data.testBank.retakeCodes), []);
   assert.equal(new Set([...data.testBank.scheduledCodes, ...data.testBank.remainingCodes]).size, 51);
   assert.doesNotMatch(data.testBank.scheduledCodes.join(" "), /C9T2/);
   assert.doesNotMatch(source, /2026-08-24/);
