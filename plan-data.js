@@ -5,15 +5,12 @@
     examDate: "2026-11-06",
   };
   const starterPaperCounts = new Map([
-    ["2026-09-01", 1],
-    ["2026-09-02", 1],
     ["2026-09-04", 2],
     ["2026-09-05", 2],
     ["2026-09-06", 1],
   ]);
-  const fixedTestCodesByDate = new Map([
-    ["2026-09-01", ["C9T1"]],
-  ]);
+  // 真题从礼拜五 9/4 开始：首两份自然是 C9T1、C9T3（C9T2 已排除）。
+  const fixedTestCodesByDate = new Map();
   const excludedTestCodes = new Set(["C9T2"]);
   const travelPeriod = {
     startDate: "2026-09-23",
@@ -244,7 +241,7 @@
       scheduledSlots: scheduledPapers.length,
       retakeCodes: [],
     },
-    planVersion: "2026-09-01-midautumn-0923-1002-v11",
-    resetFromDate: "2026-09-03"
+    planVersion: "2026-09-01-start-friday-0904-v12",
+    resetFromDate: "2026-09-01"
   };
 })();
