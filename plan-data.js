@@ -7,18 +7,22 @@
   const starterPaperCounts = new Map([
     ["2026-09-01", 1],
     ["2026-09-02", 1],
-    ["2026-09-03", 1],
+    ["2026-09-04", 2],
     ["2026-09-05", 2],
+    ["2026-09-06", 1],
   ]);
   const fixedTestCodesByDate = new Map([
     ["2026-09-01", ["C9T1"]],
-    ["2026-09-03", ["C9T3"]],
   ]);
   const excludedTestCodes = new Set(["C9T2"]);
   const travelPeriod = {
-    startDate: "2026-09-24",
-    endDate: "2026-09-30",
+    startDate: "2026-09-23",
+    endDate: "2026-10-02",
   };
+  // 假期中仍要排真题的例外日（优先于 travelPeriod）。
+  const holidayPaperOverrides = new Map([
+    ["2026-09-24", 1],
+  ]);
 
   function addDays(iso, days) {
     const date = new Date(`${iso}T00:00:00Z`);
@@ -93,6 +97,11 @@
       }];
       row.limits = "考试优先：不排制程与其他真题；单词只做轻量复习";
       return row;
+    }
+
+    if (holidayPaperOverrides.has(date)) {
+      const count = holidayPaperOverrides.get(date);
+      return assignFullPapers(row, count, count > 1 ? "完整计时 + 分开复盘" : "完整计时 + 当日复盘", "假期中补排 IELTS 真题");
     }
 
     if (date >= travelPeriod.startDate && date <= travelPeriod.endDate) {
@@ -235,7 +244,7 @@
       scheduledSlots: scheduledPapers.length,
       retakeCodes: [],
     },
-    planVersion: "2026-08-28-mid-autumn-travel-v10",
-    resetFromDate: "2026-09-24"
+    planVersion: "2026-09-01-midautumn-0923-1002-v11",
+    resetFromDate: "2026-09-03"
   };
 })();
