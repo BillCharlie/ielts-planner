@@ -4,12 +4,13 @@
     routineStartDate: "2026-09-07",
     examDate: "2026-11-06",
   };
-  const starterPaperCounts = new Map([
-    ["2026-09-05", 3],
-    ["2026-09-06", 1],
-  ]);
-  // 真题从 9/5 开始：首三份自然是 C9T1、C9T3、C9T4（C9T2 已排除）。
+  const starterPaperCounts = new Map();
   const fixedTestCodesByDate = new Map();
+  // 9/6 起：只做 C9T1 的阅读与作文（部分技能，不占用完整真题队列）。
+  const partialByDate = new Map([
+    ["2026-09-06", { code: "C9T1", title: "Cambridge 9 Test 1", label: "阅读 + 作文", skills: "Reading + Writing", kind: "supplement" }],
+  ]);
+  const partialCodes = new Set(Array.from(partialByDate.values()).map((p) => p.code));
   const excludedTestCodes = new Set(["C9T2"]);
   const travelPeriod = {
     startDate: "2026-09-23",
@@ -109,6 +110,26 @@
       return row;
     }
 
+    if (partialByDate.has(date)) {
+      const p = partialByDate.get(date);
+      row.ieltsPlan = `${p.label}（${p.title}）`;
+      row.ieltsModule = `${p.skills} 计时练习 + 复盘`;
+      row.trainingItems = [{
+        id: `partial-${date}-${p.code}`,
+        order: 1,
+        kind: p.kind || "supplement",
+        label: p.label,
+        title: p.title,
+        cambridge: p.code,
+        full: p.title,
+        module: `${p.title}｜${p.skills} 计时练习`,
+        duration: "约 2 小时",
+        detail: "只做阅读与写作并计时；听力与口语本次不做",
+      }];
+      row.limits = `9/6：只做 ${p.code} 的阅读与作文`;
+      return row;
+    }
+
     if (date < plan.routineStartDate) {
       const paperCount = starterPaperCounts.get(date) || 0;
       if (paperCount) {
@@ -180,7 +201,7 @@
     .map((item) => ({ row, item })));
   const testByCode = new Map(testBank.map((item) => [item.code, item]));
   const fixedTestCodes = new Set(Array.from(fixedTestCodesByDate.values()).flat());
-  const firstRoundQueue = testBank.filter((item) => !fixedTestCodes.has(item.code));
+  const firstRoundQueue = testBank.filter((item) => !fixedTestCodes.has(item.code) && !partialCodes.has(item.code));
   let firstRoundIndex = 0;
   scheduledCandidates.forEach(({ row, item }) => {
     const fixedCode = fixedTestCodesByDate.get(row.date)?.[item.order - 1];
@@ -204,7 +225,7 @@
   mainPlan.forEach((row) => {
     row.trainingItems = row.trainingItems.filter((item) => !item.omit);
     const fullPapers = row.trainingItems.filter((item) => item.kind === "full");
-    row.cambridge = fullPapers.map((item) => item.cambridge).join(" + ");
+    row.cambridge = row.trainingItems.map((item) => item.cambridge).filter(Boolean).join(" + ");
     if (row.date === plan.examDate) return;
     if (row.date === lastScheduledDate) {
       row.ieltsPlan = `${fullPapers.length} 份完整真题`;
@@ -240,7 +261,7 @@
       scheduledSlots: scheduledPapers.length,
       retakeCodes: [],
     },
-    planVersion: "2026-09-05-start-0905-3papers-v13",
+    planVersion: "2026-09-06-start-0906-c9t1-rw-v14",
     resetFromDate: "2026-09-01"
   };
 })();
