@@ -10,30 +10,34 @@
   const ACADEMIC_MODULES = ["课程", "书报课程", "组会", "研讨会"];
   const ALL_PLAN_MODULES = [...EXPERIMENT_MODULES, ...ACADEMIC_MODULES];
   const RESEARCH_GATES = [
-    { id: "g1", code: "G1", name: "Process Ready", date: "2026-09-30", proof: "Fin lithography + etch recipe freeze；linewidth、etch depth、sidewall 有记录", pass: "进入正式 D / E-mode device", miss: "8 月毕业风险开始上升" },
+    { id: "g1", code: "G1", name: "Process Ready", date: "2026-10-14", proof: "Fin lithography + etch recipe freeze；linewidth、etch depth、sidewall 有记录", pass: "进入正式 D / E-mode device", miss: "8 月毕业风险开始上升" },
     { id: "g2", code: "G2", name: "Device Ready", date: "2026-12-15", proof: "第一批 D-mode + E-mode Fin 完成，并开始 electrical measurement", pass: "Plan A 维持绿灯", miss: "8 月毕业进入黄灯" },
     { id: "g3", code: "G3", name: "Data Ready", date: "2027-03-31", proof: "Id–Vg / Id–Vd / Vth / Ron / leakage / C–V / Ohmic / TCAD comparison 齐全", pass: "7–8 月毕业仍然现实", miss: "停止硬追，正式切换 Plan B" },
     { id: "g4", code: "G4", name: "Thesis Ready", date: "2027-05-31", proof: "完整硕论初稿已交给老师，口试简报框架建立", pass: "送审并安排 7 月口试", miss: "口试顺延到秋季" },
   ];
   const APPLICATION_GATES = [
-    { id: "a1", code: "A1", name: "Taiwan PhD Ready", date: "2026-09-25", displayDate: "预留 10/01—10/09", proof: "台大／阳明交大导师清单、CV、研究计划、成绩单与第一阶段推荐人全部确认", pass: "116 简章公布后核对差异，并在开放前两天完成投递", miss: "台湾本土申请窗口进入高风险" },
+    { id: "a1", code: "A1", name: "Taiwan PhD Ready", date: "2027-03-15", displayDate: "2027/03/15 内部备齐 · 预计3月下旬至4月上旬报名", proof: "116学年度博士考试入学：台大电子所／阳明交大目标、CV、研究计划、成绩单与推荐信备齐", pass: "核对116正式简章；开放后两天内提交，并分别确认报名、材料、推荐信截止", miss: "按学校正式截止补齐；2027时程仍待公告，不沿用秋季甄试日期" },
     { id: "a2", code: "A2", name: "HK Application Window", date: "2026-11-20", displayDate: "09/01—11/20 · 官方截止预计 12/01", proof: "HKU／HKUST／CityU／PolyU 的导师版 CV、proposal、两位推荐人和完整申请均已准备；HKPFS 第一、第二志愿已经锁定", pass: "11/20 内部封版，12/1 前只做复核并完成 RGC 初申与学校完整申请", miss: "不得把月底当作主申请截止；只保留最后复核与系统异常缓冲" },
     { id: "a3", code: "A3", name: "Europe PhD Pipeline", date: "2026-12-15", displayDate: "12/15—2027/03", proof: "建立 project vacancy 清单；每个职位都有对应 CV、motivation letter 与研究证据", pass: "1–3 月持续投递并进入 technical interview", miss: "减少泛投，集中有 funding 与 fab access 的职位" },
   ];
   const GATE_GANTT_MONTHS = ["2026-09", "2026-10", "2026-11", "2026-12", "2027-01", "2027-02", "2027-03", "2027-04", "2027-05"];
   const RESEARCH_GANTT_BARS = [
-    { gateId: "g1", start: "2026-09-01", end: "2026-09-30", lane: 1 },
-    { gateId: "g2", start: "2026-10-01", end: "2026-12-15", lane: 1 },
+    { gateId: "g1", start: "2026-09-07", end: "2026-10-14", lane: 1 },
+    { gateId: "g2", start: "2026-10-15", end: "2026-12-15", lane: 1 },
     { gateId: "g3", start: "2026-12-16", end: "2027-03-31", lane: 1 },
     { gateId: "g4", start: "2027-04-01", end: "2027-05-31", lane: 1 },
   ];
   const APPLICATION_GANTT_BARS = [
-    { gateId: "a1", start: "2026-09-01", end: "2026-10-09", lane: 1 },
+    { gateId: "a1", start: "2027-01-01", end: "2027-04-10", lane: 2 },
     { gateId: "a2", start: "2026-09-01", end: "2026-11-20", lane: 2 },
     { gateId: "a3", start: "2026-12-15", end: "2027-03-31", lane: 1 },
   ];
   const ROADMAP_TASKS = [
-    { id: "fin-doe", phase: "现在", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "dose、linewidth、etch depth、sidewall 整理成可决策表", due: "09/30" },
+    { id: "raith-learn", phase: "现在", category: "FinFET", title: "Raith 学习一周", detail: "9/7–9/13；周二／四／六／日安排学习与操作练习", due: "09/13" },
+    { id: "ebeam-fin-1", phase: "现在", category: "FinFET", title: "EBeam Fin 实验第1周", detail: "9/14–9/20；实验日周二／四／六／日，记录条件与结果", due: "09/20" },
+    { id: "ebeam-fin-2", phase: "接下来", category: "FinFET", title: "EBeam Fin 实验第2周", detail: "9/21–9/22、10/3–10/7；9/23–10/2旅行暂停，按原实验日推进", due: "10/07" },
+    { id: "ebeam-fin-3", phase: "接下来", category: "FinFET", title: "EBeam Fin 实验第3周", detail: "10/8–10/14；完成测试与结果整理", due: "10/14" },
+    { id: "fin-doe", phase: "接下来", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "EBeam Fin三周完成后整理 dose、linewidth、etch depth、sidewall，10/14核对G1", due: "10/14" },
     { id: "ielts-window", phase: "现在", category: "IELTS", title: "核对 IELTS 二战报名资料", detail: "考试日已定 2026/11/06；确认场次、证件与报到资讯", due: "11/06" },
     { id: "ielts-diagnostic", phase: "现在", category: "IELTS", title: "完成 L / R 计时诊断", detail: "Writing / Speaking 同步做基线记录", due: "08/31" },
     { id: "speaking-admin", phase: "现在", category: "IELTS", title: "补登 Speaking 场次", detail: "收到通知后记录考试时间、地点、报到方式与前后 buffer", due: "待通知" },
@@ -46,7 +50,13 @@
     { id: "iwn-freeze", phase: "接下来", category: "会议", title: "IWN poster freeze", detail: "IEDMS 后集中完成，11/04 后只改错误", due: "11/04" },
     { id: "devices", phase: "接下来", category: "FinFET", title: "第一批 D / E-mode Fin 完成", detail: "建立待量测 device matrix", due: "11/30" },
     { id: "first-data", phase: "接下来", category: "FinFET", title: "第一批完整 electrical data", detail: "Id–Vg、Id–Vd、Vth、Ron、leakage；必要时 BV", due: "12/15" },
-    { id: "recommend-tw", phase: "现在", category: "PhD · TW", title: "台湾本土申请推荐信", detail: "附 CV v2、研究摘要、台大／阳明交大清单与预留 deadline", due: "09/15" },
+    { id: "recommend-tw", phase: "稍后", category: "PhD · TW", title: "台湾考试入学推荐信", detail: "2027/2请老师支持春季考试入学；附最新CV、研究成果、目标系所与待确认截止", due: "2027/02/15" },
+    { id: "tw-shortlist", phase: "稍后", category: "PhD · TW", title: "台湾考试入学导师与材料清单", detail: "2027/1确认台大电子所与阳明交大方向，整理研究计划、成绩单和毕业时间", due: "2027/01/31" },
+    { id: "tw-brochure", phase: "稍后", category: "PhD · TW", title: "核对116博士考试入学简章", detail: "2027/2起检查公告；确认组别是否招生、资格、书审／笔试／口试、推荐信与材料截止", due: "2027/03/10" },
+    { id: "tw-ready", phase: "稍后", category: "PhD · TW", title: "台湾申请材料内部备齐", detail: "个人准备节点3/15，不是学校截止；按正式简章更新后提交", due: "2027/03/15" },
+    { id: "tw-submit", phase: "稍后", category: "PhD · TW", title: "台湾博士考试入学报名", detail: "预计2027/3月下旬至4月上旬；报名、上传及推荐信分别确认，116日期待公告", due: "2027/03–04 待公告" },
+    { id: "tw-interview", phase: "稍后", category: "PhD · TW", title: "台湾博士考试／口试", detail: "预计2027/4–5月；按系所简章准备研究简报及可能的笔试，逐校记录时间", due: "2027/04–05 待公告" },
+    { id: "tw-result", phase: "稍后", category: "PhD · TW", title: "台湾放榜与报到", detail: "预计2027/5月追踪结果；确认报到、毕业证书及入学节点", due: "2027/05 待公告" },
     { id: "recommend-overseas", phase: "接下来", category: "PhD · HK / EU", title: "香港／欧洲申请推荐信", detail: "IWN 结束后加入两场会议成果与最新 Fin 进度，附 CV v3、目标清单与 deadline", due: "11/20" },
     { id: "hk-shortlist", phase: "现在", category: "PhD · HK", title: "完成香港四校导师长名单", detail: "HKU、HKUST、CityU、PolyU 各保留 2–4 位与 GaN、III-N、TCAD、power device 或 fabrication 匹配的导师", due: "08/31" },
     { id: "hk-contact-wave", phase: "现在", category: "PhD · HK", title: "完成第一轮香港导师联系", detail: "确认 2027 intake、funding、实验室名额与研究契合度；同步检查 2027/28 新版简章", due: "09/20" },
@@ -64,7 +74,11 @@
     { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
   ];
   const ROADMAP_TASK_PLACEMENTS = {
-    "fin-doe": ["2026/09", "research"],
+    "raith-learn": ["2026/09", "research"],
+    "ebeam-fin-1": ["2026/09", "research"],
+    "ebeam-fin-2": ["2026/10", "research"],
+    "ebeam-fin-3": ["2026/10", "research"],
+    "fin-doe": ["2026/10", "research"],
     "ielts-window": ["2026/11", "external"],
     "ielts-diagnostic": ["2026/08", "external"],
     "speaking-admin": ["2026/11", "external"],
@@ -77,7 +91,13 @@
     "iwn-freeze": ["2026/11", "external"],
     "devices": ["2026/11", "research"],
     "first-data": ["2026/12", "research"],
-    "recommend-tw": ["2026/09", "application"],
+    "recommend-tw": ["2027/02", "application"],
+    "tw-shortlist": ["2027/01", "application"],
+    "tw-brochure": ["2027/03", "application"],
+    "tw-ready": ["2027/03", "application"],
+    "tw-submit": ["2027/03", "application"],
+    "tw-interview": ["2027/04", "application"],
+    "tw-result": ["2027/05", "application"],
     "recommend-overseas": ["2026/11", "application"],
     "hk-shortlist": ["2026/08", "application"],
     "hk-contact-wave": ["2026/09", "application"],
@@ -96,15 +116,15 @@
   };
   const ROADMAP_MONTHS = [
     ["2026/08", "Process R&D", "Fin exposure / etch DOE；整理 linewidth、dose、etch depth、sidewall", "IELTS 二战已定 11/06；重新诊断；IEDMS figure inventory；C–V 规划", "台湾导师清单与 CV v1；HKU／HKUST／CityU／PolyU 导师长名单；等待 2027/28 简章", "A / B 正常推进"],
-    ["2026/09", "Recipe freeze", "9/30 完成 Fin 曝光＋蚀刻测试；C–V 启动", "IELTS 核心训练；IEDMS poster 50–70%", "台湾 Stage 1 推荐信；香港预计 9/1 开放门户／HKPFS，9/20 前完成第一轮导师联系", "Plan A 必须通过 G1"],
-    ["2026/10", "Device launch", "正式 D / E-mode Fin；Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会；IELTS 维持训练", "台湾主申请：预留台大 10/01–10/09、阳明交大 10/01–10/08；香港四校材料 10/15 ready", "A：正式 wafer 已开始"],
-    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN poster freeze；11/06 IELTS 二战；11/08–13 IWN", "台湾结果追踪；11/10 锁定 HKPFS 两个志愿；IWN 后请 HK／欧洲推荐信；11/20 香港内部封版", "B 最晚延至 12 月"],
+    ["2026/09", "Recipe freeze", "9/7–9/13 Raith学习；9/14起EBeam Fin三周；9/23–10/2旅行暂停", "IELTS 核心训练；IEDMS poster 50–70%", "台湾改走2027春季考试入学；香港预计9/1开放门户／HKPFS，9/20前完成第一轮导师联系", "G1 随实验顺延至10/14"],
+    ["2026/10", "Device launch", "10/3恢复EBeam Fin，10/14完成G1；随后正式 D / E-mode Fin、Ohmic Regrowth test", "IEDMS 已接受；10/15 poster freeze；10/22–23 参会；IELTS 维持训练", "台湾积累研究成果，2027春季考试入学；香港四校材料10/15 ready", "A：正式 wafer 已开始"],
+    ["2026/11", "Fabrication sprint", "11/30 完成第一批 Fin；建立 measurement matrix", "11/04 IWN poster freeze；11/06 IELTS 二战；11/08–13 IWN", "台湾更新CV与成果；11/10锁定HKPFS两个志愿；IWN后请HK／欧洲推荐信；11/20香港内部封版", "B 最晚延至 12 月"],
     ["2026/12", "First data", "Electrical measurement；C–V / Regrowth correlation", "整理 TCAD 对照与 journal story", "香港预计 12/1 12:00 RGC 初申、23:59 学校完整申请；之后面试追踪；12/15 启动欧洲", "12/15 通过 G2"],
-    ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "欧洲主投；香港面试、补件与 follow-up", "A：只做有限补实验"],
-    ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "欧洲 rolling positions；香港面试／offer 追踪", "A：实验开始 freeze"],
-    ["2027/03", "Data freeze", "主要 dataset 收敛", "Fin paper 投稿或接近投稿；thesis 架构", "欧洲投递收敛；香港与欧洲 Interview／offer 并行", "3/31 通过 G3，否则切 B"],
-    ["2027/04", "Write", "只补必要量测；不做开放式新制程", "硕论初稿 50–60%", "比较题目、PI、funding、fab access", "A：写作主导；B：data 收敛"],
-    ["2027/05", "Thesis ready", "原则上不开新 wafer", "5/31 完整初稿给老师", "确定去向与弹性 start date", "A 通过 G4；B 开始主写"],
+    ["2027/01", "Diagnose", "分析第一批结果；重测异常 device", "Paper / thesis chapter 开始", "台湾考试入学导师／材料清单；欧洲主投；香港面试、补件与follow-up", "A：只做有限补实验"],
+    ["2027/02", "Controlled iteration", "第二轮 device / 必要补测", "TCAD–experiment comparison；paper 初稿", "台湾推荐信与研究计划，检查116简章；欧洲rolling positions；香港面试／offer追踪", "A：实验开始 freeze"],
+    ["2027/03", "Data freeze", "主要 dataset 收敛", "Fin paper 投稿或接近投稿；thesis 架构", "台湾3/15内部备齐；预计3月下旬开始考试入学报名（待公告）；香港／欧洲面试并行", "3/31 通过 G3，否则切 B"],
+    ["2027/04", "Write", "只补必要量测；不做开放式新制程", "硕论初稿 50–60%", "台湾预计4月上旬报名收尾、4–5月考试／口试（待公告）；比较题目、PI、funding、fab access", "A：写作主导；B：data 收敛"],
+    ["2027/05", "Thesis ready", "原则上不开新 wafer", "5/31 完整初稿给老师", "台湾预计5月放榜与报到（待公告）；确定去向与弹性start date", "A 通过 G4；B 开始主写"],
     ["2027/06", "Defense prep", "补最后必要数据；研究交接", "送审／申请口试；简报问答", "签证／行政", "A：Defense ready；B：30–50%"],
     ["2027/07", "Plan A defense", "完成交接文件", "Plan A：硕士口试与修改", "确认报到节点", "A：口试；B：Thesis 60–80%"],
     ["2027/08", "Target graduation", "结案／资料封存", "Plan A：修改、离校、毕业", "若 A 成功则衔接 PhD", "A：目标毕业；B：Thesis final"],
@@ -1002,6 +1022,8 @@
       detail: item.detail || "",
       status: item.status || "未开始",
       optional: Boolean(item.optional),
+      preferredHour: Number.isInteger(item.preferredHour) ? item.preferredHour : null,
+      blockHours: item.blockHours || 1,
     };
   }
 
@@ -1413,10 +1435,13 @@
     const taskHours = { ielts: 9, project: 14, daily: 18, swim: 20 };
     const usedHours = new Set();
     tasksForDate(date).forEach((task, index) => {
-      let hour = taskHours[task.kind] || Math.min(23, 9 + index);
+      let hour = task.preferredHour ?? taskHours[task.kind] ?? Math.min(23, 9 + index);
       while (usedHours.has(hour) && hour < 23) hour += 1;
-      usedHours.add(hour);
-      setSlot(date, hour, { text: task.text, taskId: task.id });
+      for (let offset = 0; offset < (task.blockHours || 1) && hour + offset <= 23; offset += 1) {
+        if (usedHours.has(hour + offset)) continue;
+        usedHours.add(hour + offset);
+        setSlot(date, hour + offset, { text: task.text, taskId: task.id });
+      }
     });
   }
 
@@ -1432,6 +1457,8 @@
           tasks.push({
             id: `${date}:ielts:${item.id}`,
             kind: "ielts",
+            preferredHour: item.preferredHour,
+            blockHours: item.blockHours,
             label: `${item.label}｜${item.title}`,
             text: [item.title, item.module, item.cambridge, item.duration ? `用时：${item.duration}` : ""].filter(Boolean).join(" - "),
             keywords: [item.title, item.cambridge, item.label, "IELTS"].filter(Boolean),
@@ -2310,7 +2337,20 @@
     const resetFromDate = data.resetFromDate || "2026-06-02";
     candidate.planRows = JSON.parse(JSON.stringify(data.mainPlan || []));
     candidate.extraPlanRows = [];
-    candidate.modulePlans = {};
+    candidate.modulePlans = candidate.modulePlans || {};
+    Object.keys(candidate.modulePlans).forEach((date) => {
+      if (date >= resetFromDate) delete candidate.modulePlans[date];
+    });
+    candidate.moduleCatalog ||= {};
+    for (const item of data.projectCatalog || []) {
+      candidate.moduleCatalog[item.module] ||= [];
+      if (!candidate.moduleCatalog[item.module].some((existing) => existing.id === item.id)) {
+        candidate.moduleCatalog[item.module].push({ ...item });
+      }
+    }
+    for (const row of candidate.planRows) {
+      if (row.projectItemId) candidate.modulePlans[row.date] = { itemId: row.projectItemId, selected: row.projectModule };
+    }
     candidate.savedSlots = candidate.savedSlots || {};
     candidate.optionalPools = candidate.optionalPools || {};
     candidate.roadmap = candidate.roadmap || defaultRoadmapState();
