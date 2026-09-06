@@ -1576,8 +1576,16 @@ textarea {
 /* Integrated research roadmap — follows the planner's existing teal card system. */
 .roadmap-page {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   padding: 22px clamp(12px, 3vw, 28px) 48px;
+}
+
+.roadmap-hero,
+.roadmap-section,
+.roadmap-gantt-scroll,
+.roadmap-vertical-gantt-wrap {
+  min-width: 0;
 }
 
 .roadmap-hero,
