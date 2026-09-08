@@ -66,9 +66,7 @@
     { id: "hk-rgc-submit", phase: "接下来", category: "PhD · HKPFS", title: "提交 RGC HKPFS 初步申请", detail: "预计硬截止为 12/01 12:00 HKT；取得 HKPFS reference number", due: "12/01 12:00" },
     { id: "hk-school-submit", phase: "接下来", category: "PhD · HK", title: "完成四校完整申请", detail: "预计 HKPFS 学校端硬截止为 12/01 23:59 HKT；确认付款、附件和推荐信状态", due: "12/01 23:59" },
     { id: "hk-interview-prep", phase: "稍后", category: "PhD · HK", title: "香港 PhD 面试与 follow-up", detail: "准备研究简报、研究契合度、未来计划与毕业时间说明；持续追踪 3–5 月结果", due: "2027/03" },
-    { id: "tcad-compare", phase: "稍后", category: "TCAD / AI", title: "完成 TCAD–experiment 核心比较图", detail: "串联 electrostatics、Fin width、Vth 与 leakage", due: "2027/02" },
     { id: "paper-draft", phase: "稍后", category: "论文", title: "Fin / TCAD journal paper 初稿", detail: "只保留能支撑主张的结果", due: "2027/02" },
-    { id: "data-freeze", phase: "稍后", category: "FinFET", title: "主要实验 data freeze", detail: "3 月后不再无限制开 wafer 或扩张 DOE", due: "2027/03" },
     { id: "thesis-half", phase: "稍后", category: "论文", title: "Thesis 初稿达到 50–60%", detail: "Methods、results、discussion 可供老师审阅", due: "2027/04" },
     { id: "thesis-full", phase: "稍后", category: "论文", title: "完整 Thesis 初稿交老师", detail: "同时提出口试日期与修改 buffer", due: "2027/05" },
     { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
@@ -107,9 +105,7 @@
     "hk-rgc-submit": ["2026/12", "application"],
     "hk-school-submit": ["2026/12", "application"],
     "hk-interview-prep": ["2027/01", "application"],
-    "tcad-compare": ["2027/02", "research"],
     "paper-draft": ["2027/02", "external"],
-    "data-freeze": ["2027/03", "research"],
     "thesis-half": ["2027/04", "external"],
     "thesis-full": ["2027/05", "external"],
     "defense": ["2027/07", "external"],
@@ -1139,7 +1135,7 @@
       return `
       <span class="training-item ${safeAttr(item.kind)}${item.optional && !on ? " optional-off" : ""}">
         <span class="training-kind">${toggle}${safe(item.label)}</span>
-        <span class="training-title">${safe(item.title)}</span>
+        <span class="training-title">${safe(item.title)}${item.cambridge ? `<small class="training-code">${safe(item.cambridge)}</small>` : ""}</span>
         ${!item.duration ? "" : `<span class="training-duration">${safe(item.duration)}</span>`}
       </span>`;
     }).join("")}</span>`;
