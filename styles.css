@@ -386,25 +386,27 @@ textarea {
 }
 
 .calendar-training-strip {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 3px;
 }
 
 .calendar-training-block {
-  display: block;
+  flex: 1 1 auto;
   min-width: 0;
   min-height: 18px;
-  padding: 2px 3px;
+  padding: 2px 6px;
   border-radius: 4px;
   overflow: hidden;
   color: #fff;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 800;
-  line-height: 14px;
+  letter-spacing: 0.02em;
+  line-height: 16px;
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .calendar-training-block.full {
@@ -1442,15 +1444,14 @@ textarea {
   }
 
   .calendar-training-strip {
-    grid-template-columns: 1fr;
     gap: 2px;
   }
 
   .calendar-training-block {
-    min-height: 10px;
-    padding: 0 2px;
-    font-size: 8px;
-    line-height: 10px;
+    min-height: 14px;
+    padding: 1px 4px;
+    font-size: 10px;
+    line-height: 13px;
   }
 
   .day-num {

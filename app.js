@@ -650,8 +650,8 @@
     el.phdView.classList.toggle("active", isPhd);
     el.calendarView.classList.toggle("active", isCalendar);
     el.planView.classList.toggle("active", viewName === "plan");
-    if (viewName === "plan") { renderPlanTable(); renderPlanBoard(); }
-    if (isRoadmap) renderRoadmap();
+    if (viewName === "plan") renderPlanTable();
+    if (isRoadmap) { renderRoadmap(); renderPlanBoard(); }
     if (isPhd) renderPhdTracker();
   }
 
