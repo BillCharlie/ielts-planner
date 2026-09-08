@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v59-day-month";
+const CACHE_NAME = "planner-notebook-v60-daytable-conf";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260909-day-month",
+  "./styles.css?v=20260909-daytable-conf",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",

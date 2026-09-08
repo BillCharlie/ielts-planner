@@ -1130,9 +1130,22 @@ textarea {
 
 .main-table {
   width: 100%;
-  min-width: 1050px;
+  min-width: 1180px;
   border-collapse: collapse;
   background: #fff;
+}
+
+.conf-cell {
+  min-width: 150px;
+}
+
+.conf-cell .day-plan-chip {
+  display: inline-block;
+  margin: 0 4px 4px 0;
+}
+
+.conf-cell .muted {
+  font-size: 12px;
 }
 
 .main-table th,

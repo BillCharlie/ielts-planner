@@ -50,8 +50,9 @@
     { id: "tw-interview", phase: "稍后", category: "PhD · TW", title: "台湾博士考试／口试", detail: "预计2027/4–5月；按系所简章准备研究简报及可能的笔试，逐校记录时间", due: "2027/04–05 待公告" },
     { id: "tw-result", phase: "稍后", category: "PhD · TW", title: "台湾放榜与报到", detail: "预计2027/5月追踪结果；确认报到、毕业证书及入学节点", due: "2027/05 待公告" },
     { id: "recommend-overseas", phase: "接下来", category: "PhD · HK / EU", title: "香港／欧洲申请推荐信", detail: "IWN 结束后加入两场会议成果与最新 Fin 进度，附 CV v3、目标清单与 deadline", due: "11/20" },
-    { id: "hk-shortlist", phase: "现在", category: "PhD · HK", title: "完成香港四校导师长名单", detail: "HKU、HKUST、CityU、PolyU 各保留 2–4 位与 GaN、III-N、TCAD、power device 或 fabrication 匹配的导师", due: "08/31" },
-    { id: "hk-contact-wave", phase: "现在", category: "PhD · HK", title: "完成第一轮香港导师联系", detail: "确认 2027 intake、funding、实验室名额与研究契合度；同步检查 2027/28 新版简章", due: "09/20" },
+    { id: "hk-shortlist", phase: "现在", category: "PhD · HK", title: "完成香港导师统计与长名单", detail: "9 月完成 HKU、HKUST、CityU、PolyU 各 2–4 位与 GaN、III-N、TCAD、power device 或 fabrication 匹配的导师统计", due: "09/30" },
+    { id: "hk-cv-tailor", phase: "接下来", category: "PhD · HK", title: "按导师套磁、修改各版 CV", detail: "10 月根据每位目标导师定制 CV 与套磁信；准备 research proposal 与成果附件", due: "10/31" },
+    { id: "hk-contact-wave", phase: "接下来", category: "PhD · HK", title: "第一轮香港导师 email 联系", detail: "10 月底–11 月初发 email，确认 2027 intake、funding、实验室名额与研究契合度", due: "11/10" },
     { id: "hk-materials", phase: "接下来", category: "PhD · HK", title: "四校申请材料完成", detail: "完成主 CV、四校适配版本、research proposal、成绩单与成果附件", due: "10/15" },
     { id: "hk-hkpfs-priority", phase: "接下来", category: "PhD · HKPFS", title: "锁定 HKPFS 两个志愿", detail: "RGC 最多只能填两个 programme choices；确认第一、第二志愿及对应导师", due: "11/10" },
     { id: "hk-internal-freeze", phase: "接下来", category: "PhD · HK", title: "香港申请内部封版", detail: "四校表单、附件、推荐人邀请和 HKPFS 选项全部完成；之后只允许复核与修正", due: "11/20" },
@@ -81,8 +82,9 @@
     "tw-interview": ["2027/04", "application"],
     "tw-result": ["2027/05", "application"],
     "recommend-overseas": ["2026/11", "application"],
-    "hk-shortlist": ["2026/08", "application"],
-    "hk-contact-wave": ["2026/09", "application"],
+    "hk-shortlist": ["2026/09", "application"],
+    "hk-cv-tailor": ["2026/10", "application"],
+    "hk-contact-wave": ["2026/11", "application"],
     "hk-materials": ["2026/10", "application"],
     "hk-hkpfs-priority": ["2026/11", "application"],
     "hk-internal-freeze": ["2026/11", "application"],
@@ -118,19 +120,19 @@
       { 制程: "9/9 起 EBeam Fin 实验（Raith 一周后三周）", TCAD: "9/20 前完成含 AlN spacer 的 PGaN Emode 与普通 Dmode 基本 model IV 模拟" },
       "核心训练（听读写说）；按周表推进",
       { IEDMS: "9/15 出结果" },
-      { HK: "9/1 开放门户／HKPFS；9/20 前第一轮导师联系" },
+      { HK: "9/1 开放门户／HKPFS；完成香港四校导师统计与长名单，核对 2027/28 简章" },
       "G1 随实验顺延至 10/15"],
     ["2026/10", "Device launch",
       { 制程: "10 月中完成测试制程（Litho+Etch）；10 月底开始元件制程", TCAD: "依实际磊晶结构与氧化层厚度进一步模拟 PGaN Emode／Dmode（重点能带 + 导通电场）" },
       "维持训练；错题与口语素材整理",
       { IEDMS: "10/15–10/20 做海报；10/23 参加报告", IWN: "10/25–11/1 做海报" },
-      { HK: "四校材料 10/15 ready" },
+      { HK: "按每位导师套磁、修改各版 CV；四校材料准备（10 月底–11 月初开始发 email）" },
       "A：正式 wafer 已开始"],
     ["2026/11", "Fabrication sprint",
       { 制程: "元件制程与第一批 Fin", TCAD: "开始模拟 BV" },
       "11/06 二战考试；考后收尾",
       { IWN: "11/8–11/13 会议", ISPSD: "11/1 开始写稿；11/11 开放投稿；11/20 第一版给老师" },
-      { HK: "11/10 锁定 HKPFS 两志愿；11/20 内部封版" },
+      { HK: "10 月底–11 月初发 email 第一轮联系；11/10 锁定 HKPFS 两志愿；11/20 内部封版" },
       "B 最晚延至 12 月"],
     ["2026/12", "First data",
       { 制程: "electrical measurement；C–V / Regrowth", Cadence: "Cadence 开始" },
@@ -1544,11 +1546,14 @@
             ${["正常", "考试日", "休息"].map((type) => `<option value="${type}">${type}</option>`).join("")}
           </select>
         </td>
-        <td class="project-cell" data-label="实验专案 / 学务">
+        <td class="project-cell" data-label="研究主线（实验）">
           <select class="plan-edit-input project-type-select" data-field="projectType" data-date="${safeAttr(item.date)}">
-            ${(isRestDay(item) ? ["休息"] : ["", "实验专案", "学务"]).map((type) => `<option value="${type}">${type || "未安排"}</option>`).join("")}
+            ${(isRestDay(item) ? ["休息"] : [...new Set(["", "实验专案", normalizedProjectType(item)])]).map((type) => `<option value="${type}">${type || "未安排"}</option>`).join("")}
           </select>
           <div class="project-planner-slot">${projectPlannerMarkup(item)}</div>
+        </td>
+        <td data-label="会议 / 论文" class="conf-cell">
+          ${datedPlanNodes(item.date).filter((node) => node.module === "external").map((node) => `<span class="day-plan-chip external${node.done ? " done" : ""}">${safe((node.lane ? node.lane + "·" : "") + node.text)}</span>`).join("") || '<span class="muted">—</span>'}
         </td>
         <td data-label="IELTS / 模块">
           ${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { toggleDate: item.date }) : ""}
