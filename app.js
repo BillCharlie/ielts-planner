@@ -1265,14 +1265,26 @@
     return match ? `Cambridge ${match[1]} Test ${match[2]}` : code;
   }
 
+  function cambridgeShort(code) {
+    const m = String(code || "").match(/^C(\d+)T(\d+)/);
+    return m ? `剑桥${m[1]}-${m[2]}` : code || "";
+  }
+
+  function cambridgeFull(code) {
+    const m = String(code || "").match(/^C(\d+)T(\d+)/);
+    return m ? `剑桥雅思 ${m[1]} 第 ${m[2]} 套` : "";
+  }
+
   function renderTrainingItemsMarkup(items, options = {}) {
     const compact = Boolean(options.compact);
     if (compact) {
-      return `<span class="calendar-training-strip">${items.map((item) => `
-        <span class="calendar-training-block ${safeAttr(item.kind)}" title="${safeAttr(item.title)}">
-          ${safe(item.cambridge || item.full || item.title)}
-        </span>
-      `).join("")}</span>`;
+      return `<span class="calendar-training-strip">${items.map((item) => {
+        const label = item.cambridge ? cambridgeShort(item.cambridge) : (item.full || item.title);
+        return `
+        <span class="calendar-training-block ${safeAttr(item.kind)}" title="${safeAttr(item.cambridge ? cambridgeFull(item.cambridge) : item.title)}">
+          ${safe(label)}
+        </span>`;
+      }).join("")}</span>`;
     }
     const toggleDate = options.toggleDate || "";
     return `<span class="training-item-list">${items.map((item) => {
@@ -1280,10 +1292,11 @@
       const toggle = item.optional && toggleDate
         ? `<label class="training-toggle"><input type="checkbox" class="optional-toggle" data-date="${safeAttr(toggleDate)}"${on ? " checked" : ""} /><span>选做</span></label>`
         : "";
+      const title = item.cambridge ? cambridgeFull(item.cambridge) : item.title;
       return `
       <span class="training-item ${safeAttr(item.kind)}${item.optional && !on ? " optional-off" : ""}">
         <span class="training-kind">${toggle}${safe(item.label)}</span>
-        <span class="training-title">${safe(item.title)}${item.cambridge ? `<small class="training-code">${safe(item.cambridge)}</small>` : ""}</span>
+        <span class="training-title">${safe(title)}${item.cambridge ? `<small class="training-code">${safe(cambridgeShort(item.cambridge))}</small>` : ""}</span>
         ${!item.duration ? "" : `<span class="training-duration">${safe(item.duration)}</span>`}
       </span>`;
     }).join("")}</span>`;

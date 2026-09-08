@@ -1462,9 +1462,11 @@ textarea {
 
   .calendar-training-block {
     min-height: 14px;
-    padding: 1px 4px;
+    padding: 1px 3px;
     font-size: 10px;
-    line-height: 13px;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .day-num {
