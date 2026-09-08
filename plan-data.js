@@ -1,6 +1,6 @@
 (function () {
-  const startDate = "2026-09-07";
-  const travelPeriod = { startDate: "2026-09-23", endDate: "2026-10-02" };
+  const startDate = "2026-09-09";
+  const travelPeriod = { startDate: "2026-09-24", endDate: "2026-10-02" };
   const weeklyPaperCounts = [1, 1, 2, 1, 1, 2, 1];
   const projectCatalog = [
     { id: "routine-raith", module: "制程", name: "Raith 学习（1周）", days: "" },
@@ -26,7 +26,7 @@
   for (let date = startDate; nextTest < testBank.length; date = addDays(date, 1)) {
     const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
     const traveling = date >= travelPeriod.startDate && date <= travelPeriod.endDate;
-    const count = traveling ? (date === "2026-09-24" ? 1 : 0) : weeklyPaperCounts[weekday];
+    const count = traveling ? 0 : weeklyPaperCounts[weekday];
     const row = {
       id: `auto-${date}`, date,
       weekday: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday],
@@ -84,20 +84,20 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-09-07T00:00:00.000+08:00",
-    source: "9/7起顺排C9T1至C21T4；周二五早晚各1份，周三上午1份，周一四六日实验晚上1份；保留中秋旅行及9/24例外；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-09-09T00:00:00.000+08:00",
+    source: "9/9起顺排C9T1至C21T4（9/7-9/8忙碌未做已跳过）；周二五早晚各1份，周三上午1份，周一四六日实验晚上1份；中秋假期9/24-10/2不排；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-06", travelPeriod, weeklyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-09-13", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-09-14", endDate: "2026-10-14", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-09-15", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-09-16", endDate: "2026-10-15", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes: [], scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-09-07-c9t1-c21t4-routine-v16",
+    planVersion: "2026-09-09-c9t1-c21t4-start0909-v17",
     resetFromDate: startDate,
   };
 })();

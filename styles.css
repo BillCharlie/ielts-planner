@@ -2264,6 +2264,40 @@ textarea {
   text-decoration: line-through;
 }
 
+.vertical-gantt-lanes {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.vertical-gantt-lane {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 6px;
+  align-items: baseline;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.vertical-gantt-lane-label {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--track-color) 16%, transparent);
+  color: var(--track-color);
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.vertical-gantt-lane-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.vertical-gantt-lane-empty {
+  color: var(--muted);
+}
+
 .vertical-gantt-cell-content.monthly-complete {
   border-left-color: color-mix(in srgb, var(--track-color) 55%, #94a3b8);
 }

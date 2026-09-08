@@ -7,10 +7,10 @@ test("schedules all 52 papers from September 7 with travel, time blocks and rese
   const context = { window: {} };
   vm.runInNewContext(await readFile(new URL("../plan-data.js", import.meta.url), "utf8"), context);
   const data = context.window.IELTS_PLANNER_DATA;
-  assert.equal(data.planVersion, "2026-09-07-c9t1-c21t4-routine-v16");
-  assert.equal(data.resetFromDate, "2026-09-07");
-  assert.equal(data.mainPlan[0].date, "2026-09-07");
-  assert.equal(data.mainPlan.at(-1).date, "2026-10-26");
+  assert.equal(data.planVersion, "2026-09-09-c9t1-c21t4-start0909-v17");
+  assert.equal(data.resetFromDate, "2026-09-09");
+  assert.equal(data.mainPlan[0].date, "2026-09-09");
+  assert.equal(data.mainPlan.at(-1).date, "2026-10-28");
   assert.equal(data.mainPlan.at(-1).cambridge, "C21T4");
   assert.match(data.mainPlan.at(-1).limits, /预留4小时/);
   const expectedCodes = Array.from({ length: 52 }, (_, index) => `C${9 + Math.floor(index / 4)}T${index % 4 + 1}`);
@@ -23,9 +23,9 @@ test("schedules all 52 papers from September 7 with travel, time blocks and rese
 
   for (const row of data.mainPlan) {
     const weekday = new Date(`${row.date}T00:00:00Z`).getUTCDay();
-    const traveling = row.date >= "2026-09-23" && row.date <= "2026-10-02";
-    const count = traveling ? (row.date === "2026-09-24" ? 1 : 0)
-      : row.date === "2026-10-26" ? 1 : [1, 1, 2, 1, 1, 2, 1][weekday];
+    const traveling = row.date >= "2026-09-24" && row.date <= "2026-10-02";
+    const count = traveling ? 0
+      : row.date === "2026-10-28" ? 1 : [1, 1, 2, 1, 1, 2, 1][weekday];
     assert.equal(row.trainingItems.length, count, row.date);
     if (traveling) {
       assert.equal(row.projectPlan, "");
@@ -53,8 +53,8 @@ test("schedules all 52 papers from September 7 with travel, time blocks and rese
     assert.match(item.module, /整理60分钟/);
   }
   for (const [phase, days, first, last] of [
-    ["Raith 学习", 7, "2026-09-07", "2026-09-13"],
-    ["EBeam Fin 实验", 21, "2026-09-14", "2026-10-14"],
+    ["Raith 学习", 7, "2026-09-09", "2026-09-15"],
+    ["EBeam Fin 实验", 21, "2026-09-16", "2026-10-15"],
   ]) {
     const rows = data.mainPlan.filter((row) => row.projectPhase === phase);
     assert.equal(rows.length, days);
@@ -75,15 +75,15 @@ test("plan migration preserves history, vocabulary and PhD records, and seeds na
   const candidate = {
     planVersion: "old", planRows: [], moduleCatalog: { 制程: [{ id: "custom", name: "My experiment" }] },
     modulePlans: { "2026-09-06": { itemId: "custom" } },
-    schedule: { "2026-09-06": { 8: "completed" }, "2026-09-07": { 8: "old plan" } },
+    schedule: { "2026-09-06": { 8: "completed" }, "2026-09-09": { 8: "old plan" } },
     vocabularyCards: { saved: true }, phdTracker: { saved: true }, roadmap: { tasks: { saved: true } },
   };
   migrate(candidate);
   assert.equal(candidate.schedule["2026-09-06"][8], "completed");
-  assert.equal(candidate.schedule["2026-09-07"], undefined);
+  assert.equal(candidate.schedule["2026-09-09"], undefined);
   assert.equal(candidate.modulePlans["2026-09-06"].itemId, "custom");
-  assert.equal(candidate.modulePlans["2026-09-07"].itemId, "routine-raith");
-  assert.equal(candidate.modulePlans["2026-09-14"].itemId, "routine-ebeam-fin");
+  assert.equal(candidate.modulePlans["2026-09-10"].itemId, "routine-raith");
+  assert.equal(candidate.modulePlans["2026-09-17"].itemId, "routine-ebeam-fin");
   assert.equal(candidate.modulePlans["2026-09-24"], undefined);
   assert.equal(candidate.vocabularyCards.saved, true);
   assert.equal(candidate.phdTracker.saved, true);
@@ -120,8 +120,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /GaN FinFET/);
   assert.match(html, /Plan A \/ Plan B/);
   assert.doesNotMatch(html, /现在先做什么|focus-board/);
-  assert.match(html, /老师沟通节点[\s\S]*台湾本土推荐信[\s\S]*HK／欧洲推荐信[\s\S]*关键 Gate/);
-  assert.match(html, /NOV · STAGE 2[\s\S]*HK／欧洲推荐信/);
+  assert.match(html, /老师沟通节点[\s\S]*HK／欧洲推荐信[\s\S]*台湾本土推荐信[\s\S]*关键 Gate/);
+  assert.match(html, /NOV · STAGE 1[\s\S]*HK／欧洲推荐信/);
   assert.match(html, /研究 Gate[\s\S]*申请 Gate/);
   assert.doesNotMatch(html, /两项投稿均已接受|已投中并接受/);
   assert.doesNotMatch(html, /ieltsExamCountdown|iedmsCountdown|iwnCountdown/);
@@ -152,9 +152,9 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /roadmap:\s*\{/);
   assert.match(app, /candidate\.roadmap = candidate\.roadmap \|\| defaultRoadmapState\(\)/);
   assert.match(app, /RESEARCH_GATES[\s\S]*APPLICATION_GATES/);
-  assert.match(app, /Taiwan PhD Ready[\s\S]*HK Application Window[\s\S]*Europe PhD Pipeline/);
-  assert.match(app, /HK Application Window[\s\S]*date: "2026-11-20"[\s\S]*官方截止预计 12\/01/);
-  assert.match(app, /gateId: "a2", start: "2026-09-01", end: "2026-11-20", lane: 2/);
+  assert.match(app, /HK Application Window[\s\S]*Europe PhD Pipeline[\s\S]*Taiwan PhD Ready/);
+  assert.match(app, /HK Application Window[\s\S]*date: "2026-12-01"[\s\S]*12\/01 双截止/);
+  assert.match(app, /gateId: "a1", start: "2026-11-01", end: "2026-12-01", lane: 1/);
   assert.doesNotMatch(app, /HK 11\/15 启动|HK 主申请至 12\/31/);
   assert.match(app, /GATE_GANTT_MONTHS[\s\S]*2026-09[\s\S]*2026-10[\s\S]*2026-11[\s\S]*2026-12[\s\S]*2027-01[\s\S]*2027-02[\s\S]*2027-03[\s\S]*2027-04[\s\S]*2027-05/);
   assert.match(app, /RESEARCH_GANTT_BARS[\s\S]*APPLICATION_GANTT_BARS/);

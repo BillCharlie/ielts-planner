@@ -1,8 +1,8 @@
-const CACHE_NAME = "planner-notebook-v54-roadmap-mobile";
+const CACHE_NAME = "planner-notebook-v55-gantt-lanes";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260903-roadmap-mobile",
+  "./styles.css?v=20260909-gantt-lanes",
   "./app.js",
   "./xlsx-export.js",
   "./config.js",
