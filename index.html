@@ -4,17 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0f766e" />
-    <title>研究与 IELTS 规划记事薄</title>
+    <title>研途手账</title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260909-gantt-lanes" />
+    <link rel="stylesheet" href="styles.css?v=20260909-ielts-col-rename" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
       <main class="auth-panel" aria-labelledby="authTitle">
         <div class="brand-mark">B</div>
-        <h1 id="authTitle">研究与 IELTS 规划记事薄</h1>
+        <h1 id="authTitle">研途手账</h1>
         <p>请输入保存密码后进入。</p>
         <form id="authForm" class="auth-form">
           <label for="passwordInput">保存密码</label>
@@ -27,19 +27,19 @@
 
     <div id="appView" class="app-shell" hidden>
       <header class="topbar">
-        <button id="navRoadmap" class="tab-button active" type="button">研究路线</button>
+        <button id="navCalendar" class="tab-button active" type="button">日历</button>
+        <button id="navPlan" class="tab-button" type="button">计划安排</button>
+        <button id="navRoadmap" class="tab-button" type="button">研究路线</button>
         <button id="navPhd" class="tab-button" type="button">PhD 申请</button>
-        <button id="navCalendar" class="tab-button" type="button">日历</button>
-        <button id="navPlan" class="tab-button" type="button">总体计划</button>
         <div class="topbar-title">
-          <strong>研究与 IELTS 规划记事薄</strong>
+          <strong>研途手账</strong>
           <span id="dateRangeLabel"></span>
         </div>
         <button id="installButton" class="ghost-button" type="button" hidden>安装</button>
         <button id="lockButton" class="ghost-button" type="button">锁定</button>
       </header>
 
-      <section id="roadmapView" class="view active">
+      <section id="roadmapView" class="view">
         <main class="roadmap-page">
           <header class="roadmap-hero">
             <div>
@@ -106,11 +106,11 @@
             <div class="roadmap-vertical-gantt-wrap">
               <div id="roadmapTaskGroups" class="roadmap-vertical-gantt" role="table" aria-label="2026 年 8 月至 2027 年 12 月月度甘特任务表">
                 <div class="vertical-gantt-header" role="row">
-                  <span role="columnheader">TIME ↓</span>
+                  <span role="columnheader">TIME ↓ · Plan A／B</span>
                   <span class="research" role="columnheader">研究主线</span>
-                  <span class="external" role="columnheader">IELTS／会议／论文</span>
+                  <span class="ielts" role="columnheader">IELTS</span>
+                  <span class="external" role="columnheader">会议／论文</span>
                   <span class="application" role="columnheader">PhD 申请</span>
-                  <span class="graduation" role="columnheader">Plan A／B</span>
                 </div>
                 <div id="roadmapTimelineBody" class="vertical-gantt-body" role="rowgroup"></div>
               </div>
@@ -275,7 +275,7 @@
         </main>
       </section>
 
-      <section id="calendarView" class="view">
+      <section id="calendarView" class="view active">
         <div class="calendar-layout">
           <aside class="month-pane">
             <div class="month-header">
@@ -342,7 +342,7 @@
 
             <div id="reminderPanel" class="reminder-panel" hidden></div>
 
-            <section class="plan-summary" aria-label="当日总体计划">
+            <section class="plan-summary" aria-label="当日计划安排">
               <div>
                 <span class="summary-label">IELTS</span>
                 <strong id="summaryIelts"></strong>
@@ -361,7 +361,7 @@
             </section>
 
             <div class="toolbar-row">
-              <label for="taskPicker">总体计划事项</label>
+              <label for="taskPicker">计划安排事项</label>
               <select id="taskPicker"></select>
               <button id="copyTaskButton" type="button">复制到选中小时</button>
               <button id="saveDayButton" type="button">当日保存</button>
@@ -377,7 +377,7 @@
         <main class="plan-page">
           <div class="plan-toolbar">
             <div>
-              <p class="eyebrow">总体计划</p>
+              <p class="eyebrow">计划安排</p>
               <h1 id="planRangeTitle">2026/09/07 - 2026/10/26</h1>
             </div>
             <button id="extendPlanButton" type="button">延伸7天</button>

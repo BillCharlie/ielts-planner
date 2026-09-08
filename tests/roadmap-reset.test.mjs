@@ -162,7 +162,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /function ganttPosition/);
   assert.match(app, /gantt-milestone/);
   assert.match(html, /roadmap-gantt-axis[\s\S]*SEP[\s\S]*OCT[\s\S]*NOV[\s\S]*DEC[\s\S]*JAN[\s\S]*FEB[\s\S]*MAR[\s\S]*APR[\s\S]*MAY/);
-  assert.match(html, /roadmap-vertical-gantt[\s\S]*研究主线[\s\S]*IELTS／会议／论文[\s\S]*PhD 申请[\s\S]*Plan A／B/);
+  assert.match(html, /roadmap-vertical-gantt[\s\S]*Plan A／B[\s\S]*研究主线[\s\S]*IELTS[\s\S]*会议／论文[\s\S]*PhD 申请/);
   assert.match(html, /id="roadmapTaskGroups"[\s\S]*id="roadmapTimelineBody"/);
   assert.match(html, /03—04[\s\S]*月度甘特任务表/);
   assert.doesNotMatch(html, /研究任务看板/);

@@ -79,9 +79,9 @@
     "ebeam-fin-2": ["2026/10", "research"],
     "ebeam-fin-3": ["2026/10", "research"],
     "fin-doe": ["2026/10", "research"],
-    "ielts-window": ["2026/11", "external"],
-    "ielts-diagnostic": ["2026/08", "external"],
-    "speaking-admin": ["2026/11", "external"],
+    "ielts-window": ["2026/11", "ielts"],
+    "ielts-diagnostic": ["2026/08", "ielts"],
+    "speaking-admin": ["2026/11", "ielts"],
     "iedms-assets": ["2026/08", "external"],
     "cv-process": ["2026/09", "research"],
     "advisor-exit": ["2026/09", "research"],
@@ -122,61 +122,71 @@
   const ROADMAP_MONTHS = [
     ["2026/08", "Process R&D",
       { 制程: "Fin exposure / etch DOE 起步" },
+      "二战已定 11/06；L/R 计时诊断",
       { IEDMS: "figure inventory 整理" },
       { HK: "四校导师长名单、CV v1" },
       "A / B 正常推进"],
     ["2026/09", "Recipe freeze",
       { 制程: "9/9 起 EBeam Fin 实验（Raith 一周后三周）", TCAD: "9/20 前完成含 AlN spacer 的 PGaN Emode 与普通 Dmode 基本 model IV 模拟" },
+      "核心训练（听读写说）；按周表推进",
       { IEDMS: "9/15 出结果" },
       { HK: "9/1 开放门户／HKPFS；9/20 前第一轮导师联系" },
       "G1 随实验顺延至 10/15"],
     ["2026/10", "Device launch",
       { 制程: "10 月中完成测试制程（Litho+Etch）；10 月底开始元件制程", TCAD: "依实际磊晶结构与氧化层厚度进一步模拟 PGaN Emode／Dmode（重点能带 + 导通电场）" },
+      "维持训练；错题与口语素材整理",
       { IEDMS: "10/15–10/20 做海报；10/23 参加报告", IWN: "10/25–11/1 做海报" },
       { HK: "四校材料 10/15 ready" },
       "A：正式 wafer 已开始"],
     ["2026/11", "Fabrication sprint",
       { 制程: "元件制程与第一批 Fin", TCAD: "开始模拟 BV" },
+      "11/06 二战考试；考后收尾",
       { IWN: "11/8–11/13 会议", ISPSD: "11/1 开始写稿；11/11 开放投稿；11/20 第一版给老师" },
       { HK: "11/10 锁定 HKPFS 两志愿；11/20 内部封版" },
       "B 最晚延至 12 月"],
     ["2026/12", "First data",
       { 制程: "electrical measurement；C–V / Regrowth", Cadence: "Cadence 开始" },
+      "",
       { ISPSD: "12/16 截稿" },
       { HK: "12/1 RGC 初申 + 学校完整申请", 欧洲: "12 月启动，建 project vacancy 清单" },
       "12/15 通过 G2"],
     ["2027/01", "Diagnose",
       { 制程: "分析第一批结果；重测异常 device", Cadence: "电路／版图推进" },
+      "",
       {},
       { HK: "面试、补件与 follow-up", 欧洲: "主投；technical interview", 台湾: "确认台大电子所／阳明交大方向、材料清单" },
       "A：只做有限补实验"],
     ["2027/02", "Controlled iteration",
       { 制程: "第二轮 device／必要补测", TCAD: "TCAD–experiment comparison" },
+      "",
       {},
       { 台湾: "推荐信与研究计划；检查 116 简章", 欧洲: "rolling positions", HK: "面试／offer 追踪" },
       "A：实验开始 freeze"],
     ["2027/03", "Data freeze",
       { 制程: "主要 dataset 收敛" },
+      "",
       { ISPSD: "论文投稿或接近投稿" },
       { 台湾: "3/15 内部备齐；3 月下旬考试入学报名（待公告）", HK: "面试并行", 欧洲: "面试并行" },
       "3/31 通过 G3，否则切 B"],
     ["2027/04", "Write",
       { 制程: "只补必要量测" },
+      "",
       {},
       { 台湾: "4 月上旬报名收尾；4–5 月考试／口试（待公告）" },
       "A：写作主导；B：data 收敛"],
     ["2027/05", "Thesis ready",
       {},
+      "",
       {},
       { 台湾: "5 月放榜与报到（待公告）；确定去向" },
       "A 通过 G4；B 开始主写"],
-    ["2027/06", "Defense prep", {}, {}, { 台湾: "签证／行政" }, "A：Defense ready；B：30–50%"],
-    ["2027/07", "Plan A defense", {}, {}, { 台湾: "确认报到节点" }, "A：口试；B：Thesis 60–80%"],
-    ["2027/08", "Target graduation", {}, {}, { 台湾: "若 A 成功则衔接 PhD" }, "A：目标毕业；B：Thesis final"],
-    ["2027/09", "Buffer", {}, {}, {}, "B：Defense ready"],
-    ["2027/10", "Plan B defense", {}, {}, {}, "B：硕士口试"],
-    ["2027/11", "Conservative window", {}, {}, { 台湾: "PhD 衔接" }, "B：目标毕业"],
-    ["2027/12", "Final buffer", {}, {}, {}, "B：最晚毕业窗口"],
+    ["2027/06", "Defense prep", {}, "", {}, { 台湾: "签证／行政" }, "A：Defense ready；B：30–50%"],
+    ["2027/07", "Plan A defense", {}, "", {}, { 台湾: "确认报到节点" }, "A：口试；B：Thesis 60–80%"],
+    ["2027/08", "Target graduation", {}, "", {}, { 台湾: "若 A 成功则衔接 PhD" }, "A：目标毕业；B：Thesis final"],
+    ["2027/09", "Buffer", {}, "", {}, {}, "B：Defense ready"],
+    ["2027/10", "Plan B defense", {}, "", {}, {}, "B：硕士口试"],
+    ["2027/11", "Conservative window", {}, "", {}, { 台湾: "PhD 衔接" }, "B：目标毕业"],
+    ["2027/12", "Final buffer", {}, "", {}, {}, "B：最晚毕业窗口"],
   ];
   const PHD_REGION_PRESETS = [
     { id: "hk", code: "HK", name: "香港", hint: "集中式 PhD 申请与导师联系", schools: ["HKUST", "HKU", "CUHK", "CityU", "PolyU"] },
@@ -594,7 +604,7 @@
     el.dateRangeLabel.textContent = planRangeLabel();
     el.planRangeTitle.textContent = planRangeLabel();
     renderAll();
-    setView("roadmap");
+    setView("calendar");
   }
 
   function setView(viewName) {
@@ -632,7 +642,7 @@
   function renderRoadmapStats() {
     const roadmap = state.roadmap || defaultRoadmapState();
     const doneTasks = ROADMAP_TASKS.filter((task) => roadmap.tasks[task.id]).length;
-    const monthlyKeys = ROADMAP_MONTHS.flatMap((row) => ["research", "external", "application"].map((track) => `${row[0]}:${track}`));
+    const monthlyKeys = ROADMAP_MONTHS.flatMap((row) => ["research", "ielts", "external", "application"].map((track) => `${row[0]}:${track}`));
     const doneMonthly = monthlyKeys.filter((key) => roadmap.monthly?.[key]).length;
     const nextGate = RESEARCH_GATES.find((gate) => !roadmap.gates[gate.id]) || RESEARCH_GATES.at(-1);
     const remaining = daysUntil(nextGate.date);
@@ -697,11 +707,12 @@
           <div class="vertical-gantt-time${index === 0 ? " first" : ""}${index === ROADMAP_MONTHS.length - 1 ? " last" : ""}" role="rowheader">
             <time datetime="${safeAttr(`${year}-${month}`)}"><b>${safe(year)}</b><strong>${safe(monthNames[monthNumber - 1])}</strong></time>
             <span class="roadmap-phase-tag">${safe(row[1])}</span>
+            ${row[6] ? `<span class="vertical-gantt-grad">${safe(row[6])}</span>` : ""}
           </div>
           ${renderVerticalGanttCell(row[0], "research", row[2], taskState, monthlyState)}
-          ${renderVerticalGanttCell(row[0], "external", row[3], taskState, monthlyState)}
-          ${renderVerticalGanttCell(row[0], "application", row[4], taskState, monthlyState)}
-          ${renderVerticalGanttCell(row[0], "graduation", row[5], taskState, monthlyState)}
+          ${renderVerticalGanttCell(row[0], "ielts", row[3], taskState, monthlyState)}
+          ${renderVerticalGanttCell(row[0], "external", row[4], taskState, monthlyState)}
+          ${renderVerticalGanttCell(row[0], "application", row[5], taskState, monthlyState)}
         </div>
       `;
     }).join("");
@@ -718,12 +729,21 @@
     if (track === "graduation") {
       summaryContent = `<p>${safe(summary)}</p>`;
     } else {
-      const lanes = GANTT_LANES[track] || [];
-      const activeLanes = lanes.filter((label) => summary && summary[label]);
-      const laneMarkup = activeLanes.length
-        ? activeLanes.map((label) => `<span class="vertical-gantt-lane"><span class="vertical-gantt-lane-label">${safe(label)}</span><span class="vertical-gantt-lane-text">${safe(summary[label])}</span></span>`).join("")
-        : `<span class="vertical-gantt-lane-empty">—</span>`;
-      const ariaSummary = activeLanes.map((label) => `${label}：${summary[label]}`).join("；") || "本月无安排";
+      const lanes = GANTT_LANES[track];
+      let laneMarkup;
+      let ariaSummary;
+      if (lanes) {
+        const activeLanes = lanes.filter((label) => summary && summary[label]);
+        laneMarkup = activeLanes.length
+          ? activeLanes.map((label) => `<span class="vertical-gantt-lane"><span class="vertical-gantt-lane-label">${safe(label)}</span><span class="vertical-gantt-lane-text">${safe(summary[label])}</span></span>`).join("")
+          : `<span class="vertical-gantt-lane-empty">—</span>`;
+        ariaSummary = activeLanes.map((label) => `${label}：${summary[label]}`).join("；") || "本月无安排";
+      } else {
+        laneMarkup = summary
+          ? `<span class="vertical-gantt-lane-text">${safe(summary)}</span>`
+          : `<span class="vertical-gantt-lane-empty">—</span>`;
+        ariaSummary = summary || "本月无安排";
+      }
       summaryContent = `
         <label class="vertical-gantt-summary-check${monthlyDone ? " complete" : ""}">
           <input type="checkbox" data-roadmap-monthly="${safeAttr(monthlyKey)}" aria-label="${safeAttr(`${month} ${ariaSummary}，${monthlyDone ? "已完成" : "未完成"}`)}"${monthlyDone ? " checked" : ""} />

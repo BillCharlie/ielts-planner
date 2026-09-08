@@ -2084,16 +2084,16 @@ textarea {
   letter-spacing: 0.12em;
 }
 
+.vertical-gantt-header > span.ielts {
+  border-top-color: #be123c;
+}
+
 .vertical-gantt-header > span.external {
   border-top-color: #c26a16;
 }
 
 .vertical-gantt-header > span.application {
   border-top-color: var(--blue);
-}
-
-.vertical-gantt-header > span.graduation {
-  border-top-color: #7c3aed;
   border-right: 0;
 }
 
@@ -2182,6 +2182,11 @@ textarea {
 
 .vertical-gantt-cell:last-child {
   border-right: 0;
+}
+
+.vertical-gantt-cell.ielts {
+  --track-color: #be123c;
+  --track-soft: #fff1f2;
 }
 
 .vertical-gantt-cell.external {
@@ -2404,6 +2409,18 @@ textarea {
   font-size: 8px;
   line-height: 1.35;
   white-space: normal;
+}
+
+.vertical-gantt-grad {
+  max-width: 100%;
+  padding: 3px 7px;
+  border-radius: 6px;
+  border-left: 3px solid #7c3aed;
+  background: #f5f3ff;
+  color: #5b21b6;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.4;
 }
 
 /* Standalone PhD application tracker. */
