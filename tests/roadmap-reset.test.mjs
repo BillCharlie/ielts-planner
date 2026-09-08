@@ -172,7 +172,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /vertical-gantt-time/);
   assert.match(app, /renderVerticalGanttCell\(row\[0\], "research"/);
   assert.match(app, /year-boundary/);
-  assert.match(app, /ROADMAP_TASK_PLACEMENTS[\s\S]*fin-doe[\s\S]*recommend-overseas[\s\S]*defense/);
+  assert.match(app, /ROADMAP_TASK_PLACEMENTS[\s\S]*recommend-overseas[\s\S]*defense/);
   assert.match(app, /function renderVerticalGanttCell/);
   assert.match(app, /function renderVerticalGanttTask/);
   assert.match(app, /data-roadmap-task/);

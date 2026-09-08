@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260909-cambridge-code" />
+    <link rel="stylesheet" href="styles.css?v=20260909-plan-board" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -341,6 +341,7 @@
             </section>
 
             <div id="reminderPanel" class="reminder-panel" hidden></div>
+            <div id="dayPlanNodes" class="day-plan-nodes" hidden></div>
 
             <section class="plan-summary" aria-label="当日计划安排">
               <div>
@@ -378,31 +379,17 @@
           <div class="plan-toolbar">
             <div>
               <p class="eyebrow">计划安排</p>
-              <h1 id="planRangeTitle">2026/09/07 - 2026/10/26</h1>
+              <h1 id="planRangeTitle">月度计划</h1>
+              <p class="plan-board-hint">按月分 4 模块规划；自行添加会同步到「研究路线」月度甘特图，带日期的还会显示在日历。</p>
             </div>
-            <button id="extendPlanButton" type="button">延伸7天</button>
-            <input id="planSearch" type="search" placeholder="搜索日期、模块、项目..." />
           </div>
-          <div id="planWarningStrip" class="warning-strip"></div>
-          <div class="table-wrap">
-            <table class="main-table">
-              <thead>
-                <tr class="module-table-row">
-                  <th colspan="6">
-                    <section id="moduleCatalog" class="module-catalog" aria-label="实验专案模块库"></section>
-                  </th>
-                </tr>
-                <tr>
-                  <th>日期</th>
-                  <th>日类型</th>
-                  <th>实验专案 / 学务</th>
-                  <th>IELTS / 模块</th>
-                  <th>备注</th>
-                  <th>操作</th>
-                </tr>
-              </thead>
-              <tbody id="planTableBody"></tbody>
-            </table>
+          <div id="planBoardBody" class="plan-board"></div>
+          <div hidden aria-hidden="true">
+            <button id="extendPlanButton" type="button">延伸7天</button>
+            <input id="planSearch" type="search" />
+            <div id="planWarningStrip"></div>
+            <section id="moduleCatalog"></section>
+            <table><tbody id="planTableBody"></tbody></table>
           </div>
         </main>
       </section>

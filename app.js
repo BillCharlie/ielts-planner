@@ -33,11 +33,6 @@
     { gateId: "a3", start: "2027-02-01", end: "2027-04-30", lane: 1 },
   ];
   const ROADMAP_TASKS = [
-    { id: "raith-learn", phase: "现在", category: "FinFET", title: "Raith 学习一周", detail: "9/7–9/13；周二／四／六／日安排学习与操作练习", due: "09/13" },
-    { id: "ebeam-fin-1", phase: "现在", category: "FinFET", title: "EBeam Fin 实验第1周", detail: "9/14–9/20；实验日周二／四／六／日，记录条件与结果", due: "09/20" },
-    { id: "ebeam-fin-2", phase: "接下来", category: "FinFET", title: "EBeam Fin 实验第2周", detail: "9/21–9/22、10/3–10/7；9/23–10/2旅行暂停，按原实验日推进", due: "10/07" },
-    { id: "ebeam-fin-3", phase: "接下来", category: "FinFET", title: "EBeam Fin 实验第3周", detail: "10/8–10/14；完成测试与结果整理", due: "10/14" },
-    { id: "fin-doe", phase: "接下来", category: "FinFET", title: "完成 Fin exposure / etch DOE", detail: "EBeam Fin三周完成后整理 dose、linewidth、etch depth、sidewall，10/14核对G1", due: "10/14" },
     { id: "ielts-window", phase: "现在", category: "IELTS", title: "核对 IELTS 二战报名资料", detail: "考试日已定 2026/11/06；确认场次、证件与报到资讯", due: "11/06" },
     { id: "ielts-diagnostic", phase: "现在", category: "IELTS", title: "完成 L / R 计时诊断", detail: "Writing / Speaking 同步做基线记录", due: "08/31" },
     { id: "speaking-admin", phase: "现在", category: "IELTS", title: "补登 Speaking 场次", detail: "收到通知后记录考试时间、地点、报到方式与前后 buffer", due: "待通知" },
@@ -46,10 +41,7 @@
     { id: "advisor-exit", phase: "现在", category: "沟通", title: "和老师确认毕业 exit criteria", detail: "带 G1–G4 询问 7–8 月口试的必要成果", due: "09/15" },
     { id: "tcad-archive", phase: "现在", category: "TCAD / AI", title: "封存 TCAD model 与参数版本", detail: "让 experiment comparison 可以重现", due: "09/30" },
     { id: "iedms-freeze", phase: "接下来", category: "会议", title: "IEDMS poster freeze", detail: "完成版面、输出与 3 / 10 分钟讲法", due: "10/15" },
-    { id: "regrowth", phase: "接下来", category: "FinFET", title: "Ohmic Regrowth test", detail: "建立条件、结果与 contact 行为对照", due: "10/31" },
     { id: "iwn-freeze", phase: "接下来", category: "会议", title: "IWN poster freeze", detail: "IEDMS 后集中完成，11/04 后只改错误", due: "11/04" },
-    { id: "devices", phase: "接下来", category: "FinFET", title: "第一批 D / E-mode Fin 完成", detail: "建立待量测 device matrix", due: "11/30" },
-    { id: "first-data", phase: "接下来", category: "FinFET", title: "第一批完整 electrical data", detail: "Id–Vg、Id–Vd、Vth、Ron、leakage；必要时 BV", due: "12/15" },
     { id: "recommend-tw", phase: "稍后", category: "PhD · TW", title: "台湾考试入学推荐信", detail: "2027/2请老师支持春季考试入学；附最新CV、研究成果、目标系所与待确认截止", due: "2027/02/15" },
     { id: "tw-shortlist", phase: "稍后", category: "PhD · TW", title: "台湾考试入学导师与材料清单", detail: "2027/1确认台大电子所与阳明交大方向，整理研究计划、成绩单和毕业时间", due: "2027/01/31" },
     { id: "tw-brochure", phase: "稍后", category: "PhD · TW", title: "核对116博士考试入学简章", detail: "2027/2起检查公告；确认组别是否招生、资格、书审／笔试／口试、推荐信与材料截止", due: "2027/03/10" },
@@ -72,11 +64,6 @@
     { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
   ];
   const ROADMAP_TASK_PLACEMENTS = {
-    "raith-learn": ["2026/09", "research"],
-    "ebeam-fin-1": ["2026/09", "research"],
-    "ebeam-fin-2": ["2026/10", "research"],
-    "ebeam-fin-3": ["2026/10", "research"],
-    "fin-doe": ["2026/10", "research"],
     "ielts-window": ["2026/11", "ielts"],
     "ielts-diagnostic": ["2026/08", "ielts"],
     "speaking-admin": ["2026/11", "ielts"],
@@ -85,10 +72,7 @@
     "advisor-exit": ["2026/09", "research"],
     "tcad-archive": ["2026/09", "research"],
     "iedms-freeze": ["2026/10", "external"],
-    "regrowth": ["2026/10", "research"],
     "iwn-freeze": ["2026/11", "external"],
-    "devices": ["2026/11", "research"],
-    "first-data": ["2026/12", "research"],
     "recommend-tw": ["2027/02", "application"],
     "tw-shortlist": ["2027/01", "application"],
     "tw-brochure": ["2027/03", "application"],
@@ -115,6 +99,14 @@
     external: ["IEDMS", "IWN", "ISPSD"],
     application: ["台湾", "HK", "欧洲"],
   };
+  // Modules shared by the monthly Gantt (research view) and the 计划安排 board.
+  // ielts has a single implicit lane (empty string).
+  const PLAN_MODULES = [
+    { key: "research", label: "研究主线", lanes: ["制程", "TCAD", "Cadence"] },
+    { key: "ielts", label: "IELTS", lanes: [""] },
+    { key: "external", label: "会议／论文", lanes: ["IEDMS", "IWN", "ISPSD"] },
+    { key: "application", label: "PhD 申请", lanes: ["台湾", "HK", "欧洲"] },
+  ];
   const ROADMAP_MONTHS = [
     ["2026/08", "Process R&D",
       { 制程: "Fin exposure / etch DOE 起步" },
@@ -267,6 +259,7 @@
       "placeMainTasksButton",
       "clearAllButton",
       "reminderPanel",
+      "dayPlanNodes",
       "summaryIelts",
       "summaryIeltsDetail",
       "summaryProjectType",
@@ -284,6 +277,7 @@
       "moduleCatalog",
       "planWarningStrip",
       "planTableBody",
+      "planBoardBody",
       "roadmapResetButton",
       "roadmapGateCountdown",
       "roadmapTaskProgress",
@@ -432,6 +426,47 @@
       extendPlan(7);
       renderAll();
       showSaved("已延伸7天");
+    });
+    bindPlanBoardControls();
+  }
+
+  function bindPlanBoardControls() {
+    if (!el.planBoardBody) return;
+    el.planBoardBody.addEventListener("submit", (event) => {
+      const form = event.target.closest(".plan-add");
+      if (!form) return;
+      event.preventDefault();
+      const fd = new FormData(form);
+      const text = String(fd.get("text") || "").trim();
+      if (!text) return;
+      addPlanNode({
+        month: form.dataset.planAddMonth,
+        module: form.dataset.planAddModule,
+        lane: String(fd.get("lane") || ""),
+        date: String(fd.get("date") || ""),
+        text,
+      });
+      renderPlanBoard();
+      renderRoadmap();
+      renderCalendar();
+      renderSelectedDay();
+      showSaved("已添加到计划");
+    });
+    el.planBoardBody.addEventListener("click", (event) => {
+      const del = event.target.closest("[data-plan-node-del]");
+      if (!del) return;
+      deletePlanNode(del.dataset.planNodeDel);
+      renderPlanBoard();
+      renderRoadmap();
+      renderCalendar();
+      renderSelectedDay();
+      showSaved("已删除");
+    });
+    el.planBoardBody.addEventListener("change", (event) => {
+      const box = event.target.closest("[data-plan-node-done]");
+      if (!box) return;
+      setPlanNodeDone(box.dataset.planNodeDone, box.checked);
+      renderPlanBoard();
     });
   }
 
@@ -615,7 +650,7 @@
     el.phdView.classList.toggle("active", isPhd);
     el.calendarView.classList.toggle("active", isCalendar);
     el.planView.classList.toggle("active", viewName === "plan");
-    if (viewName === "plan") renderPlanTable();
+    if (viewName === "plan") { renderPlanTable(); renderPlanBoard(); }
     if (isRoadmap) renderRoadmap();
     if (isPhd) renderPhdTracker();
   }
@@ -627,6 +662,7 @@
     renderCalendar();
     renderSelectedDay();
     renderPlanTable();
+    renderPlanBoard();
   }
 
   function renderRoadmap() {
@@ -726,19 +762,25 @@
       summaryContent = `<p>${safe(summary)}</p>`;
     } else {
       const lanes = GANTT_LANES[track];
+      const combine = (lane) => {
+        const seed = lanes ? (summary && summary[lane]) || "" : (typeof summary === "string" ? summary : "");
+        const userText = userNodesFor(month, track, lane).map((node) => node.text);
+        return [seed, ...userText].filter(Boolean).join("；");
+      };
       let laneMarkup;
       let ariaSummary;
       if (lanes) {
-        const activeLanes = lanes.filter((label) => summary && summary[label]);
-        laneMarkup = activeLanes.length
-          ? activeLanes.map((label) => `<span class="vertical-gantt-lane"><span class="vertical-gantt-lane-label">${safe(label)}</span><span class="vertical-gantt-lane-text">${safe(summary[label])}</span></span>`).join("")
+        const parts = lanes.map((label) => ({ label, text: combine(label) })).filter((part) => part.text);
+        laneMarkup = parts.length
+          ? parts.map((part) => `<span class="vertical-gantt-lane"><span class="vertical-gantt-lane-label">${safe(part.label)}</span><span class="vertical-gantt-lane-text">${safe(part.text)}</span></span>`).join("")
           : `<span class="vertical-gantt-lane-empty">—</span>`;
-        ariaSummary = activeLanes.map((label) => `${label}：${summary[label]}`).join("；") || "本月无安排";
+        ariaSummary = parts.map((part) => `${part.label}：${part.text}`).join("；") || "本月无安排";
       } else {
-        laneMarkup = summary
-          ? `<span class="vertical-gantt-lane-text">${safe(summary)}</span>`
+        const text = combine("");
+        laneMarkup = text
+          ? `<span class="vertical-gantt-lane-text">${safe(text)}</span>`
           : `<span class="vertical-gantt-lane-empty">—</span>`;
-        ariaSummary = summary || "本月无安排";
+        ariaSummary = text || "本月无安排";
       }
       summaryContent = `
         <label class="vertical-gantt-summary-check${monthlyDone ? " complete" : ""}">
@@ -756,6 +798,94 @@
         </div>
       </div>
     `;
+  }
+
+  function userNodesFor(month, moduleKey, lane) {
+    return (state.planNodes || []).filter((node) => node.month === month && node.module === moduleKey && (node.lane || "") === (lane || ""));
+  }
+
+  function datedPlanNodes(date) {
+    return (state.planNodes || []).filter((node) => node.date === date);
+  }
+
+  function planModuleLabel(moduleKey) {
+    return PLAN_MODULES.find((module) => module.key === moduleKey)?.label || moduleKey;
+  }
+
+  function addPlanNode(node) {
+    if (!Array.isArray(state.planNodes)) state.planNodes = [];
+    state.planNodes.push({ id: `pn-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, done: false, ...node });
+    saveState();
+  }
+
+  function deletePlanNode(id) {
+    state.planNodes = (state.planNodes || []).filter((node) => node.id !== id);
+    saveState();
+  }
+
+  function setPlanNodeDone(id, done) {
+    const node = (state.planNodes || []).find((item) => item.id === id);
+    if (node) {
+      node.done = done;
+      saveState();
+    }
+  }
+
+  function planSeedText(row, moduleKey, lane) {
+    const idx = { research: 2, ielts: 3, external: 4, application: 5 }[moduleKey];
+    const cell = row[idx];
+    if (moduleKey === "ielts") return typeof cell === "string" ? cell : "";
+    return (cell && cell[lane]) || "";
+  }
+
+  function renderPlanBoard() {
+    if (!el.planBoardBody) return;
+    const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    el.planBoardBody.innerHTML = ROADMAP_MONTHS.map((row) => {
+      const month = row[0];
+      const [year, mm] = month.split("/");
+      const modules = PLAN_MODULES.map((module) => {
+        const lanesMarkup = module.lanes.map((lane) => {
+          const seed = planSeedText(row, module.key, lane);
+          const nodes = userNodesFor(month, module.key, lane);
+          const items = [];
+          if (seed) items.push(`<li class="plan-node seed"><span class="plan-node-text">${safe(seed)}</span></li>`);
+          nodes.forEach((node) => {
+            const dateTag = node.date ? `<em class="plan-node-date">${safe(node.date.slice(5))}</em>` : "";
+            items.push(`<li class="plan-node${node.done ? " done" : ""}">
+              <label class="plan-node-check"><input type="checkbox" data-plan-node-done="${safeAttr(node.id)}"${node.done ? " checked" : ""} aria-label="完成 ${safeAttr(node.text)}" /><span></span></label>
+              <span class="plan-node-text">${safe(node.text)}${dateTag}</span>
+              <button type="button" class="plan-node-del" data-plan-node-del="${safeAttr(node.id)}" aria-label="删除">×</button>
+            </li>`);
+          });
+          return `<div class="plan-lane">
+            ${lane ? `<span class="plan-lane-label">${safe(lane)}</span>` : ""}
+            <ul class="plan-node-list">${items.join("") || '<li class="plan-node-empty">—</li>'}</ul>
+          </div>`;
+        }).join("");
+        const laneSelect = module.lanes.length > 1
+          ? `<select name="lane" aria-label="子栏">${module.lanes.map((lane) => `<option value="${safeAttr(lane)}">${safe(lane)}</option>`).join("")}</select>`
+          : `<input type="hidden" name="lane" value="${safeAttr(module.lanes[0] || "")}" />`;
+        return `<div class="plan-module ${safeAttr(module.key)}">
+          <h3>${safe(module.label)}</h3>
+          <div class="plan-lanes">${lanesMarkup}</div>
+          <form class="plan-add" data-plan-add-month="${safeAttr(month)}" data-plan-add-module="${safeAttr(module.key)}">
+            ${laneSelect}
+            <input name="text" type="text" placeholder="添加一项…" />
+            <input name="date" type="date" aria-label="可选日期" />
+            <button type="submit" aria-label="添加">＋</button>
+          </form>
+        </div>`;
+      }).join("");
+      return `<section class="plan-month">
+        <header class="plan-month-head">
+          <h2><b>${safe(year)}</b> ${safe(monthNames[Number(mm) - 1])}</h2>
+          <span class="roadmap-phase-tag">${safe(row[1])}</span>
+          ${row[6] ? `<span class="vertical-gantt-grad">${safe(row[6])}</span>` : ""}
+        </header>
+        <div class="plan-month-modules">${modules}</div>
+      </section>`;
+    }).join("");
   }
 
   function renderVerticalGanttTask(task, taskState) {
@@ -1002,11 +1132,27 @@
     el.summaryProject.textContent = projectSummaryText(plan, selectedDate) || template.notes || "今天没有实验专案/学务主任务。";
     el.summaryStatus.textContent = getPlanOverride(selectedDate, "status") || plan.status || "未开始";
     el.summaryLimits.textContent = plan.limits || template.notes || "";
+    renderDayPlanNodes();
 
     renderVocabulary();
     renderTaskPicker();
     renderReminders();
     renderHourGrid();
+  }
+
+  function renderDayPlanNodes() {
+    if (!el.dayPlanNodes) return;
+    const nodes = datedPlanNodes(selectedDate);
+    if (!nodes.length) {
+      el.dayPlanNodes.hidden = true;
+      el.dayPlanNodes.innerHTML = "";
+      return;
+    }
+    el.dayPlanNodes.hidden = false;
+    el.dayPlanNodes.innerHTML = `<span class="day-plan-nodes-title">计划节点</span>${nodes.map((node) => {
+      const laneTag = node.lane ? `${node.lane}·` : "";
+      return `<span class="day-plan-chip ${safeAttr(node.module)}${node.done ? " done" : ""}">${safe(laneTag + node.text)}</span>`;
+    }).join("")}`;
   }
 
   function renderTaskPicker() {
@@ -2375,6 +2521,7 @@
       planVersion: parsed.planVersion || "",
       optionalPools: parsed.optionalPools || {},
       vocabularyCards: parsed.vocabularyCards || {},
+      planNodes: Array.isArray(parsed.planNodes) ? parsed.planNodes : [],
       roadmap: {
         tasks: parsed.roadmap?.tasks || {},
         gates: parsed.roadmap?.gates || {},
