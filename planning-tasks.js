@@ -84,6 +84,12 @@
     return true;
   }
 
+  function setDates(task, dates) {
+    if (!task) return [];
+    task.dates = unique((dates || []).filter(validDate));
+    return task.dates;
+  }
+
   function moveDate(tasks, from, to, copy = false) {
     if (!validDate(to)) return;
     for (const task of forDate(tasks, from)) {
@@ -92,5 +98,5 @@
     }
   }
 
-  root.PlanningTasks = { VERSION, normalize, migrate, forMonth, forDate, assign, moveDate, monthOf, validDate };
+  root.PlanningTasks = { VERSION, normalize, migrate, forMonth, forDate, assign, setDates, moveDate, monthOf, validDate };
 })(globalThis);

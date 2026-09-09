@@ -408,6 +408,27 @@
           </div>
         </main>
       </section>
+
+      <dialog id="taskDateDialog" class="task-date-dialog" aria-labelledby="taskDatePickerTitle">
+        <form method="dialog" class="task-date-dialog-shell">
+          <header class="task-date-dialog-head">
+            <div><span>安排日期</span><h2 id="taskDatePickerTitle">选择日期</h2></div>
+            <button type="submit" value="cancel" class="task-date-dialog-close" aria-label="关闭日期选择">×</button>
+          </header>
+          <div class="task-date-picker-toolbar">
+            <button id="taskDatePickerPrev" type="button" aria-label="上个月">‹</button>
+            <strong id="taskDatePickerMonth"></strong>
+            <button id="taskDatePickerNext" type="button" aria-label="下个月">›</button>
+          </div>
+          <div class="task-date-picker-weekdays" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+          <div id="taskDatePickerGrid" class="task-date-picker-grid" role="grid" aria-label="可多选日期"></div>
+          <footer class="task-date-dialog-actions">
+            <span id="taskDatePickerCount">已选 0 天</span>
+            <button id="taskDatePickerClear" type="button">清除</button>
+            <button id="taskDatePickerApply" type="button" class="primary">套用日期</button>
+          </footer>
+        </form>
+      </dialog>
     </div>
 
     <script src="plan-data.js"></script>

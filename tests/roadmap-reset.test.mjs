@@ -105,6 +105,9 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   for (const id of ["roadmapView", "roadmapGateGroups", "roadmapResearchGateGrid", "roadmapApplicationGateGrid", "roadmapTimelineBody", "roadmapTaskGroups"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
+  for (const id of ["taskDateDialog", "taskDatePickerGrid", "taskDatePickerApply", "taskDatePickerClear"]) {
+    assert.match(html, new RegExp(`id=["']${id}["']`));
+  }
   for (const id of ["navPhd", "phdView", "phdSchoolCount", "phdAdvisorCount", "phdCvCount", "phdActiveCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
@@ -182,6 +185,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /planning-tasks\.js[\s\S]*app\.js/);
   assert.match(app, /data-shared-done/);
   assert.match(app, /PlanningTasks\.migrate/);
+  assert.match(app, /PlanningTasks\.setDates/);
+  assert.match(app, /data-task-date-picker/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

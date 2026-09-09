@@ -1,4 +1,4 @@
-const CACHE_NAME = "planner-notebook-v62-shared-planning";
+const CACHE_NAME = "planner-notebook-v63-multi-date-picker";
 const ASSETS = [
   "./",
   "./index.html",

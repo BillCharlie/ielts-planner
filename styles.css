@@ -2745,24 +2745,49 @@ textarea {
 .shared-task textarea { display: block; width: 100%; min-width: 0; min-height: 52px; height: auto; padding: 5px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: inherit; font: inherit; font-size: 12px; line-height: 1.6; resize: vertical; overflow-wrap: anywhere; }
 .shared-task textarea:hover, .shared-task textarea:focus { border-color: #9ca3af; background: #fff; }
 .shared-task.complete textarea { color: var(--muted); text-decoration: line-through; }
-.shared-task button, .shared-add-form button, .shared-assign-form button, .shared-schedule-form button { min-width: 28px; min-height: 30px; padding: 3px 6px; border-radius: 4px; }
+.shared-task button, .shared-add-form button, .shared-assign-form button { min-width: 28px; min-height: 30px; padding: 3px 6px; border-radius: 4px; }
 .shared-remove { color: #a33a38; background: transparent; border: 0; font-size: 19px; }
 .shared-task-dates { display: flex; flex-wrap: wrap; gap: 4px; }
 .shared-task-date { color: #0f766e; border: 0; background: #edf5f2; font-size: 11px; }
 .shared-month-lane { padding-bottom: 12px; }
 .shared-month-lane > .vertical-gantt-lane-label { display: inline-block; margin-bottom: 4px; }
-.shared-add-form, .shared-assign-form, .shared-schedule-form { display: grid; grid-template-columns: minmax(0, 1fr) 30px; gap: 6px; align-items: center; margin-top: 8px; }
+.shared-add-form, .shared-assign-form { display: grid; grid-template-columns: minmax(0, 1fr) 30px; gap: 6px; align-items: center; margin-top: 8px; }
 .shared-add-form > select { grid-column: 1 / -1; }
-.shared-add-form input, .shared-add-form select, .shared-assign-form select, .shared-schedule-form input, .shared-task-body > select { width: 100%; min-width: 0; max-width: 100%; min-height: 32px; padding: 4px 6px; border: 1px solid var(--line); border-radius: 4px; background: #fff; font: inherit; font-size: 12px; }
-.shared-add-form button, .shared-assign-form button, .shared-schedule-form button { background: #0f766e; color: white; border: 0; font-size: 18px; }
+.shared-add-form input, .shared-add-form select, .shared-assign-form select, .shared-task-body > select { width: 100%; min-width: 0; max-width: 100%; min-height: 32px; padding: 4px 6px; border: 1px solid var(--line); border-radius: 4px; background: #fff; font: inherit; font-size: 12px; }
+.shared-add-form button, .shared-assign-form button { background: #0f766e; color: white; border: 0; font-size: 18px; }
 .shared-day-tasks { min-width: 180px; }
 .shared-day-add { margin-top: 14px; padding-top: 8px; border-top: 1px dashed var(--line); }
 .vertical-gantt-cell > .shared-add-form { margin-top: 12px; }
 .day-plan-nodes:has(.shared-task) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .day-plan-nodes-title { grid-column: 1 / -1; }
+.shared-date-picker-button { width: 100%; border: 1px solid #86bdb4; background: #edf8f5; color: #0f625a; font-size: 12px; font-weight: 700; }
+.task-date-dialog { width: min(520px, calc(100vw - 24px)); max-height: calc(100vh - 24px); padding: 0; border: 0; border-radius: 8px; color: var(--ink); box-shadow: 0 24px 80px rgba(15, 35, 31, 0.28); }
+.task-date-dialog::backdrop { background: rgba(15, 35, 31, 0.52); }
+.task-date-dialog-shell { padding: 18px; }
+.task-date-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.task-date-dialog-head span { color: var(--muted); font-size: 11px; font-weight: 800; }
+.task-date-dialog-head h2 { max-width: 400px; margin: 4px 0 0; font-size: 18px; line-height: 1.35; overflow-wrap: anywhere; }
+.task-date-dialog-close { width: 34px; height: 34px; padding: 0; border: 0; background: transparent; color: var(--muted); font-size: 24px; }
+.task-date-picker-toolbar { display: grid; grid-template-columns: 38px minmax(0, 1fr) 38px; align-items: center; gap: 8px; margin-top: 18px; }
+.task-date-picker-toolbar strong { text-align: center; font-size: 15px; }
+.task-date-picker-toolbar button { width: 38px; height: 34px; padding: 0; border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 22px; }
+.task-date-picker-weekdays, .task-date-picker-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+.task-date-picker-weekdays { margin: 16px 0 6px; color: var(--muted); font-size: 11px; font-weight: 800; text-align: center; }
+.task-date-picker-day { aspect-ratio: 1; min-width: 0; padding: 0; border: 1px solid transparent; border-radius: 6px; background: #f5f8f7; color: var(--ink); font-size: 13px; }
+.task-date-picker-day.outside { color: #9ca3af; background: transparent; }
+.task-date-picker-day.today { border-color: #0f766e; }
+.task-date-picker-day.selected { border-color: #0f766e; background: #0f766e; color: #fff; font-weight: 800; }
+.task-date-dialog-actions { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; margin-top: 18px; }
+.task-date-dialog-actions span { color: var(--muted); font-size: 12px; font-weight: 700; }
+.task-date-dialog-actions button { min-height: 36px; padding: 6px 12px; border: 1px solid var(--line); background: #fff; color: var(--ink); }
+.task-date-dialog-actions button.primary { border-color: #0f766e; background: #0f766e; color: #fff; font-weight: 800; }
 @media (max-width: 700px) {
   .shared-catalog, .day-plan-nodes:has(.shared-task) { grid-template-columns: minmax(0, 1fr); }
   .shared-day-tasks { min-width: 0; width: 100%; }
+  .task-date-dialog-shell { padding: 14px; }
+  .task-date-picker-weekdays, .task-date-picker-grid { gap: 3px; }
+  .task-date-dialog-actions { grid-template-columns: 1fr 1fr; }
+  .task-date-dialog-actions span { grid-column: 1 / -1; }
 }
 
 .phd-page {

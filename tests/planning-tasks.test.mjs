@@ -50,6 +50,9 @@ test("date assignments are unique, move between months, and share text and compl
   task.dates = task.dates.filter((date) => date !== "2026-10-01");
   assert.equal(model.forMonth(tasks, "2026/10", "research").length, 0);
   assert.equal(model.forMonth(tasks, "2026/11", "research").length, 1);
+  assert.deepEqual(Array.from(model.setDates(task, ["2027-01-03", "bad", "2027-01-01", "2027-01-03"])), ["2027-01-01", "2027-01-03"]);
+  assert.equal(model.forMonth(tasks, "2026/11", "research").length, 0);
+  assert.equal(model.forMonth(tasks, "2027/01", "research").length, 1);
 });
 
 test("deleted or edited tasks are not restored by reload or a cloud-state round trip", () => {

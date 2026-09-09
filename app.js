@@ -136,6 +136,7 @@
   let activeHour = 9;
   let deferredInstallPrompt = null;
   let highlightedPlanDate = "";
+  let taskDatePicker = { taskId: "", visibleMonth: "", selected: new Set() };
 
   const el = {};
   document.addEventListener("DOMContentLoaded", init);
@@ -147,6 +148,7 @@
     bindCalendarControls();
     bindPlanControls();
     bindRoadmapControls();
+    bindTaskDatePicker();
     bindPhdControls();
     bindPwa();
     showInitialView();
@@ -224,6 +226,15 @@
       "roadmapApplicationGateGrid",
       "roadmapTimelineBody",
       "roadmapTaskGroups",
+      "taskDateDialog",
+      "taskDatePickerTitle",
+      "taskDatePickerPrev",
+      "taskDatePickerMonth",
+      "taskDatePickerNext",
+      "taskDatePickerGrid",
+      "taskDatePickerCount",
+      "taskDatePickerClear",
+      "taskDatePickerApply",
       "phdView",
       "phdSchoolCount",
       "phdAdvisorCount",
@@ -647,7 +658,7 @@
         <textarea rows="2" data-shared-text="${safeAttr(task.id)}" aria-label="任务内容">${safe(task.text)}</textarea>
         ${library ? `<select data-shared-lane="${safeAttr(task.id)}" aria-label="任务分栏">${sharedLanes(task.module).map((lane) => `<option value="${safeAttr(lane)}"${task.lane === lane ? " selected" : ""}>${safe(lane || "IELTS")}</option>`).join("")}</select>` : ""}
         ${dates ? `<div class="shared-task-dates">${dates}</div>` : ""}
-        ${library ? `<form class="shared-schedule-form" data-task-schedule="${safeAttr(task.id)}"><input type="date" name="date" required aria-label="安排日期" /><button type="submit" title="安排到日期" aria-label="安排到日期">↗</button></form>` : ""}
+        ${library ? `<button type="button" class="shared-date-picker-button" data-task-date-picker="${safeAttr(task.id)}">选择／管理日期${task.dates.length ? `（${task.dates.length}天）` : ""}</button>` : ""}
       </div>
       <button type="button" class="shared-remove" ${date ? `data-unassign-task="${safeAttr(task.id)}" data-date="${safeAttr(date)}" title="从当天移除" aria-label="从当天移除"` : `data-delete-task="${safeAttr(task.id)}" title="删除任务及其日期安排" aria-label="删除任务"`}>×</button>
     </div>`;
@@ -732,11 +743,73 @@
     if (except !== el.dayPlanNodes) renderSelectedDay();
   }
 
+  function openTaskDatePicker(taskId) {
+    const task = state.planningTasks.find((item) => item.id === taskId);
+    if (!task) return;
+    const anchor = task.dates[0] || selectedDate || calendarToday;
+    taskDatePicker = {
+      taskId,
+      visibleMonth: anchor.slice(0, 7),
+      selected: new Set(task.dates),
+    };
+    el.taskDatePickerTitle.textContent = task.text;
+    renderTaskDatePicker();
+    el.taskDateDialog.showModal();
+  }
+
+  function renderTaskDatePicker() {
+    const [year, month] = taskDatePicker.visibleMonth.split("-").map(Number);
+    const firstDate = `${year}-${pad(month)}-01`;
+    const mondayOffset = (new Date(`${firstDate}T00:00:00Z`).getUTCDay() + 6) % 7;
+    const gridStart = addDays(firstDate, -mondayOffset);
+    el.taskDatePickerMonth.textContent = `${year} 年 ${month} 月`;
+    el.taskDatePickerCount.textContent = `已选 ${taskDatePicker.selected.size} 天`;
+    el.taskDatePickerGrid.innerHTML = Array.from({ length: 42 }, (_, index) => {
+      const date = addDays(gridStart, index);
+      const selected = taskDatePicker.selected.has(date);
+      const outside = !date.startsWith(taskDatePicker.visibleMonth);
+      return `<button type="button" role="gridcell" data-task-picker-date="${safeAttr(date)}" aria-label="${safeAttr(formatDate(date))}" aria-pressed="${selected}" class="task-date-picker-day${selected ? " selected" : ""}${outside ? " outside" : ""}${date === calendarToday ? " today" : ""}"><span>${Number(date.slice(8))}</span></button>`;
+    }).join("");
+  }
+
+  function moveTaskDatePickerMonth(offset) {
+    const [year, month] = taskDatePicker.visibleMonth.split("-").map(Number);
+    const date = new Date(Date.UTC(year, month - 1 + offset, 1));
+    taskDatePicker.visibleMonth = `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}`;
+    renderTaskDatePicker();
+  }
+
+  function bindTaskDatePicker() {
+    el.taskDatePickerPrev.addEventListener("click", () => moveTaskDatePickerMonth(-1));
+    el.taskDatePickerNext.addEventListener("click", () => moveTaskDatePickerMonth(1));
+    el.taskDatePickerClear.addEventListener("click", () => {
+      taskDatePicker.selected.clear();
+      renderTaskDatePicker();
+    });
+    el.taskDatePickerGrid.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-task-picker-date]");
+      if (!button) return;
+      const date = button.dataset.taskPickerDate;
+      if (taskDatePicker.selected.has(date)) taskDatePicker.selected.delete(date);
+      else taskDatePicker.selected.add(date);
+      renderTaskDatePicker();
+    });
+    el.taskDatePickerApply.addEventListener("click", () => {
+      const task = state.planningTasks.find((item) => item.id === taskDatePicker.taskId);
+      if (!task) return;
+      const dates = PlanningTasks.setDates(task, [...taskDatePicker.selected]);
+      dates.forEach(ensurePlanningDate);
+      el.taskDateDialog.close();
+      refreshPlanning();
+      showSaved(dates.length ? `已同步 ${dates.length} 个日期` : "已清除日期安排");
+    });
+  }
+
   function bindSharedPlanningControls() {
     [el.moduleCatalog, el.planTableBody, el.roadmapTaskGroups, el.dayPlanNodes].filter(Boolean).forEach((container) => {
       container.addEventListener("submit", (event) => {
         const form = event.target;
-        if (!form.matches(".shared-add-form, .shared-assign-form, .shared-schedule-form")) return;
+        if (!form.matches(".shared-add-form, .shared-assign-form")) return;
         event.preventDefault();
         const fields = new FormData(form);
         if (form.dataset.sharedAdd) {
@@ -750,8 +823,8 @@
           }));
           if (form.dataset.dayDate) ensurePlanningDate(form.dataset.dayDate);
         } else {
-          const id = form.dataset.taskSchedule || fields.get("taskId");
-          const date = form.dataset.dayAssign || fields.get("date");
+          const id = fields.get("taskId");
+          const date = form.dataset.dayAssign;
           const task = state.planningTasks.find((item) => item.id === id);
           if (!PlanningTasks.assign(task, date)) return;
           ensurePlanningDate(date);
@@ -778,6 +851,10 @@
       container.addEventListener("click", (event) => {
         const button = event.target.closest("button");
         if (!button) return;
+        if (button.dataset.taskDatePicker) {
+          openTaskDatePicker(button.dataset.taskDatePicker);
+          return;
+        }
         if (button.dataset.openPlanningDate) {
           selectedDate = button.dataset.openPlanningDate;
           visibleMonth = selectedDate.slice(0, 7);
