@@ -1,10 +1,10 @@
-const CACHE_NAME = "planner-notebook-v64-multi-region-phd";
+const CACHE_NAME = "planner-notebook-v65-cache-recovery";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260909-shared-planning",
-  "./app.js",
-  "./planning-tasks.js",
+  "./styles.css?v=20260909-cache-recovery",
+  "./app.js?v=20260909-cache-recovery",
+  "./planning-tasks.js?v=20260909-cache-recovery",
   "./xlsx-export.js",
   "./config.js",
   "./plan-data.js",
@@ -21,16 +21,10 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))),
-  );
-  event.waitUntil(
-    self.clients.claim().then(() =>
-      self.clients.matchAll({ type: "window" }).then((clients) => {
-        clients.forEach((client) => client.navigate(client.url));
-      }),
-    ),
+    Promise.all([
+      caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))),
+      self.clients.claim(),
+    ]),
   );
 });
 

@@ -121,6 +121,7 @@
   ];
   const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系", "待回复", "准备申请", "已送出", "面试", "Offer", "暂停"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
+  ensurePlanningTaskRegionCompatibility();
   let state = loadState();
   let mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
   const dailyTemplates = data.dailyTemplates || [];
@@ -135,11 +136,46 @@
   let visibleMonth = selectedDate.slice(0, 7);
   let activeHour = 9;
   let deferredInstallPrompt = null;
+  let serviceWorkerReloading = false;
   let highlightedPlanDate = "";
   let taskDatePicker = { taskId: "", visibleMonth: "", selected: new Set() };
 
   const el = {};
   document.addEventListener("DOMContentLoaded", init);
+
+  function ensurePlanningTaskRegionCompatibility() {
+    const needsCompatibility = typeof PlanningTasks.lanesOf !== "function" || typeof PlanningTasks.setLanes !== "function" || typeof PlanningTasks.inLane !== "function";
+    if (!needsCompatibility) return;
+    const originalNormalize = PlanningTasks.normalize;
+    const originalMigrate = PlanningTasks.migrate;
+    PlanningTasks.lanesOf = (task) => {
+      const source = Array.isArray(task?.lanes) ? task.lanes : [task?.lane];
+      return [...new Set(source.map((lane) => String(lane || "")).filter(Boolean))].sort();
+    };
+    PlanningTasks.setLanes = (task, lanes) => {
+      if (!task) return [];
+      task.lanes = [...new Set((lanes || []).map((lane) => String(lane || "")).filter(Boolean))].sort();
+      task.lane = task.lanes[0] || "";
+      return task.lanes;
+    };
+    PlanningTasks.inLane = (task, lane) => {
+      const lanes = PlanningTasks.lanesOf(task);
+      return lanes.length ? lanes.includes(lane) : !lane;
+    };
+    PlanningTasks.normalize = (task) => {
+      const normalized = originalNormalize(task);
+      PlanningTasks.setLanes(normalized, PlanningTasks.lanesOf(task));
+      return normalized;
+    };
+    PlanningTasks.migrate = (candidate, seeds) => {
+      const savedLanes = new Map((candidate?.planningTasks || []).map((task) => [String(task.id), PlanningTasks.lanesOf(task)]));
+      const migrated = originalMigrate(candidate, seeds);
+      migrated.planningTasks?.forEach((task) => {
+        if (savedLanes.has(String(task.id))) PlanningTasks.setLanes(task, savedLanes.get(String(task.id)));
+      });
+      return migrated;
+    };
+  }
 
   function init() {
     bindElements();
@@ -2838,7 +2874,12 @@
 
   function registerServiceWorker() {
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js").catch(() => {});
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (serviceWorkerReloading) return;
+        serviceWorkerReloading = true;
+        window.location.reload();
+      });
+      navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" }).then((registration) => registration.update()).catch(() => {});
     }
   }
 })();

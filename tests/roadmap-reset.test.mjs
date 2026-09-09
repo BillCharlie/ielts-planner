@@ -95,11 +95,12 @@ test("plan migration preserves history, vocabulary and PhD records, and seeds na
 });
 
 test("renders all merged planning surfaces and persists roadmap state", async () => {
-  const [html, app, styles, xlsx] = await Promise.all([
+  const [html, app, styles, xlsx, sw] = await Promise.all([
     readFile(new URL("../index.html", import.meta.url), "utf8"),
     readFile(new URL("../app.js", import.meta.url), "utf8"),
     readFile(new URL("../styles.css", import.meta.url), "utf8"),
     readFile(new URL("../xlsx-export.js", import.meta.url), "utf8"),
+    readFile(new URL("../sw.js", import.meta.url), "utf8"),
   ]);
 
   for (const id of ["roadmapView", "roadmapGateGroups", "roadmapResearchGateGrid", "roadmapApplicationGateGrid", "roadmapTimelineBody", "roadmapTaskGroups"]) {
@@ -192,6 +193,12 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /PlanningTasks\.inLane\(task, lane\)/);
   assert.match(styles, /\.shared-add-regions/);
   assert.match(styles, /\.shared-region-picker/);
+  assert.match(app, /ensurePlanningTaskRegionCompatibility/);
+  assert.match(app, /updateViaCache: "none"/);
+  assert.match(app, /serviceWorkerReloading/);
+  assert.match(html, /planning-tasks\.js\?v=20260909-cache-recovery/);
+  assert.match(html, /app\.js\?v=20260909-cache-recovery/);
+  assert.match(sw, /planner-notebook-v65-cache-recovery/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
