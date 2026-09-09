@@ -32,70 +32,6 @@
     { gateId: "a2", start: "2026-12-01", end: "2027-03-31", lane: 2 },
     { gateId: "a3", start: "2027-02-01", end: "2027-04-30", lane: 1 },
   ];
-  const ROADMAP_TASKS = [
-    { id: "ielts-window", phase: "现在", category: "IELTS", title: "核对 IELTS 二战报名资料", detail: "考试日已定 2026/11/06；确认场次、证件与报到资讯", due: "11/06" },
-    { id: "ielts-diagnostic", phase: "现在", category: "IELTS", title: "完成 L / R 计时诊断", detail: "Writing / Speaking 同步做基线记录", due: "08/31" },
-    { id: "speaking-admin", phase: "现在", category: "IELTS", title: "补登 Speaking 场次", detail: "收到通知后记录考试时间、地点、报到方式与前后 buffer", due: "待通知" },
-    { id: "iedms-assets", phase: "现在", category: "会议", title: "IEDMS figure inventory", detail: "论文 figure → poster → 口头解释，不重新做研究", due: "08/31" },
-    { id: "cv-process", phase: "现在", category: "FinFET", title: "启动 C–V test process", detail: "建立 test structure 与 measurement flow", due: "09/15" },
-    { id: "advisor-exit", phase: "现在", category: "沟通", title: "和老师确认毕业 exit criteria", detail: "带 G1–G4 询问 7–8 月口试的必要成果", due: "09/15" },
-    { id: "tcad-archive", phase: "现在", category: "TCAD / AI", title: "封存 TCAD model 与参数版本", detail: "让 experiment comparison 可以重现", due: "09/30" },
-    { id: "iedms-freeze", phase: "接下来", category: "会议", title: "IEDMS poster freeze", detail: "完成版面、输出与 3 / 10 分钟讲法", due: "10/15" },
-    { id: "iwn-freeze", phase: "接下来", category: "会议", title: "IWN poster freeze", detail: "IEDMS 后集中完成，11/04 后只改错误", due: "11/04" },
-    { id: "recommend-tw", phase: "稍后", category: "PhD · TW", title: "台湾考试入学推荐信", detail: "2027/2请老师支持春季考试入学；附最新CV、研究成果、目标系所与待确认截止", due: "2027/02/15" },
-    { id: "tw-shortlist", phase: "稍后", category: "PhD · TW", title: "台湾考试入学导师与材料清单", detail: "2027/1确认台大电子所与阳明交大方向，整理研究计划、成绩单和毕业时间", due: "2027/01/31" },
-    { id: "tw-brochure", phase: "稍后", category: "PhD · TW", title: "核对116博士考试入学简章", detail: "2027/2起检查公告；确认组别是否招生、资格、书审／笔试／口试、推荐信与材料截止", due: "2027/03/10" },
-    { id: "tw-ready", phase: "稍后", category: "PhD · TW", title: "台湾申请材料内部备齐", detail: "个人准备节点3/15，不是学校截止；按正式简章更新后提交", due: "2027/03/15" },
-    { id: "tw-submit", phase: "稍后", category: "PhD · TW", title: "台湾博士考试入学报名", detail: "预计2027/3月下旬至4月上旬；报名、上传及推荐信分别确认，116日期待公告", due: "2027/03–04 待公告" },
-    { id: "tw-interview", phase: "稍后", category: "PhD · TW", title: "台湾博士考试／口试", detail: "预计2027/4–5月；按系所简章准备研究简报及可能的笔试，逐校记录时间", due: "2027/04–05 待公告" },
-    { id: "tw-result", phase: "稍后", category: "PhD · TW", title: "台湾放榜与报到", detail: "预计2027/5月追踪结果；确认报到、毕业证书及入学节点", due: "2027/05 待公告" },
-    { id: "recommend-overseas", phase: "接下来", category: "PhD · HK / EU", title: "香港／欧洲申请推荐信", detail: "IWN 结束后加入两场会议成果与最新 Fin 进度，附 CV v3、目标清单与 deadline", due: "11/20" },
-    { id: "hk-shortlist", phase: "现在", category: "PhD · HK", title: "完成香港导师统计与长名单", detail: "9 月完成 HKU、HKUST、CityU、PolyU 各 2–4 位与 GaN、III-N、TCAD、power device 或 fabrication 匹配的导师统计", due: "09/30" },
-    { id: "hk-cv-tailor", phase: "接下来", category: "PhD · HK", title: "按导师套磁、修改各版 CV", detail: "10 月根据每位目标导师定制 CV 与套磁信；准备 research proposal 与成果附件", due: "10/31" },
-    { id: "hk-contact-wave", phase: "接下来", category: "PhD · HK", title: "第一轮香港导师 email 联系", detail: "10 月底–11 月初发 email，确认 2027 intake、funding、实验室名额与研究契合度", due: "11/10" },
-    { id: "hk-materials", phase: "接下来", category: "PhD · HK", title: "四校申请材料完成", detail: "完成主 CV、四校适配版本、research proposal、成绩单与成果附件", due: "10/15" },
-    { id: "hk-hkpfs-priority", phase: "接下来", category: "PhD · HKPFS", title: "锁定 HKPFS 两个志愿", detail: "RGC 最多只能填两个 programme choices；确认第一、第二志愿及对应导师", due: "11/10" },
-    { id: "hk-internal-freeze", phase: "接下来", category: "PhD · HK", title: "香港申请内部封版", detail: "四校表单、附件、推荐人邀请和 HKPFS 选项全部完成；之后只允许复核与修正", due: "11/20" },
-    { id: "hk-rgc-submit", phase: "接下来", category: "PhD · HKPFS", title: "提交 RGC HKPFS 初步申请", detail: "预计硬截止为 12/01 12:00 HKT；取得 HKPFS reference number", due: "12/01 12:00" },
-    { id: "hk-school-submit", phase: "接下来", category: "PhD · HK", title: "完成四校完整申请", detail: "预计 HKPFS 学校端硬截止为 12/01 23:59 HKT；确认付款、附件和推荐信状态", due: "12/01 23:59" },
-    { id: "hk-interview-prep", phase: "稍后", category: "PhD · HK", title: "香港 PhD 面试与 follow-up", detail: "准备研究简报、研究契合度、未来计划与毕业时间说明；持续追踪 3–5 月结果", due: "2027/03" },
-    { id: "paper-draft", phase: "稍后", category: "论文", title: "Fin / TCAD journal paper 初稿", detail: "只保留能支撑主张的结果", due: "2027/02" },
-    { id: "thesis-half", phase: "稍后", category: "论文", title: "Thesis 初稿达到 50–60%", detail: "Methods、results、discussion 可供老师审阅", due: "2027/04" },
-    { id: "thesis-full", phase: "稍后", category: "论文", title: "完整 Thesis 初稿交老师", detail: "同时提出口试日期与修改 buffer", due: "2027/05" },
-    { id: "defense", phase: "稍后", category: "论文", title: "完成硕士口试", detail: "Plan A 目标；若 Gate 未过则依 Plan B 顺延", due: "2027/07" },
-  ];
-  const ROADMAP_TASK_PLACEMENTS = {
-    "ielts-window": ["2026/11", "ielts"],
-    "ielts-diagnostic": ["2026/08", "ielts"],
-    "speaking-admin": ["2026/11", "ielts"],
-    "iedms-assets": ["2026/08", "external"],
-    "cv-process": ["2026/09", "research"],
-    "advisor-exit": ["2026/09", "research"],
-    "tcad-archive": ["2026/09", "research"],
-    "iedms-freeze": ["2026/10", "external"],
-    "iwn-freeze": ["2026/11", "external"],
-    "recommend-tw": ["2027/02", "application"],
-    "tw-shortlist": ["2027/01", "application"],
-    "tw-brochure": ["2027/03", "application"],
-    "tw-ready": ["2027/03", "application"],
-    "tw-submit": ["2027/03", "application"],
-    "tw-interview": ["2027/04", "application"],
-    "tw-result": ["2027/05", "application"],
-    "recommend-overseas": ["2026/11", "application"],
-    "hk-shortlist": ["2026/09", "application"],
-    "hk-cv-tailor": ["2026/10", "application"],
-    "hk-contact-wave": ["2026/11", "application"],
-    "hk-materials": ["2026/10", "application"],
-    "hk-hkpfs-priority": ["2026/11", "application"],
-    "hk-internal-freeze": ["2026/11", "application"],
-    "hk-rgc-submit": ["2026/12", "application"],
-    "hk-school-submit": ["2026/12", "application"],
-    "hk-interview-prep": ["2027/01", "application"],
-    "paper-draft": ["2027/02", "external"],
-    "thesis-half": ["2027/04", "external"],
-    "thesis-full": ["2027/05", "external"],
-    "defense": ["2027/07", "external"],
-  };
   const GANTT_LANES = {
     research: ["制程", "TCAD", "Cadence"],
     external: ["IEDMS", "IWN", "ISPSD"],
@@ -279,7 +215,6 @@
       "moduleCatalog",
       "planWarningStrip",
       "planTableBody",
-      "planBoardBody",
       "roadmapResetButton",
       "roadmapGateCountdown",
       "roadmapTaskProgress",
@@ -429,55 +364,16 @@
       renderAll();
       showSaved("已延伸7天");
     });
-    bindPlanBoardControls();
-  }
-
-  function bindPlanBoardControls() {
-    if (!el.planBoardBody) return;
-    el.planBoardBody.addEventListener("submit", (event) => {
-      const form = event.target.closest(".plan-add");
-      if (!form) return;
-      event.preventDefault();
-      const fd = new FormData(form);
-      const text = String(fd.get("text") || "").trim();
-      if (!text) return;
-      addPlanNode({
-        month: form.dataset.planAddMonth,
-        module: form.dataset.planAddModule,
-        lane: String(fd.get("lane") || ""),
-        date: String(fd.get("date") || ""),
-        text,
-      });
-      renderPlanBoard();
-      renderRoadmap();
-      renderCalendar();
-      renderSelectedDay();
-      showSaved("已添加到计划");
-    });
-    el.planBoardBody.addEventListener("click", (event) => {
-      const del = event.target.closest("[data-plan-node-del]");
-      if (!del) return;
-      deletePlanNode(del.dataset.planNodeDel);
-      renderPlanBoard();
-      renderRoadmap();
-      renderCalendar();
-      renderSelectedDay();
-      showSaved("已删除");
-    });
-    el.planBoardBody.addEventListener("change", (event) => {
-      const box = event.target.closest("[data-plan-node-done]");
-      if (!box) return;
-      setPlanNodeDone(box.dataset.planNodeDone, box.checked);
-      renderPlanBoard();
-    });
+    bindSharedPlanningControls();
   }
 
   function bindRoadmapControls() {
     el.roadmapResetButton.addEventListener("click", () => {
       if (!window.confirm("要把研究 Gate 和任务进度全部归零吗？PhD 申请追踪不会被清除。")) return;
       state.roadmap = defaultRoadmapState();
+      state.planningTasks.forEach((task) => { task.done = false; });
       saveState();
-      renderRoadmap();
+      renderAll();
       showSaved("研究进度已归零");
     });
 
@@ -485,22 +381,6 @@
       const input = event.target.closest("[data-roadmap-gate]");
       if (!input) return;
       state.roadmap.gates[input.dataset.roadmapGate] = input.checked;
-      saveState();
-      renderRoadmap();
-    });
-
-    el.roadmapTaskGroups.addEventListener("change", (event) => {
-      const monthlyInput = event.target.closest("[data-roadmap-monthly]");
-      if (monthlyInput) {
-        state.roadmap.monthly ||= {};
-        state.roadmap.monthly[monthlyInput.dataset.roadmapMonthly] = monthlyInput.checked;
-        saveState();
-        renderRoadmap();
-        return;
-      }
-      const input = event.target.closest("[data-roadmap-task]");
-      if (!input) return;
-      state.roadmap.tasks[input.dataset.roadmapTask] = input.checked;
       saveState();
       renderRoadmap();
     });
@@ -653,7 +533,7 @@
     el.calendarView.classList.toggle("active", isCalendar);
     el.planView.classList.toggle("active", viewName === "plan");
     if (viewName === "plan") renderPlanTable();
-    if (isRoadmap) { renderRoadmap(); renderPlanBoard(); }
+    if (isRoadmap) { renderRoadmap();  }
     if (isPhd) renderPhdTracker();
   }
 
@@ -664,7 +544,6 @@
     renderCalendar();
     renderSelectedDay();
     renderPlanTable();
-    renderPlanBoard();
   }
 
   function renderRoadmap() {
@@ -675,12 +554,11 @@
 
   function renderRoadmapStats() {
     const roadmap = state.roadmap || defaultRoadmapState();
-    const doneTasks = ROADMAP_TASKS.filter((task) => roadmap.tasks[task.id]).length;
-    const monthlyKeys = ROADMAP_MONTHS.flatMap((row) => ["research", "ielts", "external", "application"].map((track) => `${row[0]}:${track}`));
-    const doneMonthly = monthlyKeys.filter((key) => roadmap.monthly?.[key]).length;
+    const monthTasks = state.planningTasks.filter((task) => task.months.length || task.dates.length);
+    const doneTasks = monthTasks.filter((task) => task.done).length;
     const nextGate = RESEARCH_GATES.find((gate) => !roadmap.gates[gate.id]) || RESEARCH_GATES.at(-1);
     const remaining = daysUntil(nextGate.date);
-    el.roadmapTaskProgress.textContent = `${doneTasks + doneMonthly} / ${ROADMAP_TASKS.length + monthlyKeys.length}`;
+    el.roadmapTaskProgress.textContent = `${doneTasks} / ${monthTasks.length}`;
     el.roadmapGateCountdown.textContent = `${formatDate(nextGate.date)} · ${remaining >= 0 ? `剩 ${remaining} 天` : "待补登结果"}`;
     el.roadmapTrackStatus.textContent = roadmap.gates.g3 ? "Plan A 有数据支持" : "A / B 同时保留";
   }
@@ -730,175 +608,193 @@
 
   function renderRoadmapTimeline() {
     const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    const taskState = state.roadmap?.tasks || {};
-    const monthlyState = state.roadmap?.monthly || {};
-    el.roadmapTimelineBody.innerHTML = ROADMAP_MONTHS.map((row, index) => {
+    const months = new Map(ROADMAP_MONTHS.map((row) => [row[0], row]));
+    state.planningTasks.forEach((task) => {
+      [...task.months, ...task.dates.map(PlanningTasks.monthOf)].forEach((month) => {
+        if (!months.has(month)) months.set(month, [month, "", {}, "", {}, {}, ""]);
+      });
+    });
+    const rows = [...months.values()].sort((a, b) => a[0].localeCompare(b[0]));
+    el.roadmapTimelineBody.innerHTML = rows.map((row, index) => {
       const [year, month] = row[0].split("/");
       const monthNumber = Number(month);
       const yearBoundary = monthNumber === 1 ? " year-boundary" : "";
       return `
         <div class="vertical-gantt-row${yearBoundary}" role="row">
-          <div class="vertical-gantt-time${index === 0 ? " first" : ""}${index === ROADMAP_MONTHS.length - 1 ? " last" : ""}" role="rowheader">
+          <div class="vertical-gantt-time${index === 0 ? " first" : ""}${index === rows.length - 1 ? " last" : ""}" role="rowheader">
             <time datetime="${safeAttr(`${year}-${month}`)}"><b>${safe(year)}</b><strong>${safe(monthNames[monthNumber - 1])}</strong></time>
             <span class="roadmap-phase-tag">${safe(row[1])}</span>
             ${row[6] ? `<span class="vertical-gantt-grad">${safe(row[6])}</span>` : ""}
           </div>
-          ${renderVerticalGanttCell(row[0], "research", row[2], taskState, monthlyState)}
-          ${renderVerticalGanttCell(row[0], "ielts", row[3], taskState, monthlyState)}
-          ${renderVerticalGanttCell(row[0], "external", row[4], taskState, monthlyState)}
-          ${renderVerticalGanttCell(row[0], "application", row[5], taskState, monthlyState)}
+          ${renderVerticalGanttCell(row[0], "research")}
+          ${renderVerticalGanttCell(row[0], "ielts")}
+          ${renderVerticalGanttCell(row[0], "external")}
+          ${renderVerticalGanttCell(row[0], "application")}
         </div>
       `;
     }).join("");
   }
 
-  function renderVerticalGanttCell(month, track, summary, taskState, monthlyState) {
-    const tasks = ROADMAP_TASKS.filter((task) => {
-      const placement = ROADMAP_TASK_PLACEMENTS[task.id];
-      return placement?.[0] === month && placement?.[1] === track;
-    });
-    const monthlyKey = `${month}:${track}`;
-    const monthlyDone = Boolean(monthlyState[monthlyKey]);
-    let summaryContent;
-    if (track === "graduation") {
-      summaryContent = `<p>${safe(summary)}</p>`;
-    } else {
-      const lanes = GANTT_LANES[track];
-      const combine = (lane) => {
-        const seed = lanes ? (summary && summary[lane]) || "" : (typeof summary === "string" ? summary : "");
-        const userText = userNodesFor(month, track, lane).map((node) => node.text);
-        return [seed, ...userText].filter(Boolean).join("；");
-      };
-      let laneMarkup;
-      let ariaSummary;
-      if (lanes) {
-        const parts = lanes.map((label) => ({ label, text: combine(label) })).filter((part) => part.text);
-        laneMarkup = parts.length
-          ? parts.map((part) => `<span class="vertical-gantt-lane"><span class="vertical-gantt-lane-label">${safe(part.label)}</span><span class="vertical-gantt-lane-text">${safe(part.text)}</span></span>`).join("")
-          : `<span class="vertical-gantt-lane-empty">—</span>`;
-        ariaSummary = parts.map((part) => `${part.label}：${part.text}`).join("；") || "本月无安排";
-      } else {
-        const text = combine("");
-        laneMarkup = text
-          ? `<span class="vertical-gantt-lane-text">${safe(text)}</span>`
-          : `<span class="vertical-gantt-lane-empty">—</span>`;
-        ariaSummary = text || "本月无安排";
-      }
-      summaryContent = `
-        <label class="vertical-gantt-summary-check${monthlyDone ? " complete" : ""}">
-          <input type="checkbox" data-roadmap-monthly="${safeAttr(monthlyKey)}" aria-label="${safeAttr(`${month} ${ariaSummary}，${monthlyDone ? "已完成" : "未完成"}`)}"${monthlyDone ? " checked" : ""} />
-          <span class="vertical-gantt-summary-box">${monthlyDone ? "✓" : ""}</span>
-          <span class="vertical-gantt-lanes">${laneMarkup}</span>
-        </label>
-      `;
-    }
-    return `
-      <div class="vertical-gantt-cell ${safeAttr(track)}" role="cell">
-        <div class="vertical-gantt-cell-content${monthlyDone && track !== "graduation" ? " monthly-complete" : ""}">
-          ${summaryContent}
-          ${tasks.length ? `<div class="vertical-gantt-checklist">${tasks.map((task) => renderVerticalGanttTask(task, taskState)).join("")}</div>` : ""}
-        </div>
-      </div>
-    `;
+  function sharedLanes(module) {
+    return [...new Set([...(GANTT_LANES[module] || [""]), ...state.planningTasks.filter((task) => task.module === module).map((task) => task.lane)])];
   }
 
-  function userNodesFor(month, moduleKey, lane) {
-    return (state.planNodes || []).filter((node) => node.month === month && node.module === moduleKey && (node.lane || "") === (lane || ""));
+  function planningTaskMarkup(task, { date = "", library = false } = {}) {
+    const dates = task.dates.map((value) => `<button type="button" class="shared-task-date" data-open-planning-date="${safeAttr(value)}">${safe(value.slice(5))}</button>`).join("");
+    return `<div class="shared-task${task.done ? " complete" : ""}" data-shared-task="${safeAttr(task.id)}">
+      <input type="checkbox" data-shared-done="${safeAttr(task.id)}" aria-label="完成 ${safeAttr(task.text)}"${task.done ? " checked" : ""} />
+      <div class="shared-task-body">
+        <textarea rows="2" data-shared-text="${safeAttr(task.id)}" aria-label="任务内容">${safe(task.text)}</textarea>
+        ${library ? `<select data-shared-lane="${safeAttr(task.id)}" aria-label="任务分栏">${sharedLanes(task.module).map((lane) => `<option value="${safeAttr(lane)}"${task.lane === lane ? " selected" : ""}>${safe(lane || "IELTS")}</option>`).join("")}</select>` : ""}
+        ${dates ? `<div class="shared-task-dates">${dates}</div>` : ""}
+        ${library ? `<form class="shared-schedule-form" data-task-schedule="${safeAttr(task.id)}"><input type="date" name="date" required aria-label="安排日期" /><button type="submit" title="安排到日期" aria-label="安排到日期">↗</button></form>` : ""}
+      </div>
+      <button type="button" class="shared-remove" ${date ? `data-unassign-task="${safeAttr(task.id)}" data-date="${safeAttr(date)}" title="从当天移除" aria-label="从当天移除"` : `data-delete-task="${safeAttr(task.id)}" title="删除任务及其日期安排" aria-label="删除任务"`}>×</button>
+    </div>`;
+  }
+
+  function planningAddForm(module, month = "") {
+    return `<form class="shared-add-form" data-shared-add="${safeAttr(module)}" data-month="${safeAttr(month)}">
+      <select name="lane" aria-label="任务分栏">${sharedLanes(module).map((lane) => `<option value="${safeAttr(lane)}">${safe(lane || "IELTS")}</option>`).join("")}</select>
+      <input name="text" required aria-label="新任务" placeholder="新任务" />
+      <button type="submit" title="添加任务" aria-label="添加任务">+</button>
+    </form>`;
+  }
+
+  function renderVerticalGanttCell(month, track) {
+    const tasks = PlanningTasks.forMonth(state.planningTasks, month, track);
+    const lanes = sharedLanes(track);
+    return `<div class="vertical-gantt-cell ${safeAttr(track)}" role="cell" data-planning-month="${safeAttr(month)}" data-planning-track="${safeAttr(track)}">
+      ${lanes.map((lane) => {
+        const entries = tasks.filter((task) => task.lane === lane);
+        return entries.length ? `<div class="shared-month-lane"><span class="vertical-gantt-lane-label">${safe(lane)}</span>${entries.map((task) => planningTaskMarkup(task)).join("")}</div>` : "";
+      }).join("")}
+      ${planningAddForm(track, month)}
+    </div>`;
   }
 
   function datedPlanNodes(date) {
-    return (state.planNodes || []).filter((node) => node.date === date);
+    return PlanningTasks.forDate(state.planningTasks, date);
   }
 
   function planModuleLabel(moduleKey) {
     return PLAN_MODULES.find((module) => module.key === moduleKey)?.label || moduleKey;
   }
 
-  function addPlanNode(node) {
-    if (!Array.isArray(state.planNodes)) state.planNodes = [];
-    state.planNodes.push({ id: `pn-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, done: false, ...node });
-    saveState();
+  function sharedDayMarkup(date, module) {
+    const tasks = PlanningTasks.forDate(state.planningTasks, date, module);
+    const available = state.planningTasks.filter((task) => task.module === module && !task.dates.includes(date));
+    return `<div class="shared-day-tasks" data-shared-day="${safeAttr(date)}" data-shared-track="${safeAttr(module)}">
+      ${tasks.map((task) => planningTaskMarkup(task, { date })).join("")}
+      <form class="shared-assign-form" data-day-assign="${safeAttr(date)}">
+        <select name="taskId" required aria-label="选择${safeAttr(planModuleLabel(module))}任务"><option value="">选择任务</option>${available.map((task) => `<option value="${safeAttr(task.id)}">${safe(task.lane ? task.lane + " · " : "")}${safe(task.text)}</option>`).join("")}</select>
+        <button type="submit" title="排入当天" aria-label="排入当天">+</button>
+      </form>
+      <form class="shared-add-form shared-day-add" data-shared-add="${safeAttr(module)}" data-day-date="${safeAttr(date)}">
+        <select name="lane" aria-label="任务分栏">${sharedLanes(module).map((lane) => `<option value="${safeAttr(lane)}">${safe(lane || "IELTS")}</option>`).join("")}</select>
+        <input name="text" required aria-label="新任务" placeholder="直接新增到当天" />
+        <button type="submit" title="新增并排入当天" aria-label="新增并排入当天">+</button>
+      </form>
+    </div>`;
   }
 
-  function deletePlanNode(id) {
-    state.planNodes = (state.planNodes || []).filter((node) => node.id !== id);
-    saveState();
-  }
-
-  function setPlanNodeDone(id, done) {
-    const node = (state.planNodes || []).find((item) => item.id === id);
-    if (node) {
-      node.done = done;
-      saveState();
+  function ensurePlanningDate(date) {
+    if (!mainByDate.has(date)) {
+      mainPlan.push({ ...createBlankPlanRow(date), projectType: "", projectModule: "", projectPlan: "" });
+      mainPlan.sort((a, b) => a.date.localeCompare(b.date));
+      persistPlanRows();
+      rebuildPlanIndexes();
     }
   }
 
-  function planSeedText(row, moduleKey, lane) {
-    const idx = { research: 2, ielts: 3, external: 4, application: 5 }[moduleKey];
-    const cell = row[idx];
-    if (moduleKey === "ielts") return typeof cell === "string" ? cell : "";
-    return (cell && cell[lane]) || "";
+  function updatePlanningSlots() {
+    const byId = new Map(state.planningTasks.map((task) => [task.id, task]));
+    Object.entries(state.schedule || {}).forEach(([date, slots]) => {
+      Object.entries(slots).forEach(([hour, value]) => {
+        const slot = normalizeSlot(value);
+        const prefix = `${date}:planning:`;
+        if (!slot.taskId.startsWith(prefix)) return;
+        const task = byId.get(slot.taskId.slice(prefix.length));
+        if (task?.dates.includes(date)) slots[hour] = { ...slot, text: [task.lane, task.text].filter(Boolean).join(" · ") };
+        else { delete slots[hour]; delete state.savedSlots?.[date]?.[hour]; }
+      });
+    });
   }
 
-  function renderPlanBoard() {
-    if (!el.planBoardBody) return;
-    const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    el.planBoardBody.innerHTML = ROADMAP_MONTHS.map((row) => {
-      const month = row[0];
-      const [year, mm] = month.split("/");
-      const modules = PLAN_MODULES.map((module) => {
-        const lanesMarkup = module.lanes.map((lane) => {
-          const seed = planSeedText(row, module.key, lane);
-          const nodes = userNodesFor(month, module.key, lane);
-          const items = [];
-          if (seed) items.push(`<li class="plan-node seed"><span class="plan-node-text">${safe(seed)}</span></li>`);
-          nodes.forEach((node) => {
-            const dateTag = node.date ? `<em class="plan-node-date">${safe(node.date.slice(5))}</em>` : "";
-            items.push(`<li class="plan-node${node.done ? " done" : ""}">
-              <label class="plan-node-check"><input type="checkbox" data-plan-node-done="${safeAttr(node.id)}"${node.done ? " checked" : ""} aria-label="完成 ${safeAttr(node.text)}" /><span></span></label>
-              <span class="plan-node-text">${safe(node.text)}${dateTag}</span>
-              <button type="button" class="plan-node-del" data-plan-node-del="${safeAttr(node.id)}" aria-label="删除">×</button>
-            </li>`);
-          });
-          return `<div class="plan-lane">
-            ${lane ? `<span class="plan-lane-label">${safe(lane)}</span>` : ""}
-            <ul class="plan-node-list">${items.join("") || '<li class="plan-node-empty">—</li>'}</ul>
-          </div>`;
-        }).join("");
-        const laneSelect = module.lanes.length > 1
-          ? `<select name="lane" aria-label="子栏">${module.lanes.map((lane) => `<option value="${safeAttr(lane)}">${safe(lane)}</option>`).join("")}</select>`
-          : `<input type="hidden" name="lane" value="${safeAttr(module.lanes[0] || "")}" />`;
-        return `<div class="plan-module ${safeAttr(module.key)}">
-          <h3>${safe(module.label)}</h3>
-          <div class="plan-lanes">${lanesMarkup}</div>
-          <form class="plan-add" data-plan-add-month="${safeAttr(month)}" data-plan-add-module="${safeAttr(module.key)}">
-            ${laneSelect}
-            <input name="text" type="text" placeholder="添加一项…" />
-            <input name="date" type="date" aria-label="可选日期" />
-            <button type="submit" aria-label="添加">＋</button>
-          </form>
-        </div>`;
-      }).join("");
-      return `<section class="plan-month">
-        <header class="plan-month-head">
-          <h2><b>${safe(year)}</b> ${safe(monthNames[Number(mm) - 1])}</h2>
-          <span class="roadmap-phase-tag">${safe(row[1])}</span>
-          ${row[6] ? `<span class="vertical-gantt-grad">${safe(row[6])}</span>` : ""}
-        </header>
-        <div class="plan-month-modules">${modules}</div>
-      </section>`;
-    }).join("");
+  function refreshPlanning(except = null) {
+    updatePlanningSlots();
+    saveState();
+    if (except !== el.moduleCatalog) renderModuleCatalog();
+    if (except !== el.planTableBody) renderPlanTable();
+    if (except !== el.roadmapTaskGroups) renderRoadmap();
+    else renderRoadmapStats();
+    renderCalendar();
+    if (except !== el.dayPlanNodes) renderSelectedDay();
   }
 
-  function renderVerticalGanttTask(task, taskState) {
-    const checked = Boolean(taskState[task.id]);
-    return `
-      <label class="vertical-gantt-task${checked ? " complete" : ""}" title="${safeAttr(task.detail)}">
-        <input type="checkbox" data-roadmap-task="${safeAttr(task.id)}" aria-label="${safeAttr(`${task.title}，${checked ? "已完成" : "未完成"}`)}"${checked ? " checked" : ""} />
-        <span class="vertical-gantt-task-check">${checked ? "✓" : ""}</span>
-        <span><b>${safe(task.title)}</b><small>${safe(task.category)} · ${safe(task.due)}</small></span>
-      </label>
-    `;
+  function bindSharedPlanningControls() {
+    [el.moduleCatalog, el.planTableBody, el.roadmapTaskGroups, el.dayPlanNodes].filter(Boolean).forEach((container) => {
+      container.addEventListener("submit", (event) => {
+        const form = event.target;
+        if (!form.matches(".shared-add-form, .shared-assign-form, .shared-schedule-form")) return;
+        event.preventDefault();
+        const fields = new FormData(form);
+        if (form.dataset.sharedAdd) {
+          const text = String(fields.get("text") || "").trim();
+          if (!text) return;
+          state.planningTasks.push(PlanningTasks.normalize({
+            id: `task:${crypto.randomUUID()}`, module: form.dataset.sharedAdd,
+            lane: fields.get("lane"), text,
+            months: form.dataset.month ? [form.dataset.month] : [],
+            dates: form.dataset.dayDate ? [form.dataset.dayDate] : [],
+          }));
+          if (form.dataset.dayDate) ensurePlanningDate(form.dataset.dayDate);
+        } else {
+          const id = form.dataset.taskSchedule || fields.get("taskId");
+          const date = form.dataset.dayAssign || fields.get("date");
+          const task = state.planningTasks.find((item) => item.id === id);
+          if (!PlanningTasks.assign(task, date)) return;
+          ensurePlanningDate(date);
+        }
+        refreshPlanning();
+        showSaved("日、月计划已同步");
+      });
+      container.addEventListener("change", (event) => {
+        const input = event.target;
+        const id = input.dataset.sharedText || input.dataset.sharedDone || input.dataset.sharedLane;
+        if (!id) return;
+        const task = state.planningTasks.find((item) => item.id === id);
+        if (!task) return;
+        if (input.dataset.sharedDone) {
+          task.done = input.checked;
+          input.closest(".shared-task").classList.toggle("complete", task.done);
+        } else if (input.dataset.sharedLane) task.lane = input.value;
+        else {
+          if (!input.value.trim()) { input.value = task.text; return; }
+          task.text = input.value.trim();
+        }
+        refreshPlanning(container);
+      });
+      container.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        if (button.dataset.openPlanningDate) {
+          selectedDate = button.dataset.openPlanningDate;
+          visibleMonth = selectedDate.slice(0, 7);
+          setView("calendar");
+          renderCalendar();
+          renderSelectedDay();
+          return;
+        }
+        if (button.dataset.deleteTask) {
+          state.planningTasks = state.planningTasks.filter((task) => task.id !== button.dataset.deleteTask);
+        } else if (button.dataset.unassignTask) {
+          const task = state.planningTasks.find((item) => item.id === button.dataset.unassignTask);
+          task.dates = task.dates.filter((date) => date !== button.dataset.date);
+        } else return;
+        refreshPlanning();
+      });
+    });
   }
 
   function renderPhdTracker() {
@@ -1130,7 +1026,7 @@
     } else {
       el.summaryIeltsDetail.textContent = [plan.ieltsModule, plan.cambridge].filter(Boolean).join(" / ");
     }
-    el.summaryProjectType.textContent = normalizedProjectType(plan) || "无";
+    el.summaryProjectType.textContent = "研究／会议论文";
     el.summaryProject.textContent = projectSummaryText(plan, selectedDate) || template.notes || "今天没有实验专案/学务主任务。";
     el.summaryStatus.textContent = getPlanOverride(selectedDate, "status") || plan.status || "未开始";
     el.summaryLimits.textContent = plan.limits || template.notes || "";
@@ -1151,10 +1047,7 @@
       return;
     }
     el.dayPlanNodes.hidden = false;
-    el.dayPlanNodes.innerHTML = `<span class="day-plan-nodes-title">计划节点</span>${nodes.map((node) => {
-      const laneTag = node.lane ? `${node.lane}·` : "";
-      return `<span class="day-plan-chip ${safeAttr(node.module)}${node.done ? " done" : ""}">${safe(laneTag + node.text)}</span>`;
-    }).join("")}`;
+    el.dayPlanNodes.innerHTML = `<span class="day-plan-nodes-title">当日任务</span>${nodes.map((node) => planningTaskMarkup(node, { date: selectedDate })).join("")}`;
   }
 
   function renderTaskPicker() {
@@ -1447,54 +1340,15 @@
   }
 
   function renderModuleCatalog() {
-    el.moduleCatalog.innerHTML = `
-      ${moduleCatalogSectionMarkup("实验专案", EXPERIMENT_MODULES)}
-      ${moduleCatalogSectionMarkup("学务", ACADEMIC_MODULES)}
-    `;
-
-    el.moduleCatalog.querySelectorAll(".module-add-button").forEach((button) => {
-      button.addEventListener("click", () => {
-        const module = button.dataset.module;
-        const nameInput = el.moduleCatalog.querySelector(`.module-new-name[data-module="${cssEscape(module)}"]`);
-        const daysInput = el.moduleCatalog.querySelector(`.module-new-days[data-module="${cssEscape(module)}"]`);
-        addModuleItem(module, nameInput.value.trim(), daysInput.value);
-        nameInput.value = "";
-        daysInput.value = "";
-        renderModuleCatalog();
-        renderPlanTable();
-        renderSelectedDay();
-        showSaved("已新增模块项目");
-      });
-    });
-
-    el.moduleCatalog.querySelectorAll(".catalog-name-input").forEach((input) => {
-      input.addEventListener("input", () => {
-        updateModuleItem(input.dataset.id, { name: input.value });
-        renderPlanTable();
-        renderSelectedDay();
-        showSaved("已保存");
-      });
-    });
-
-    el.moduleCatalog.querySelectorAll(".catalog-days-input").forEach((input) => {
-      input.addEventListener("input", () => {
-        updateModuleItem(input.dataset.id, { days: input.value });
-        renderPlanTable();
-        renderSelectedDay();
-        showSaved("已保存");
-      });
-    });
-
-    el.moduleCatalog.querySelectorAll(".catalog-delete-button").forEach((button) => {
-      button.addEventListener("click", () => {
-        deleteModuleItem(button.dataset.id);
-        renderModuleCatalog();
-        renderPlanTable();
-        renderSelectedDay();
-        renderCalendar();
-        showSaved("已删除");
-      });
-    });
+    const expanded = new Set([...el.moduleCatalog.querySelectorAll("details[open]")].map((item) => item.dataset.libraryTrack));
+    el.moduleCatalog.innerHTML = ["research", "external"].map((module) => {
+      const tasks = state.planningTasks.filter((task) => task.module === module);
+      return `<details class="shared-library" data-library-track="${module}"${expanded.has(module) ? " open" : ""}>
+        <summary>${safe(planModuleLabel(module))}<small>${tasks.length} 项</small></summary>
+        ${planningAddForm(module)}
+        <div class="shared-library-list">${tasks.map((task) => planningTaskMarkup(task, { library: true })).join("")}</div>
+      </details>`;
+    }).join("");
   }
 
   function moduleCatalogSectionMarkup(title, modules) {
@@ -1559,14 +1413,11 @@
             ${["正常", "考试日", "休息"].map((type) => `<option value="${type}">${type}</option>`).join("")}
           </select>
         </td>
-        <td class="project-cell" data-label="研究主线（实验）">
-          <select class="plan-edit-input project-type-select" data-field="projectType" data-date="${safeAttr(item.date)}">
-            ${(isRestDay(item) ? ["休息"] : [...new Set(["", "实验专案", normalizedProjectType(item)])]).map((type) => `<option value="${type}">${type || "未安排"}</option>`).join("")}
-          </select>
-          <div class="project-planner-slot">${projectPlannerMarkup(item)}</div>
+        <td class="project-cell" data-label="研究主线">
+          ${sharedDayMarkup(item.date, "research")}
         </td>
         <td data-label="会议 / 论文" class="conf-cell">
-          ${datedPlanNodes(item.date).filter((node) => node.module === "external").map((node) => `<span class="day-plan-chip external${node.done ? " done" : ""}">${safe((node.lane ? node.lane + "·" : "") + node.text)}</span>`).join("") || '<span class="muted">—</span>'}
+          ${sharedDayMarkup(item.date, "external")}
         </td>
         <td data-label="IELTS / 模块">
           ${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { toggleDate: item.date }) : ""}
@@ -1711,16 +1562,14 @@
         });
       }
     }
-    if (plan?.projectType && !isRestDay(plan)) {
-      const projectText = projectSummaryText(plan, date);
+    datedPlanNodes(date).forEach((node) => {
+      const text = [node.lane, node.text].filter(Boolean).join(" · ");
       tasks.push({
-        id: `${date}:project`,
-        kind: "project",
-        label: projectText,
-        text: projectText,
-        keywords: [plan.projectType, getSelectedModule(plan), projectText].filter(Boolean),
+        id: `${date}:planning:${node.id}`,
+        kind: node.module === "research" ? "project" : "daily",
+        label: text, text, keywords: [node.text],
       });
-    }
+    });
     if (!trainingItems.length && template?.mainTask && !isRestText(template.mainTask) && !tasks.some((task) => task.text.includes(template.mainTask))) {
       tasks.push({
         id: `${date}:daily`,
@@ -1919,7 +1768,7 @@
     const draft = {
       date: nextDate,
       dayType: row.querySelector('[data-field="dayType"]')?.value || "正常",
-      projectType: row.querySelector('[data-field="projectType"]')?.value || "",
+      projectType: mainByDate.get(originalDate)?.projectType || "",
       ieltsPlan: row.querySelector('[data-field="ieltsPlan"]')?.value || "",
       ieltsModule: row.querySelector('[data-field="ieltsModule"]')?.value || "",
       cambridge: row.querySelector('[data-field="cambridge"]')?.value || "",
@@ -1946,11 +1795,15 @@
     const previousDate = row.date;
     row[field] = value;
     if (field === "date") {
+      PlanningTasks.moveDate(state.planningTasks, previousDate, value);
       row.weekday = weekdayZh(value);
       moveDateKey(state.modulePlans, previousDate, value);
       moveDateKey(state.planOverrides, previousDate, value);
       moveDateKey(state.schedule, previousDate, value);
       moveDateKey(state.savedSlots, previousDate, value);
+      Object.values(state.schedule[value] || {}).forEach((slot) => {
+        if (slot?.taskId?.startsWith(previousDate + ":")) slot.taskId = value + slot.taskId.slice(previousDate.length);
+      });
       if (selectedDate === previousDate) selectedDate = value;
     }
     if (field === "dayType") {
@@ -2005,10 +1858,12 @@
     if (action === "copy") {
       const copied = clonePlanRow(mainPlan[index]);
       mainPlan.splice(index + 1, 0, copied);
+      PlanningTasks.moveDate(state.planningTasks, date, copied.date, true);
       highlightDate = copied.date;
     }
     if (action === "delete" && mainPlan.length > 1) {
       const [removed] = mainPlan.splice(index, 1);
+      state.planningTasks.forEach((task) => { task.dates = task.dates.filter((value) => value !== removed.date); });
       delete state.modulePlans[removed.date];
       delete state.planOverrides[removed.date];
       delete state.schedule[removed.date];
@@ -2124,14 +1979,8 @@
   }
 
   function projectSummaryText(plan, date) {
-    if (!plan?.projectType) return "";
-    if (plan.projectPlan) return plan.projectPlan;
-    if (normalizedProjectType(plan) === "实验专案" || normalizedProjectType(plan) === "学务") {
-      const item = getSelectedProjectItem(plan);
-      const progress = projectItemProgressForDate(date, item.id);
-      return `${item.name}${progress ? ` ${progress}` : ""}`;
-    }
-    return normalizedProjectType(plan);
+    return datedPlanNodes(date).filter((task) => ["research", "external"].includes(task.module))
+      .map((task) => [task.lane, task.text].filter(Boolean).join(" · ")).join("；");
   }
 
   function projectItemProgressForDate(date, itemId) {
@@ -2540,6 +2389,8 @@
       optionalPools: parsed.optionalPools || {},
       vocabularyCards: parsed.vocabularyCards || {},
       planNodes: Array.isArray(parsed.planNodes) ? parsed.planNodes : [],
+      planningTasks: Array.isArray(parsed.planningTasks) ? parsed.planningTasks : [],
+      planningTasksVersion: parsed.planningTasksVersion || 0,
       roadmap: {
         tasks: parsed.roadmap?.tasks || {},
         gates: parsed.roadmap?.gates || {},
@@ -2548,7 +2399,7 @@
       phdTracker: normalizePhdTracker(parsed.phdTracker),
     };
     ensureAcademicCatalog(normalized);
-    return migratePlanState(normalized);
+    return PlanningTasks.migrate(migratePlanState(normalized), ROADMAP_MONTHS);
   }
 
   function ensureAcademicCatalog(candidate) {
@@ -2703,6 +2554,7 @@
 
   function applyRemoteState(remoteState) {
     const incomingVersion = remoteState?.planVersion || "";
+    const incomingTasksVersion = remoteState?.planningTasksVersion || 0;
     applyingRemoteState = true;
     state = normalizeState(remoteState || {});
     mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
@@ -2714,7 +2566,7 @@
     }
     renderAll();
     applyingRemoteState = false;
-    if (authToken && state.planVersion && state.planVersion !== incomingVersion) {
+    if (authToken && (state.planVersion !== incomingVersion || state.planningTasksVersion !== incomingTasksVersion)) {
       pushRemoteState().catch((error) => console.warn("Cloud migration save failed.", error));
     }
   }
@@ -2722,6 +2574,8 @@
   function hasUsefulState(candidate) {
     if (!candidate) return false;
     return Boolean(
+      candidate.planningTasks?.length ||
+      candidate.planNodes?.length ||
       candidate.planRows?.length ||
         candidate.extraPlanRows?.length ||
         candidate.phdTracker?.regions?.some((region) => region.schools?.length) ||

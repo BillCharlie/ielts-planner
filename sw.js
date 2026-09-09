@@ -1,9 +1,10 @@
-const CACHE_NAME = "planner-notebook-v61-cn-cambridge";
+const CACHE_NAME = "planner-notebook-v62-shared-planning";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260909-cn-cambridge",
+  "./styles.css?v=20260909-shared-planning",
   "./app.js",
+  "./planning-tasks.js",
   "./xlsx-export.js",
   "./config.js",
   "./plan-data.js",
@@ -39,7 +40,7 @@ self.addEventListener("fetch", (event) => {
   const networkFirst =
     event.request.mode === "navigate" ||
     url.pathname === "/" ||
-    ["index.html", "styles.css", "app.js", "config.js", "plan-data.js", "sw.js"].some((asset) =>
+    ["index.html", "styles.css", "app.js", "planning-tasks.js", "config.js", "plan-data.js", "sw.js"].some((asset) =>
       url.pathname.endsWith(asset),
     );
   if (networkFirst) {

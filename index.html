@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260909-cn-cambridge" />
+    <link rel="stylesheet" href="styles.css?v=20260909-shared-planning" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -53,7 +53,7 @@
           <section class="roadmap-stats" aria-label="规划摘要">
             <article><span>当前主战场</span><strong>Fin test + IELTS 11/06</strong><p>同一阶段最多两项高优先任务</p></article>
             <article><span>下一研究 Gate</span><strong>G1 · Process Ready</strong><p id="roadmapGateCountdown">2026/10/14</p></article>
-            <article><span>甘特勾选</span><strong id="roadmapTaskProgress">0 / 0</strong><p>月度主框＋细分任务</p></article>
+            <article><span>任务完成</span><strong id="roadmapTaskProgress">0 / 0</strong><p>已安排的独立任务</p></article>
             <article><span>毕业轨道</span><strong id="roadmapTrackStatus">A / B 同时保留</strong><p>2027/03/31 决定是否切换</p></article>
           </section>
 
@@ -102,7 +102,7 @@
           </section>
 
           <section class="roadmap-section">
-            <div class="roadmap-section-head"><div><span>03—04</span><h2>月度甘特任务表</h2></div><p>时间轴与研究任务合并；完成一项直接打勾</p></div>
+            <div class="roadmap-section-head"><div><span>03—04</span><h2>月度甘特任务表</h2></div></div>
             <div class="roadmap-vertical-gantt-wrap">
               <div id="roadmapTaskGroups" class="roadmap-vertical-gantt" role="table" aria-label="2026 年 8 月至 2027 年 12 月月度甘特任务表">
                 <div class="vertical-gantt-header" role="row">
@@ -118,12 +118,7 @@
           </section>
 
           <section class="roadmap-section">
-            <div class="roadmap-section-head"><div><span>05</span><h2>月度计划板</h2></div><p>自行添加宏观节点；会同步到上方甘特图，带日期的会标在日历</p></div>
-            <div id="planBoardBody" class="plan-board"></div>
-          </section>
-
-          <section class="roadmap-section">
-            <div class="roadmap-section-head"><div><span>06</span><h2>Plan A / Plan B</h2></div><p>现在不二选一；依据 Gate 决定是否切换</p></div>
+            <div class="roadmap-section-head"><div><span>05</span><h2>Plan A / Plan B</h2></div><p>现在不二选一；依据 Gate 决定是否切换</p></div>
             <div class="graduation-tracks">
               <article><div class="track-title"><span>A</span><div><small>TARGET</small><h3>2027/07—08 毕业</h3></div></div><ol><li>2026/10/14 · Process ready</li><li>2026/12 · Device + first data</li><li>2027/03 · Major data freeze</li><li>2027/05 · Full thesis draft</li><li>2027/07—08 · Defense + graduation</li></ol><p>成立条件：G1–G4 依序通过，3 月后不再开放式扩张实验。</p></article>
               <article><div class="track-title"><span>B</span><div><small>CONSERVATIVE</small><h3>2027/11—12 毕业</h3></div></div><ol><li>Gate 延迟 · 保留 2–3 个月 buffer</li><li>2027/04—06 · Dataset 收敛</li><li>2027/07—08 · Thesis 60–100%</li><li>2027/09—10 · Defense preparation</li><li>2027/11—12 · Graduation window</li></ol><p>切换条件：G3 未过，或老师要求新增不可压缩的成果。</p></article>
@@ -395,13 +390,13 @@
               <thead>
                 <tr class="module-table-row">
                   <th colspan="7">
-                    <section id="moduleCatalog" class="module-catalog" aria-label="实验专案模块库"></section>
+                    <section id="moduleCatalog" class="module-catalog shared-catalog" aria-label="研究主线与会议论文任务库"></section>
                   </th>
                 </tr>
                 <tr>
                   <th>日期</th>
                   <th>日类型</th>
-                  <th>研究主线（实验）</th>
+                  <th>研究主线</th>
                   <th>会议 / 论文</th>
                   <th>IELTS / 模块</th>
                   <th>备注</th>
@@ -418,6 +413,7 @@
     <script src="plan-data.js"></script>
     <script src="config.js"></script>
     <script src="xlsx-export.js"></script>
+    <script src="planning-tasks.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
