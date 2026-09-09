@@ -5,10 +5,17 @@
   const validDate = (date) => /^\d{4}-\d{2}-\d{2}$/.test(date) && !Number.isNaN(Date.parse(`${date}T00:00:00Z`)) && new Date(`${date}T00:00:00Z`).toISOString().slice(0, 10) === date;
   const unique = (values) => [...new Set(values)].sort();
 
+  function lanesOf(task) {
+    if (!task) return [];
+    const source = Array.isArray(task.lanes) ? task.lanes : [task.lane];
+    return unique(source.map((lane) => String(lane || "")).filter(Boolean));
+  }
+
   function normalize(task) {
+    const lanes = lanesOf(task);
     return {
       id: String(task.id), module: tracks.includes(task.module) ? task.module : "research",
-      lane: String(task.lane || ""), text: String(task.text || ""), done: Boolean(task.done),
+      lane: lanes[0] || "", lanes, text: String(task.text || ""), done: Boolean(task.done),
       months: unique((task.months || []).filter((month) => /^\d{4}\/\d{2}$/.test(month))),
       dates: unique((task.dates || []).filter(validDate)),
     };
@@ -26,6 +33,7 @@
       if (existing) {
         existing.dates = unique([...existing.dates, ...normalized.dates]);
         existing.months = unique([...existing.months, ...normalized.months]);
+        setLanes(existing, [...lanesOf(existing), ...normalized.lanes]);
         return existing;
       }
       tasks.push(normalized);
@@ -90,6 +98,18 @@
     return task.dates;
   }
 
+  function setLanes(task, lanes) {
+    if (!task) return [];
+    task.lanes = unique((lanes || []).map((lane) => String(lane || "")).filter(Boolean));
+    task.lane = task.lanes[0] || "";
+    return task.lanes;
+  }
+
+  function inLane(task, lane) {
+    const lanes = lanesOf(task);
+    return lanes.length ? lanes.includes(lane) : !lane;
+  }
+
   function moveDate(tasks, from, to, copy = false) {
     if (!validDate(to)) return;
     for (const task of forDate(tasks, from)) {
@@ -98,5 +118,5 @@
     }
   }
 
-  root.PlanningTasks = { VERSION, normalize, migrate, forMonth, forDate, assign, setDates, moveDate, monthOf, validDate };
+  root.PlanningTasks = { VERSION, normalize, migrate, forMonth, forDate, assign, setDates, lanesOf, setLanes, inLane, moveDate, monthOf, validDate };
 })(globalThis);

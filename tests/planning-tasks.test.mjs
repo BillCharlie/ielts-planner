@@ -55,6 +55,22 @@ test("date assignments are unique, move between months, and share text and compl
   assert.equal(model.forMonth(tasks, "2027/01", "research").length, 1);
 });
 
+test("PhD tasks preserve old regions and can belong to multiple region lanes", () => {
+  const legacy = model.normalize({ id: "legacy", module: "application", lane: "香港", text: "Prepare CV" });
+  assert.deepEqual(Array.from(legacy.lanes), ["香港"]);
+  assert.equal(model.inLane(legacy, "香港"), true);
+  assert.equal(model.inLane(legacy, "台湾"), false);
+
+  assert.deepEqual(Array.from(model.setLanes(legacy, ["欧洲", "台湾", "欧洲"])), ["台湾", "欧洲"]);
+  assert.equal(legacy.lane, "台湾");
+  assert.equal(model.inLane(legacy, "台湾"), true);
+  assert.equal(model.inLane(legacy, "欧洲"), true);
+  assert.equal(model.inLane(legacy, "香港"), false);
+
+  const restored = model.normalize(JSON.parse(JSON.stringify(legacy)));
+  assert.deepEqual(Array.from(model.lanesOf(restored)), ["台湾", "欧洲"]);
+});
+
 test("deleted or edited tasks are not restored by reload or a cloud-state round trip", () => {
   const state = model.migrate({}, seeds);
   state.planningTasks = state.planningTasks.filter((task) => task.module !== "research");

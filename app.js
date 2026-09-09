@@ -647,7 +647,22 @@
   }
 
   function sharedLanes(module) {
-    return [...new Set([...(GANTT_LANES[module] || [""]), ...state.planningTasks.filter((task) => task.module === module).map((task) => task.lane)])];
+    return [...new Set([...(GANTT_LANES[module] || [""]), ...state.planningTasks.filter((task) => task.module === module).flatMap(PlanningTasks.lanesOf)])];
+  }
+
+  function taskLaneLabel(task) {
+    return PlanningTasks.lanesOf(task).join("／");
+  }
+
+  function applicationLanePicker(task) {
+    const selected = PlanningTasks.lanesOf(task);
+    const label = selected.length ? selected.join("／") : "未选择";
+    return `<details class="shared-region-picker">
+      <summary>地区 · ${safe(label)}</summary>
+      <fieldset aria-label="选择地区或国家（可多选）">
+        ${sharedLanes("application").map((lane) => `<label><input type="checkbox" data-shared-lane-option="${safeAttr(task.id)}" value="${safeAttr(lane)}"${selected.includes(lane) ? " checked" : ""} /><span>${safe(lane)}</span></label>`).join("")}
+      </fieldset>
+    </details>`;
   }
 
   function planningTaskMarkup(task, { date = "", library = false } = {}) {
@@ -656,7 +671,7 @@
       <input type="checkbox" data-shared-done="${safeAttr(task.id)}" aria-label="完成 ${safeAttr(task.text)}"${task.done ? " checked" : ""} />
       <div class="shared-task-body">
         <textarea rows="2" data-shared-text="${safeAttr(task.id)}" aria-label="任务内容">${safe(task.text)}</textarea>
-        ${library ? `<select data-shared-lane="${safeAttr(task.id)}" aria-label="任务分栏">${sharedLanes(task.module).map((lane) => `<option value="${safeAttr(lane)}"${task.lane === lane ? " selected" : ""}>${safe(lane || "IELTS")}</option>`).join("")}</select>` : ""}
+        ${task.module === "application" ? applicationLanePicker(task) : library ? `<select data-shared-lane="${safeAttr(task.id)}" aria-label="任务分栏">${sharedLanes(task.module).map((lane) => `<option value="${safeAttr(lane)}"${PlanningTasks.inLane(task, lane) ? " selected" : ""}>${safe(lane || "IELTS")}</option>`).join("")}</select>` : ""}
         ${dates ? `<div class="shared-task-dates">${dates}</div>` : ""}
         ${library ? `<button type="button" class="shared-date-picker-button" data-task-date-picker="${safeAttr(task.id)}">选择／管理日期${task.dates.length ? `（${task.dates.length}天）` : ""}</button>` : ""}
       </div>
@@ -665,8 +680,11 @@
   }
 
   function planningAddForm(module, month = "") {
+    const laneControl = module === "application"
+      ? `<fieldset class="shared-add-regions"><legend>地区／国家（可多选）</legend>${sharedLanes(module).map((lane) => `<label><input type="checkbox" name="lanes" value="${safeAttr(lane)}" /><span>${safe(lane)}</span></label>`).join("")}</fieldset>`
+      : `<select name="lane" aria-label="任务分栏">${sharedLanes(module).map((lane) => `<option value="${safeAttr(lane)}">${safe(lane || "IELTS")}</option>`).join("")}</select>`;
     return `<form class="shared-add-form" data-shared-add="${safeAttr(module)}" data-month="${safeAttr(month)}">
-      <select name="lane" aria-label="任务分栏">${sharedLanes(module).map((lane) => `<option value="${safeAttr(lane)}">${safe(lane || "IELTS")}</option>`).join("")}</select>
+      ${laneControl}
       <input name="text" required aria-label="新任务" placeholder="新任务" />
       <button type="submit" title="添加任务" aria-label="添加任务">+</button>
     </form>`;
@@ -677,7 +695,7 @@
     const lanes = sharedLanes(track);
     return `<div class="vertical-gantt-cell ${safeAttr(track)}" role="cell" data-planning-month="${safeAttr(month)}" data-planning-track="${safeAttr(track)}">
       ${lanes.map((lane) => {
-        const entries = tasks.filter((task) => task.lane === lane);
+        const entries = tasks.filter((task) => PlanningTasks.inLane(task, lane));
         return entries.length ? `<div class="shared-month-lane"><span class="vertical-gantt-lane-label">${safe(lane)}</span>${entries.map((task) => planningTaskMarkup(task)).join("")}</div>` : "";
       }).join("")}
       ${planningAddForm(track, month)}
@@ -698,7 +716,7 @@
     return `<div class="shared-day-tasks" data-shared-day="${safeAttr(date)}" data-shared-track="${safeAttr(module)}">
       ${tasks.map((task) => planningTaskMarkup(task, { date })).join("")}
       <form class="shared-assign-form" data-day-assign="${safeAttr(date)}">
-        <select name="taskId" required aria-label="选择${safeAttr(planModuleLabel(module))}任务"><option value="">选择任务</option>${available.map((task) => `<option value="${safeAttr(task.id)}">${safe(task.lane ? task.lane + " · " : "")}${safe(task.text)}</option>`).join("")}</select>
+        <select name="taskId" required aria-label="选择${safeAttr(planModuleLabel(module))}任务"><option value="">选择任务</option>${available.map((task) => `<option value="${safeAttr(task.id)}">${safe(taskLaneLabel(task) ? taskLaneLabel(task) + " · " : "")}${safe(task.text)}</option>`).join("")}</select>
         <button type="submit" title="排入当天" aria-label="排入当天">+</button>
       </form>
       <form class="shared-add-form shared-day-add" data-shared-add="${safeAttr(module)}" data-day-date="${safeAttr(date)}">
@@ -726,7 +744,7 @@
         const prefix = `${date}:planning:`;
         if (!slot.taskId.startsWith(prefix)) return;
         const task = byId.get(slot.taskId.slice(prefix.length));
-        if (task?.dates.includes(date)) slots[hour] = { ...slot, text: [task.lane, task.text].filter(Boolean).join(" · ") };
+        if (task?.dates.includes(date)) slots[hour] = { ...slot, text: [taskLaneLabel(task), task.text].filter(Boolean).join(" · ") };
         else { delete slots[hour]; delete state.savedSlots?.[date]?.[hour]; }
       });
     });
@@ -815,9 +833,14 @@
         if (form.dataset.sharedAdd) {
           const text = String(fields.get("text") || "").trim();
           if (!text) return;
+          const lanes = form.dataset.sharedAdd === "application" ? fields.getAll("lanes").map(String) : [fields.get("lane")].filter(Boolean);
+          if (form.dataset.sharedAdd === "application" && !lanes.length) {
+            showSaved("请至少选择一个地区／国家");
+            return;
+          }
           state.planningTasks.push(PlanningTasks.normalize({
             id: `task:${crypto.randomUUID()}`, module: form.dataset.sharedAdd,
-            lane: fields.get("lane"), text,
+            lane: lanes[0], lanes, text,
             months: form.dataset.month ? [form.dataset.month] : [],
             dates: form.dataset.dayDate ? [form.dataset.dayDate] : [],
           }));
@@ -834,19 +857,27 @@
       });
       container.addEventListener("change", (event) => {
         const input = event.target;
-        const id = input.dataset.sharedText || input.dataset.sharedDone || input.dataset.sharedLane;
+        const id = input.dataset.sharedText || input.dataset.sharedDone || input.dataset.sharedLane || input.dataset.sharedLaneOption;
         if (!id) return;
         const task = state.planningTasks.find((item) => item.id === id);
         if (!task) return;
         if (input.dataset.sharedDone) {
           task.done = input.checked;
           input.closest(".shared-task").classList.toggle("complete", task.done);
-        } else if (input.dataset.sharedLane) task.lane = input.value;
+        } else if (input.dataset.sharedLaneOption) {
+          const selected = [...input.closest(".shared-region-picker").querySelectorAll("[data-shared-lane-option]:checked")].map((option) => option.value);
+          if (!selected.length) {
+            input.checked = true;
+            showSaved("请至少保留一个地区／国家");
+            return;
+          }
+          PlanningTasks.setLanes(task, selected);
+        } else if (input.dataset.sharedLane) PlanningTasks.setLanes(task, [input.value]);
         else {
           if (!input.value.trim()) { input.value = task.text; return; }
           task.text = input.value.trim();
         }
-        refreshPlanning(container);
+        refreshPlanning(input.dataset.sharedLaneOption ? null : container);
       });
       container.addEventListener("click", (event) => {
         const button = event.target.closest("button");
@@ -1640,7 +1671,7 @@
       }
     }
     datedPlanNodes(date).forEach((node) => {
-      const text = [node.lane, node.text].filter(Boolean).join(" · ");
+      const text = [taskLaneLabel(node), node.text].filter(Boolean).join(" · ");
       tasks.push({
         id: `${date}:planning:${node.id}`,
         kind: node.module === "research" ? "project" : "daily",
@@ -2057,7 +2088,7 @@
 
   function projectSummaryText(plan, date) {
     return datedPlanNodes(date).filter((task) => ["research", "external"].includes(task.module))
-      .map((task) => [task.lane, task.text].filter(Boolean).join(" · ")).join("；");
+      .map((task) => [taskLaneLabel(task), task.text].filter(Boolean).join(" · ")).join("；");
   }
 
   function projectItemProgressForDate(date, itemId) {

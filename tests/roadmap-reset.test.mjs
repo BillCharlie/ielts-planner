@@ -187,6 +187,11 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /PlanningTasks\.migrate/);
   assert.match(app, /PlanningTasks\.setDates/);
   assert.match(app, /data-task-date-picker/);
+  assert.match(app, /fields\.getAll\("lanes"\)/);
+  assert.match(app, /data-shared-lane-option/);
+  assert.match(app, /PlanningTasks\.inLane\(task, lane\)/);
+  assert.match(styles, /\.shared-add-regions/);
+  assert.match(styles, /\.shared-region-picker/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
