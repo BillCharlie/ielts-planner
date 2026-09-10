@@ -2553,6 +2553,220 @@ textarea {
 }
 
 /* Calendar day-pane: abbreviated dated plan nodes. */
+.plan-moved-away {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #fff8eb;
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ---- IELTS reschedule ------------------------------------------------- */
+
+.reschedule-panel {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.reschedule-panel.is-active {
+  border-color: var(--teal);
+  background: var(--surface-2);
+}
+
+.reschedule-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reschedule-head span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.reschedule-head h2 {
+  margin: 2px 0 0;
+  font-size: 15px;
+}
+
+.reschedule-head-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.reschedule-pending-count {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--amber);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.reschedule-body {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.reschedule-block {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.reschedule-pending-block {
+  border-color: rgba(180, 83, 9, 0.4);
+  background: #fff8eb;
+}
+
+.reschedule-block-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.reschedule-block-head strong {
+  font-size: 13px;
+}
+
+.reschedule-block-head span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.reschedule-rows {
+  display: grid;
+  gap: 6px;
+}
+
+.reschedule-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.reschedule-row.is-picked {
+  border-color: var(--teal);
+  background: var(--surface-2);
+}
+
+.reschedule-row input {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  accent-color: var(--teal);
+}
+
+.reschedule-kind {
+  flex: 0 0 auto;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--muted);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.reschedule-kind.full {
+  background: var(--blue);
+}
+
+.reschedule-kind.mixed {
+  background: var(--teal);
+}
+
+.reschedule-kind.supplement {
+  background: var(--amber);
+}
+
+.reschedule-title {
+  flex: 1 1 140px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.reschedule-origin {
+  flex: 0 0 auto;
+  color: var(--amber);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.reschedule-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.reschedule-count {
+  margin-right: auto;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.reschedule-actions button[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.reschedule-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Picking papers straight off the month grid. */
+.month-grid.reschedule-mode .calendar-training-block {
+  cursor: pointer;
+  outline: 1px dashed rgba(255, 255, 255, 0.75);
+  outline-offset: -2px;
+}
+
+.calendar-training-block.is-picked {
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+.calendar-training-block.moved-in {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.32) 50%, rgba(255, 255, 255, 0.32) 75%, transparent 75%);
+  background-size: 7px 7px;
+}
+
+@media (max-width: 640px) {
+  .reschedule-count {
+    flex: 1 0 100%;
+    margin-right: 0;
+  }
+
+  .reschedule-actions button {
+    flex: 1 1 auto;
+  }
+}
+
 .day-plan-nodes {
   display: flex;
   flex-wrap: wrap;

@@ -121,6 +121,16 @@
   ];
   const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系", "待回复", "准备申请", "已送出", "面试", "Offer", "暂停"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
+  const moves = window.IeltsMoves || {
+    normalize: () => [],
+    movedAway: () => [],
+    movedInto: () => [],
+    pending: () => [],
+    itemsForDate: (_list, _date, items) => ({ kept: Array.isArray(items) ? items : [], incoming: [] }),
+    cancel: (list) => list || [],
+    place: (list) => list || [],
+    restore: (list) => list || [],
+  };
   ensurePlanningTaskRegionCompatibility();
   let state = loadState();
   let mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
@@ -139,6 +149,10 @@
   let serviceWorkerReloading = false;
   let highlightedPlanDate = "";
   let taskDatePicker = { taskId: "", visibleMonth: "", selected: new Set() };
+  // IELTS reschedule picker: transient UI selection, never persisted.
+  let rescheduleMode = false;
+  const pickedTraining = new Map();
+  const pickedPending = new Set();
 
   const el = {};
   document.addEventListener("DOMContentLoaded", init);
@@ -185,6 +199,7 @@
     bindPlanControls();
     bindRoadmapControls();
     bindTaskDatePicker();
+    bindRescheduleControls();
     bindPhdControls();
     bindPwa();
     showInitialView();
@@ -236,6 +251,10 @@
       "clearAllButton",
       "reminderPanel",
       "dayPlanNodes",
+      "ieltsReschedulePanel",
+      "rescheduleToggle",
+      "rescheduleBody",
+      "reschedulePendingCount",
       "summaryIelts",
       "summaryIeltsDetail",
       "summaryProjectType",
@@ -1100,6 +1119,7 @@
     el.monthTitle.textContent = monthLabel(visibleMonth);
     renderTestBankStatus();
     el.monthGrid.innerHTML = "";
+    el.monthGrid.classList.toggle("reschedule-mode", rescheduleMode);
 
     const [year, month] = visibleMonth.split("-").map(Number);
     const first = new Date(year, month - 1, 1);
@@ -1111,7 +1131,7 @@
       current.setDate(start.getDate() + index);
       const iso = toIso(current);
       const plan = mainByDate.get(iso);
-      const trainingItems = trainingItemsForPlan(plan);
+      const trainingItems = trainingItemsForPlan(plan, { date: iso });
       const missingIelts = missingTasksForDate(iso).some((task) => task.kind === "ielts");
       const scheduledIelts = [...scheduledTaskIds(iso)].some((taskId) => taskId.includes(":ielts"));
       const button = document.createElement("button");
@@ -1128,9 +1148,17 @@
       button.classList.toggle("day-complete", trainingItems.length > 0 && isDayFullySaved(iso));
       button.innerHTML = `
         <span class="day-num">${current.getDate()}${trainingItems.length > 0 && missingIelts ? '<i class="warning-dot"></i>' : ""}</span>
-        <span class="day-meta">${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { compact: true }) : ""}</span>
+        <span class="day-meta">${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { compact: true, date: iso }) : ""}</span>
       `;
-      button.addEventListener("click", () => {
+      button.addEventListener("click", (event) => {
+        // While rescheduling, tapping a paper picks it instead of the whole day.
+        const block = rescheduleMode && event.target.closest
+          ? event.target.closest(".calendar-training-block")
+          : null;
+        if (block?.dataset.trainingId) {
+          toggleTrainingPick(block.dataset.trainingDate || iso, block.dataset.trainingId);
+          return;
+        }
         selectedDate = iso;
         visibleMonth = iso.slice(0, 7);
         renderCalendar();
@@ -1138,6 +1166,200 @@
       });
       el.monthGrid.appendChild(button);
     }
+  }
+
+
+  // ---- IELTS reschedule ------------------------------------------------
+  // Papers are never deleted: cancelling moves them into a holding pool, and
+  // the pool is emptied by dropping them onto a day the user picks.
+
+  function pickKey(date, itemId) {
+    return `${date}::${itemId}`;
+  }
+
+  function shortDate(iso) {
+    if (!iso) return "";
+    const [, month, day] = iso.split("-");
+    return `${Number(month)}月${Number(day)}日`;
+  }
+
+  function setRescheduleMode(on) {
+    rescheduleMode = Boolean(on);
+    if (!rescheduleMode) pickedTraining.clear();
+    pickedPending.clear();
+    renderCalendar();
+    renderSelectedDay();
+  }
+
+  function toggleTrainingPick(date, itemId) {
+    if (!date || !itemId) return;
+    const key = pickKey(date, itemId);
+    if (pickedTraining.has(key)) {
+      pickedTraining.delete(key);
+    } else {
+      const item = trainingItemsForPlan(mainByDate.get(date), { date, includeOptional: true })
+        .find((entry) => entry.id === itemId);
+      if (!item) return;
+      pickedTraining.set(key, {
+        date,
+        itemId: item.id,
+        code: item.cambridge,
+        kind: item.kind,
+        label: item.label,
+        title: item.title,
+        full: item.full,
+        module: item.module,
+        duration: item.duration,
+      });
+    }
+    renderCalendar();
+    renderSelectedDay();
+  }
+
+  function cancelPickedTraining() {
+    if (!pickedTraining.size) return;
+    const count = pickedTraining.size;
+    state.ieltsMoves = moves.cancel(state.ieltsMoves, Array.from(pickedTraining.values()), Date.now());
+    pickedTraining.clear();
+    saveState();
+    renderAll();
+    showSaved(`已取消 ${count} 项，等待重新安排`);
+  }
+
+  function placePendingOnSelectedDay() {
+    if (!pickedPending.size) return;
+    const count = pickedPending.size;
+    state.ieltsMoves = moves.place(state.ieltsMoves, Array.from(pickedPending), selectedDate);
+    pickedPending.clear();
+    saveState();
+    renderAll();
+    showSaved(`已把 ${count} 项放到 ${shortDate(selectedDate)}`);
+  }
+
+  function restorePickedPending() {
+    if (!pickedPending.size) return;
+    state.ieltsMoves = moves.restore(state.ieltsMoves, Array.from(pickedPending));
+    pickedPending.clear();
+    saveState();
+    renderAll();
+    showSaved("已放回原日期");
+  }
+
+  function movedAwayFrom(date) {
+    return moves.movedAway(state.ieltsMoves, date);
+  }
+
+  function rescheduleAwayNote(awayMoves) {
+    const placed = awayMoves.filter((move) => move.to);
+    if (!placed.length) return `${awayMoves.length}份已取消，待重排`;
+    const targets = Array.from(new Set(placed.map((move) => shortDate(move.to))));
+    const tail = placed.length < awayMoves.length ? `，${awayMoves.length - placed.length}份待重排` : "";
+    return `已改期到 ${targets.join("、")}${tail}`;
+  }
+
+  function renderReschedulePanel() {
+    if (!el.rescheduleBody || !el.rescheduleToggle) return;
+    const pendingList = moves.pending(state.ieltsMoves);
+    if (el.reschedulePendingCount) {
+      el.reschedulePendingCount.hidden = pendingList.length === 0;
+      el.reschedulePendingCount.textContent = `待重排 ${pendingList.length}`;
+    }
+    el.rescheduleToggle.textContent = rescheduleMode ? "退出调课" : "开始调课";
+    el.rescheduleToggle.setAttribute("aria-pressed", String(rescheduleMode));
+    if (el.ieltsReschedulePanel) el.ieltsReschedulePanel.classList.toggle("is-active", rescheduleMode);
+    const open = rescheduleMode || pendingList.length > 0;
+    el.rescheduleBody.hidden = !open;
+    el.rescheduleBody.innerHTML = open
+      ? `${rescheduleMode ? reschedulePickMarkup() : ""}${reschedulePendingMarkup(pendingList)}`
+      : "";
+  }
+
+  function reschedulePickMarkup() {
+    const items = trainingItemsForPlan(mainByDate.get(selectedDate), { date: selectedDate, includeOptional: true });
+    const rows = items.length
+      ? items.map((item) => {
+          const checked = pickedTraining.has(pickKey(selectedDate, item.id));
+          return `
+          <label class="reschedule-row${checked ? " is-picked" : ""}">
+            <input type="checkbox" data-pick-date="${safeAttr(selectedDate)}" data-pick-item="${safeAttr(item.id)}"${checked ? " checked" : ""} />
+            <span class="reschedule-kind ${safeAttr(item.kind)}">${safe(item.label)}</span>
+            <span class="reschedule-title">${safe(item.cambridge ? cambridgeFull(item.cambridge) : item.title)}</span>
+            ${item.movedFrom ? `<small class="reschedule-origin">原 ${safe(shortDate(item.movedFrom))}</small>` : ""}
+          </label>`;
+        }).join("")
+      : `<p class="reschedule-empty">${safe(shortDate(selectedDate))} 没有雅思课程。</p>`;
+    const picked = pickedTraining.size;
+    const days = new Set(Array.from(pickedTraining.values()).map((entry) => entry.date)).size;
+    return `
+    <div class="reschedule-block">
+      <div class="reschedule-block-head">
+        <strong>${safe(shortDate(selectedDate))} 的课程</strong>
+        <span>勾选要延期的课程；换一天继续勾，选择会累积</span>
+      </div>
+      <div class="reschedule-rows">${rows}</div>
+      <div class="reschedule-actions">
+        <span class="reschedule-count">已选 ${picked} 项${days > 1 ? ` · ${days} 天` : ""}</span>
+        <button type="button" data-action="cancel"${picked ? "" : " disabled"}>取消这些课</button>
+        <button type="button" class="ghost-button" data-action="clear"${picked ? "" : " disabled"}>清空勾选</button>
+      </div>
+    </div>`;
+  }
+
+  function reschedulePendingMarkup(pendingList) {
+    if (!pendingList.length) return "";
+    const rows = pendingList.map((move) => {
+      const checked = pickedPending.has(move.id);
+      return `
+      <label class="reschedule-row${checked ? " is-picked" : ""}">
+        <input type="checkbox" data-pending-id="${safeAttr(move.id)}"${checked ? " checked" : ""} />
+        <span class="reschedule-kind ${safeAttr(move.kind)}">${safe(move.label || "IELTS")}</span>
+        <span class="reschedule-title">${safe(move.code ? cambridgeFull(move.code) : move.title)}</span>
+        <small class="reschedule-origin">原 ${safe(shortDate(move.from))}</small>
+      </label>`;
+    }).join("");
+    const picked = pickedPending.size;
+    return `
+    <div class="reschedule-block reschedule-pending-block">
+      <div class="reschedule-block-head">
+        <strong>待重排（${pendingList.length}）</strong>
+        <span>在左侧日历点一天，再放入</span>
+      </div>
+      <div class="reschedule-rows">${rows}</div>
+      <div class="reschedule-actions">
+        <button type="button" data-action="place"${picked ? "" : " disabled"}>放到 ${safe(shortDate(selectedDate))}</button>
+        <button type="button" class="ghost-button" data-action="restore"${picked ? "" : " disabled"}>放回原日期</button>
+      </div>
+    </div>`;
+  }
+
+  function bindRescheduleControls() {
+    if (!el.rescheduleToggle || !el.rescheduleBody) return;
+    el.rescheduleToggle.addEventListener("click", () => setRescheduleMode(!rescheduleMode));
+    el.rescheduleBody.addEventListener("change", (event) => {
+      const box = event.target;
+      if (!box || box.tagName !== "INPUT") return;
+      if (box.dataset.pickItem) {
+        toggleTrainingPick(box.dataset.pickDate, box.dataset.pickItem);
+        return;
+      }
+      if (box.dataset.pendingId) {
+        if (box.checked) pickedPending.add(box.dataset.pendingId);
+        else pickedPending.delete(box.dataset.pendingId);
+        renderReschedulePanel();
+      }
+    });
+    el.rescheduleBody.addEventListener("click", (event) => {
+      const button = event.target.closest ? event.target.closest("button[data-action]") : null;
+      if (!button) return;
+      if (button.dataset.action === "cancel") cancelPickedTraining();
+      if (button.dataset.action === "clear") {
+        pickedTraining.clear();
+        renderCalendar();
+        renderSelectedDay();
+      }
+      if (button.dataset.action === "place") placePendingOnSelectedDay();
+      if (button.dataset.action === "restore") restorePickedPending();
+    });
   }
 
   function renderTestBankStatus() {
@@ -1159,14 +1381,22 @@
   function renderSelectedDay() {
     const plan = mainByDate.get(selectedDate) || {};
     const template = dailyByDate.get(selectedDate) || {};
-    const trainingItems = trainingItemsForPlan(plan);
-    const displayItems = trainingItemsForPlan(plan, { includeOptional: true });
+    const trainingItems = trainingItemsForPlan(plan, { date: selectedDate });
+    const displayItems = trainingItemsForPlan(plan, { date: selectedDate, includeOptional: true });
+    const rescheduledAway = moves.movedAway(state.ieltsMoves, selectedDate);
+    // Once every paper has been moved off a day, the generated ieltsPlan text is
+    // stale — say where the papers went instead of pretending they are still here.
+    const awayNote = !trainingItems.length && rescheduledAway.length ? rescheduleAwayNote(rescheduledAway) : "";
     el.selectedDayType.innerHTML = `${formatDate(selectedDate)} ${tagForDay(normalizedDayType(plan))}`;
-    el.selectedDateTitle.textContent = `${plan.weekday || template.weekday || ""} ${trainingItems.length ? `${trainingItems.length}份 IELTS 训练` : plan.ieltsPlan || template.mainTask || "自由计划"}`;
-    el.summaryIelts.textContent = trainingItems.length ? `${trainingItems.length}份 IELTS 训练` : plan.ieltsPlan || "无";
+    el.selectedDateTitle.textContent = `${plan.weekday || template.weekday || ""} ${trainingItems.length ? `${trainingItems.length}份 IELTS 训练` : awayNote || plan.ieltsPlan || template.mainTask || "自由计划"}`;
+    el.summaryIelts.textContent = trainingItems.length ? `${trainingItems.length}份 IELTS 训练` : awayNote || plan.ieltsPlan || "无";
     if (displayItems.length) {
       el.summaryIeltsDetail.innerHTML = renderTrainingItemsMarkup(displayItems, { toggleDate: selectedDate });
       bindOptionalToggles(el.summaryIeltsDetail);
+    } else if (awayNote) {
+      el.summaryIeltsDetail.textContent = rescheduledAway
+        .map((move) => `${cambridgeShort(move.code)} → ${move.to ? shortDate(move.to) : "待重排"}`)
+        .join("；");
     } else {
       el.summaryIeltsDetail.textContent = [plan.ieltsModule, plan.cambridge].filter(Boolean).join(" / ");
     }
@@ -1175,6 +1405,7 @@
     el.summaryStatus.textContent = getPlanOverride(selectedDate, "status") || plan.status || "未开始";
     el.summaryLimits.textContent = plan.limits || template.notes || "";
     renderDayPlanNodes();
+    renderReschedulePanel();
 
     renderVocabulary();
     renderTaskPicker();
@@ -1219,12 +1450,42 @@
   // Optional (second-pool) items are only counted when that day is switched on.
   // Pass { includeOptional: true } to render the toggle for a disabled item.
   function trainingItemsForPlan(plan, options = {}) {
-    const all = allTrainingItemsForPlan(plan);
+    const date = options.date || plan?.date || "";
+    const all = allTrainingItemsForPlan(plan, date);
     if (options.includeOptional) return all;
-    return all.filter((item) => !item.optional || isOptionalOn(plan?.date));
+    return all.filter((item) => !item.optional || isOptionalOn(date));
   }
 
-  function allTrainingItemsForPlan(plan) {
+  // A day shows the papers it was generated with, minus anything rescheduled
+  // away, plus anything rescheduled onto it from another day.
+  function allTrainingItemsForPlan(plan, date) {
+    const day = date || plan?.date || "";
+    const base = generatedTrainingItems(plan);
+    if (!day) return base;
+    const { kept, incoming } = moves.itemsForDate(state.ieltsMoves, day, base);
+    return kept.concat(
+      incoming.map((move, index) =>
+        normalizeTrainingItem(
+          {
+            id: move.itemId,
+            order: kept.length + index + 1,
+            kind: move.kind,
+            label: move.label,
+            title: move.title,
+            cambridge: move.code,
+            full: move.full,
+            module: move.module,
+            duration: move.duration,
+            movedFrom: move.from,
+            moveId: move.id,
+          },
+          kept.length + index,
+        ),
+      ),
+    );
+  }
+
+  function generatedTrainingItems(plan) {
     if (!plan || isNoIeltsDay(plan)) return [];
     if (Array.isArray(plan.trainingItems) && plan.trainingItems.length) {
       return plan.trainingItems.map((item, index) => normalizeTrainingItem(item, index));
@@ -1279,6 +1540,8 @@
       optional: Boolean(item.optional),
       preferredHour: Number.isInteger(item.preferredHour) ? item.preferredHour : null,
       blockHours: item.blockHours || 1,
+      movedFrom: item.movedFrom || "",
+      moveId: item.moveId || "",
     };
   }
 
@@ -1315,10 +1578,13 @@
   function renderTrainingItemsMarkup(items, options = {}) {
     const compact = Boolean(options.compact);
     if (compact) {
+      const date = options.date || "";
       return `<span class="calendar-training-strip">${items.map((item) => {
         const label = item.cambridge ? cambridgeShort(item.cambridge) : (item.full || item.title);
+        const picked = date && pickedTraining.has(pickKey(date, item.id));
+        const flags = `${item.movedFrom ? " moved-in" : ""}${picked ? " is-picked" : ""}`;
         return `
-        <span class="calendar-training-block ${safeAttr(item.kind)}" title="${safeAttr(item.cambridge ? cambridgeFull(item.cambridge) : item.title)}">
+        <span class="calendar-training-block ${safeAttr(item.kind)}${flags}" data-training-date="${safeAttr(date)}" data-training-id="${safeAttr(item.id)}" title="${safeAttr(item.cambridge ? cambridgeFull(item.cambridge) : item.title)}">
           ${safe(label)}
         </span>`;
       }).join("")}</span>`;
@@ -1544,6 +1810,7 @@
     el.planTableBody.innerHTML = "";
     rows.forEach((item) => {
       const trainingItems = trainingItemsForPlan(item, { includeOptional: true });
+      const ieltsFieldsHidden = trainingItems.length || movedAwayFrom(item.date).length;
       const row = document.createElement("tr");
       row.className = isRestDay(item) ? "plan-row-rest" : "plan-row-normal";
       row.classList.toggle("row-highlight", highlightedPlanDate === item.date);
@@ -1565,9 +1832,10 @@
         </td>
         <td data-label="IELTS / 模块">
           ${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { toggleDate: item.date }) : ""}
-          <textarea class="plan-edit-textarea ${trainingItems.length ? "visually-hidden-field" : ""}" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
-          <textarea class="plan-edit-textarea ${trainingItems.length ? "visually-hidden-field" : ""}" data-field="ieltsModule" data-date="${safeAttr(item.date)}" placeholder="模块">${safe(item.ieltsModule || "")}</textarea>
-          <input class="plan-edit-input ${trainingItems.length ? "visually-hidden-field" : ""}" data-field="cambridge" data-date="${safeAttr(item.date)}" value="${safeAttr(item.cambridge || "")}" placeholder="Cambridge进度" />
+          ${trainingItems.length || !movedAwayFrom(item.date).length ? "" : `<span class="plan-moved-away">${safe(rescheduleAwayNote(movedAwayFrom(item.date)))}</span>`}
+          <textarea class="plan-edit-textarea ${ieltsFieldsHidden ? "visually-hidden-field" : ""}" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
+          <textarea class="plan-edit-textarea ${ieltsFieldsHidden ? "visually-hidden-field" : ""}" data-field="ieltsModule" data-date="${safeAttr(item.date)}" placeholder="模块">${safe(item.ieltsModule || "")}</textarea>
+          <input class="plan-edit-input ${ieltsFieldsHidden ? "visually-hidden-field" : ""}" data-field="cambridge" data-date="${safeAttr(item.date)}" value="${safeAttr(item.cambridge || "")}" placeholder="Cambridge进度" />
         </td>
         <td data-label="备注"><textarea class="actual-input" data-date="${safeAttr(item.date)}" placeholder="备注">${safe(getPlanOverride(item.date, "actual") || item.actual || "")}</textarea></td>
         <td class="row-actions" data-label="操作">
@@ -1679,8 +1947,10 @@
     const template = dailyByDate.get(date);
     const tasks = [];
     const noIelts = isNoIeltsDay(plan);
-    const trainingItems = trainingItemsForPlan(plan);
-    if (plan && !noIelts) {
+    const trainingItems = trainingItemsForPlan(plan, { date });
+    // Papers rescheduled onto this day count even if the day itself is a rest
+    // day or falls outside the generated plan range.
+    if (trainingItems.length || (plan && !noIelts)) {
       if (trainingItems.length) {
         trainingItems.forEach((item) => {
           tasks.push({
@@ -2533,6 +2803,7 @@
       optionalPools: parsed.optionalPools || {},
       vocabularyCards: parsed.vocabularyCards || {},
       planNodes: Array.isArray(parsed.planNodes) ? parsed.planNodes : [],
+      ieltsMoves: moves.normalize(parsed.ieltsMoves),
       planningTasks: Array.isArray(parsed.planningTasks) ? parsed.planningTasks : [],
       planningTasksVersion: parsed.planningTasksVersion || 0,
       roadmap: {
