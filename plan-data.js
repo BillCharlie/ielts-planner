@@ -1,7 +1,21 @@
 (function () {
-  const startDate = "2026-09-09";
+  const startDate = "2026-09-13";
   const travelPeriod = { startDate: "2026-09-24", endDate: "2026-10-02" };
   const weeklyPaperCounts = [1, 1, 2, 1, 1, 2, 1];
+  // 9/13–9/23 由使用者逐日指定；9/24 起旅行暂停，之后回到每周规则。
+  const dailyPaperCounts = {
+    "2026-09-13": 2,
+    "2026-09-14": 1,
+    "2026-09-15": 1,
+    "2026-09-16": 2,
+    "2026-09-17": 2,
+    "2026-09-18": 2,
+    "2026-09-19": 1,
+    "2026-09-20": 2,
+    "2026-09-21": 2,
+    "2026-09-22": 1,
+    "2026-09-23": 2,
+  };
   const projectCatalog = [
     { id: "routine-raith", module: "制程", name: "Raith 学习（1周）", days: "" },
     { id: "routine-ebeam-fin", module: "制程", name: "EBeam Fin 实验（3周，旅行顺延）", days: "" },
@@ -26,7 +40,7 @@
   for (let date = startDate; nextTest < testBank.length; date = addDays(date, 1)) {
     const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
     const traveling = date >= travelPeriod.startDate && date <= travelPeriod.endDate;
-    const count = traveling ? 0 : weeklyPaperCounts[weekday];
+    const count = traveling ? 0 : dailyPaperCounts[date] ?? weeklyPaperCounts[weekday];
     const row = {
       id: `auto-${date}`, date,
       weekday: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday],
@@ -57,7 +71,9 @@
 
     for (let index = 0; index < count && nextTest < testBank.length; index += 1) {
       const paper = testBank[nextTest++];
-      const preferredHour = weekday === 3 ? 7 : ([2, 5].includes(weekday) && index === 0) || traveling ? 8 : 18;
+      // 两份的日子拆成上午＋晚上；周三上午要赶车，提早到 07:00。
+      const morningHour = weekday === 3 ? 7 : 8;
+      const preferredHour = count >= 2 ? (index === 0 ? morningHour : 18) : weekday === 3 ? 7 : 18;
       const timeLabel = `${String(preferredHour).padStart(2, "0")}:00–${preferredHour + 4}:00`;
       row.trainingItems.push({
         id: `full-${date}-${paper.code}`, order: index + 1, kind: "full",
@@ -76,28 +92,32 @@
     }
     row.limits = traveling
       ? date === "2026-09-24" ? "旅行例外：上午1份 IELTS，预留4小时；不排实验" : "旅行期间不排雅思与实验"
-      : weekday === 3 ? "周三仅上午1份；中午出发前完成训练与整理"
-        : [2, 5].includes(weekday) ? "周二／五早晚各1份；每套独立整理；当日 IELTS 预留8小时"
-          : "周一／四／六／日：白天实验，晚上1份 IELTS；当日 IELTS 预留4小时";
+      : count >= 2
+        ? weekday === 3
+          ? "周三2份：上午出发前1份，晚上返回后1份；每套独立整理；当日 IELTS 预留8小时"
+          : "当日2份：上午1份、晚上1份；每套独立整理；当日 IELTS 预留8小时"
+        : weekday === 3 ? "周三仅上午1份；中午出发前完成训练与整理"
+          : [1, 4, 6, 0].includes(weekday) ? "周一／四／六／日：白天实验，晚上1份 IELTS；当日 IELTS 预留4小时"
+            : "当日1份 IELTS；预留4小时";
     if (nextTest === testBank.length) row.limits = `完成C21T4；当日IELTS预留${row.trainingItems.length * 4}小时，之后不再排新真题`;
     mainPlan.push(row);
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-09-09T00:00:00.000+08:00",
-    source: "9/9起顺排C9T1至C21T4（9/7-9/8忙碌未做已跳过）；周二五早晚各1份，周三上午1份，周一四六日实验晚上1份；中秋假期9/24-10/2不排；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-09-13T00:00:00.000+08:00",
+    source: "9/13起顺排C9T1至C21T4；9/13-9/23逐日指定份数（2/1/1/2/2/2/1/2/2/1/2），两份的日子上午＋晚上各1份；中秋假期9/24-10/2不排，之后回到周二五2份、其余1份的规则；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
-    autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-06", travelPeriod, weeklyPaperCounts },
+    autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-06", travelPeriod, weeklyPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-09-15", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-09-16", endDate: "2026-10-15", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-09-19", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-09-20", endDate: "2026-10-19", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes: [], scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-09-09-c9t1-c21t4-start0909-v17",
+    planVersion: "2026-09-13-c9t1-c21t4-start0913-v18",
     resetFromDate: startDate,
   };
 })();

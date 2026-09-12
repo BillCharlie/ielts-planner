@@ -1,11 +1,11 @@
-const CACHE_NAME = "planner-notebook-v66-ielts-reschedule";
+const CACHE_NAME = "planner-notebook-v67-replan-0913";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260911-ielts-reschedule",
-  "./app.js?v=20260911-ielts-reschedule",
-  "./planning-tasks.js?v=20260911-ielts-reschedule",
-  "./ielts-moves.js?v=20260911-ielts-reschedule",
+  "./styles.css?v=20260913-replan-0913",
+  "./app.js?v=20260913-replan-0913",
+  "./planning-tasks.js?v=20260913-replan-0913",
+  "./ielts-moves.js?v=20260913-replan-0913",
   "./xlsx-export.js",
   "./config.js",
   "./plan-data.js",
