@@ -1,10 +1,10 @@
 (function () {
-  const startDate = "2026-09-13";
+  const startDate = "2026-09-14";
   const travelPeriod = { startDate: "2026-09-24", endDate: "2026-10-02" };
   const weeklyPaperCounts = [1, 1, 2, 1, 1, 2, 1];
-  // 9/13–9/23 由使用者逐日指定；9/24 起旅行暂停，之后回到每周规则。
+  const octoberPaperCounts = [2, 2, 1, 2, 2, 2, 1];
+  // 9/14–9/23 延用目前逐日份数；旅行后到 10/31 使用新的每周份数。
   const dailyPaperCounts = {
-    "2026-09-13": 2,
     "2026-09-14": 1,
     "2026-09-15": 1,
     "2026-09-16": 2,
@@ -40,7 +40,8 @@
   for (let date = startDate; nextTest < testBank.length; date = addDays(date, 1)) {
     const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
     const traveling = date >= travelPeriod.startDate && date <= travelPeriod.endDate;
-    const count = traveling ? 0 : dailyPaperCounts[date] ?? weeklyPaperCounts[weekday];
+    const octoberRule = date >= "2026-10-03" && date <= "2026-10-31";
+    const count = traveling ? 0 : dailyPaperCounts[date] ?? (octoberRule ? octoberPaperCounts[weekday] : weeklyPaperCounts[weekday]);
     const row = {
       id: `auto-${date}`, date,
       weekday: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday],
@@ -91,7 +92,7 @@
       row.cambridge = row.trainingItems.map((item) => item.cambridge).join(" + ");
     }
     row.limits = traveling
-      ? date === "2026-09-24" ? "旅行例外：上午1份 IELTS，预留4小时；不排实验" : "旅行期间不排雅思与实验"
+      ? "旅行期间不排雅思与实验"
       : count >= 2
         ? weekday === 3
           ? "周三2份：上午出发前1份，晚上返回后1份；每套独立整理；当日 IELTS 预留8小时"
@@ -105,19 +106,19 @@
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-09-13T00:00:00.000+08:00",
-    source: "9/13起顺排C9T1至C21T4；9/13-9/23逐日指定份数（2/1/1/2/2/2/1/2/2/1/2），两份的日子上午＋晚上各1份；中秋假期9/24-10/2不排，之后回到周二五2份、其余1份的规则；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    source: "9/14起顺排C9T1至C21T4；9/14-9/23延用逐日份数（1/1/2/2/2/1/2/2/1/2）；中秋旅行9/24-10/2不排；10/3-10/31按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
-    autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-06", travelPeriod, weeklyPaperCounts, dailyPaperCounts },
+    autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-06", travelPeriod, weeklyPaperCounts, octoberPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-09-19", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-09-20", endDate: "2026-10-19", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-09-20", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-09-21", endDate: "2026-10-20", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes: [], scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-09-13-c9t1-c21t4-start0913-v18",
+    planVersion: "2026-09-14-c9t1-c21t4-october-rules-v19",
     resetFromDate: startDate,
   };
 })();

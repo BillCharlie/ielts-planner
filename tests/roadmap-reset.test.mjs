@@ -3,16 +3,17 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
 
-test("schedules all 52 papers from September 13 with travel, time blocks and research phases", async () => {
+test("schedules all 52 papers from September 14 with travel, October rules, time blocks and research phases", async () => {
   const context = { window: {} };
   vm.runInNewContext(await readFile(new URL("../plan-data.js", import.meta.url), "utf8"), context);
   const data = context.window.IELTS_PLANNER_DATA;
-  assert.equal(data.planVersion, "2026-09-13-c9t1-c21t4-start0913-v18");
-  assert.equal(data.resetFromDate, "2026-09-13");
-  assert.equal(data.mainPlan[0].date, "2026-09-13");
-  assert.equal(data.mainPlan.at(-1).date, "2026-10-29");
-  assert.equal(data.mainPlan.at(-1).cambridge, "C21T4");
-  assert.match(data.mainPlan.at(-1).limits, /预留4小时/);
+  assert.equal(data.planVersion, "2026-09-14-c9t1-c21t4-october-rules-v19");
+  assert.equal(data.resetFromDate, "2026-09-14");
+  assert.equal(data.mainPlan[0].date, "2026-09-14");
+  assert.equal(data.mainPlan.at(-1).date, "2026-10-23");
+  assert.equal(data.mainPlan.at(-1).cambridge, "C21T3 + C21T4");
+  assert.equal(data.mainPlan.at(-1).trainingItems.at(-1).cambridge, "C21T4");
+  assert.match(data.mainPlan.at(-1).limits, /预留8小时/);
   const expectedCodes = Array.from({ length: 52 }, (_, index) => `C${9 + Math.floor(index / 4)}T${index % 4 + 1}`);
   const papers = Array.from(data.mainPlan).flatMap((row) => Array.from(row.trainingItems));
   assert.deepEqual(papers.map((item) => item.cambridge), expectedCodes);
@@ -21,33 +22,34 @@ test("schedules all 52 papers from September 13 with travel, time blocks and res
   assert.equal(data.testBank.remainingCodes.length, 0);
   assert.equal(data.testBank.excludedCodes.length, 0);
 
-  // 9/13–9/23 是使用者逐日指定的，写死比对；两份的日子必须上午＋晚上分开。
+  // 9/14–9/23 延用目前逐日份数；两份的日子必须上午＋晚上分开。
   const byDate = new Map(data.mainPlan.map((row) => [row.date, row]));
   for (const [date, expected] of [
-    ["2026-09-13", [["C9T1", 8], ["C9T2", 18]]],
-    ["2026-09-14", [["C9T3", 18]]],
-    ["2026-09-15", [["C9T4", 18]]],
-    ["2026-09-16", [["C10T1", 7], ["C10T2", 18]]],
-    ["2026-09-17", [["C10T3", 8], ["C10T4", 18]]],
-    ["2026-09-18", [["C11T1", 8], ["C11T2", 18]]],
-    ["2026-09-19", [["C11T3", 18]]],
-    ["2026-09-20", [["C11T4", 8], ["C12T1", 18]]],
-    ["2026-09-21", [["C12T2", 8], ["C12T3", 18]]],
-    ["2026-09-22", [["C12T4", 18]]],
-    ["2026-09-23", [["C13T1", 7], ["C13T2", 18]]],
+    ["2026-09-14", [["C9T1", 18]]],
+    ["2026-09-15", [["C9T2", 18]]],
+    ["2026-09-16", [["C9T3", 7], ["C9T4", 18]]],
+    ["2026-09-17", [["C10T1", 8], ["C10T2", 18]]],
+    ["2026-09-18", [["C10T3", 8], ["C10T4", 18]]],
+    ["2026-09-19", [["C11T1", 18]]],
+    ["2026-09-20", [["C11T2", 8], ["C11T3", 18]]],
+    ["2026-09-21", [["C11T4", 8], ["C12T1", 18]]],
+    ["2026-09-22", [["C12T2", 18]]],
+    ["2026-09-23", [["C12T3", 7], ["C12T4", 18]]],
   ]) {
     const row = byDate.get(date);
     assert.deepEqual(Array.from(row.trainingItems, (item) => [item.cambridge, item.preferredHour]), expected, date);
     assert.match(row.limits, expected.length === 2 ? /预留8小时/ : /预留4小时/, date);
   }
   assert.equal(byDate.get("2026-09-24").trainingItems.length, 0);
+  assert.equal(byDate.get("2026-09-24").limits, "旅行期间不排雅思与实验");
 
   for (const row of data.mainPlan) {
     const weekday = new Date(`${row.date}T00:00:00Z`).getUTCDay();
     const traveling = row.date >= "2026-09-24" && row.date <= "2026-10-02";
-    const pinned = { "2026-09-13": 2, "2026-09-14": 1, "2026-09-15": 1, "2026-09-16": 2, "2026-09-17": 2, "2026-09-18": 2, "2026-09-19": 1, "2026-09-20": 2, "2026-09-21": 2, "2026-09-22": 1, "2026-09-23": 2 };
+    const pinned = { "2026-09-14": 1, "2026-09-15": 1, "2026-09-16": 2, "2026-09-17": 2, "2026-09-18": 2, "2026-09-19": 1, "2026-09-20": 2, "2026-09-21": 2, "2026-09-22": 1, "2026-09-23": 2 };
+    const octoberRule = row.date >= "2026-10-03" && row.date <= "2026-10-31";
     const count = traveling ? 0
-      : row.date === "2026-10-29" ? 1 : pinned[row.date] ?? [1, 1, 2, 1, 1, 2, 1][weekday];
+      : pinned[row.date] ?? (octoberRule ? [2, 2, 1, 2, 2, 2, 1][weekday] : [1, 1, 2, 1, 1, 2, 1][weekday]);
     assert.equal(row.trainingItems.length, count, row.date);
     if (traveling) {
       assert.equal(row.projectPlan, "");
@@ -78,8 +80,8 @@ test("schedules all 52 papers from September 13 with travel, time blocks and res
     assert.match(item.module, /整理60分钟/);
   }
   for (const [phase, days, first, last] of [
-    ["Raith 学习", 7, "2026-09-13", "2026-09-19"],
-    ["EBeam Fin 实验", 21, "2026-09-20", "2026-10-19"],
+    ["Raith 学习", 7, "2026-09-14", "2026-09-20"],
+    ["EBeam Fin 实验", 21, "2026-09-21", "2026-10-20"],
   ]) {
     const rows = data.mainPlan.filter((row) => row.projectPhase === phase);
     assert.equal(rows.length, days);
@@ -106,7 +108,7 @@ test("plan migration preserves history, vocabulary and PhD records, and seeds na
   };
   migrate(candidate);
   assert.equal(candidate.schedule["2026-09-06"][8], "completed");
-  assert.equal(candidate.schedule["2026-09-13"], undefined);
+  assert.equal(candidate.schedule["2026-09-13"][8], "old plan");
   assert.equal(candidate.ieltsMoves.length, 0, "regenerated plan must not keep stale reschedules");
   assert.equal(candidate.modulePlans["2026-09-06"].itemId, "custom");
   assert.equal(candidate.modulePlans["2026-09-14"].itemId, "routine-raith");
@@ -223,14 +225,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20260913-replan-0913/);
-  assert.match(html, /app\.js\?v=20260913-replan-0913/);
-  assert.match(html, /ielts-moves\.js\?v=20260913-replan-0913/);
+  assert.match(html, /planning-tasks\.js\?v=20260913-replan-0914/);
+  assert.match(html, /app\.js\?v=20260913-replan-0914/);
+  assert.match(html, /ielts-moves\.js\?v=20260913-replan-0914/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v67-replan-0913/);
+  assert.match(sw, /planner-notebook-v68-replan-0914/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
