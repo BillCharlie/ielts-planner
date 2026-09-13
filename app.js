@@ -3148,8 +3148,9 @@
 
   function registerServiceWorker() {
     if ("serviceWorker" in navigator) {
+      const shouldReloadOnUpdate = Boolean(navigator.serviceWorker.controller);
       navigator.serviceWorker.addEventListener("controllerchange", () => {
-        if (serviceWorkerReloading) return;
+        if (!shouldReloadOnUpdate || serviceWorkerReloading) return;
         serviceWorkerReloading = true;
         window.location.reload();
       });
