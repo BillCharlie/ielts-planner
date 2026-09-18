@@ -1,15 +1,11 @@
 (function () {
-  const startDate = "2026-09-14";
+  const startDate = "2026-09-18";
   const travelPeriod = { startDate: "2026-09-24", endDate: "2026-10-02" };
   const weeklyPaperCounts = [1, 1, 2, 1, 1, 2, 1];
   const octoberPaperCounts = [2, 2, 1, 2, 2, 2, 1];
-  // 9/14–9/23 延用目前逐日份数；旅行后到 10/31 使用新的每周份数。
+  // 9/18–9/23 逐日指定份数；旅行后到 10/31 使用十月每周份数。
   const dailyPaperCounts = {
-    "2026-09-14": 1,
-    "2026-09-15": 1,
-    "2026-09-16": 2,
-    "2026-09-17": 2,
-    "2026-09-18": 2,
+    "2026-09-18": 1,
     "2026-09-19": 1,
     "2026-09-20": 2,
     "2026-09-21": 2,
@@ -105,20 +101,20 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-09-13T00:00:00.000+08:00",
-    source: "9/14起顺排C9T1至C21T4；9/14-9/23延用逐日份数（1/1/2/2/2/1/2/2/1/2）；中秋旅行9/24-10/2不排；10/3-10/31按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-09-18T00:00:00.000+08:00",
+    source: "9/18起顺排C9T1至C21T4；9/18-9/23逐日份数（1/1/2/2/1/2）；中秋旅行9/24-10/2不排；10/3-10/31按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-06", travelPeriod, weeklyPaperCounts, octoberPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-09-20", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-09-21", endDate: "2026-10-20", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-10-03", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-10-04", endDate: "2026-10-24", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes: [], scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-09-14-c9t1-c21t4-october-rules-v19",
+    planVersion: "2026-09-18-c9t1-c21t4-october-rules-v20",
     resetFromDate: startDate,
   };
 })();
