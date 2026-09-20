@@ -1,17 +1,16 @@
 (function () {
-  const startDate = "2026-09-18";
+  const startDate = "2026-09-21";
   const travelPeriod = { startDate: "2026-09-24", endDate: "2026-10-02" };
   const weeklyPaperCounts = [1, 1, 2, 1, 1, 2, 1];
   const octoberPaperCounts = [2, 2, 1, 2, 2, 2, 1];
-  // 9/18–9/23 逐日指定份数；旅行后到 10/31 使用十月每周份数。
+  // 9/21–9/23 逐日指定份数；旅行后到 10/31 使用十月每周份数。
   const dailyPaperCounts = {
-    "2026-09-18": 1,
-    "2026-09-19": 1,
-    "2026-09-20": 2,
-    "2026-09-21": 2,
+    "2026-09-21": 1,
     "2026-09-22": 1,
     "2026-09-23": 2,
   };
+  // 已经做过，不再排入。
+  const excludedCodes = ["C9T1", "C9T3"];
   const projectCatalog = [
     { id: "routine-raith", module: "制程", name: "Raith 学习（1周）", days: "" },
     { id: "routine-ebeam-fin", module: "制程", name: "EBeam Fin 实验（3周，旅行顺延）", days: "" },
@@ -20,7 +19,9 @@
   const testBank = [];
   for (let book = 9; book <= 21; book += 1) {
     for (let test = 1; test <= 4; test += 1) {
-      testBank.push({ code: `C${book}T${test}`, title: `Cambridge ${book} Test ${test}` });
+      const code = `C${book}T${test}`;
+      if (excludedCodes.includes(code)) continue;
+      testBank.push({ code, title: `Cambridge ${book} Test ${test}` });
     }
   }
 
@@ -101,20 +102,20 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-09-18T00:00:00.000+08:00",
-    source: "9/18起顺排C9T1至C21T4；9/18-9/23逐日份数（1/1/2/2/1/2）；中秋旅行9/24-10/2不排；10/3-10/31按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-09-21T00:00:00.000+08:00",
+    source: "9/21起顺排剩余50套（C9T1、C9T3已做，不再排）；9/21-9/23逐日份数（1/1/2）；中秋旅行9/24-10/2不排；10/3-10/31按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-06", travelPeriod, weeklyPaperCounts, octoberPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-10-03", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-10-04", endDate: "2026-10-24", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-10-06", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-10-07", endDate: "2026-10-27", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
-      excludedCodes: [], scheduled: nextTest, scheduledSlots: nextTest,
+      excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-09-18-c9t1-c21t4-october-rules-v20",
+    planVersion: "2026-09-21-exclude-c9t1-c9t3-october-rules-v21",
     resetFromDate: startDate,
   };
 })();

@@ -1368,14 +1368,17 @@
     const total = Number(bank.total || 0);
     const remaining = Array.isArray(bank.remainingCodes) ? bank.remainingCodes : [];
     const retakes = Array.isArray(bank.retakeCodes) ? bank.retakeCodes : [];
+    const excluded = Array.isArray(bank.excludedCodes) ? bank.excludedCodes : [];
+    // 排除的真题不在 total 里，说明一下免得看起来少了几份。
+    const excludedNote = excluded.length ? `已做过不再排：${excluded.map(cambridgeShort).join("、")}。` : "";
     el.testBankProgress.textContent = `${scheduled} / ${total} 已排`;
     if (!remaining.length) {
       el.testBankRemaining.textContent = retakes.length
-        ? `全部真题已排；考前重做 ${retakes.join("、")}。`
-        : "全部真题都已排入日历。";
+        ? `全部真题已排；考前重做 ${retakes.join("、")}。${excludedNote}`
+        : `全部真题都已排入日历。${excludedNote}`;
       return;
     }
-    el.testBankRemaining.textContent = `依目前周规则，考试前尚余 ${remaining.length} 份：${remaining.join("、")}。`;
+    el.testBankRemaining.textContent = `依目前周规则，考试前尚余 ${remaining.length} 份：${remaining.join("、")}。${excludedNote}`;
   }
 
   function renderSelectedDay() {
