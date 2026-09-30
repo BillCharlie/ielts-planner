@@ -53,7 +53,7 @@
       { HK: "四校导师长名单、CV v1" },
       "A / B 正常推进"],
     ["2026/09", "Recipe freeze",
-      { 制程: "9/13 起 Raith 一周，9/20 起 EBeam Fin 实验三周（旅行顺延）", TCAD: "9/20 前完成含 AlN spacer 的 PGaN Emode 与普通 Dmode 基本 model IV 模拟" },
+      { 制程: "10/1 起 Raith 一周，10/8 起 EBeam Fin 实验三周", TCAD: "9/20 前完成含 AlN spacer 的 PGaN Emode 与普通 Dmode 基本 model IV 模拟" },
       "核心训练（听读写说）；按周表推进",
       { IEDMS: "9/15 出结果" },
       { HK: "9/1 开放门户／HKPFS；完成香港四校导师统计与长名单，核对 2027/28 简章" },

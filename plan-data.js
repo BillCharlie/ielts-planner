@@ -1,16 +1,16 @@
 (function () {
-  const startDate = "2026-09-21";
-  const travelPeriod = { startDate: "2026-09-24", endDate: "2026-10-02" };
+  const startDate = "2026-10-01";
+  const travelPeriod = { startDate: "2026-09-24", endDate: "2026-09-30" };
   const weeklyPaperCounts = [1, 1, 2, 1, 1, 2, 1];
   const octoberPaperCounts = [2, 2, 1, 2, 2, 2, 1];
-  // 9/21–9/23 逐日指定份数；旅行后到 10/31 使用十月每周份数。
+  // 10/1–10/3 逐日指定份数；10 月其余日子走十月每周份数。
   const dailyPaperCounts = {
-    "2026-09-21": 1,
-    "2026-09-22": 1,
-    "2026-09-23": 2,
+    "2026-10-01": 1,
+    "2026-10-02": 1,
+    "2026-10-03": 1,
   };
   // 已经做过，不再排入。
-  const excludedCodes = ["C9T1", "C9T3"];
+  const excludedCodes = ["C9T1"];
   const projectCatalog = [
     { id: "routine-raith", module: "制程", name: "Raith 学习（1周）", days: "" },
     { id: "routine-ebeam-fin", module: "制程", name: "EBeam Fin 实验（3周，旅行顺延）", days: "" },
@@ -37,7 +37,7 @@
   for (let date = startDate; nextTest < testBank.length; date = addDays(date, 1)) {
     const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
     const traveling = date >= travelPeriod.startDate && date <= travelPeriod.endDate;
-    const octoberRule = date >= "2026-10-03" && date <= "2026-10-31";
+    const octoberRule = date >= "2026-10-01" && date <= "2026-10-31";
     const count = traveling ? 0 : dailyPaperCounts[date] ?? (octoberRule ? octoberPaperCounts[weekday] : weeklyPaperCounts[weekday]);
     const row = {
       id: `auto-${date}`, date,
@@ -102,20 +102,20 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-09-21T00:00:00.000+08:00",
-    source: "9/21起顺排剩余50套（C9T1、C9T3已做，不再排）；9/21-9/23逐日份数（1/1/2）；中秋旅行9/24-10/2不排；10/3-10/31按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-10-01T00:00:00.000+08:00",
+    source: "10/1起顺排剩余51套（C9T1已做，不再排）；10/1-10/3各1份；10月其余日子按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；中秋旅行9/24-9/30已结束；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-06", travelPeriod, weeklyPaperCounts, octoberPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-10-06", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-10-07", endDate: "2026-10-27", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-10-07", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-10-08", endDate: "2026-10-28", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-09-21-exclude-c9t1-c9t3-october-rules-v21",
+    planVersion: "2026-10-01-exclude-c9t1-october-rules-v22",
     resetFromDate: startDate,
   };
 })();

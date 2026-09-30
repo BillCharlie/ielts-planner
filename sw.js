@@ -1,14 +1,14 @@
-const CACHE_NAME = "planner-notebook-v71-exclude-0921";
+const CACHE_NAME = "planner-notebook-v72-replan-1001";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20260921-exclude-0921",
-  "./app.js?v=20260921-exclude-0921",
-  "./planning-tasks.js?v=20260921-exclude-0921",
-  "./ielts-moves.js?v=20260921-exclude-0921",
+  "./styles.css?v=20261001-replan-1001",
+  "./app.js?v=20261001-replan-1001",
+  "./planning-tasks.js?v=20261001-replan-1001",
+  "./ielts-moves.js?v=20261001-replan-1001",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20260921-exclude-0921",
+  "./plan-data.js?v=20261001-replan-1001",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
