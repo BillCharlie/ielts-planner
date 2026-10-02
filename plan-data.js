@@ -1,14 +1,10 @@
 (function () {
-  const startDate = "2026-10-01";
+  const startDate = "2026-10-03";
   const travelPeriod = { startDate: "2026-09-24", endDate: "2026-09-30" };
   const weeklyPaperCounts = [1, 1, 2, 1, 1, 2, 1];
   const octoberPaperCounts = [2, 2, 1, 2, 2, 2, 1];
-  // 10/1–10/3 逐日指定份数；10 月其余日子走十月每周份数。
-  const dailyPaperCounts = {
-    "2026-10-01": 1,
-    "2026-10-02": 1,
-    "2026-10-03": 1,
-  };
+  // 目前没有逐日覆写：10 月走十月每周份数，11 月回到平日份数。
+  const dailyPaperCounts = {};
   // 已经做过，不再排入。
   const excludedCodes = ["C9T1"];
   const projectCatalog = [
@@ -102,20 +98,20 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-10-01T00:00:00.000+08:00",
-    source: "10/1起顺排剩余51套（C9T1已做，不再排）；10/1-10/3各1份；10月其余日子按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；中秋旅行9/24-9/30已结束；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-10-03T00:00:00.000+08:00",
+    source: "10/3起顺排剩余51套（C9T1已做，不再排）；考试日 11/08；10月按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；中秋旅行9/24-9/30已结束；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
-    autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-06", travelPeriod, weeklyPaperCounts, octoberPaperCounts, dailyPaperCounts },
+    autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-08", travelPeriod, weeklyPaperCounts, octoberPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-10-07", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-10-08", endDate: "2026-10-28", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-10-09", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-10-10", endDate: "2026-10-30", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-10-01-exclude-c9t1-october-rules-v22",
+    planVersion: "2026-10-03-exclude-c9t1-exam1108-v23",
     resetFromDate: startDate,
   };
 })();
