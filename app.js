@@ -25,9 +25,11 @@
   // 阶段一（11—12月）不需要雅思；阶段二（出分后）才正式主投。
   const APPLICATION_MILESTONES = [
     { id: "hk:advisor-longlist", module: "application", lane: "HK", date: "2026-10-31", text: "五校导师长名单定稿：HKUST／PolyU／HKU／CUHK／CityU，各 2–4 位" },
-    { id: "hk:mail-hkust", module: "application", lane: "HK", date: "2026-11-09", text: "阶段一套磁：HKUST ECE（Kevin Chen／Weijia Zhang／Man Hoi Wong）" },
-    { id: "hk:mail-polyu-hku", module: "application", lane: "HK", date: "2026-11-16", text: "阶段一套磁：PolyU Yi Zhang、HKU Yuhao Zhang" },
-    { id: "hk:mail-cuhk-cityu", module: "application", lane: "HK", date: "2026-11-23", text: "阶段一套磁：CUHK Alex Leung、CityU（Siew Chong Tan／Kerui Li）" },
+    { id: "hk:mail-wave1", module: "application", lane: "HK", date: "2026-11-09", replaces: ["hk:mail-hkust"], text: "套磁第一梯队：HKU Yuhao Zhang、HKUST Kevin Chen（匹配 9.5，必投；先写 Yuhao Zhang）" },
+    { id: "hk:mail-wave2", module: "application", lane: "HK", date: "2026-11-16", replaces: ["hk:mail-polyu-hku"], text: "套磁 HKUST 其余两位：Weijia Zhang（gate driver／PMIC）、Man Hoi Wong（device physics／epitaxy）" },
+    { id: "hk:mail-wave3", module: "application", lane: "HK", date: "2026-11-23", replaces: ["hk:mail-cuhk-cityu"], text: "套磁第二／三梯队：PolyU Yi Zhang、CUHK Alex Leung（转型型：device→PMIC）" },
+    { id: "hk:mail-wave4", module: "application", lane: "HK", date: "2026-11-30", text: "套磁第五间：CityU Siew Chong Tan、Kerui Li（切入点写 device→converter 映射，别写继续做 HEMT fabrication）" },
+    { id: "hk:study-six", module: "application", lane: "HK", date: "2026-10-20", text: "按序拆 6 位导师：Yuhao Zhang→Kevin Chen→Weijia Zhang→Man Hoi Wong→Yi Zhang→Alex Leung（近5年论文→近2年主轴→current PhD topics→你能接哪条）" },
     { id: "hk:polyu-docs", module: "application", lane: "HK", date: "2026-11-30", text: "PolyU 送件材料备齐：主 CV、research proposal、成绩单、成果附件" },
     { id: "hk:hkpfs-skip", module: "application", lane: "HK", date: "2026-12-01", text: "HKPFS 主轮：本轮确认放弃，不送件（没有雅思冲不了，别打乱复习）" },
     { id: "hk:polyu-submit", module: "application", lane: "HK", date: "2026-12-07", text: "PolyU 正式提交：英文成绩栏填「预计 2026/12/19 应试」，争取 conditional offer" },
@@ -135,9 +137,54 @@
     ["2027/12", "Final buffer", {}, "", {}, {}, "B：最晚毕业窗口"],
   ];
   const PHD_REGION_PRESETS = [
-    { id: "hk", code: "HK", name: "香港", hint: "集中式 PhD 申请与导师联系", schools: ["HKUST", "HKU", "CUHK", "CityU", "PolyU"] },
+    { id: "hk", code: "HK", name: "香港", hint: "集中式 PhD 申请与导师联系", schools: ["HKUST", "HKU", "PolyU", "CUHK", "CityU"] },
     { id: "tw", code: "TW", name: "台湾", hint: "学校招生规则与导师意愿并行确认", schools: ["NTU"] },
     { id: "eu", code: "EU", name: "欧洲", hint: "以导师、实验室或 project vacancy 为单位", schools: ["KU Leuven / imec", "TU Delft", "EPFL", "Fraunhofer IISB"] },
+  ];
+  // 研究链：多通道／Tri-gate GaN HEMT → p-GaN reliability → device design/TCAD/fabrication
+  // → gate driver / PMIC → 48→24 V DC-DC。匹配度按这条链判断，不是只看「有没有做 GaN」。
+  // studyOrder 1–6 是建议逐个拆论文的顺序；只种一次，之后可自行改或删（见 seedPhdAdvisors）。
+  const PHD_ADVISOR_SEEDS = [
+    { id: "hk-adv-hku-yuhao", school: "HKU", name: "Yuhao Zhang 张宇昊", tier: "S+", match: "9.5", studyOrder: 1,
+      focus: "multi-channel GaN、Fin power transistor、device physics、reliability、ML-assisted co-design",
+      note: "最对味：MC²-HEMT 本身就是 multi-channel AlGaN/GaN power switch。切入角度写 multi-channel 架构＋physics-constrained TCAD＋reliability →低压功率转换，别写 I am interested in GaN devices。注意他近期往 vertical GaN／Ga₂O₃／UWBG 高压延伸，未必照做低压 p-GaN —— 这点值得直接问。",
+      url: "https://ece.hku.hk/people/y-zhang/" },
+    { id: "hk-adv-hkust-kevin", school: "HKUST", name: "Kevin J. Chen 陈敬", tier: "S+", match: "9.5", studyOrder: 2,
+      focus: "GaN power HEMT、E-mode、MIS-HEMT、gate dielectric reliability、power device & IC",
+      note: "p-GaN／E-mode／MIS-HEMT／multi-channel 他全部看得懂，就是核心领域。你的牌不是「我会 Sentaurus」，而是能独立走完 concept→TCAD→mask/process→fabrication→characterization 整个回路。HKUST 有 NFF 自有产线。",
+      url: "https://ece.hkust.edu.hk/eekjchen" },
+    { id: "hk-adv-hkust-weijia", school: "HKUST", name: "Weijia Zhang 张薇葭", tier: "S", match: "9", studyOrder: 3,
+      focus: "power IC design、gate driver for power switch、integrated DC-DC、smart gate driver IC、WBG application",
+      note: "几乎就是你博士后半段本身（gate driver→PMIC→48→24V）。2025 才加入 HKUST。若单独跟她做，要先确认能否保留相当比例的 device-level research，还是主要做 PMIC／driver。",
+      url: "https://ece.hkust.edu.hk/eewjzhang" },
+    { id: "hk-adv-hkust-manhoi", school: "HKUST", name: "Man Hoi Wong 黄文海", tier: "S", match: "8.5", studyOrder: 4,
+      focus: "III-Nitride／UWBG oxide device、semiconductor epitaxy、process integration、fundamental device phenomena",
+      note: "想回答「为什么这个 multi-channel／p-GaN 结构有这个电场」「defect／interface／polarization／process 怎么影响 device physics」才找他。与 Kevin Chen 的差别：他偏 materials＋device physics＋epitaxy＋新架构。",
+      url: "https://ece.hkust.edu.hk/eemhwong" },
+    { id: "hk-adv-polyu-yizhang", school: "PolyU", name: "Yi Zhang 张毅", tier: "A+", match: "8", studyOrder: 5,
+      focus: "SiC/GaN power semiconductor reliability、failure analysis、packaging、thermal、AI-enabled diagnostics",
+      note: "官方正在招 PhD/MPhil/Postdoc。若博士第一部分定成 p-GaN gate degradation／dynamic Ron／gate reliability 很合。但他主轴是 device→reliability→package→system，不是 transistor architecture＋fabrication；若你仍想自己刻 HEMT、改 epitaxy/gate structure，优先级低于 HKUST/HKU。",
+      url: "https://research.polyu.edu.hk/en/persons/yi-zhang-2/" },
+    { id: "hk-adv-cuhk-alex", school: "CUHK", name: "Alex Ka Nang Leung 梁加能", tier: "A", match: "9（转型）/ 5（device 延续）", studyOrder: 6,
+      focus: "power-management IC、analog IC、24/48 V-to-1 V dual-phase hybrid DC-DC",
+      note: "CUHK 里最值得看的人。不做 GaN HEMT fabrication，但正好接上你本科 Analog IC＋要恢复的 Cadence。故事直接讲：硕士做 GaN power device，博士希望用已有 device background 往 power-management IC／device-circuit co-design 延伸。",
+      url: "https://www.ee.cuhk.edu.hk/zh-tw/people/academic-staff/professors/prof-ka-nang-alex-leung" },
+    { id: "hk-adv-cityu-tan", school: "CityU", name: "Siew Chong Tan 陈秀聪", tier: "A", match: "7.5", studyOrder: 0,
+      focus: "power electronics、emerging power converters、power electronics control、EV charging",
+      note: "Chair Professor，官方标示 Accepting PhD Students。别说「想继续做 p-GaN HEMT fabrication」，要说「有 device-level background，想研究 device characteristics／reliability 如何映射到高频 converter 设计」。",
+      url: "https://scholars.cityu.edu.hk/en/persons/siewctan/" },
+    { id: "hk-adv-cityu-kerui", school: "CityU", name: "Kerui Li 李恪睿", tier: "A−", match: "7", studyOrder: 0,
+      focus: "power electronics、wireless power transfer、high-frequency power conversion、GaN switch application",
+      note: "年轻 PI，官网明确写招 PhD 与 postdoc —— 比较容易成为核心学生、方向可塑性大。缺点是不做 GaN process／HEMT architecture 本身。",
+      url: "https://www.cityu.edu.hk/stfprofile/kerui.li.htm" },
+    { id: "hk-adv-hkust-yancheng", school: "HKUST", name: "Yan Cheng 成妍", tier: "B+", match: "待确认", studyOrder: 0,
+      focus: "GaN power/RF device、wide-bandgap device & IC、power semiconductor reliability physics",
+      note: "方向很准（做过 p-GaN gate HEMT reliability），但 2026 新任 Research Assistant Professor。各系对 RAP 能否担任 RPG primary supervisor 规则不同 —— 未确认资格前当作「值得写信交流／未来可能共同指导」，不要当唯一 supervisor。",
+      url: "" },
+    { id: "hk-adv-cuhk-anding", school: "CUHK", name: "Anding Zhu 祝安定", tier: "B", match: "4–5", studyOrder: 0,
+      focus: "GaN MMIC、GaN power amplifier、CMOS-controlled GaN、RF/microwave、6G",
+      note: "⚠️ 别被「GaN」骗：PA 的 power ≠ power electronics 的 power。他是 RF GaN MMIC／GHz PA／Doherty，和 switching HEMT（Vth/Ron/BV→DC-DC）是另一套学术社群。除非愿意转 RF GaN，否则不要因为名字有 GaN 就排前面。",
+      url: "https://www.ee.cuhk.edu.hk/en-gb/people/academic-staff/professors/prof-zhu-anding" },
   ];
   const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系", "待回复", "准备申请", "已送出", "面试", "Offer", "暂停"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
@@ -1037,7 +1084,15 @@
   function renderPhdAdvisor(region, school, advisor) {
     const common = `data-region-id="${safeAttr(region.id)}" data-school-id="${safeAttr(school.id)}" data-advisor-id="${safeAttr(advisor.id)}"`;
     return `
-      <div class="phd-advisor-row">
+      <div class="phd-advisor-row${advisor.tier ? " has-brief" : ""}">
+        ${!advisor.tier && !advisor.focus ? "" : `<div class="advisor-brief">
+          ${!advisor.tier ? "" : `<span class="advisor-tier tier-${safeAttr(advisor.tier.replace(/[^A-Za-z]/g, "").toLowerCase() || "x")}">${safe(advisor.tier)}</span>`}
+          ${!advisor.match ? "" : `<span class="advisor-match">匹配 ${safe(advisor.match)}</span>`}
+          ${!advisor.studyOrder ? "" : `<span class="advisor-order">优先研究 ${safe(String(advisor.studyOrder))}</span>`}
+          ${!advisor.url ? "" : `<a class="advisor-link" href="${safeAttr(advisor.url)}" target="_blank" rel="noopener">官方页面</a>`}
+          ${!advisor.focus ? "" : `<p class="advisor-focus">${safe(advisor.focus)}</p>`}
+          ${!advisor.note ? "" : `<p class="advisor-note">${safe(advisor.note)}</p>`}
+        </div>`}
         <label><span>导师</span><input ${common} data-phd-advisor-field="name" value="${safeAttr(advisor.name)}" placeholder="Professor name" aria-label="导师姓名" /></label>
         <label><span>Email</span><input ${common} data-phd-advisor-field="email" type="email" value="${safeAttr(advisor.email)}" placeholder="name@university.edu" aria-label="导师 Email" /></label>
         <label class="phd-cv-check"><input ${common} data-phd-advisor-cv="true" type="checkbox"${advisor.cvDone ? " checked" : ""} /><span>${advisor.cvDone ? "✓ 已完成" : "○ 未完成"}</span></label>
@@ -2833,6 +2888,7 @@
       planningTasks: Array.isArray(parsed.planningTasks) ? parsed.planningTasks : [],
       planningTasksVersion: parsed.planningTasksVersion || 0,
       seededMilestones: Array.isArray(parsed.seededMilestones) ? parsed.seededMilestones : [],
+      seededAdvisors: Array.isArray(parsed.seededAdvisors) ? parsed.seededAdvisors : [],
       roadmap: {
         tasks: parsed.roadmap?.tasks || {},
         gates: parsed.roadmap?.gates || {},
@@ -2842,9 +2898,10 @@
     };
     ensureAcademicCatalog(normalized);
     const migrated = PlanningTasks.migrate(migratePlanState(normalized), ROADMAP_MONTHS);
-    return typeof PlanningTasks.seedMilestones === "function"
+    const seeded = typeof PlanningTasks.seedMilestones === "function"
       ? PlanningTasks.seedMilestones(migrated, APPLICATION_MILESTONES)
       : migrated;
+    return seedPhdAdvisors(seeded);
   }
 
   function ensureAcademicCatalog(candidate) {
@@ -2937,11 +2994,43 @@
             email: `${advisor.email || ""}`,
             cvDone: Boolean(advisor.cvDone),
             status: PHD_APPLICATION_STATUSES.includes(advisor.status) ? advisor.status : "研究中",
+            tier: `${advisor.tier || ""}`,
+            match: `${advisor.match || ""}`,
+            focus: `${advisor.focus || ""}`,
+            note: `${advisor.note || ""}`,
+            url: `${advisor.url || ""}`,
+            studyOrder: Number(advisor.studyOrder) || 0,
           })) : [],
         })) : defaultRegion.schools;
         return { id: preset.id, code: preset.code, name: preset.name, hint: preset.hint, schools };
       }),
     };
+  }
+
+  // 导师种子同样只种一次（记在 state.seededAdvisors），删掉或改过的不会被种回来。
+  function seedPhdAdvisors(candidate) {
+    const tracker = candidate.phdTracker;
+    const hk = tracker?.regions?.find((region) => region.id === "hk");
+    if (!hk || !Array.isArray(hk.schools)) return candidate;
+    const seeded = new Set(candidate.seededAdvisors || []);
+    for (const seed of PHD_ADVISOR_SEEDS) {
+      if (seeded.has(seed.id)) continue;
+      seeded.add(seed.id);
+      let school = hk.schools.find((item) => item.name === seed.school);
+      if (!school) {
+        school = { id: `hk-school-${hk.schools.length + 1}`, name: seed.school, advisors: [] };
+        hk.schools.push(school);
+      }
+      school.advisors = Array.isArray(school.advisors) ? school.advisors : [];
+      if (school.advisors.some((advisor) => advisor.id === seed.id)) continue;
+      school.advisors.push({
+        id: seed.id, name: seed.name, email: "", cvDone: false, status: "研究中",
+        tier: seed.tier, match: seed.match, focus: seed.focus, note: seed.note,
+        url: seed.url, studyOrder: seed.studyOrder || 0,
+      });
+    }
+    candidate.seededAdvisors = [...seeded].sort();
+    return candidate;
   }
 
   function defaultRoadmapState() {

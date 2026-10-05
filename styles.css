@@ -3676,6 +3676,101 @@ textarea {
   gap: 10px;
 }
 
+.phd-advisor-row.has-brief > label:nth-of-type(1) { grid-area: name; }
+.phd-advisor-row.has-brief > label:nth-of-type(2) { grid-area: email; }
+.phd-advisor-row.has-brief > label:nth-of-type(3) { grid-area: cv; }
+.phd-advisor-row.has-brief > label:nth-of-type(4) { grid-area: status; }
+.phd-advisor-row.has-brief > .phd-delete-button { grid-area: del; }
+
+/* ---- 导师匹配度简介 ---------------------------------------------------- */
+
+.phd-advisor-row.has-brief {
+  grid-template-areas:
+    "brief brief brief brief brief"
+    "name email cv status del";
+  row-gap: 8px;
+}
+
+.phd-advisor-row.has-brief > .advisor-brief {
+  grid-area: brief;
+}
+
+.advisor-brief {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+  align-items: center;
+}
+
+.advisor-tier {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--muted);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.advisor-tier.tier-s {
+  background: var(--teal);
+}
+
+.advisor-tier.tier-a {
+  background: var(--blue);
+}
+
+.advisor-tier.tier-b {
+  background: var(--amber);
+}
+
+.advisor-match,
+.advisor-order {
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.advisor-order {
+  border-color: var(--violet);
+  color: var(--violet);
+}
+
+.advisor-link {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.advisor-focus,
+.advisor-note {
+  flex: 1 0 100%;
+  min-width: 0;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  /* 像 concept→TCAD→mask/process→fabrication 这种长串没有空格，窄屏必须强制断行 */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.advisor-brief {
+  max-width: 100%;
+}
+
+.advisor-focus {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.advisor-note {
+  color: var(--muted);
+}
+
 .phd-advisor-table-head {
   padding: 10px 16px;
   background: var(--surface-2);
@@ -4147,6 +4242,20 @@ textarea {
     grid-template-columns: 1fr;
     align-items: stretch;
     padding: 16px;
+  }
+
+  /* 单栏堆叠时取消具名区域，否则 5 栏的 areas 会撑出隐式栏位。 */
+  .phd-advisor-row.has-brief {
+    grid-template-areas: none;
+  }
+
+  .phd-advisor-row.has-brief > .advisor-brief,
+  .phd-advisor-row.has-brief > label:nth-of-type(1),
+  .phd-advisor-row.has-brief > label:nth-of-type(2),
+  .phd-advisor-row.has-brief > label:nth-of-type(3),
+  .phd-advisor-row.has-brief > label:nth-of-type(4),
+  .phd-advisor-row.has-brief > .phd-delete-button {
+    grid-area: auto;
   }
 
   .phd-advisor-row > label {

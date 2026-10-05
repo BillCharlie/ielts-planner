@@ -149,7 +149,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.doesNotMatch(app, /phdRegionList/);
   assert.match(html, /id="hkApplicationTimelineTitle"/);
   // 学校卡按「研究契合度 × 对晚出雅思的容忍度」排序，不是字母序。
-  assert.match(html, /香港博士申请时间线[\s\S]*HKUST[\s\S]*POLYU[\s\S]*HKU[\s\S]*CUHK[\s\S]*CITYU/);
+  // 学校卡按研究链匹配度排序（与「能否无雅思先投」是两条轴）。
+  assert.match(html, /香港博士申请时间线[\s\S]*HKUST[\s\S]*>HKU</);
+  assert.match(html, /<span>HKU<\/span>[\s\S]*POLYU[\s\S]*CUHK[\s\S]*CITYU/);
+  // 导师种子要覆盖研究链两端，并保留不可忽略的警告。
+  assert.match(app, /PHD_ADVISOR_SEEDS[\s\S]*Yuhao Zhang[\s\S]*Kevin J\. Chen[\s\S]*Weijia Zhang/);
+  assert.match(app, /Anding Zhu[\s\S]*PA 的 power ≠ power electronics 的 power/);
+  assert.match(app, /Yan Cheng[\s\S]*Research Assistant Professor/);
+  assert.match(app, /function seedPhdAdvisors/);
   assert.match(html, /阶段一 · 2026\/11—12[\s\S]*阶段二 · 2027\/01—06/);
   assert.match(html, /HKPFS 主轮 · 本轮放弃/);
   assert.match(html, /预计取得成绩日期|预计取得日期/);
@@ -241,14 +248,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261005-hk-two-phase/);
-  assert.match(html, /app\.js\?v=20261005-hk-two-phase/);
-  assert.match(html, /ielts-moves\.js\?v=20261005-hk-two-phase/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-hk-advisors/);
+  assert.match(html, /app\.js\?v=20261006-hk-advisors/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-hk-advisors/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v74-hk-two-phase/);
+  assert.match(sw, /planner-notebook-v75-hk-advisors/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

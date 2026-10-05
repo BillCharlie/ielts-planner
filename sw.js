@@ -1,14 +1,14 @@
-const CACHE_NAME = "planner-notebook-v74-hk-two-phase";
+const CACHE_NAME = "planner-notebook-v75-hk-advisors";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261005-hk-two-phase",
-  "./app.js?v=20261005-hk-two-phase",
-  "./planning-tasks.js?v=20261005-hk-two-phase",
-  "./ielts-moves.js?v=20261005-hk-two-phase",
+  "./styles.css?v=20261006-hk-advisors",
+  "./app.js?v=20261006-hk-advisors",
+  "./planning-tasks.js?v=20261006-hk-advisors",
+  "./ielts-moves.js?v=20261006-hk-advisors",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261005-hk-two-phase",
+  "./plan-data.js?v=20261006-hk-advisors",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",

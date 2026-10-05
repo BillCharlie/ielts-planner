@@ -89,6 +89,12 @@
       const id = String(milestone?.id || "");
       if (!id || seeded.has(id)) continue;
       seeded.add(id);
+      // 改版的里程碑用新 id，并把被取代的旧 id 一起移除＋标记，避免两份并存。
+      for (const old of milestone.replaces || []) {
+        const index = tasks.findIndex((task) => String(task.id) === String(old));
+        if (index >= 0) tasks.splice(index, 1);
+        seeded.add(String(old));
+      }
       if (tasks.some((task) => String(task.id) === id)) continue;
       tasks.push(normalize({ ...milestone, id, dates: milestone.date ? [milestone.date] : milestone.dates || [] }));
     }
