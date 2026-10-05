@@ -157,6 +157,15 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /Anding Zhu[\s\S]*PA 的 power ≠ power electronics 的 power/);
   assert.match(app, /Yan Cheng[\s\S]*Research Assistant Professor/);
   assert.match(app, /function seedPhdAdvisors/);
+  // 学校可折叠，且展开状态必须在重绘前从 DOM 读回（toggle 事件是异步的）。
+  assert.match(app, /<details class="phd-school"/);
+  assert.match(app, /function captureOpenSchools/);
+  assert.match(app, /captureOpenSchools\(\);[\s\S]*regions\.forEach/);
+  assert.doesNotMatch(app, /addEventListener\("toggle"/);
+  // 中文校名都要带英文缩写。
+  for (const [zh, en] of [["香港科技大学", "HKUST"], ["香港大学", "HKU"], ["香港理工大学", "PolyU"], ["香港中文大学", "CUHK"], ["香港城市大学", "CityU"], ["台湾大学", "NTU"], ["阳明交通大学", "NYCU"]]) {
+    assert.match(html, new RegExp(`${zh}[^<]*${en}`), `${zh} 缺少英文缩写`);
+  }
   // DOI 一律写成 10.xxxx/... 的真实格式，且不可重复。
   const dois = Array.from(app.matchAll(/doi: "([^"]+)"/g), (m) => m[1]);
   assert.ok(dois.length >= 30, `期望至少 30 个 DOI，实际 ${dois.length}`);
@@ -258,14 +267,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-advisor-dois/);
-  assert.match(html, /app\.js\?v=20261006-advisor-dois/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-advisor-dois/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-collapsible/);
+  assert.match(html, /app\.js\?v=20261006-collapsible/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-collapsible/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v76-advisor-dois/);
+  assert.match(sw, /planner-notebook-v77-collapsible/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

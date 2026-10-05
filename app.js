@@ -19,7 +19,7 @@
     { id: "a1", code: "A1", name: "HK Phase 1 · 无雅思先行", date: "2026-12-31", displayDate: "11—12月 · 套磁为主 · PolyU 可先送件", proof: "五校导师第一轮套磁已发出并记录回音；PolyU 申请已提交（英文成绩栏填预计取得日期），主 CV 与 research proposal 完成", pass: "12月底前完成 PolyU 送件与全部第一轮套磁；主动放弃 12/01 HKPFS 主轮，不算失败", miss: "没有雅思时不要硬投 CUHK／CityU：英文证明属必交材料，材料不全不予审查" },
     { id: "a4", code: "A4", name: "HK Phase 2 · 出分后主投", date: "2027-06-01", displayDate: "1月出分 · 3/31 CUHK · 4/30 HKU · 5/31 PolyU · 6/01 HKUST", proof: "12/19 雅思 overall 6.5 且各校小分达标；按校别完成正式申请、推荐信与补件", pass: "出分后两周内投 HKUST ECE 与 PolyU；分数够就赶 CUHK 3/31 clearing", miss: "小分不足先安排重考，改走 PolyU Jan 2028 entry（申请期至 2027/09/30）" },
     { id: "a2", code: "A2", name: "Europe PhD Pipeline", date: "2027-03-31", displayDate: "12月启动 · 12/15—2027/03 持续投递", proof: "建立 project vacancy 清单；每个职位都有对应 CV、motivation letter 与研究证据", pass: "12月起持续投递，1–3 月进入 technical interview", miss: "减少泛投，集中有 funding 与 fab access 的职位" },
-    { id: "a3", code: "A3", name: "Taiwan PhD Ready", date: "2027-03-15", displayDate: "2月启动 · 3/15 内部备齐 · 3月下旬报名", proof: "116学年度博士考试入学：台大电子所／阳明交大目标、CV、研究计划、成绩单与推荐信备齐", pass: "核对116正式简章；开放后两天内提交，并分别确认报名、材料、推荐信截止", miss: "按学校正式截止补齐；2027时程仍待公告，不沿用秋季甄试日期" },
+    { id: "a3", code: "A3", name: "Taiwan PhD Ready", date: "2027-03-15", displayDate: "2月启动 · 3/15 内部备齐 · 3月下旬报名", proof: "116学年度博士考试入学：台大 NTU 电子所／阳明交大 NYCU 目标、CV、研究计划、成绩单与推荐信备齐", pass: "核对116正式简章；开放后两天内提交，并分别确认报名、材料、推荐信截止", miss: "按学校正式截止补齐；2027时程仍待公告，不沿用秋季甄试日期" },
   ];
   // 香港申请的固定日期节点。只种一次，之后可自行改日期或删除（见 PlanningTasks.seedMilestones）。
   // 阶段一（11—12月）不需要雅思；阶段二（出分后）才正式主投。
@@ -102,7 +102,7 @@
       { 制程: "分析第一批结果；重测异常 device", Cadence: "电路／版图推进" },
       "",
       {},
-      { HK: "阶段二：雅思出分，两周内投 HKUST ECE 与 PolyU", 欧洲: "主投；technical interview", 台湾: "确认台大电子所／阳明交大方向、材料清单" },
+      { HK: "阶段二：雅思出分，两周内投 HKUST ECE 与 PolyU", 欧洲: "主投；technical interview", 台湾: "确认台大 NTU 电子所／阳明交大 NYCU 方向、材料清单" },
       "A：只做有限补实验"],
     ["2027/02", "Controlled iteration",
       { 制程: "第二轮 device／必要补测", TCAD: "TCAD–experiment comparison" },
@@ -280,6 +280,8 @@
   let rescheduleMode = false;
   const pickedTraining = new Map();
   const pickedPending = new Set();
+  // 学校展开状态：纯 UI，不进存档。
+  const openSchools = new Set();
 
   const el = {};
   document.addEventListener("DOMContentLoaded", init);
@@ -1100,6 +1102,7 @@
     // Each region's school/advisor tracker renders into the slot inside its own
     // timeline panel (HK / TW) or region column (EU), so the roster lines up
     // with the panel above it.
+    captureOpenSchools();
     regions.forEach((region) => {
       const slot = document.querySelector(`[data-region-slot="${region.id}"]`);
       if (!slot) return;
@@ -1120,12 +1123,31 @@
     });
   }
 
+  // 重绘会重建 DOM，展开状态只能在覆盖前从现有节点读回来。
+  // 不能依赖 toggle 事件：它是异步派发的，可能晚于本次重绘。
+  function captureOpenSchools() {
+    const nodes = document.querySelectorAll("details[data-phd-school]");
+    if (!nodes.length) return;
+    openSchools.clear();
+    nodes.forEach((node) => {
+      if (node.open) openSchools.add(node.dataset.phdSchool);
+    });
+  }
+
   function renderPhdSchool(region, school) {
+    // 收起时也要能看出这所学校有什么：梯队徽章直接摆在 summary 上。
+    const tiers = school.advisors.map((advisor) => advisor.tier).filter(Boolean);
+    const keyCount = school.advisors.reduce((count, advisor) => count + (advisor.papers || []).filter((paper) => paper.key).length, 0);
     return `
-      <article class="phd-school" data-phd-school="${safeAttr(school.id)}">
+      <details class="phd-school" data-phd-school="${safeAttr(school.id)}"${openSchools.has(school.id) ? " open" : ""}>
+        <summary class="phd-school-summary">
+          <strong>${safe(school.name)}</strong>
+          <span class="phd-school-count">${school.advisors.length} 位导师</span>
+          ${!tiers.length ? "" : `<span class="phd-school-tiers">${tiers.map((tier) => `<i class="advisor-tier tier-${safeAttr(tier.replace(/[^A-Za-z]/g, "").toLowerCase() || "x")}">${safe(tier)}</i>`).join("")}</span>`}
+          ${!keyCount ? "" : `<span class="phd-school-key">★${keyCount} 篇必读</span>`}
+        </summary>
         <header class="phd-school-header">
           <label><span>学校／机构</span><input data-phd-school-name="true" data-region-id="${safeAttr(region.id)}" data-school-id="${safeAttr(school.id)}" value="${safeAttr(school.name)}" aria-label="学校名称" /></label>
-          <span>${school.advisors.length} 位导师</span>
           <button class="phd-delete-button" type="button" data-delete-phd-school="${safeAttr(school.id)}" data-region-id="${safeAttr(region.id)}">删除学校</button>
         </header>
         <div class="phd-advisor-table">
@@ -1137,7 +1159,7 @@
           <label><span>Email</span><input name="advisorEmail" type="email" placeholder="name@university.edu" /></label>
           <button type="submit">＋ 添加导师</button>
         </form>
-      </article>
+      </details>
     `;
   }
 

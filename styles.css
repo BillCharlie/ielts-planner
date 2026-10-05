@@ -3746,6 +3746,50 @@ textarea {
   font-weight: 700;
 }
 
+.phd-school-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  padding: 11px 14px;
+  background: var(--surface-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.phd-school[open] > .phd-school-summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.phd-school-summary strong {
+  font-size: 14px;
+}
+
+.phd-school-count {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.phd-school-tiers {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.phd-school-tiers .advisor-tier {
+  padding: 1px 6px;
+  font-size: 10px;
+  font-style: normal;
+}
+
+.phd-school-key {
+  margin-left: auto;
+  color: var(--rose);
+  font-size: 11px;
+  font-weight: 800;
+}
+
 .advisor-papers {
   flex: 1 0 100%;
   min-width: 0;

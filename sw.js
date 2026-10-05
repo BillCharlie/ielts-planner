@@ -1,14 +1,14 @@
-const CACHE_NAME = "planner-notebook-v76-advisor-dois";
+const CACHE_NAME = "planner-notebook-v77-collapsible";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261006-advisor-dois",
-  "./app.js?v=20261006-advisor-dois",
-  "./planning-tasks.js?v=20261006-advisor-dois",
-  "./ielts-moves.js?v=20261006-advisor-dois",
+  "./styles.css?v=20261006-collapsible",
+  "./app.js?v=20261006-collapsible",
+  "./planning-tasks.js?v=20261006-collapsible",
+  "./ielts-moves.js?v=20261006-collapsible",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261006-advisor-dois",
+  "./plan-data.js?v=20261006-collapsible",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
