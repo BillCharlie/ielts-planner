@@ -1,14 +1,14 @@
-const CACHE_NAME = "planner-notebook-v78-fix-summary-click";
+const CACHE_NAME = "planner-notebook-v79-nycu-advisors";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261006-fix-summary-click",
-  "./app.js?v=20261006-fix-summary-click",
-  "./planning-tasks.js?v=20261006-fix-summary-click",
-  "./ielts-moves.js?v=20261006-fix-summary-click",
+  "./styles.css?v=20261006-nycu-advisors",
+  "./app.js?v=20261006-nycu-advisors",
+  "./planning-tasks.js?v=20261006-nycu-advisors",
+  "./ielts-moves.js?v=20261006-nycu-advisors",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261006-fix-summary-click",
+  "./plan-data.js?v=20261006-nycu-advisors",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",

@@ -157,6 +157,13 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /Anding Zhu[\s\S]*PA 的 power ≠ power electronics 的 power/);
   assert.match(app, /Yan Cheng[\s\S]*Research Assistant Professor/);
   assert.match(app, /function seedPhdAdvisors/);
+  // 导师种子要能落到非香港地区（台湾 NYCU）。
+  assert.match(app, /schools: \["NTU", "NYCU"\]/);
+  assert.match(app, /seed\.region \|\| "hk"/);
+  assert.match(app, /tw-adv-nycu-tlwu[\s\S]*region: "tw"[\s\S]*school: "NYCU"/);
+  assert.match(app, /tw-adv-nycu-ymli[\s\S]*region: "tw"/);
+  // 吴添立的 p-GaN gate 可靠性与 AI 辅助建模是与研究链的重叠点。
+  assert.match(app, /"tw-adv-nycu-tlwu": \[[\s\S]*10\.1109\/ted\.2024\.3412095[\s\S]*10\.1038\/s41598-024-58112-9/);
   // 学校可折叠，且展开状态必须在重绘前从 DOM 读回（toggle 事件是异步的）。
   assert.match(app, /<details class="phd-school"/);
   // 拖拽横向滚动会 setPointerCapture，把随后的 click 改派到容器上；
@@ -270,14 +277,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-fix-summary-click/);
-  assert.match(html, /app\.js\?v=20261006-fix-summary-click/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-fix-summary-click/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-nycu-advisors/);
+  assert.match(html, /app\.js\?v=20261006-nycu-advisors/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-nycu-advisors/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v78-fix-summary-click/);
+  assert.match(sw, /planner-notebook-v79-nycu-advisors/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

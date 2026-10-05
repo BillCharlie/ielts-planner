@@ -138,7 +138,7 @@
   ];
   const PHD_REGION_PRESETS = [
     { id: "hk", code: "HK", name: "香港", hint: "集中式 PhD 申请与导师联系", schools: ["HKUST", "HKU", "PolyU", "CUHK", "CityU"] },
-    { id: "tw", code: "TW", name: "台湾", hint: "学校招生规则与导师意愿并行确认", schools: ["NTU"] },
+    { id: "tw", code: "TW", name: "台湾", hint: "学校招生规则与导师意愿并行确认", schools: ["NTU", "NYCU"] },
     { id: "eu", code: "EU", name: "欧洲", hint: "以导师、实验室或 project vacancy 为单位", schools: ["KU Leuven / imec", "TU Delft", "EPFL", "Fraunhofer IISB"] },
   ];
   // 研究链：多通道／Tri-gate GaN HEMT → p-GaN reliability → device design/TCAD/fabrication
@@ -185,6 +185,15 @@
       focus: "GaN MMIC、GaN power amplifier、CMOS-controlled GaN、RF/microwave、6G",
       note: "⚠️ 别被「GaN」骗：PA 的 power ≠ power electronics 的 power。他是 RF GaN MMIC／GHz PA／Doherty，和 switching HEMT（Vth/Ron/BV→DC-DC）是另一套学术社群。除非愿意转 RF GaN，否则不要因为名字有 GaN 就排前面。",
       url: "https://www.ee.cuhk.edu.hk/en-gb/people/academic-staff/professors/prof-zhu-anding" },
+    { id: "tw-adv-nycu-tlwu", region: "tw", school: "NYCU", name: "吴添立 Tian-Li Wu", tier: "S+", match: "9.5", studyOrder: 7,
+      email: "tlwu@nycu.edu.tw",
+      focus: "p-GaN gate HEMT 可靠性、GaN MIS-HEMT Vth 不稳定与栅介质击穿、SiC MOSFET 可靠性、AI 辅助器件设计",
+      note: "台湾这边与你研究链重叠最深的一位，甚至比部分港校老师更贴。WLab 四个方向里直接写着「AI-assisted semiconductor device designs」，正好接你 TCAD＋AI 那条线；近三年多篇 p-GaN gate 失效机制与 ΔVth trapping 分析，并与 imec（Posthuma／Decoutere）长期合作、有 200mm GaN-on-Si 产线成果。套磁可直接用你的双通道 Tri-gate TCAD→制程→量测全流程对话。email 取自 ICST 官网，寄之前再核一次。",
+      url: "https://icst.nycu.edu.tw/" },
+    { id: "tw-adv-nycu-ymli", region: "tw", school: "NYCU", name: "李义明 Yiming Li", tier: "S", match: "8.5", studyOrder: 8,
+      focus: "器件模拟与 TCAD、统计变异分析、机器学习辅助器件设计、GAA nanosheet、AlGaN/GaN MIS-HEMT 建模",
+      note: "纯模拟／建模路线，和你「AI+TCAD 优化」那半最合。GAA nanosheet 的多通道 Vth 统计建模思路可与你的双通道互相迁移；GaN 相关几篇（低温 Vth 稳定性、E-mode gate recess）他是共同作者而非通讯，主轴仍是 device simulation。⚠️ OpenAlex 把他和做钙钛矿／电池的同名人合并了，自己查论文时要筛掉不相干的。",
+      url: "" },
   ];
   // 近三年代表作（2023/10 起），以 OpenAlex 查得的真实 DOI，优先顶刊顶会。
   // ★ = 与你研究链（多通道／p-GaN gate reliability）直接重叠，建议套磁前必读。
@@ -238,6 +247,20 @@
       { y: 2025, v: "IEEE T-MTT", t: "A Hybrid-Biased Dual-Band GaN MMIC Doherty Power Amplifier for 6G FR3", doi: "10.1109/tmtt.2025.3634158" },
       { y: 2024, v: "IEEE T-MTT", t: "A 26-GHz GaN MMIC Load-Modulated Balanced Amplifier With Miniaturized Dual-Loop Coupler", doi: "10.1109/tmtt.2024.3421941" },
       { y: 2023, v: "IEEE T-MTT", t: "Dual-Mode Three-Way Doherty Power Amplifier With Extended High-Efficiency Range", doi: "10.1109/tmtt.2023.3344431" },
+    ],
+    "tw-adv-nycu-tlwu": [
+      { y: 2024, v: "IEEE T-ED", t: "Toward Understanding the Failure Mechanism in p-GaN Gate HEMTs Operating in Reverse Conduction Diode Mode", doi: "10.1109/ted.2024.3412095", key: true },
+      { y: 2024, v: "IEEE T-ED", t: "A Self-Consistent Bayesian Deconvolution Approach for Trapping Time Constant Analysis: ΔVth Transients in p-GaN Gate Power HEMTs", doi: "10.1109/ted.2024.3354213", key: true },
+      { y: 2024, v: "ISPSD", t: "200mm GaN-on-Si E-Mode Power HEMTs with Epitaxially Grown p-AlN/p-GaN Gate to Enhance Gate Reliability", doi: "10.1109/ispsd59661.2024.10579679", key: true },
+      { y: 2024, v: "Sci. Rep.", t: "Using U-Net convolutional neural network to model pixel-based electrostatic potential distributions in GaN power MIS-HEMTs", doi: "10.1038/s41598-024-58112-9", key: true },
+      { y: 2024, v: "Appl. Phys. Lett.", t: "Characterization and modeling of mobility, threshold voltage and subthreshold swing in p-GaN gate HEMTs at cryogenic temperatures", doi: "10.1063/5.0223576" },
+    ],
+    "tw-adv-nycu-ymli": [
+      { y: 2024, v: "IEEE T-ED", t: "Threshold Voltage Stability in AlGaN/GaN MIS-HEMT Structure Under Cryogenic Environment", doi: "10.1109/ted.2024.3457581", key: true },
+      { y: 2025, v: "IEEE EDL", t: "Damage-Free Neutral Beam Etching for Gate Recess in E-Mode AlGaN/GaN HEMTs", doi: "10.1109/led.2025.3548676", key: true },
+      { y: 2024, v: "IEEE T-Nano", t: "Statistical Device Simulation and Machine Learning of Process Variation Effects of Vertically Stacked GAA Si Nanosheet CFETs", doi: "10.1109/tnano.2024.3390793", key: true },
+      { y: 2023, v: "IEEE T-ED", t: "Nanosized-Metal-Grain-Pattern-Dependent Threshold-Voltage Models for Vertically Stacked Multichannel GAA Si Nanosheet MOSFETs", doi: "10.1109/ted.2023.3328586" },
+      { y: 2024, v: "IEEE JEDS", t: "Mechanism of Threshold Voltage Instability in Double Gate α-IGZO Nanosheet TFT Under Bias and Temperature Stress", doi: "10.1109/jeds.2024.3406676" },
     ],
   };
   // 这三位查不到可靠的近三年 DOI 清单，原因写在各自卡片的备注里，不编造条目。
@@ -3112,16 +3135,18 @@
   // 导师种子同样只种一次（记在 state.seededAdvisors），删掉或改过的不会被种回来。
   function seedPhdAdvisors(candidate) {
     const tracker = candidate.phdTracker;
-    const hk = tracker?.regions?.find((region) => region.id === "hk");
-    if (!hk || !Array.isArray(hk.schools)) return candidate;
+    if (!Array.isArray(tracker?.regions)) return candidate;
     const seeded = new Set(candidate.seededAdvisors || []);
     for (const seed of PHD_ADVISOR_SEEDS) {
       if (seeded.has(seed.id)) continue;
+      const regionId = seed.region || "hk";
+      const region = tracker.regions.find((item) => item.id === regionId);
+      if (!region || !Array.isArray(region.schools)) continue;
       seeded.add(seed.id);
-      let school = hk.schools.find((item) => item.name === seed.school);
+      let school = region.schools.find((item) => item.name === seed.school);
       if (!school) {
-        school = { id: `hk-school-${hk.schools.length + 1}`, name: seed.school, advisors: [] };
-        hk.schools.push(school);
+        school = { id: `${regionId}-school-${region.schools.length + 1}`, name: seed.school, advisors: [] };
+        region.schools.push(school);
       }
       school.advisors = Array.isArray(school.advisors) ? school.advisors : [];
       const existing = school.advisors.find((advisor) => advisor.id === seed.id);
@@ -3131,7 +3156,7 @@
         continue;
       }
       school.advisors.push({
-        id: seed.id, name: seed.name, email: "", cvDone: false, status: "研究中",
+        id: seed.id, name: seed.name, email: seed.email || "", cvDone: false, status: "研究中",
         tier: seed.tier, match: seed.match, focus: seed.focus, note: seed.note,
         url: seed.url, studyOrder: seed.studyOrder || 0,
         papers: PHD_ADVISOR_PAPERS[seed.id] || [],
