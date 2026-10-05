@@ -101,7 +101,7 @@
     generatedAt: "2026-10-03T00:00:00.000+08:00",
     source: "10/3起顺排剩余51套（C9T1已做，不再排）；考试日 11/08；10月按周六1份、周日2份、周一2份、周二1份、周三四五2份执行；中秋旅行9/24-9/30已结束；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
-    autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-11-08", travelPeriod, weeklyPaperCounts, octoberPaperCounts, dailyPaperCounts },
+    autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, octoberPaperCounts, dailyPaperCounts },
     researchPhases: [
       { name: "Raith 学习", startDate, endDate: "2026-10-09", activeDays: 7 },
       { name: "EBeam Fin 实验", startDate: "2026-10-10", endDate: "2026-10-30", activeDays: 21 },

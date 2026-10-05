@@ -83,3 +83,26 @@ test("deleted or edited tasks are not restored by reload or a cloud-state round 
   assert.equal(model.forMonth(restored.planningTasks, "2026/09", "external")[0].text, "New poster");
   assert.equal(JSON.stringify(model.migrate(restored, seeds)), JSON.stringify(restored));
 });
+
+test("milestones seed once and stay deleted", () => {
+  const milestones = [
+    { id: "hk:a", module: "application", lane: "HK", date: "2026-12-01", text: "HKPFS 放弃" },
+    { id: "hk:b", module: "application", lane: "HK", date: "2026-12-19", text: "雅思二战" },
+  ];
+  const state = { planningTasks: [], planningTasksVersion: 1 };
+  model.seedMilestones(state, milestones);
+  assert.equal(state.planningTasks.length, 2);
+  assert.deepEqual(Array.from(state.seededMilestones), ["hk:a", "hk:b"]);
+  assert.deepEqual(Array.from(model.forDate(state.planningTasks, "2026-12-19", "application"), (t) => t.text), ["雅思二战"]);
+
+  // 使用者加的任务不可被覆盖，重复种也不会长出第二份
+  state.planningTasks.push(model.normalize({ id: "mine", module: "application", lane: "HK", text: "我自己加的" }));
+  model.seedMilestones(state, milestones);
+  assert.equal(state.planningTasks.length, 3);
+
+  // 删掉之后再整理，不可以被种回来
+  state.planningTasks = state.planningTasks.filter((task) => task.id !== "hk:a");
+  model.seedMilestones(state, milestones);
+  assert.equal(state.planningTasks.some((task) => task.id === "hk:a"), false, "删掉的里程碑不应被重新种回");
+  assert.equal(state.planningTasks.length, 2);
+});

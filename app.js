@@ -16,11 +16,30 @@
     { id: "g4", code: "G4", name: "Thesis Ready", date: "2027-05-31", proof: "完整硕论初稿已交给老师，口试简报框架建立", pass: "送审并安排 7 月口试", miss: "口试顺延到秋季" },
   ];
   const APPLICATION_GATES = [
-    { id: "a1", code: "A1", name: "HK Application Window", date: "2026-12-01", displayDate: "11月冲刺 · 11/20 内部封版 · 12/01 双截止", proof: "HKU／HKUST／CityU／PolyU 的导师版 CV、proposal、两位推荐人和完整申请均已准备；HKPFS 第一、第二志愿已经锁定", pass: "11/20 内部封版，12/1 前只做复核并完成 RGC 初申与学校完整申请", miss: "不得把月底当作主申请截止；只保留最后复核与系统异常缓冲" },
+    { id: "a1", code: "A1", name: "HK Phase 1 · 无雅思先行", date: "2026-12-31", displayDate: "11—12月 · 套磁为主 · PolyU 可先送件", proof: "五校导师第一轮套磁已发出并记录回音；PolyU 申请已提交（英文成绩栏填预计取得日期），主 CV 与 research proposal 完成", pass: "12月底前完成 PolyU 送件与全部第一轮套磁；主动放弃 12/01 HKPFS 主轮，不算失败", miss: "没有雅思时不要硬投 CUHK／CityU：英文证明属必交材料，材料不全不予审查" },
+    { id: "a4", code: "A4", name: "HK Phase 2 · 出分后主投", date: "2027-06-01", displayDate: "1月出分 · 3/31 CUHK · 4/30 HKU · 5/31 PolyU · 6/01 HKUST", proof: "12/19 雅思 overall 6.5 且各校小分达标；按校别完成正式申请、推荐信与补件", pass: "出分后两周内投 HKUST ECE 与 PolyU；分数够就赶 CUHK 3/31 clearing", miss: "小分不足先安排重考，改走 PolyU Jan 2028 entry（申请期至 2027/09/30）" },
     { id: "a2", code: "A2", name: "Europe PhD Pipeline", date: "2027-03-31", displayDate: "12月启动 · 12/15—2027/03 持续投递", proof: "建立 project vacancy 清单；每个职位都有对应 CV、motivation letter 与研究证据", pass: "12月起持续投递，1–3 月进入 technical interview", miss: "减少泛投，集中有 funding 与 fab access 的职位" },
     { id: "a3", code: "A3", name: "Taiwan PhD Ready", date: "2027-03-15", displayDate: "2月启动 · 3/15 内部备齐 · 3月下旬报名", proof: "116学年度博士考试入学：台大电子所／阳明交大目标、CV、研究计划、成绩单与推荐信备齐", pass: "核对116正式简章；开放后两天内提交，并分别确认报名、材料、推荐信截止", miss: "按学校正式截止补齐；2027时程仍待公告，不沿用秋季甄试日期" },
   ];
-  const GATE_GANTT_MONTHS = ["2026-09", "2026-10", "2026-11", "2026-12", "2027-01", "2027-02", "2027-03", "2027-04", "2027-05"];
+  // 香港申请的固定日期节点。只种一次，之后可自行改日期或删除（见 PlanningTasks.seedMilestones）。
+  // 阶段一（11—12月）不需要雅思；阶段二（出分后）才正式主投。
+  const APPLICATION_MILESTONES = [
+    { id: "hk:advisor-longlist", module: "application", lane: "HK", date: "2026-10-31", text: "五校导师长名单定稿：HKUST／PolyU／HKU／CUHK／CityU，各 2–4 位" },
+    { id: "hk:mail-hkust", module: "application", lane: "HK", date: "2026-11-09", text: "阶段一套磁：HKUST ECE（Kevin Chen／Weijia Zhang／Man Hoi Wong）" },
+    { id: "hk:mail-polyu-hku", module: "application", lane: "HK", date: "2026-11-16", text: "阶段一套磁：PolyU Yi Zhang、HKU Yuhao Zhang" },
+    { id: "hk:mail-cuhk-cityu", module: "application", lane: "HK", date: "2026-11-23", text: "阶段一套磁：CUHK Alex Leung、CityU（Siew Chong Tan／Kerui Li）" },
+    { id: "hk:polyu-docs", module: "application", lane: "HK", date: "2026-11-30", text: "PolyU 送件材料备齐：主 CV、research proposal、成绩单、成果附件" },
+    { id: "hk:hkpfs-skip", module: "application", lane: "HK", date: "2026-12-01", text: "HKPFS 主轮：本轮确认放弃，不送件（没有雅思冲不了，别打乱复习）" },
+    { id: "hk:polyu-submit", module: "application", lane: "HK", date: "2026-12-07", text: "PolyU 正式提交：英文成绩栏填「预计 2026/12/19 应试」，争取 conditional offer" },
+    { id: "hk:ielts-exam", module: "application", lane: "HK", date: "2026-12-19", text: "雅思二战：目标 overall 6.5（HKU 需四科 ≥6.0，HKUST 需各项 ≥5.5 且同场达标）" },
+    { id: "hk:score-triage", module: "application", lane: "HK", date: "2027-01-08", text: "雅思出分分流：达标→投 HKUST／PolyU；未达标→订 2 月重考并锁 PolyU Jan 2028" },
+    { id: "hk:submit-wave", module: "application", lane: "HK", date: "2027-01-18", text: "阶段二主投：HKUST ECE 与 PolyU（出分后两周内，两家都是 rolling）" },
+    { id: "hk:cuhk-clearing", module: "application", lane: "HK", date: "2027-03-31", text: "CUHK EE clearing 截止：英文证明须于截止前上传，否则不予审查" },
+    { id: "hk:hku-clearing", module: "application", lane: "HK", date: "2027-04-30", text: "HKU 第一 clearing 截止（第二 clearing 到 08/31，但建议有分再投）" },
+    { id: "hk:polyu-deadline", module: "application", lane: "HK", date: "2027-05-31", text: "PolyU Sep 2027 截止；若已有 conditional offer，确认英文 condition 补交期限" },
+    { id: "hk:hkust-deadline", module: "application", lane: "HK", date: "2027-06-01", text: "HKUST ECE 非本地截止；rolling admission，名额可能提前满" },
+  ];
+  const GATE_GANTT_MONTHS = ["2026-09", "2026-10", "2026-11", "2026-12", "2027-01", "2027-02", "2027-03", "2027-04", "2027-05", "2027-06"];
   const RESEARCH_GANTT_BARS = [
     { gateId: "g1", start: "2026-09-07", end: "2026-10-14", lane: 1 },
     { gateId: "g2", start: "2026-10-15", end: "2026-12-15", lane: 1 },
@@ -28,9 +47,10 @@
     { gateId: "g4", start: "2027-04-01", end: "2027-05-31", lane: 1 },
   ];
   const APPLICATION_GANTT_BARS = [
-    { gateId: "a1", start: "2026-11-01", end: "2026-12-01", lane: 1 },
+    { gateId: "a1", start: "2026-11-01", end: "2026-12-31", lane: 1 },
+    { gateId: "a4", start: "2027-01-05", end: "2027-06-01", lane: 1 },
     { gateId: "a2", start: "2026-12-01", end: "2027-03-31", lane: 2 },
-    { gateId: "a3", start: "2027-02-01", end: "2027-04-30", lane: 1 },
+    { gateId: "a3", start: "2027-02-01", end: "2027-04-30", lane: 3 },
   ];
   const GANTT_LANES = {
     research: ["制程", "TCAD", "Cadence"],
@@ -48,7 +68,7 @@
   const ROADMAP_MONTHS = [
     ["2026/08", "Process R&D",
       { 制程: "Fin exposure / etch DOE 起步" },
-      "二战已定 11/08；L/R 计时诊断",
+      "二战改期 12/19；L/R 计时诊断",
       { IEDMS: "figure inventory 整理" },
       { HK: "四校导师长名单、CV v1" },
       "A / B 正常推进"],
@@ -56,55 +76,55 @@
       { 制程: "10/1 起 Raith 一周，10/8 起 EBeam Fin 实验三周", TCAD: "9/20 前完成含 AlN spacer 的 PGaN Emode 与普通 Dmode 基本 model IV 模拟" },
       "核心训练（听读写说）；按周表推进",
       { IEDMS: "9/15 出结果" },
-      { HK: "9/1 开放门户／HKPFS；完成香港四校导师统计与长名单，核对 2027/28 简章" },
+      { HK: "完成五校导师长名单（HKUST／PolyU／HKU／CUHK／CityU）；核对 2027/28 各校普通轮与英文政策" },
       "G1 随实验顺延至 10/15"],
     ["2026/10", "Device launch",
       { 制程: "10 月中完成测试制程（Litho+Etch）；10 月底开始元件制程", TCAD: "依实际磊晶结构与氧化层厚度进一步模拟 PGaN Emode／Dmode（重点能带 + 导通电场）" },
       "维持训练；错题与口语素材整理",
       { IEDMS: "10/15–10/20 做海报；10/23 参加报告", IWN: "10/25–11/1 做海报" },
-      { HK: "按每位导师套磁、修改各版 CV；四校材料准备（10 月底–11 月初开始发 email）" },
+      { HK: "按导师套磁、修改各版 CV；确认各校普通轮截止（非 12/01 HKPFS）" },
       "A：正式 wafer 已开始"],
     ["2026/11", "Fabrication sprint",
       { 制程: "元件制程与第一批 Fin", TCAD: "开始模拟 BV" },
-      "11/08 二战考试；考后收尾",
+      "题库已刷完；转专项弱项与全真模考节奏",
       { IWN: "11/8–11/13 会议", ISPSD: "11/1 开始写稿；11/11 开放投稿；11/20 第一版给老师" },
-      { HK: "10 月底–11 月初发 email 第一轮联系；11/10 锁定 HKPFS 两志愿；11/20 内部封版" },
+      { HK: "阶段一：第一轮 email 联系；PolyU 先送件（英文栏填预计取得日期）" },
       "B 最晚延至 12 月"],
     ["2026/12", "First data",
       { 制程: "electrical measurement；C–V / Regrowth", Cadence: "Cadence 开始" },
-      "",
+      "12/19 二战考试；考后收尾",
       { ISPSD: "12/16 截稿" },
-      { HK: "12/1 RGC 初申 + 学校完整申请", 欧洲: "12 月启动，建 project vacancy 清单" },
+      { HK: "放弃 12/01 HKPFS 主轮；12/19 考雅思，改走 2027 春季普通轮", 欧洲: "12 月启动，建 project vacancy 清单" },
       "12/15 通过 G2"],
     ["2027/01", "Diagnose",
       { 制程: "分析第一批结果；重测异常 device", Cadence: "电路／版图推进" },
       "",
       {},
-      { HK: "面试、补件与 follow-up", 欧洲: "主投；technical interview", 台湾: "确认台大电子所／阳明交大方向、材料清单" },
+      { HK: "阶段二：雅思出分，两周内投 HKUST ECE 与 PolyU", 欧洲: "主投；technical interview", 台湾: "确认台大电子所／阳明交大方向、材料清单" },
       "A：只做有限补实验"],
     ["2027/02", "Controlled iteration",
       { 制程: "第二轮 device／必要补测", TCAD: "TCAD–experiment comparison" },
       "",
       {},
-      { 台湾: "推荐信与研究计划；检查 116 简章", 欧洲: "rolling positions", HK: "面试／offer 追踪" },
+      { 台湾: "推荐信与研究计划；检查 116 简章", 欧洲: "rolling positions", HK: "补件与面试；准备 CUHK clearing" },
       "A：实验开始 freeze"],
     ["2027/03", "Data freeze",
       { 制程: "主要 dataset 收敛" },
       "",
       { ISPSD: "论文投稿或接近投稿" },
-      { 台湾: "3/15 内部备齐；3 月下旬考试入学报名（待公告）", HK: "面试并行", 欧洲: "面试并行" },
+      { 台湾: "3/15 内部备齐；3 月下旬考试入学报名（待公告）", HK: "3/31 CUHK clearing 截止（需雅思到位）" },
       "3/31 通过 G3，否则切 B"],
     ["2027/04", "Write",
       { 制程: "只补必要量测" },
       "",
       {},
-      { 台湾: "4 月上旬报名收尾；4–5 月考试／口试（待公告）" },
+      { 台湾: "4 月上旬报名收尾；4–5 月考试／口试（待公告）", HK: "4/30 HKU 第一 clearing 截止" },
       "A：写作主导；B：data 收敛"],
     ["2027/05", "Thesis ready",
       {},
       "",
       {},
-      { 台湾: "5 月放榜与报到（待公告）；确定去向" },
+      { 台湾: "5 月放榜与报到（待公告）；确定去向", HK: "5/31 PolyU 截止；6/01 HKUST ECE 截止" },
       "A 通过 G4；B 开始主写"],
     ["2027/06", "Defense prep", {}, "", {}, { 台湾: "签证／行政" }, "A：Defense ready；B：30–50%"],
     ["2027/07", "Plan A defense", {}, "", {}, { 台湾: "确认报到节点" }, "A：口试；B：Thesis 60–80%"],
@@ -1833,6 +1853,9 @@
         <td data-label="会议 / 论文" class="conf-cell">
           ${sharedDayMarkup(item.date, "external")}
         </td>
+        <td data-label="PhD 申请" class="conf-cell">
+          ${sharedDayMarkup(item.date, "application")}
+        </td>
         <td data-label="IELTS / 模块">
           ${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { toggleDate: item.date }) : ""}
           ${trainingItems.length || !movedAwayFrom(item.date).length ? "" : `<span class="plan-moved-away">${safe(rescheduleAwayNote(movedAwayFrom(item.date)))}</span>`}
@@ -2809,6 +2832,7 @@
       ieltsMoves: moves.normalize(parsed.ieltsMoves),
       planningTasks: Array.isArray(parsed.planningTasks) ? parsed.planningTasks : [],
       planningTasksVersion: parsed.planningTasksVersion || 0,
+      seededMilestones: Array.isArray(parsed.seededMilestones) ? parsed.seededMilestones : [],
       roadmap: {
         tasks: parsed.roadmap?.tasks || {},
         gates: parsed.roadmap?.gates || {},
@@ -2817,7 +2841,10 @@
       phdTracker: normalizePhdTracker(parsed.phdTracker),
     };
     ensureAcademicCatalog(normalized);
-    return PlanningTasks.migrate(migratePlanState(normalized), ROADMAP_MONTHS);
+    const migrated = PlanningTasks.migrate(migratePlanState(normalized), ROADMAP_MONTHS);
+    return typeof PlanningTasks.seedMilestones === "function"
+      ? PlanningTasks.seedMilestones(migrated, APPLICATION_MILESTONES)
+      : migrated;
   }
 
   function ensureAcademicCatalog(candidate) {

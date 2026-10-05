@@ -13,7 +13,7 @@ test("schedules the remaining 51 papers from October 3 with October rules, time 
   assert.equal(data.mainPlan.at(-1).date, "2026-11-02");
   assert.equal(data.mainPlan.at(-1).trainingItems.at(-1).cambridge, "C21T4");
   // 全部真题必须排在 11/08 考试之前。
-  assert.equal(data.autoPlan.examDate, "2026-11-08");
+  assert.equal(data.autoPlan.examDate, "2026-12-19");
   assert.ok(data.mainPlan.at(-1).date < data.autoPlan.examDate);
   const excluded = ["C9T1"];
   const expectedCodes = Array.from({ length: 52 }, (_, index) => `C${9 + Math.floor(index / 4)}T${index % 4 + 1}`)
@@ -148,10 +148,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   }
   assert.doesNotMatch(app, /phdRegionList/);
   assert.match(html, /id="hkApplicationTimelineTitle"/);
-  assert.match(html, /香港博士申请时间线[\s\S]*HKU[\s\S]*HKUST[\s\S]*CITYU[\s\S]*POLYU/);
-  assert.match(html, /12\/01 · 12:00[\s\S]*12\/01 · 23:59/);
-  assert.match(html, /最多只能填两个 programme choices/);
-  assert.match(html, /11\/20 · INTERNAL[\s\S]*香港申请封版/);
+  // 学校卡按「研究契合度 × 对晚出雅思的容忍度」排序，不是字母序。
+  assert.match(html, /香港博士申请时间线[\s\S]*HKUST[\s\S]*POLYU[\s\S]*HKU[\s\S]*CUHK[\s\S]*CITYU/);
+  assert.match(html, /阶段一 · 2026\/11—12[\s\S]*阶段二 · 2027\/01—06/);
+  assert.match(html, /HKPFS 主轮 · 本轮放弃/);
+  assert.match(html, /预计取得成绩日期|预计取得日期/);
+  // 没有雅思时不可投的两校必须写明原因。
+  assert.match(html, /CUHK[\s\S]*mandatory supporting document/);
+  assert.match(html, /CITYU[\s\S]*提交申请时即有效/);
   assert.match(html, /GaN FinFET/);
   assert.match(html, /Plan A \/ Plan B/);
   assert.doesNotMatch(html, /现在先做什么|focus-board/);
@@ -168,7 +172,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /id="weeklyVocabularyCount"/);
   assert.match(html, /id="weeklyVocabularyGroups"/);
   assert.match(html, /id="testBankProgress"/);
-  assert.match(app, /11\/08/);
+  // 日计划新增 PhD 申请栏，表头合并栏位要跟着加宽。
+  assert.match(html, /<th>会议 \/ 论文<\/th>[\s\S]*<th>PhD 申请<\/th>[\s\S]*<th>IELTS \/ 模块<\/th>/);
+  assert.match(html, /<th colspan="8">/);
+  // 香港里程碑要同时供月计划与日计划使用（带日期才会出现在日历／日计划）。
+  assert.match(app, /APPLICATION_MILESTONES[\s\S]*hk:polyu-submit[\s\S]*date: "2026-12-07"/);
+  assert.match(app, /APPLICATION_MILESTONES[\s\S]*hk:hkust-deadline[\s\S]*date: "2027-06-01"/);
+  assert.match(app, /sharedDayMarkup\(item\.date, "application"\)/);
+  assert.match(app, /12\/19/);
   assert.doesNotMatch(app, /VOCABULARY_BANK|vocabularyForDate/);
   assert.match(app, /vocabularyCards: parsed\.vocabularyCards \|\| \{\}/);
   assert.match(app, /function addVocabularyCard/);
@@ -187,16 +198,19 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /roadmap:\s*\{/);
   assert.match(app, /candidate\.roadmap = candidate\.roadmap \|\| defaultRoadmapState\(\)/);
   assert.match(app, /RESEARCH_GATES[\s\S]*APPLICATION_GATES/);
-  assert.match(app, /HK Application Window[\s\S]*Europe PhD Pipeline[\s\S]*Taiwan PhD Ready/);
-  assert.match(app, /HK Application Window[\s\S]*date: "2026-12-01"[\s\S]*12\/01 双截止/);
-  assert.match(app, /gateId: "a1", start: "2026-11-01", end: "2026-12-01", lane: 1/);
+  assert.match(app, /HK Phase 1 · 无雅思先行[\s\S]*HK Phase 2 · 出分后主投[\s\S]*Europe PhD Pipeline[\s\S]*Taiwan PhD Ready/);
+  assert.match(app, /HK Phase 2 · 出分后主投[\s\S]*date: "2027-06-01"/);
+  // 四条申请条带不可重叠在同一泳道。
+  assert.match(app, /gateId: "a4"[\s\S]*lane: 1/);
+  assert.match(app, /gateId: "a3"[\s\S]*lane: 3/);
+  assert.match(app, /gateId: "a1", start: "2026-11-01", end: "2026-12-31", lane: 1/);
   assert.doesNotMatch(app, /HK 11\/15 启动|HK 主申请至 12\/31/);
   assert.match(app, /GATE_GANTT_MONTHS[\s\S]*2026-09[\s\S]*2026-10[\s\S]*2026-11[\s\S]*2026-12[\s\S]*2027-01[\s\S]*2027-02[\s\S]*2027-03[\s\S]*2027-04[\s\S]*2027-05/);
   assert.match(app, /RESEARCH_GANTT_BARS[\s\S]*APPLICATION_GANTT_BARS/);
   assert.match(app, /function renderGanttLane/);
   assert.match(app, /function ganttPosition/);
   assert.match(app, /gantt-milestone/);
-  assert.match(html, /roadmap-gantt-axis[\s\S]*SEP[\s\S]*OCT[\s\S]*NOV[\s\S]*DEC[\s\S]*JAN[\s\S]*FEB[\s\S]*MAR[\s\S]*APR[\s\S]*MAY/);
+  assert.match(html, /roadmap-gantt-axis[\s\S]*SEP[\s\S]*OCT[\s\S]*NOV[\s\S]*DEC[\s\S]*JAN[\s\S]*FEB[\s\S]*MAR[\s\S]*APR[\s\S]*MAY[\s\S]*JUN/);
   assert.match(html, /roadmap-vertical-gantt[\s\S]*Plan A／B[\s\S]*研究主线[\s\S]*IELTS[\s\S]*会议／论文[\s\S]*PhD 申请/);
   assert.match(html, /id="roadmapTaskGroups"[\s\S]*id="roadmapTimelineBody"/);
   assert.match(html, /03—04[\s\S]*月度甘特任务表/);
@@ -227,14 +241,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261003-replan-1003/);
-  assert.match(html, /app\.js\?v=20261003-replan-1003/);
-  assert.match(html, /ielts-moves\.js\?v=20261003-replan-1003/);
+  assert.match(html, /planning-tasks\.js\?v=20261005-hk-two-phase/);
+  assert.match(html, /app\.js\?v=20261005-hk-two-phase/);
+  assert.match(html, /ielts-moves\.js\?v=20261005-hk-two-phase/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v73-replan-1003/);
+  assert.match(sw, /planner-notebook-v74-hk-two-phase/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

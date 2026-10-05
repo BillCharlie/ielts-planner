@@ -1130,7 +1130,7 @@ textarea {
 
 .main-table {
   width: 100%;
-  min-width: 1180px;
+  min-width: 1360px;
   border-collapse: collapse;
   background: #fff;
 }
@@ -1890,14 +1890,14 @@ textarea {
 }
 
 .roadmap-gantt-track.application-track {
-  min-height: 190px;
+  min-height: 274px;
 }
 
 .gantt-month-bands {
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-columns: repeat(10, minmax(0, 1fr));
   pointer-events: none;
 }
 
@@ -1959,6 +1959,10 @@ textarea {
 
 .application-track .gantt-gate-bar.lane-2 {
   top: 108px;
+}
+
+.application-track .gantt-gate-bar.lane-3 {
+  top: 192px;
 }
 
 .gantt-gate-bar.application {
@@ -3393,7 +3397,7 @@ textarea {
 
 .hk-school-deadlines {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -3464,6 +3468,76 @@ textarea {
 .hk-school-deadlines a:hover,
 .hk-school-deadlines a:focus {
   background: #dbeafe;
+}
+
+/* ---- HK 两阶段策略 ----------------------------------------------------- */
+
+.hk-phase-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.hk-phase {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--muted);
+  border-radius: 7px;
+  background: var(--surface);
+}
+
+.hk-phase.phase-one {
+  border-left-color: var(--amber);
+  background: #fff8eb;
+}
+
+.hk-phase.phase-two {
+  border-left-color: var(--blue);
+  background: #f2f7ff;
+}
+
+.hk-phase header span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.hk-phase header h3 {
+  margin: 3px 0 9px;
+  font-size: 15px;
+}
+
+.hk-phase ul {
+  margin: 0;
+  padding-left: 17px;
+  display: grid;
+  gap: 6px;
+}
+
+.hk-phase li {
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.hk-school-deadlines article.priority-1 {
+  border-top-color: var(--teal);
+}
+
+.hk-school-deadlines article.priority-2 {
+  border-top-color: var(--blue);
+}
+
+.hk-school-deadlines article.priority-3 {
+  border-top-color: var(--violet);
+}
+
+.hk-school-deadlines article.priority-4,
+.hk-school-deadlines article.priority-5 {
+  border-top-color: var(--muted);
+  background: var(--surface-2);
 }
 
 .hk-source-note {
@@ -4010,6 +4084,10 @@ textarea {
 
   .hk-school-deadlines {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hk-phase-split {
+    grid-template-columns: 1fr;
   }
 
   .phd-summary article:nth-child(2) {

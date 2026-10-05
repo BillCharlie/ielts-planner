@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20261003-replan-1003" />
+    <link rel="stylesheet" href="styles.css?v=20261005-hk-two-phase" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -51,7 +51,7 @@
           </header>
 
           <section class="roadmap-stats" aria-label="规划摘要">
-            <article><span>当前主战场</span><strong>Fin test + IELTS 11/08</strong><p>同一阶段最多两项高优先任务</p></article>
+            <article><span>当前主战场</span><strong>Fin test + IELTS 12/19</strong><p>同一阶段最多两项高优先任务</p></article>
             <article><span>下一研究 Gate</span><strong>G1 · Process Ready</strong><p id="roadmapGateCountdown">2026/10/14</p></article>
             <article><span>任务完成</span><strong id="roadmapTaskProgress">0 / 0</strong><p>已安排的独立任务</p></article>
             <article><span>毕业轨道</span><strong id="roadmapTrackStatus">A / B 同时保留</strong><p>2027/03/31 决定是否切换</p></article>
@@ -74,7 +74,7 @@
             <div id="roadmapGateGroups" class="roadmap-gate-groups">
               <div class="roadmap-gantt-scroll">
                 <div class="roadmap-gantt" role="group" aria-label="研究与申请关键 Gate 甘特图">
-                  <div class="roadmap-gantt-axis" aria-label="2026 年 9 月至 2027 年 5 月">
+                  <div class="roadmap-gantt-axis" aria-label="2026 年 9 月至 2027 年 6 月">
                     <span>TIME</span>
                     <time datetime="2026-09"><b>SEP</b><small>2026</small></time>
                     <time datetime="2026-10"><b>OCT</b><small>2026</small></time>
@@ -85,6 +85,7 @@
                     <time datetime="2027-03"><b>MAR</b><small>2027</small></time>
                     <time datetime="2027-04"><b>APR</b><small>2027</small></time>
                     <time datetime="2027-05"><b>MAY</b><small>2027</small></time>
+                    <time datetime="2027-06"><b>JUN</b><small>2027</small></time>
                   </div>
                   <section class="roadmap-gantt-row">
                     <header><span>RESEARCH</span><h3>研究 Gate</h3><p>实验与论文里程碑</p></header>
@@ -97,7 +98,7 @@
                 </div>
               </div>
               <div class="roadmap-gantt-legend"><span><i></i>条带＝准备／申请区间</span><span><i class="milestone"></i>菱形＝Gate 截止点</span><span>点击条带可标记完成</span></div>
-              <p class="application-gate-note">台湾日期依据上一届预留，等待 116 学年度正式简章确认；香港以预计 9/1 开放、11/20 内部封版、12/1 HKPFS 双截止规划，2027/28 新版公布后逐校复核；欧洲职位截止仍以当期公告为准。</p>
+              <p class="application-gate-note">台湾日期依据上一届预留，等待 116 学年度正式简章确认；香港因雅思 12/19 才考，本轮放弃 12/01 HKPFS 主轮，改为阶段一套磁＋PolyU 先送件、阶段二出分后主投（3/31 CUHK、4/30 HKU、5/31 PolyU、6/01 HKUST），2027/28 新版公布后逐校复核；欧洲职位截止仍以当期公告为准。</p>
             </div>
           </section>
 
@@ -150,63 +151,88 @@
           <section class="hk-application-panel" aria-labelledby="hkApplicationTimelineTitle">
             <header class="hk-application-head">
               <div>
-                <p class="eyebrow">HK · 2027 ENTRY</p>
+                <p class="eyebrow">HK · 2027 FALL / 2028 SPRING</p>
                 <h2 id="hkApplicationTimelineTitle">香港博士申请时间线</h2>
-                <p>以 2026/27 官方周期顺延规划；2027/28 新版公布后，需要逐校复核一次。</p>
+                <p>雅思 12/19 才考，因此放弃 12/01 HKPFS 主轮，改走「阶段一套磁＋PolyU 先送件 → 阶段二出分后主投」。</p>
               </div>
               <span class="hk-cycle-status">2027/28 正式简章待更新</span>
             </header>
 
-            <div class="hk-deadline-alert">
-              <span>HKPFS 双截止</span>
-              <strong>12/01 · 12:00</strong>
-              <p>先向 RGC 提交初步申请并取得 reference number。</p>
-              <strong>12/01 · 23:59</strong>
-              <p>再完成大学端完整申请。HKPFS 最多只能填两个 programme choices，不能把四校全部列为同等志愿。</p>
+            <div class="hk-phase-split">
+              <article class="hk-phase phase-one">
+                <header><span>阶段一 · 2026/11—12</span><h3>无雅思可做的事</h3></header>
+                <ul>
+                  <li><b>全面套磁</b>五校导师，这件事不需要雅思，也是整条链路里最值钱的。</li>
+                  <li><b>PolyU 先送件</b>：官方允许在没有有效英文成绩时填写「预计取得成绩日期」，并可发 conditional offer。</li>
+                  <li><b>不投</b> CUHK／CityU：英文证明属必交材料，材料不全不予审查。</li>
+                  <li><b>主动放弃</b> 12/01 HKPFS 与各校主轮 —— 那是奖学金窗口，不是香港 PhD 的唯一入口。</li>
+                </ul>
+              </article>
+              <article class="hk-phase phase-two">
+                <header><span>阶段二 · 2027/01—06</span><h3>出分后正式主投</h3></header>
+                <ul>
+                  <li><b>1 月初出分</b>（12/19 考，机考约 3–5 天、纸笔约 13 天出成绩）。</li>
+                  <li>出分后两周内投 <b>HKUST ECE</b> 与 <b>PolyU</b>，两家截止最晚且 rolling。</li>
+                  <li>分数够就赶 <b>CUHK clearing 3/31</b>；<b>HKU</b> 第一 clearing 到 4/30。</li>
+                  <li>小分不足就重考，退一步走 <b>PolyU Jan 2028 entry</b>（申请期至 2027/09/30）。</li>
+                </ul>
+              </article>
             </div>
 
             <div class="hk-timeline-scroll">
               <ol class="hk-application-timeline">
-                <li><time>NOW—08/31</time><b>建立四校名单</b><p>每校 2–4 位匹配导师；确认 GaN、III-N、TCAD、power devices 与 fabrication。</p></li>
-                <li><time>预计 09/01</time><b>门户／HKPFS 开放</b><p>核对 2027/28 新版简章、项目名称、英语要求和推荐信规则。</p></li>
-                <li><time>09/20</time><b>第一轮导师联系</b><p>确认 2027 intake、funding、实验室名额与研究契合度。</p></li>
-                <li><time>10/15</time><b>申请材料 Ready</b><p>主 CV、四校适配版本、proposal、成绩单与成果附件完成。</p></li>
-                <li><time>11/10</time><b>锁定 HKPFS 志愿</b><p>确定第一、第二志愿；检查 programme 与导师选择一致。</p></li>
-                <li class="internal"><time>11/20 · INTERNAL</time><b>香港申请封版</b><p>四校表单、附件、推荐人邀请全部完成；此后只做复核。</p></li>
-                <li class="deadline"><time>12/01 · 12:00</time><b>RGC 初步申请</b><p>取得 HKPFS reference number，不留到最后一小时。</p></li>
-                <li class="deadline"><time>12/01 · 23:59</time><b>大学完整申请</b><p>确认付款、附件、HKPFS 编号与推荐信提交状态。</p></li>
-                <li><time>DEC—2027 MAY</time><b>面试与结果</b><p>12 月起准备面试；3–5 月集中追踪普通 PhD 与 HKPFS 结果。</p></li>
+                <li><time>NOW—10/31</time><b>五校导师长名单</b><p>每校 2–4 位匹配导师；确认 GaN、III-N、TCAD、power devices 与 fabrication。</p></li>
+                <li><time>11月</time><b>第一轮套磁</b><p>HKUST（Kevin Chen／Weijia Zhang／Man Hoi Wong）、PolyU（Yi Zhang）、HKU（Yuhao Zhang）、CUHK（Alex Leung）、CityU。</p></li>
+                <li><time>11—12月</time><b>PolyU 送件</b><p>英文成绩栏填「预计 2026/12/19 应试」；主 CV、research proposal、成绩单与成果附件备齐。</p></li>
+                <li class="deadline"><time>12/01</time><b>HKPFS 主轮 · 本轮放弃</b><p>没有雅思冲不了；不要为了这个 deadline 打乱复习节奏。</p></li>
+                <li><time>12/19</time><b>雅思二战</b><p>目标 overall 6.5；HKU 需四科 ≥6.0，HKUST 需各项 ≥5.5，且须同一次考试达标。</p></li>
+                <li class="internal"><time>2027/01 · 出分</time><b>按分数分流</b><p>达标 → 立刻投 HKUST、PolyU；未达标 → 安排 2 月重考并锁定 PolyU Jan 2028。</p></li>
+                <li class="deadline"><time>2027/03/31</time><b>CUHK clearing 截止</b><p>clearing ≠ 春季入学，仍是 2027 Fall 的余额轮；英文证明须于截止前上传。</p></li>
+                <li class="deadline"><time>2027/04/30</time><b>HKU 第一 clearing 截止</b><p>之后还有第二 clearing 至 08/31，但建议有合格成绩再正式提交。</p></li>
+                <li class="deadline"><time>2027/05/31</time><b>PolyU Sep 2027 截止</b><p>若已拿 conditional offer，确认英文 condition 的补交期限。</p></li>
+                <li class="deadline"><time>2027/06/01</time><b>HKUST ECE 非本地截止</b><p>rolling admission，名额可能提前满，不要真的等到 6/1。</p></li>
               </ol>
             </div>
 
             <div class="hk-school-deadlines">
-              <article>
-                <header><span>HKU</span><h3>香港大学</h3></header>
-                <p><b>预计 Main Round：</b>09/01—12/01 23:59</p>
-                <p>Clearing 预计延续至 2027/04/30、08/31，但只在主轮后仍有名额时处理。</p>
-                <nav><a href="https://gradsch.hku.hk/prospective_students/application/application_period" target="_blank" rel="noopener">申请周期</a><a href="https://gradsch.hku.hk/prospective_students/application/how_to_apply" target="_blank" rel="noopener">申请指南</a></nav>
-              </article>
-              <article>
-                <header><span>HKUST</span><h3>香港科技大学</h3></header>
-                <p><b>预计 HKPFS：</b>12/01 双截止</p>
-                <p>ECE 上一轮非本地普通申请最晚 06/01；采用 rolling review，不应等到较晚期限。</p>
+              <article class="priority-1">
+                <header><span>HKUST</span><h3>香港科技大学 · ECE</h3></header>
+                <p><b>第一优先 ·</b> 研究最契合（Kevin Chen／Weijia Zhang／Man Hoi Wong）。</p>
+                <p><b>Fall 2027 非本地截止：</b>2027/06/01，rolling review。<b>雅思：</b>6.5 且各项 ≥5.5，须同一次考试达标。</p>
+                <p>另有 Spring intake，但 2027/28 春季具体截止待该 programme 公布。</p>
                 <nav><a href="https://fytgs.hkust.edu.hk/admissions/Admission-to-Hong-Kong-Campus/submitting-an-application/admission-timeline" target="_blank" rel="noopener">学校时间轴</a><a href="https://prog-crs.hkust.edu.hk/pgprog/2026-27/mphil-phd-ece" target="_blank" rel="noopener">ECE PhD</a></nav>
               </article>
-              <article>
-                <header><span>CITYU</span><h3>香港城市大学</h3></header>
-                <p><b>预计 Normal Round：</b>12/01 中午</p>
-                <p>主轮后仍可能接受申请，但取决于剩余名额；主轮结果通常约在次年 3 月。</p>
-                <nav><a href="https://www.cityu.edu.hk/pg/research-degree-programmes/steps-and-procedures" target="_blank" rel="noopener">申请流程</a><a href="https://www.ee.cityu.edu.hk/en/current_students/research_degree/application" target="_blank" rel="noopener">EE PhD</a></nav>
-              </article>
-              <article>
-                <header><span>POLYU</span><h3>香港理工大学</h3></header>
-                <p><b>预计普通申请：</b>09/01—2027/05/31</p>
-                <p>EEE 上一轮也是 05/31 截止；非本地申请仍应预留签证与院系审查时间。</p>
+              <article class="priority-2">
+                <header><span>POLYU</span><h3>香港理工大学 · EEE</h3></header>
+                <p><b>第二优先 ·</b> 唯一明确支持「先申请、后补英文」的学校（Yi Zhang，GaN reliability）。</p>
+                <p><b>Sep 2027：</b>2026/09/01—2027/05/31。<b>Jan 2028：</b>2027/01/01—2027/09/30。<b>May 2028：</b>2027/05/01—2028/01/31。</p>
+                <p>提交时可填预计取得成绩日期，并可获 conditional offer，入学前满足英文 condition 即可。</p>
                 <nav><a href="https://www.polyu.edu.hk/study/pg/research-postgraduate/research-postgraduate-application-period" target="_blank" rel="noopener">申请周期</a><a href="https://www.polyu.edu.hk/study/pg/rpg/2026/eee" target="_blank" rel="noopener">EEE PhD</a></nav>
+              </article>
+              <article class="priority-3">
+                <header><span>HKU</span><h3>香港大学</h3></header>
+                <p><b>第三优先 ·</b> 研究匹配高（Yuhao Zhang），但英文门槛最严。</p>
+                <p><b>Main：</b>2026/09/01—12/01。<b>1st clearing：</b>12/02—2027/04/30。<b>2nd clearing：</b>2027/05/01—08/31。</p>
+                <p><b>雅思：</b>overall ≥6.5 且<b>四科全部 ≥6.0</b>。未查到稳定的「无成绩先申、后补」政策，建议有分再投。</p>
+                <nav><a href="https://gradsch.hku.hk/prospective_students/application/application_period" target="_blank" rel="noopener">申请周期</a><a href="https://gradsch.hku.hk/prospective_students/application/how_to_apply" target="_blank" rel="noopener">申请指南</a></nav>
+              </article>
+              <article class="priority-4">
+                <header><span>CUHK</span><h3>香港中文大学 · EE</h3></header>
+                <p><b>第四优先 ·</b> Alex Leung；只能搏 clearing round，雅思必须先到位。</p>
+                <p><b>Main：</b>2026/12/01。<b>Clearing：</b>2027/03/31（仍属 2027 Fall 余额轮，<b>不是</b>春季入学）。</p>
+                <p>英文证明列为 mandatory supporting document，材料不全通常不予审查 —— 可以先套磁，不能当作「无雅思先投」的目标。</p>
+                <nav><a href="https://www.gs.cuhk.edu.hk/admissions/application-guide" target="_blank" rel="noopener">研究院申请</a><a href="https://www.ee.cuhk.edu.hk/en/admissions/postgraduate" target="_blank" rel="noopener">EE PhD</a></nav>
+              </article>
+              <article class="priority-5">
+                <header><span>CITYU</span><h3>香港城市大学 · EE</h3></header>
+                <p><b>第五优先 ·</b> 方向偏 converter（Siew Chong Tan／Kerui Li），契合度较低。</p>
+                <p><b>Main：</b>2026/12/01 中午；全年可收 late application，但名额视剩余情况。</p>
+                <p>官方要求英文成绩在<b>提交申请时即有效</b>；CET-6 需 ≥490 才可能替代，现有 459 不符合 —— 有分再正式投。</p>
+                <nav><a href="https://www.cityu.edu.hk/pg/research-degree-programmes/steps-and-procedures" target="_blank" rel="noopener">申请流程</a><a href="https://www.ee.cityu.edu.hk/en/current_students/research_degree/application" target="_blank" rel="noopener">EE PhD</a></nav>
               </article>
             </div>
 
-            <p class="hk-source-note">日期标记“预计”表示依据目前最新官方周期建立的个人规划，不是 2027/28 已正式公布的截止日；个人执行以 11/20 为内部截止。</p>
+            <p class="hk-source-note">优先级按「研究契合度 × 对 12 月才出雅思的容忍度」排序，不是纯研究实力排序。日期与英文政策依据各校最近一轮官方公告整理，2027/28 正式简章公布后需要逐校复核一次；HKUST 春季入学与各校 clearing 的确切截止尤其要再确认。</p>
             <div class="phd-region-tracker" data-region-slot="hk"></div>
           </section>
 
@@ -400,7 +426,7 @@
             <table class="main-table">
               <thead>
                 <tr class="module-table-row">
-                  <th colspan="7">
+                  <th colspan="8">
                     <section id="moduleCatalog" class="module-catalog shared-catalog" aria-label="研究主线与会议论文任务库"></section>
                   </th>
                 </tr>
@@ -409,6 +435,7 @@
                   <th>日类型</th>
                   <th>研究主线</th>
                   <th>会议 / 论文</th>
+                  <th>PhD 申请</th>
                   <th>IELTS / 模块</th>
                   <th>备注</th>
                   <th>操作</th>
@@ -442,11 +469,11 @@
       </dialog>
     </div>
 
-    <script src="plan-data.js?v=20261003-replan-1003"></script>
+    <script src="plan-data.js?v=20261005-hk-two-phase"></script>
     <script src="config.js"></script>
     <script src="xlsx-export.js"></script>
-    <script src="planning-tasks.js?v=20261003-replan-1003"></script>
-    <script src="ielts-moves.js?v=20261003-replan-1003"></script>
-    <script src="app.js?v=20261003-replan-1003"></script>
+    <script src="planning-tasks.js?v=20261005-hk-two-phase"></script>
+    <script src="ielts-moves.js?v=20261005-hk-two-phase"></script>
+    <script src="app.js?v=20261005-hk-two-phase"></script>
   </body>
 </html>

@@ -78,6 +78,24 @@
     return candidate;
   }
 
+  // 把固定里程碑补进任务表。每个 id 只种一次（记在 seededMilestones 里），
+  // 所以使用者之后删掉或改掉它，重新整理也不会被种回来；
+  // 这样就不必 bump VERSION，使用者自己加的任务也不会被重建清掉。
+  function seedMilestones(candidate, milestones) {
+    if (!candidate || !Array.isArray(milestones)) return candidate;
+    const tasks = candidate.planningTasks || (candidate.planningTasks = []);
+    const seeded = new Set(candidate.seededMilestones || []);
+    for (const milestone of milestones) {
+      const id = String(milestone?.id || "");
+      if (!id || seeded.has(id)) continue;
+      seeded.add(id);
+      if (tasks.some((task) => String(task.id) === id)) continue;
+      tasks.push(normalize({ ...milestone, id, dates: milestone.date ? [milestone.date] : milestone.dates || [] }));
+    }
+    candidate.seededMilestones = [...seeded].sort();
+    return candidate;
+  }
+
   function forMonth(tasks, month, module) {
     return tasks.filter((task) => task.module === module && (task.months.includes(month) || task.dates.some((date) => monthOf(date) === month)));
   }
@@ -118,5 +136,5 @@
     }
   }
 
-  root.PlanningTasks = { VERSION, normalize, migrate, forMonth, forDate, assign, setDates, lanesOf, setLanes, inLane, moveDate, monthOf, validDate };
+  root.PlanningTasks = { VERSION, normalize, migrate, seedMilestones, forMonth, forDate, assign, setDates, lanesOf, setLanes, inLane, moveDate, monthOf, validDate };
 })(globalThis);
