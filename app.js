@@ -194,6 +194,14 @@
       focus: "器件模拟与 TCAD、统计变异分析、机器学习辅助器件设计、GAA nanosheet、AlGaN/GaN MIS-HEMT 建模",
       note: "纯模拟／建模路线，和你「AI+TCAD 优化」那半最合。GAA nanosheet 的多通道 Vth 统计建模思路可与你的双通道互相迁移；GaN 相关几篇（低温 Vth 稳定性、E-mode gate recess）他是共同作者而非通讯，主轴仍是 device simulation。⚠️ OpenAlex 把他和做钙钛矿／电池的同名人合并了，自己查论文时要筛掉不相干的。",
       url: "" },
+    { id: "tw-adv-ntu-yrwu", region: "tw", school: "NTU", name: "吴育任 Yuh-Renn Wu", tier: "A", match: "6.5（方法论 9 / 功率器件 4）", studyOrder: 9,
+      focus: "III-nitride 器件数值模拟、localization landscape theory、random alloy 无序与 V-defect 对载流子输运的影响、drift-diffusion 建模",
+      note: "⚠️ 方法论极强但应用面不对口：他是台大 III-nitride 模拟的核心人物，localization landscape＋薛定谔方程处理合金无序是他的招牌，可是近三年产出几乎全在 LED／光电，不是功率开关。你的 TCAD 那一半能对上，p-GaN gate／Vth／BV／DC-DC 这条线对不上。另注意他属光电所 GIPO，你若走电子所 GIEE 考试入学，要先确认他能否担任指导教授。",
+      url: "" },
+    { id: "tw-adv-ntu-jjhuang", region: "tw", school: "NTU", name: "黄建璋 Jian-Jang Huang", tier: "A−", match: "6", studyOrder: 0,
+      focus: "GaN 垂直晶体管（sidewall gate、侧壁处理）、micro-LED 与显示、GaN 材料与界面处理",
+      note: "台大这边唯一还有在做 GaN 功率晶体管的：近三年有两篇 GaN vertical transistor（侧壁 TMAH/H₃PO₄ 处理、sidewall gate quasi-saturation），他是通讯作者。但主力产出仍是 micro-LED／显示／感测，功率器件只是一条支线。同样属光电所 GIPO，电子所考试入学前要确认指导资格。",
+      url: "" },
   ];
   // 近三年代表作（2023/10 起），以 OpenAlex 查得的真实 DOI，优先顶刊顶会。
   // ★ = 与你研究链（多通道／p-GaN gate reliability）直接重叠，建议套磁前必读。
@@ -261,6 +269,20 @@
       { y: 2024, v: "IEEE T-Nano", t: "Statistical Device Simulation and Machine Learning of Process Variation Effects of Vertically Stacked GAA Si Nanosheet CFETs", doi: "10.1109/tnano.2024.3390793", key: true },
       { y: 2023, v: "IEEE T-ED", t: "Nanosized-Metal-Grain-Pattern-Dependent Threshold-Voltage Models for Vertically Stacked Multichannel GAA Si Nanosheet MOSFETs", doi: "10.1109/ted.2023.3328586" },
       { y: 2024, v: "IEEE JEDS", t: "Mechanism of Threshold Voltage Instability in Double Gate α-IGZO Nanosheet TFT Under Bias and Temperature Stress", doi: "10.1109/jeds.2024.3406676" },
+    ],
+    "tw-adv-ntu-yrwu": [
+      { y: 2023, v: "Phys. Rev. Applied", t: "Carrier localization in III-nitride versus conventional III-V semiconductors: alloy disorder via landscape theory and the Schrödinger equation", doi: "10.1103/physrevapplied.20.044069", key: true },
+      { y: 2025, v: "Appl. Phys. Rev.", t: "Influence of V-defects, leakage and random alloy fluctuations on carrier transport in red InGaN MQW LEDs", doi: "10.1063/5.0261821" },
+      { y: 2026, v: "Appl. Phys. Lett.", t: "Impact of V-defects on current flow and recombination pathways in long-wavelength GaN-based LEDs", doi: "10.1063/5.0340858" },
+      { y: 2024, v: "Phys. Rev. Applied", t: "Utilizing the Janus MoSSe surface polarization in designing complementary MOSFETs", doi: "10.1103/physrevapplied.21.044046" },
+      { y: 2026, v: "NUSOD", t: "Overview of Numerical Modeling of Structural Disorder in InGaN LEDs: Random Alloy Fluctuations, V-Defects and Tail States", doi: "10.1109/nusod69851.2026.11687798" },
+    ],
+    "tw-adv-ntu-jjhuang": [
+      { y: 2024, v: "IEEE EDL", t: "Performance Comparisons of GaN Vertical Transistors With Sidewalls Treated by TMAH and H3PO4 Solutions", doi: "10.1109/led.2024.3448196", key: true },
+      { y: 2025, v: "ACS Appl. Electron. Mater.", t: "Observation of Quasi-Saturation in Sidewall Gate GaN Vertical Transistors", doi: "10.1021/acsaelm.5c01412", key: true },
+      { y: 2024, v: "ACS Appl. Electron. Mater.", t: "Sidewall Interface Nitrogen Treatment for Improving GaN-Based Micron-Scale LED", doi: "10.1021/acsaelm.4c01540" },
+      { y: 2024, v: "Opt. Express", t: "Photonic properties of InGaN-based micro LEDs in the cryogenic regime", doi: "10.1364/oe.543951" },
+      { y: 2025, v: "Opt. Express", t: "Characterizations of sidewall recombination in AlGaInP red LEDs", doi: "10.1364/oe.575573" },
     ],
   };
   // 这三位查不到可靠的近三年 DOI 清单，原因写在各自卡片的备注里，不编造条目。

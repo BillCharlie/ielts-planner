@@ -162,6 +162,12 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /seed\.region \|\| "hk"/);
   assert.match(app, /tw-adv-nycu-tlwu[\s\S]*region: "tw"[\s\S]*school: "NYCU"/);
   assert.match(app, /tw-adv-nycu-ymli[\s\S]*region: "tw"/);
+  assert.match(app, /tw-adv-ntu-yrwu[\s\S]*region: "tw"[\s\S]*school: "NTU"/);
+  assert.match(app, /tw-adv-ntu-jjhuang[\s\S]*school: "NTU"/);
+  // 台大两位的匹配度明显低于 NYCU，备注必须保留「应用面不对口」与指导资格提醒。
+  assert.match(app, /tw-adv-ntu-yrwu[\s\S]*方法论极强但应用面不对口/);
+  assert.match(app, /tw-adv-ntu-yrwu[\s\S]*光电所 GIPO/);
+  assert.match(app, /tw-adv-ntu-jjhuang[\s\S]*光电所 GIPO/);
   // 吴添立的 p-GaN gate 可靠性与 AI 辅助建模是与研究链的重叠点。
   assert.match(app, /"tw-adv-nycu-tlwu": \[[\s\S]*10\.1109\/ted\.2024\.3412095[\s\S]*10\.1038\/s41598-024-58112-9/);
   // 学校可折叠，且展开状态必须在重绘前从 DOM 读回（toggle 事件是异步的）。
@@ -277,14 +283,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-nycu-advisors/);
-  assert.match(html, /app\.js\?v=20261006-nycu-advisors/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-nycu-advisors/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-ntu-advisors/);
+  assert.match(html, /app\.js\?v=20261006-ntu-advisors/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-ntu-advisors/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v79-nycu-advisors/);
+  assert.match(sw, /planner-notebook-v80-ntu-advisors/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
