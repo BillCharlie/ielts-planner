@@ -172,6 +172,10 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /tw-adv-ntu-cwliu[\s\S]*TCAD-Si[\s\S]*电子所 GIEE/);
   assert.match(app, /tw-adv-ntu-vphu[\s\S]*胡璧合[\s\S]*不是「胡壁合」/);
   assert.match(app, /"tw-adv-ntu-vphu": \[[\s\S]*10\.1038\/s41565-024-01693-3/);
+  assert.match(app, /tw-adv-ntu-chwu[\s\S]*school: "NTU"[\s\S]*交集最低的一位/);
+  // ★N 紧挨「N 位导师」会被误读成人数，必须写明是论文。
+  assert.match(app, /★ 必读论文 \$\{keyCount\} 篇/);
+  assert.doesNotMatch(app, /★\$\{keyCount\} 篇必读/);
   // 吴添立的 p-GaN gate 可靠性与 AI 辅助建模是与研究链的重叠点。
   assert.match(app, /"tw-adv-nycu-tlwu": \[[\s\S]*10\.1109\/ted\.2024\.3412095[\s\S]*10\.1038\/s41598-024-58112-9/);
   // 学校可折叠，且展开状态必须在重绘前从 DOM 读回（toggle 事件是异步的）。
@@ -287,14 +291,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-ntu-tcad-si/);
-  assert.match(html, /app\.js\?v=20261006-ntu-tcad-si/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-ntu-tcad-si/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-ntu-chwu/);
+  assert.match(html, /app\.js\?v=20261006-ntu-chwu/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-ntu-chwu/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v81-ntu-tcad-si/);
+  assert.match(sw, /planner-notebook-v82-ntu-chwu/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

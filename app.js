@@ -210,6 +210,10 @@
       focus: "DTCO 器件-电路协同优化、CFET／nanosheet／FinFET 器件设计、铁电 FeFET 与存储、低功耗 SRAM、Vth 变异的 TCAD 分析",
       note: "⚠️ 注意是「胡璧合」不是「胡壁合」，套磁信别写错字。纯 Si 逻辑／存储路线，没有 GaN 也没有功率。真正和你相通的是两点：一是 DTCO 这套「器件参数怎么反映到电路」的方法论，正好是你想做的 device-circuit co-design；二是 Vth 变异的 TCAD 分析手法，和你做 Vth/Ron 的思路可迁移。FinFET／nanosheet 的几何也和 Tri-gate 呼应。",
       url: "https://www.ee.ntu.edu.tw/profile1.php?id=1080918" },
+    { id: "tw-adv-ntu-chwu", region: "tw", school: "NTU", name: "吴肇欣 Chao-Hsin Wu", tier: "B", match: "4（光电/三端器件 7 · 功率器件 2）", studyOrder: 0,
+      focus: "发光电晶体（HBLET）与电晶体雷射、VCSEL 与 DFB 雷射、Ge-on-Si 单光子侦测、光电整合与高速传输",
+      note: "⚠️ 与你这条链交集最低的一位：近三年产出几乎全在雷射／光电／光侦测，电子器件只有少数几篇，而且是「发光电晶体 HBLET」这类光电三端器件，不是功率开关。真要找交集只有「三端器件的高温特性与增益」这个角度，相当勉强。除非你愿意把博士方向转向光电整合，否则不建议当主申对象；列进来当备查可以。",
+      url: "https://www.ee.ntu.edu.tw/" },
   ];
   // 近三年代表作（2023/10 起），以 OpenAlex 查得的真实 DOI，优先顶刊顶会。
   // ★ = 与你研究链（多通道／p-GaN gate reliability）直接重叠，建议套磁前必读。
@@ -305,6 +309,13 @@
       { y: 2024, v: "IEDM", t: "Conflict-Free and Area-Efficient 4N4P CFET 8T SRAM with Double-Sided Signal Routing", doi: "10.1109/iedm50854.2024.10873483" },
       { y: 2025, v: "IEDM", t: "Wafer-Scale Low-Power 2D CFET Logic Enabled by Single-Crystal Dielectrics", doi: "10.1109/iedm50572.2025.11353699" },
       { y: 2024, v: "ISCAS", t: "Improved RF Performance with Buried Power Rail and Contact over Active Gate in Nanosheet FETs", doi: "10.1109/iscas58744.2024.10558338" },
+    ],
+    "tw-adv-ntu-chwu": [
+      { y: 2024, v: "IEEE T-ED", t: "Current Gain Enhancement at High-Temperature Operation of Triple-Quantum-Well Heterojunction Bipolar Light-Emitting Transistor", doi: "10.1109/ted.2023.3339084", key: true },
+      { y: 2024, v: "Photonics Research", t: "Electro-optical logics by three-terminal quantum-well light-emitting transistors", doi: "10.1364/prj.516274", key: true },
+      { y: 2024, v: "Opt. Express", t: "Monolithically integrated 940 nm VCSELs on bulk Ge substrates", doi: "10.1364/oe.513997" },
+      { y: 2024, v: "IEEE EDL", t: "High Temperature Tolerant Ge-on-Si Single Photon Avalanche Diodes", doi: "10.1109/led.2024.3416186" },
+      { y: 2023, v: "Photonics Research", t: "24.9-GHz-bandwidth VCSEL enables 170-Gbit/s OFDM transmission", doi: "10.1364/prj.498963" },
     ],
   };
   // 这三位查不到可靠的近三年 DOI 清单，原因写在各自卡片的备注里，不编造条目。
@@ -1214,7 +1225,7 @@
           <strong>${safe(school.name)}</strong>
           <span class="phd-school-count">${school.advisors.length} 位导师</span>
           ${!tiers.length ? "" : `<span class="phd-school-tiers">${tiers.map((tier) => `<i class="advisor-tier tier-${safeAttr(tier.replace(/[^A-Za-z]/g, "").toLowerCase() || "x")}">${safe(tier)}</i>`).join("")}</span>`}
-          ${!keyCount ? "" : `<span class="phd-school-key">★${keyCount} 篇必读</span>`}
+          ${!keyCount ? "" : `<span class="phd-school-key">★ 必读论文 ${keyCount} 篇</span>`}
         </summary>
         <header class="phd-school-header">
           <label><span>学校／机构</span><input data-phd-school-name="true" data-region-id="${safeAttr(region.id)}" data-school-id="${safeAttr(school.id)}" value="${safeAttr(school.name)}" aria-label="学校名称" /></label>
