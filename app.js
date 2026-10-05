@@ -594,7 +594,10 @@
       // Only hijack a plain mouse drag on empty panel space — let touch/pen use
       // native swipe, and never steal drags from controls or the inner timeline.
       if (event.pointerType !== "mouse" || event.button !== 0) return;
-      if (event.target.closest("input, select, textarea, button, a, label, .hk-timeline-scroll")) return;
+      // summary/details must stay out of this: setPointerCapture below retargets
+      // the following click to the container, so a captured <summary> never
+      // toggles — the collapse looks dead to the user.
+      if (event.target.closest("input, select, textarea, button, a, label, summary, details, .hk-timeline-scroll")) return;
       down = true;
       startX = event.clientX;
       startScroll = container.scrollLeft;
