@@ -157,6 +157,16 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /Anding Zhu[\s\S]*PA 的 power ≠ power electronics 的 power/);
   assert.match(app, /Yan Cheng[\s\S]*Research Assistant Professor/);
   assert.match(app, /function seedPhdAdvisors/);
+  // DOI 一律写成 10.xxxx/... 的真实格式，且不可重复。
+  const dois = Array.from(app.matchAll(/doi: "([^"]+)"/g), (m) => m[1]);
+  assert.ok(dois.length >= 30, `期望至少 30 个 DOI，实际 ${dois.length}`);
+  assert.deepEqual(dois.filter((doi) => !/^10\.\d{4,9}\/\S+$/.test(doi)), [], "DOI 格式不合法");
+  assert.equal(new Set(dois).size, dois.length, "DOI 不可重复");
+  // 查不到可靠清单的三位必须留说明，不可编造条目。
+  assert.match(app, /PHD_ADVISOR_NO_PAPERS[\s\S]*hk-adv-hkust-weijia[\s\S]*hk-adv-cityu-tan[\s\S]*hk-adv-hkust-yancheng/);
+  for (const id of ["hk-adv-hkust-weijia", "hk-adv-cityu-tan", "hk-adv-hkust-yancheng"]) {
+    assert.equal(app.includes(`"${id}": [`), false, `${id} 不应有伪造的论文清单`);
+  }
   assert.match(html, /阶段一 · 2026\/11—12[\s\S]*阶段二 · 2027\/01—06/);
   assert.match(html, /HKPFS 主轮 · 本轮放弃/);
   assert.match(html, /预计取得成绩日期|预计取得日期/);
@@ -248,14 +258,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-hk-advisors/);
-  assert.match(html, /app\.js\?v=20261006-hk-advisors/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-hk-advisors/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-advisor-dois/);
+  assert.match(html, /app\.js\?v=20261006-advisor-dois/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-advisor-dois/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v75-hk-advisors/);
+  assert.match(sw, /planner-notebook-v76-advisor-dois/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

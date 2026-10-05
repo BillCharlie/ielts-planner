@@ -3746,6 +3746,73 @@ textarea {
   font-weight: 700;
 }
 
+.advisor-papers {
+  flex: 1 0 100%;
+  min-width: 0;
+  margin-top: 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-2);
+}
+
+.advisor-papers summary {
+  color: var(--teal-dark);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.advisor-papers ol {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.advisor-papers li {
+  font-size: 12px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.advisor-papers li.key-paper {
+  padding-left: 6px;
+  border-left: 3px solid var(--rose);
+}
+
+.paper-meta {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.advisor-papers a {
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.advisor-papers code {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.advisor-papers-note {
+  flex: 1 0 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 7px 9px;
+  border-left: 3px solid var(--amber);
+  background: #fff8eb;
+  color: #65350a;
+  font-size: 11.5px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
 .advisor-focus,
 .advisor-note {
   flex: 1 0 100%;

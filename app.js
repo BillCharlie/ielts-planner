@@ -186,6 +186,66 @@
       note: "⚠️ 别被「GaN」骗：PA 的 power ≠ power electronics 的 power。他是 RF GaN MMIC／GHz PA／Doherty，和 switching HEMT（Vth/Ron/BV→DC-DC）是另一套学术社群。除非愿意转 RF GaN，否则不要因为名字有 GaN 就排前面。",
       url: "https://www.ee.cuhk.edu.hk/en-gb/people/academic-staff/professors/prof-zhu-anding" },
   ];
+  // 近三年代表作（2023/10 起），以 OpenAlex 查得的真实 DOI，优先顶刊顶会。
+  // ★ = 与你研究链（多通道／p-GaN gate reliability）直接重叠，建议套磁前必读。
+  // 注意：OpenAlex 的作者记录会把同名人合并，这里已剔除明显不属于该领域的条目。
+  const PHD_ADVISOR_PAPERS = {
+    "hk-adv-hku-yuhao": [
+      { y: 2024, v: "IEEE TPEL", t: "Gate Robustness and Reliability of P-Gate GaN HEMT Evaluated by a Circuit Method", doi: "10.1109/tpel.2024.3355042", key: true },
+      { y: 2024, v: "IEEE TPEL", t: "Gate Switching Lifetime of P-Gate GaN HEMT: Circuit Characterization and Generalized Model", doi: "10.1109/tpel.2024.3443709", key: true },
+      { y: 2025, v: "IEEE EDL", t: "Enhancement-Mode GaN Monolithic Bidirectional Switch With Breakdown Voltage Over 3.3 kV", doi: "10.1109/led.2025.3539175" },
+      { y: 2024, v: "IEDM", t: "10 kV, 250°C Operational, Enhancement-Mode Ga2O3 JFET with Charge-Balance and Hybrid-Drain Designs", doi: "10.1109/iedm50854.2024.10873432" },
+      { y: 2025, v: "Nat. Rev. Electr. Eng.", t: "Wide-bandgap semiconductors and power electronics as pathways to carbon neutrality", doi: "10.1038/s44287-024-00135-5" },
+    ],
+    "hk-adv-hkust-kevin": [
+      { y: 2024, v: "Appl. Phys. Lett.", t: "Suppressed gate leakage and enlarged gate over-drive window of E-mode p-GaN gate double channel HEMTs", doi: "10.1063/5.0233528", key: true },
+      { y: 2023, v: "IEEE EDL", t: "Gate Characteristics of Enhancement-Mode Fully Depleted p-GaN Gate HEMT", doi: "10.1109/led.2023.3324011", key: true },
+      { y: 2025, v: "IEEE T-ED", t: "Suppression of Drain-Bias-Induced VTH Instability in Schottky-Type p-GaN Gate HEMTs With Voltage Seatbelt", doi: "10.1109/ted.2025.3534168", key: true },
+      { y: 2024, v: "Appl. Phys. Rev.", t: "Threshold voltage instability in III-nitride MIS-HEMTs: Characterization and interface engineering", doi: "10.1063/5.0179376" },
+      { y: 2023, v: "IEEE T-ED", t: "GaN Power Integration Technology and Its Future Prospects", doi: "10.1109/ted.2023.3341053" },
+    ],
+    "hk-adv-hkust-manhoi": [
+      { y: 2023, v: "IEEE T-ED", t: "Vertical β-Ga2O3 Power Transistors: Fundamentals, Designs, and Opportunities", doi: "10.1109/ted.2023.3328806" },
+      { y: 2024, v: "Annu. Rev. Mater. Res.", t: "Beta-Gallium Oxide Material and Device Technologies", doi: "10.1146/annurev-matsci-080921-104058" },
+      { y: 2024, v: "ISPSD", t: "1-kV β-Ga2O3 UMOSFET with Quasi-Inversion Nitrogen-Ion-Implanted Channel", doi: "10.1109/ispsd59661.2024.10579625" },
+      { y: 2026, v: "IEEE EDL", t: "Mitigating the Dominance of Channel Resistance in β-Ga2O3 UMOSFETs via Cell Pitch Scaling", doi: "10.1109/led.2026.3656648" },
+      { y: 2024, v: "Phys. Status Solidi A", t: "Design Strategy of Vertical GaN Power SBDs with p-GaN JTE and Selective p-Doping by Implantation", doi: "10.1002/pssa.202400082" },
+    ],
+    "hk-adv-polyu-yizhang": [
+      { y: 2025, v: "IEEE TPEL", t: "Power Cycling Testing for Power Semiconductor Switches: Methods, Standards, Limitations, and Outlooks", doi: "10.1109/tpel.2025.3595180", key: true },
+      { y: 2023, v: "IEEE TPEL", t: "gEOL: A Gradient-Based End-of-Life Criterion for Power Semiconductor Modules", doi: "10.1109/tpel.2023.3339342", key: true },
+      { y: 2024, v: "IEEE TPEL", t: "A Thermal Network Model for Multichip Power Modules Enabling to Characterize the Thermal Coupling Effects", doi: "10.1109/tpel.2024.3355207" },
+      { y: 2024, v: "IEEE TPEL", t: "Figures-of-Merit Study for Thermal Transient Measurement of SiC MOSFETs", doi: "10.1109/tpel.2024.3382891" },
+      { y: 2025, v: "IEEE TIE", t: "An Active Learning Framework for Reliability-Oriented Power Electronics Design", doi: "10.1109/tie.2025.3577391" },
+    ],
+    "hk-adv-cuhk-alex": [
+      { y: 2024, v: "ISSCC", t: "Li-ion-Battery-Input 1-to-6V-Output Bootstrap-Free Hybrid Buck-or-Boost Converter Without RHP Zero, 97.3% Peak Efficiency", doi: "10.1109/isscc49657.2024.10454342", key: true },
+      { y: 2024, v: "IEEE JSSC", t: "A 2.8 μs Response Time 95.1% Efficiency Hybrid Boost Converter With RHP Zero Elimination", doi: "10.1109/jssc.2024.3376251" },
+      { y: 2025, v: "IEEE JSSC", t: "A Hybrid Buck-or-Boost Converter for Fast-Transient and Wide-Voltage-Range Applications", doi: "10.1109/jssc.2024.3523914" },
+      { y: 2024, v: "IEEE JSSC", t: "A High-Current-Efficiency Digital-Assisted Analog LDO With Dual-Biasing Mode for Near-Threshold Regulation", doi: "10.1109/jssc.2024.3486609" },
+      { y: 2026, v: "CICC", t: "A 3–4.2V-to-Sub-1V Dual-Phase Multi-Path NLDO Sigma Converter, 1028 W/cm³ Power Density", doi: "10.1109/cicc65509.2026.11509495" },
+    ],
+    "hk-adv-cityu-kerui": [
+      { y: 2024, v: "IEEE TPEL", t: "Multi-MHz Inductive and Capacitive Power Transfer Systems", doi: "10.1109/tpel.2024.3431226" },
+      { y: 2024, v: "IEEE TPEL", t: "On the Limitations of the Coupled Mode Theory and Parity-Time Symmetry", doi: "10.1109/tpel.2024.3352918" },
+      { y: 2024, v: "IEEE TPEL", t: "A Fast Front-End Monitoring Method for Mutual Inductance and Load", doi: "10.1109/tpel.2024.3464124" },
+      { y: 2025, v: "IEEE TPEL", t: "Characterization and Modeling of Dual-Single-Layer PCB Coils", doi: "10.1109/tpel.2025.3580073" },
+      { y: 2023, v: "IEEE TPEL", t: "An Ultrafast Estimation Method for Coupling Coefficient and Load", doi: "10.1109/tpel.2023.3348453" },
+    ],
+    "hk-adv-cuhk-anding": [
+      { y: 2024, v: "IEEE T-MTT", t: "A Linearity-Improved 24–29-GHz GaN MMIC Doherty Power Amplifier", doi: "10.1109/tmtt.2024.3409944" },
+      { y: 2025, v: "IEEE JSSC", t: "A 24–28-GHz Single-Chip GaN MMIC T/R Front-End Using Doherty PA as Embedded Switches", doi: "10.1109/jssc.2025.3599397" },
+      { y: 2025, v: "IEEE T-MTT", t: "A Hybrid-Biased Dual-Band GaN MMIC Doherty Power Amplifier for 6G FR3", doi: "10.1109/tmtt.2025.3634158" },
+      { y: 2024, v: "IEEE T-MTT", t: "A 26-GHz GaN MMIC Load-Modulated Balanced Amplifier With Miniaturized Dual-Loop Coupler", doi: "10.1109/tmtt.2024.3421941" },
+      { y: 2023, v: "IEEE T-MTT", t: "Dual-Mode Three-Way Doherty Power Amplifier With Extended High-Efficiency Range", doi: "10.1109/tmtt.2023.3344431" },
+    ],
+  };
+  // 这三位查不到可靠的近三年 DOI 清单，原因写在各自卡片的备注里，不编造条目。
+  const PHD_ADVISOR_NO_PAPERS = {
+    "hk-adv-hkust-weijia": "2021–2025 在 Analog Devices 做 IC design，2025 才进学界，OpenAlex 查无作者记录。可查到的只有 ISPSD 2021/2022 三篇（smart gate driver for SiC、GaN IPM direct bond），已超出近三年。等她 HKUST 第一批产出再补。",
+    "hk-adv-cityu-tan": "OpenAlex 的作者记录被拆碎（只剩 11 篇），无法可靠消歧，暂不列 DOI 以免张冠李戴。建议直接看 CityU scholars 页或 Google Scholar。",
+    "hk-adv-hkust-yancheng": "2026 新任 RAP，尚无可稳定消歧的作者记录。建议直接向她本人或课题组页索取 publication list。",
+  };
   const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系", "待回复", "准备申请", "已送出", "面试", "Offer", "暂停"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
   const moves = window.IeltsMoves || {
@@ -1092,6 +1152,15 @@
           ${!advisor.url ? "" : `<a class="advisor-link" href="${safeAttr(advisor.url)}" target="_blank" rel="noopener">官方页面</a>`}
           ${!advisor.focus ? "" : `<p class="advisor-focus">${safe(advisor.focus)}</p>`}
           ${!advisor.note ? "" : `<p class="advisor-note">${safe(advisor.note)}</p>`}
+          ${!advisor.papers?.length ? "" : `<details class="advisor-papers">
+            <summary>近三年代表作 ${advisor.papers.length} 篇（DOI 可点）</summary>
+            <ol>${advisor.papers.map((paper) => `<li${paper.key ? ' class="key-paper"' : ""}>
+              <span class="paper-meta">${safe(String(paper.y))} · ${safe(paper.v)}${paper.key ? " · ★必读" : ""}</span>
+              <a href="https://doi.org/${safeAttr(paper.doi)}" target="_blank" rel="noopener">${safe(paper.t)}</a>
+              <code>${safe(paper.doi)}</code>
+            </li>`).join("")}</ol>
+          </details>`}
+          ${!advisor.papersNote ? "" : `<p class="advisor-papers-note">查不到可靠 DOI：${safe(advisor.papersNote)}</p>`}
         </div>`}
         <label><span>导师</span><input ${common} data-phd-advisor-field="name" value="${safeAttr(advisor.name)}" placeholder="Professor name" aria-label="导师姓名" /></label>
         <label><span>Email</span><input ${common} data-phd-advisor-field="email" type="email" value="${safeAttr(advisor.email)}" placeholder="name@university.edu" aria-label="导师 Email" /></label>
@@ -3000,6 +3069,14 @@
             note: `${advisor.note || ""}`,
             url: `${advisor.url || ""}`,
             studyOrder: Number(advisor.studyOrder) || 0,
+            papersNote: `${advisor.papersNote || ""}`,
+            papers: Array.isArray(advisor.papers) ? advisor.papers.map((paper) => ({
+              y: Number(paper.y) || 0,
+              v: `${paper.v || ""}`,
+              t: `${paper.t || ""}`,
+              doi: `${paper.doi || ""}`,
+              key: Boolean(paper.key),
+            })) : [],
           })) : [],
         })) : defaultRegion.schools;
         return { id: preset.id, code: preset.code, name: preset.name, hint: preset.hint, schools };
@@ -3022,11 +3099,18 @@
         hk.schools.push(school);
       }
       school.advisors = Array.isArray(school.advisors) ? school.advisors : [];
-      if (school.advisors.some((advisor) => advisor.id === seed.id)) continue;
+      const existing = school.advisors.find((advisor) => advisor.id === seed.id);
+      if (existing) {
+        if (!existing.papers?.length) existing.papers = PHD_ADVISOR_PAPERS[seed.id] || [];
+        if (!existing.papersNote) existing.papersNote = PHD_ADVISOR_NO_PAPERS[seed.id] || "";
+        continue;
+      }
       school.advisors.push({
         id: seed.id, name: seed.name, email: "", cvDone: false, status: "研究中",
         tier: seed.tier, match: seed.match, focus: seed.focus, note: seed.note,
         url: seed.url, studyOrder: seed.studyOrder || 0,
+        papers: PHD_ADVISOR_PAPERS[seed.id] || [],
+        papersNote: PHD_ADVISOR_NO_PAPERS[seed.id] || "",
       });
     }
     candidate.seededAdvisors = [...seeded].sort();
