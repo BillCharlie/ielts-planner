@@ -202,6 +202,14 @@
       focus: "GaN 垂直晶体管（sidewall gate、侧壁处理）、micro-LED 与显示、GaN 材料与界面处理",
       note: "台大这边唯一还有在做 GaN 功率晶体管的：近三年有两篇 GaN vertical transistor（侧壁 TMAH/H₃PO₄ 处理、sidewall gate quasi-saturation），他是通讯作者。但主力产出仍是 micro-LED／显示／感测，功率器件只是一条支线。同样属光电所 GIPO，电子所考试入学前要确认指导资格。",
       url: "" },
+    { id: "tw-adv-ntu-cwliu", region: "tw", school: "NTU", name: "刘致为 Chee Wee Liu（TCAD-Si）", tier: "B+", match: "6（器件物理／制程 7 · 功率器件 2.5）", studyOrder: 10,
+      focus: "Si/Ge nanosheet 与 GAA 堆叠通道、应变工程与制程流程、单片 3D 异质整合、栅电容与器件物理、热模拟",
+      note: "✅ 署名机构明确含电子所 GIEE（同时挂电机系、光电所、先进科技学院），走电子所考试入学指导资格上最稳的一位。研究是 Si/Ge 不是 GaN，但 nanosheet 堆叠多通道与你的双通道／Tri-gate 在架构思路上相通，而且他做的是完整制程流程＋应变＋栅电容这类器件物理，不是纯模拟。缺点：和功率开关、p-GaN、DC-DC 完全没有交集。",
+      url: "https://www.ee.ntu.edu.tw/" },
+    { id: "tw-adv-ntu-vphu", region: "tw", school: "NTU", name: "胡璧合 Vita Pi-Ho Hu（TCAD-Si）", tier: "B+", match: "5.5（DTCO／变异分析 7 · 功率器件 2）", studyOrder: 0,
+      focus: "DTCO 器件-电路协同优化、CFET／nanosheet／FinFET 器件设计、铁电 FeFET 与存储、低功耗 SRAM、Vth 变异的 TCAD 分析",
+      note: "⚠️ 注意是「胡璧合」不是「胡壁合」，套磁信别写错字。纯 Si 逻辑／存储路线，没有 GaN 也没有功率。真正和你相通的是两点：一是 DTCO 这套「器件参数怎么反映到电路」的方法论，正好是你想做的 device-circuit co-design；二是 Vth 变异的 TCAD 分析手法，和你做 Vth/Ron 的思路可迁移。FinFET／nanosheet 的几何也和 Tri-gate 呼应。",
+      url: "https://www.ee.ntu.edu.tw/profile1.php?id=1080918" },
   ];
   // 近三年代表作（2023/10 起），以 OpenAlex 查得的真实 DOI，优先顶刊顶会。
   // ★ = 与你研究链（多通道／p-GaN gate reliability）直接重叠，建议套磁前必读。
@@ -283,6 +291,20 @@
       { y: 2024, v: "ACS Appl. Electron. Mater.", t: "Sidewall Interface Nitrogen Treatment for Improving GaN-Based Micron-Scale LED", doi: "10.1021/acsaelm.4c01540" },
       { y: 2024, v: "Opt. Express", t: "Photonic properties of InGaN-based micro LEDs in the cryogenic regime", doi: "10.1364/oe.543951" },
       { y: 2025, v: "Opt. Express", t: "Characterizations of sidewall recombination in AlGaInP red LEDs", doi: "10.1364/oe.575573" },
+    ],
+    "tw-adv-ntu-cwliu": [
+      { y: 2024, v: "IEEE T-ED", t: "Strain Evolution in SiGe Nanosheet Transistor Process Flow", doi: "10.1109/ted.2024.3383409", key: true },
+      { y: 2024, v: "IEEE T-ED", t: "Intrinsic Gate Capacitance of Ultrathin Body Nanosheets", doi: "10.1109/ted.2024.3364584", key: true },
+      { y: 2023, v: "IEDM", t: "First Demonstration of Monolithic Self-aligned Heterogeneous Nanosheet Integration", doi: "10.1109/iedm45741.2023.10413805" },
+      { y: 2024, v: "IEEE T-ED", t: "Monolithic 3-D Self-Aligned Heterogeneous Nanosheet Channel", doi: "10.1109/ted.2024.3371946" },
+      { y: 2025, v: "IEDM", t: "Transistor-to-Package Thermal Simulation", doi: "10.1109/iedm50572.2025.11353735", key: true },
+    ],
+    "tw-adv-ntu-vphu": [
+      { y: 2024, v: "Nature Nanotechnology", t: "Projected performance of Si- and 2D-material-based SRAM circuits from 16 nm to 1 nm technology nodes", doi: "10.1038/s41565-024-01693-3", key: true },
+      { y: 2024, v: "IEEE JEDS", t: "Insights Into Threshold Voltage Variability in Negative Capacitance Junctionless Transistor", doi: "10.1109/jeds.2024.3505620", key: true },
+      { y: 2024, v: "IEDM", t: "Conflict-Free and Area-Efficient 4N4P CFET 8T SRAM with Double-Sided Signal Routing", doi: "10.1109/iedm50854.2024.10873483" },
+      { y: 2025, v: "IEDM", t: "Wafer-Scale Low-Power 2D CFET Logic Enabled by Single-Crystal Dielectrics", doi: "10.1109/iedm50572.2025.11353699" },
+      { y: 2024, v: "ISCAS", t: "Improved RF Performance with Buried Power Rail and Contact over Active Gate in Nanosheet FETs", doi: "10.1109/iscas58744.2024.10558338" },
     ],
   };
   // 这三位查不到可靠的近三年 DOI 清单，原因写在各自卡片的备注里，不编造条目。

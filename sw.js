@@ -1,14 +1,14 @@
-const CACHE_NAME = "planner-notebook-v80-ntu-advisors";
+const CACHE_NAME = "planner-notebook-v81-ntu-tcad-si";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261006-ntu-advisors",
-  "./app.js?v=20261006-ntu-advisors",
-  "./planning-tasks.js?v=20261006-ntu-advisors",
-  "./ielts-moves.js?v=20261006-ntu-advisors",
+  "./styles.css?v=20261006-ntu-tcad-si",
+  "./app.js?v=20261006-ntu-tcad-si",
+  "./planning-tasks.js?v=20261006-ntu-tcad-si",
+  "./ielts-moves.js?v=20261006-ntu-tcad-si",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261006-ntu-advisors",
+  "./plan-data.js?v=20261006-ntu-tcad-si",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
