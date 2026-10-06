@@ -23,49 +23,91 @@
   ];
   // 香港申请的固定日期节点。只种一次，之后可自行改日期或删除（见 PlanningTasks.seedMilestones）。
   // 阶段一（11—12月）不需要雅思；阶段二（出分后）才正式主投。
+  // ---- 每周套磁排班 ------------------------------------------------------
+  // 这是排班的唯一来源：甘特图的「本月排班」与日历／日计划的节点都由它产生，
+  // 不另外维护一份，避免两边讲不一样的话。
+  // batch 1=GaN power device（TCAD／制程／可靠性）2=转换器／电源电路 3=GaN RF（只欧洲）
+  const OUTREACH_ROSTER = [
+    { date: "2026-10-12", batch: 1, lane: "HK", who: "Yuhao Zhang 张宇昊", where: "HKU", tier: "S+ 9.5", why: "multi-channel GaN＋Fin＋ML co-design，与你双通道 Tri-gate 交集最大，先写他" },
+    { date: "2026-10-19", batch: 1, lane: "HK", who: "Kevin J. Chen 陈敬", where: "HKUST", tier: "S+ 9.5", why: "p-GaN／E-mode／MIS-HEMT 本家；卖点是 concept→TCAD→制程→量测全回路" },
+    { date: "2026-10-26", batch: 1, lane: "欧洲", who: "Stefaan Decoutere", where: "imec／比利时", tier: "可靠度4·TCAD4·制程5", why: "⚠️ imec 秋季集中徵集，错过要等一年；集中甄选不可绕过正式申请" },
+    { date: "2026-11-02", batch: 1, lane: "欧洲", who: "Farid Medjdoub", where: "IEMN／法国", tier: "TCAD5·制程5", why: "radar 标 contact-now；信里要锁 power-device／reliability 子题，别落到 RF" },
+    { date: "2026-11-09", batch: 1, lane: "欧洲", who: "Holger Kapels", where: "德国", tier: "可靠度5·TCAD4·制程5", why: "radar 全场最强组合；先问当期题目偏制程、TCAD 还是模组可靠度" },
+    { date: "2026-11-16", batch: 1, lane: "HK", who: "Man Hoi Wong 黄文海", where: "HKUST", tier: "S 8.5", why: "要问 defect／interface／polarization 怎么影响 device physics 才对味" },
+    { date: "2026-11-23", batch: 1, lane: "HK", who: "Yi Zhang 张毅", where: "PolyU", tier: "A+ 8", why: "同周完成套磁＋送件：阶段一唯一能无雅思先投的学校" },
+    { date: "2026-11-30", batch: 1, lane: "欧洲", who: "David Trémouilles", where: "LAAS／法国", tier: "可靠度5", why: "GaN HEMT 动态表徵与陷阱效应，偏表徵不偏制程" },
+    { date: "2026-12-07", batch: 1, lane: "欧洲", who: "Oliver Ambacher", where: "Fraunhofer IAF／德国", tier: "TCAD4·制程5", why: "公开职缺优先：先筛掉 RF/MMIC 的缺，锁 power device 再写信" },
+    { date: "2026-12-14", batch: 0, lane: "HK", who: "停一周", where: "考前", tier: "—", why: "考前一周只回信与追踪，不开新对象，专心 12/19 雅思" },
+    { date: "2026-12-21", batch: 1, lane: "欧洲", who: "Corinne Alonso", where: "法国", tier: "可靠度5", why: "考后恢复；GaN HEMT 动态特性与转换器可靠度" },
+    { date: "2026-12-28", batch: 1, lane: "HK", who: "Yan Cheng 成妍", where: "HKUST", tier: "B+", why: "⚠️ 先确认 RAP 能否担任 RPG primary supervisor，不行就当共同指导对象" },
+    { date: "2027-01-04", batch: 2, lane: "HK", who: "Weijia Zhang 张薇葭", where: "HKUST", tier: "S 9", why: "gate driver／PMIC／integrated DC-DC，等于你博士后半段；要问能否保留 device-level 比重" },
+    { date: "2027-01-11", batch: 2, lane: "欧洲", who: "Stefan Mönch", where: "Stuttgart／德国", tier: "S+", why: "ERC 计划页明确邀请博士提案，附一页研究提案" },
+    { date: "2027-01-18", batch: 2, lane: "HK", who: "Alex Leung 梁加能", where: "CUHK", tier: "A（转型 9）", why: "24/48V-to-1V hybrid DC-DC；故事讲成「用 device background 往 PMIC 延伸」" },
+    { date: "2027-01-25", batch: 2, lane: "欧洲", who: "Wilmar Martinez", where: "KU Leuven／比利时", tier: "S+", why: "GaN 高频 switching、PCB 寄生与 EMI" },
+    { date: "2027-02-01", batch: 0, lane: "台湾", who: "锁定台湾四位", where: "台湾", tier: "—", why: "吴添立（重点）＋李义明＋刘致为＋胡璧合；台大其余三位不列入" },
+    { date: "2027-02-08", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "S+ 9.5", why: "全台最对口：p-GaN gate 可靠性＋AI 辅助器件设计；拿 U-Net 建模那篇切入" },
+    { date: "2027-02-15", batch: 1, lane: "台湾", who: "李义明＋刘致为", where: "NYCU／NTU", tier: "S／B+", why: "两位 TCAD；刘致为挂电子所 GIEE，指导资格最稳" },
+    { date: "2027-02-22", batch: 1, lane: "台湾", who: "胡璧合 Vita Pi-Ho Hu", where: "NTU", tier: "B+", why: "注意是「璧」不是「壁」；切入点是 DTCO 与 Vth 变异分析" },
+    { date: "2027-03-01", batch: 2, lane: "欧洲", who: "Marco Liserre", where: "Kiel／德国", tier: "S", why: "GaNius、双向 GaN 与热可靠度" },
+    { date: "2027-03-08", batch: 2, lane: "欧洲", who: "Steffen Bernet", where: "TU Dresden／德国", tier: "S", why: "GaN HEMT switching、短路保护、gate driver 测试平台" },
+    { date: "2027-03-15", batch: 3, lane: "欧洲", who: "Fraunhofer IAF GaN MMIC 线", where: "德国", tier: "职缺 84765", why: "100V GaN-HEMT 製程做到 12 GHz；要能接受转 RF 才投" },
+    { date: "2027-03-22", batch: 3, lane: "欧洲", who: "CEA Gramat GaN RF 放大器", where: "法国", tier: "职缺 138291", why: "相邻领域，排在最后" },
+  ];
+
+  const BATCH_LABEL = { 0: "节点", 1: "第一批", 2: "第二批", 3: "第三批" };
+
+  function rosterForMonth(month) {
+    const prefix = `${month.replace("/", "-")}-`;
+    return OUTREACH_ROSTER.filter((row) => row.date.startsWith(prefix));
+  }
+
+  // 甘特格内的紧凑排班：一行一周，看得出「这周找谁」。
+  function outreachRosterMarkup(month) {
+    const rows = rosterForMonth(month);
+    if (!rows.length) return "";
+    return `<div class="outreach-roster">
+      <span class="outreach-roster-title">本月套磁排班 · 每周一位</span>
+      <ol>${rows.map((row) => `
+        <li class="batch-${safeAttr(String(row.batch))}">
+          <span class="outreach-week">${safe(row.date.slice(5).replace("-", "/"))}</span>
+          <span class="outreach-batch">${safe(BATCH_LABEL[row.batch] || "")}</span>
+          <span class="outreach-who">${safe(row.who)}</span>
+          <span class="outreach-where">${safe(row.where)}${row.tier === "—" ? "" : ` · ${safe(row.tier)}`}</span>
+        </li>`).join("")}</ol>
+    </div>`;
+  }
+
+  const ROSTER_SUPERSEDES = {
+    "2026-10-12": "w1:hku-yuhao",
+    "2026-10-19": "w1:hkust-kevin",
+    "2026-10-26": "w1:imec-decoutere",
+    "2026-11-02": "w1:iemn-medjdoub",
+    "2026-11-09": "w1:kapels",
+    "2026-11-16": "w1:hkust-manhoi",
+    "2026-11-23": "w1:polyu-yizhang",
+    "2026-11-30": "w1:laas-tremouilles",
+    "2026-12-07": "w1:iaf-ambacher",
+    "2026-12-14": "w1:exam-pause",
+    "2026-12-21": "w1:laas-alonso",
+    "2026-12-28": "w1:hkust-yancheng",
+    "2027-01-04": "w2:hkust-weijia",
+    "2027-01-11": "w2:moench",
+    "2027-01-18": "w2:cuhk-alex",
+    "2027-01-25": "w2:martinez",
+    "2027-02-01": "tw:wave-start",
+    "2027-02-08": "tw:nycu-tlwu",
+    "2027-02-15": "tw:tcad-pair",
+    "2027-02-22": "tw:ntu-vphu",
+    "2027-03-01": "w2:liserre",
+    "2027-03-08": "w2:bernet",
+    "2027-03-15": "w3:rf-de",
+    "2027-03-22": "w3:rf-fr",
+  };
   const APPLICATION_MILESTONES = [
     { id: "hk:advisor-longlist", module: "application", lane: "HK", date: "2026-10-31", text: "四校导师长名单定稿：HKUST／PolyU／HKU／CUHK，各 2–4 位（CityU 本轮排除：要求提交时成绩即有效，唯一确定轮次 12/01 赶不上）" },
-    // ---- 套磁排程：每周一位，周一开工 ----------------------------------
-    // 第一批 GaN Power device（TCAD／制程／可靠性）→ 第二批 功率转换器／电源电路
-    // → 第三批 GaN RF（只看欧洲）。台湾因 3 月才报名，整批延到 2 月。
-    // Group A（荷兰／瑞典／丹麦／挪威）不进套磁配额：那边职缺＝funding，改走职缺监看。
     { id: "wave:plan-v2", module: "application", lane: "HK", date: "2026-10-07",
       replaces: ["hk:study-six", "hk:mail-wave1", "hk:mail-wave2", "hk:mail-wave3", "hk:mail-wave4"],
       text: "套磁排程定版：每周一位。第一批 GaN power device（10/12–12/28）→ 第二批 转换器／电源电路（1月起）→ 第三批 欧洲 GaN RF（3月）；台湾整批延到 2 月" },
-
-    // 第一批 · GaN Power device：TCAD／制程／可靠性
-    { id: "w1:hku-yuhao", module: "application", lane: "HK", date: "2026-10-12", text: "第一批①：HKU Yuhao Zhang（S+ 9.5）—— multi-channel GaN＋Fin＋ML co-design，与你双通道 Tri-gate 交集最大，先写他" },
-    { id: "w1:hkust-kevin", module: "application", lane: "HK", date: "2026-10-19", text: "第一批②：HKUST Kevin Chen（S+ 9.5）—— p-GaN／E-mode／MIS-HEMT 本家；卖点是 concept→TCAD→制程→量测全回路" },
-    { id: "w1:imec-decoutere", module: "application", lane: "欧洲", date: "2026-10-26", text: "第一批③：imec Stefaan Decoutere（比利时）—— ⚠️ imec 秋季集中徵集，错过要等一年；集中甄选不可绕过正式申请" },
-    { id: "w1:iemn-medjdoub", module: "application", lane: "欧洲", date: "2026-11-02", text: "第一批④：IEMN Farid Medjdoub（法国）—— radar 标 contact-now，TCAD5·制程5；信里要锁 power-device／reliability 子题，别落到 RF" },
-    { id: "w1:kapels", module: "application", lane: "欧洲", date: "2026-11-09", text: "第一批⑤：Holger Kapels（德国）—— 可靠度5·TCAD4·制程5，radar 全场最强组合；先问当期题目偏制程、TCAD 还是模组可靠度" },
-    { id: "w1:hkust-manhoi", module: "application", lane: "HK", date: "2026-11-16", text: "第一批⑥：HKUST Man Hoi Wong（S 8.5）—— 要问 defect／interface／polarization 怎么影响 device physics 才对味" },
-    { id: "w1:polyu-yizhang", module: "application", lane: "HK", date: "2026-11-23", text: "第一批⑦：PolyU Yi Zhang（A+ 8）—— 同周完成套磁＋送件：它是阶段一唯一能无雅思先投的" },
-    { id: "w1:laas-tremouilles", module: "application", lane: "欧洲", date: "2026-11-30", text: "第一批⑧：David Trémouilles（法国 LAAS）—— 可靠度5；GaN HEMT 动态表徵与陷阱效应，偏表徵不偏制程" },
-    { id: "w1:iaf-ambacher", module: "application", lane: "欧洲", date: "2026-12-07", text: "第一批⑨：Oliver Ambacher（德国 Fraunhofer IAF）—— 公开职缺优先：先筛掉 RF/MMIC 的缺，锁 power device 再写信" },
-    { id: "w1:exam-pause", module: "application", lane: "HK", date: "2026-12-14", text: "考前一周：停套磁，专心 12/19 雅思。这周只做回信与追踪，不开新对象" },
-    { id: "w1:laas-alonso", module: "application", lane: "欧洲", date: "2026-12-21", text: "第一批⑩：Corinne Alonso（法国）—— 考后恢复；GaN HEMT 动态特性与转换器可靠度" },
-    { id: "w1:hkust-yancheng", module: "application", lane: "HK", date: "2026-12-28", text: "第一批⑪：HKUST Yan Cheng —— ⚠️ 先确认 RAP 能否担任 RPG primary supervisor，不行就当共同指导对象" },
-
-    // 第二批 · GaN 功率转换器／电源电路
-    { id: "w2:hkust-weijia", module: "application", lane: "HK", date: "2027-01-04", text: "第二批①：HKUST Weijia Zhang —— gate driver／PMIC／integrated DC-DC，等于你博士后半段；要问能否保留 device-level 比重" },
-    { id: "w2:moench", module: "application", lane: "欧洲", date: "2027-01-11", text: "第二批②：Stefan Mönch（德国 Stuttgart）—— very-high／contact-now，ERC 计划页明确邀请博士提案，附一页研究提案" },
-    { id: "w2:cuhk-alex", module: "application", lane: "HK", date: "2027-01-18", text: "第二批③：CUHK Alex Leung —— 24/48V-to-1V hybrid DC-DC；故事讲成「用 device background 往 PMIC 延伸」" },
-    { id: "w2:martinez", module: "application", lane: "欧洲", date: "2027-01-25", text: "第二批④：Wilmar Martinez（比利时 KU Leuven）—— very-high；GaN 高频 switching、PCB 寄生与 EMI" },
-
-    // 台湾：3 月才报名，整批 2 月处理
-    { id: "tw:wave-start", module: "application", lane: "台湾", date: "2027-02-01", text: "台湾开工（2 月才需要）：锁定四位 —— 吴添立（重点）＋李义明＋刘致为＋胡璧合；台大其余三位不列入" },
-    { id: "tw:nycu-tlwu", module: "application", lane: "台湾", date: "2027-02-08", text: "台湾①：NYCU 吴添立（S+ 9.5，全台最对口）—— p-GaN gate 可靠性＋AI 辅助器件设计；拿 U-Net 建模那篇切入" },
-    { id: "tw:tcad-pair", module: "application", lane: "台湾", date: "2027-02-15", text: "台湾②：NYCU 李义明＋NTU 刘致为（两位 TCAD）—— 刘致为挂电子所 GIEE，指导资格最稳" },
-    { id: "tw:ntu-vphu", module: "application", lane: "台湾", date: "2027-02-22", text: "台湾③：NTU 胡璧合（TCAD／DTCO）—— 注意是「璧」不是「壁」；切入点是 DTCO 与 Vth 变异分析" },
-
-    // 第二批收尾 ＋ 第三批（欧洲 GaN RF）
-    { id: "w2:liserre", module: "application", lane: "欧洲", date: "2027-03-01", text: "第二批⑤：Marco Liserre（德国 Kiel）—— GaNius、双向 GaN 与热可靠度" },
-    { id: "w2:bernet", module: "application", lane: "欧洲", date: "2027-03-08", text: "第二批⑥：Steffen Bernet（德国 TU Dresden）—— GaN HEMT switching、短路保护、gate driver 测试平台" },
-    { id: "w3:rf-de", module: "application", lane: "欧洲", date: "2027-03-15", text: "第三批①（RF 只看欧洲）：Fraunhofer IAF GaN MMIC 线 —— 职缺 84765，100V GaN-HEMT 製程做到 12 GHz；要能接受转 RF 才投" },
-    { id: "w3:rf-fr", module: "application", lane: "欧洲", date: "2027-03-22", text: "第三批②：CEA Gramat 高功率 GaN RF 放大器（职缺 138291）—— 相邻领域，排在最后" },
-
-    // Group A：不占套磁配额，改成每周扫职缺
     { id: "radar:group-a", module: "application", lane: "欧洲", date: "2026-10-12", text: "每周职缺扫描（不占套磁配额）：荷兰 AcademicTransfer、挪威 Jobbnorge、瑞典／丹麦各校 vacancies、EURAXESS。Group A 是「职缺＝funding」，套磁价值低，看到缺再针对性投" },
     { id: "radar:group-a-people", module: "application", lane: "欧洲", date: "2026-10-12", text: "Group A 关注对象（等缺不套磁）：荷兰 Soeiro／Rietveld、瑞典 Norrga、丹麦 Huai Wang、挪威 Peftitsis —— 他们开缺时直接投，别先写信" },
     { id: "hk:polyu-docs", module: "application", lane: "HK", date: "2026-11-30", text: "PolyU 送件材料备齐：主 CV、research proposal、成绩单、成果附件" },
@@ -78,7 +120,17 @@
     { id: "hk:hku-clearing", module: "application", lane: "HK", date: "2027-04-30", text: "HKU 第一 clearing 截止（第二 clearing 到 08/31，但建议有分再投）" },
     { id: "hk:polyu-deadline", module: "application", lane: "HK", date: "2027-05-31", text: "PolyU Sep 2027 截止；若已有 conditional offer，确认英文 condition 补交期限" },
     { id: "hk:hkust-deadline", module: "application", lane: "HK", date: "2027-06-01", text: "HKUST ECE 非本地截止；rolling admission，名额可能提前满" },
-  ];
+  ].concat(
+    // 每周套磁节点由 OUTREACH_ROSTER 产生：甘特排班与日历节点同一份名单。
+    OUTREACH_ROSTER.map((row) => ({
+      id: `roster:${row.date}`,
+      module: "application",
+      lane: row.lane,
+      date: row.date,
+      replaces: ROSTER_SUPERSEDES[row.date] ? [ROSTER_SUPERSEDES[row.date]] : [],
+      text: `${BATCH_LABEL[row.batch]}：${row.who}（${row.where}${row.tier === "—" ? "" : ` · ${row.tier}`}）—— ${row.why}`,
+    })),
+  );
   const GATE_GANTT_MONTHS = ["2026-09", "2026-10", "2026-11", "2026-12", "2027-01", "2027-02", "2027-03", "2027-04", "2027-05", "2027-06"];
   const RESEARCH_GANTT_BARS = [
     { gateId: "g1", start: "2026-09-07", end: "2026-10-14", lane: 1 },
@@ -1088,6 +1140,7 @@
     const tasks = PlanningTasks.forMonth(state.planningTasks, month, track);
     const lanes = sharedLanes(track);
     return `<div class="vertical-gantt-cell ${safeAttr(track)}" role="cell" data-planning-month="${safeAttr(month)}" data-planning-track="${safeAttr(track)}">
+      ${track === "application" ? outreachRosterMarkup(month) : ""}
       ${lanes.map((lane) => {
         const entries = tasks.filter((task) => PlanningTasks.inLane(task, lane));
         return entries.length ? `<div class="shared-month-lane"><span class="vertical-gantt-lane-label">${safe(lane)}</span>${entries.map((task) => planningTaskMarkup(task)).join("")}</div>` : "";

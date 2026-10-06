@@ -4715,6 +4715,87 @@ textarea {
 }
 
 
+/* ---- 甘特格内的每周套磁排班 ------------------------------------------ */
+
+.outreach-roster {
+  margin-bottom: 10px;
+  padding: 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--track-color) 26%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--track-color) 7%, #fff);
+}
+
+.outreach-roster-title {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--track-color);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+.outreach-roster ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.outreach-roster li {
+  display: grid;
+  grid-template-columns: 42px 42px minmax(0, 1fr);
+  gap: 4px 7px;
+  align-items: baseline;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--track-color) 18%, transparent);
+}
+
+.outreach-roster li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.outreach-week {
+  color: var(--ink);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.outreach-batch {
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--track-color) 16%, transparent);
+  color: var(--track-color);
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.outreach-who {
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.outreach-where {
+  grid-column: 3;
+  color: var(--muted);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+/* 停一周：灰掉，别看成要联系的对象 */
+.outreach-roster li.batch-0 .outreach-batch,
+.outreach-roster li.batch-0 .outreach-who {
+  color: var(--muted);
+}
+
+.outreach-roster li.batch-0 .outreach-batch {
+  background: color-mix(in srgb, var(--muted) 14%, transparent);
+}
+
 /* ---- 欧洲面板 ---------------------------------------------------------- */
 
 .eu-groups {

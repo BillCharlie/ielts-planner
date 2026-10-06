@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v89-drop-cityu";
+const CACHE_NAME = "planner-notebook-v90-roster";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261006-drop-cityu",
-  "./app.js?v=20261006-drop-cityu",
-  "./planning-tasks.js?v=20261006-drop-cityu",
-  "./ielts-moves.js?v=20261006-drop-cityu",
-  "./eu-radar.js?v=20261006-drop-cityu",
+  "./styles.css?v=20261006-roster",
+  "./app.js?v=20261006-roster",
+  "./planning-tasks.js?v=20261006-roster",
+  "./ielts-moves.js?v=20261006-roster",
+  "./eu-radar.js?v=20261006-roster",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261006-drop-cityu",
+  "./plan-data.js?v=20261006-roster",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
