@@ -186,6 +186,19 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /const OUTREACH_ROSTER = \[/);
   assert.match(app, /id: `roster:\$\{row\.date\}`/);
   assert.match(app, /function outreachRosterMarkup/);
+  // 排班里的老师可点击跳到 PhD 页对应那一栏并高亮。
+  assert.match(app, /function focusAdvisor/);
+  assert.match(app, /data-goto-advisor=/);
+  assert.match(app, /advisors: \["hk-adv-hku-yuhao"\]/);
+  assert.match(app, /advisors: \["eu-adv-be-stefaan-decoutere"\]/);
+  assert.match(app, /advisors: \["tw-adv-nycu-tlwu"\]/);
+  assert.match(styles, /advisor-flash/);
+  // 这个 scroller 是 scroll-snap ＋ scroll-behavior:smooth，必须用 instant 覆盖，
+  // 也不能用 scrollIntoView（会把横向位置一起冲掉）。
+  assert.match(app, /scroller\.scrollTo\(\{ left: index \* step, behavior: "instant" \}\)/);
+  const focusStart = app.indexOf("function focusAdvisor");
+  const focusBody = app.slice(focusStart, app.indexOf("  function ", focusStart + 20));
+  assert.doesNotMatch(focusBody, /\.scrollIntoView\(/, "focusAdvisor 不可呼叫 scrollIntoView：会把横向位置一起冲掉");
   assert.match(app, /track === "application" \? outreachRosterMarkup\(month\)/);
   // 旧的手写每周节点已退役，不可和产生的并存。
   assert.doesNotMatch(app, /\{ id: "(?:w[123]|tw):/);
@@ -345,14 +358,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-roster/);
-  assert.match(html, /app\.js\?v=20261006-roster/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-roster/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-goto-advisor/);
+  assert.match(html, /app\.js\?v=20261006-goto-advisor/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-goto-advisor/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v90-roster/);
+  assert.match(sw, /planner-notebook-v91-goto-advisor/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

@@ -4715,6 +4715,55 @@ textarea {
 }
 
 
+button.outreach-who.is-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--track-color);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+button.outreach-who.is-link:hover,
+button.outreach-who.is-link:focus-visible {
+  text-decoration-style: solid;
+  filter: brightness(0.85);
+}
+
+/* 跳转后闪一下，告诉你落在哪一行 */
+.phd-advisor-row.advisor-flash {
+  animation: advisorFlash 2.4s ease-out;
+}
+
+@keyframes advisorFlash {
+  0% {
+    background: #fff3bf;
+    box-shadow: inset 4px 0 0 var(--amber);
+  }
+
+  70% {
+    background: #fffbea;
+    box-shadow: inset 4px 0 0 var(--amber);
+  }
+
+  100% {
+    background: transparent;
+    box-shadow: inset 4px 0 0 transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phd-advisor-row.advisor-flash {
+    animation: none;
+    background: #fff3bf;
+  }
+}
+
 /* ---- 甘特格内的每周套磁排班 ------------------------------------------ */
 
 .outreach-roster {

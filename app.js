@@ -28,29 +28,29 @@
   // 不另外维护一份，避免两边讲不一样的话。
   // batch 1=GaN power device（TCAD／制程／可靠性）2=转换器／电源电路 3=GaN RF（只欧洲）
   const OUTREACH_ROSTER = [
-    { date: "2026-10-12", batch: 1, lane: "HK", who: "Yuhao Zhang 张宇昊", where: "HKU", tier: "S+ 9.5", why: "multi-channel GaN＋Fin＋ML co-design，与你双通道 Tri-gate 交集最大，先写他" },
-    { date: "2026-10-19", batch: 1, lane: "HK", who: "Kevin J. Chen 陈敬", where: "HKUST", tier: "S+ 9.5", why: "p-GaN／E-mode／MIS-HEMT 本家；卖点是 concept→TCAD→制程→量测全回路" },
-    { date: "2026-10-26", batch: 1, lane: "欧洲", who: "Stefaan Decoutere", where: "imec／比利时", tier: "可靠度4·TCAD4·制程5", why: "⚠️ imec 秋季集中徵集，错过要等一年；集中甄选不可绕过正式申请" },
-    { date: "2026-11-02", batch: 1, lane: "欧洲", who: "Farid Medjdoub", where: "IEMN／法国", tier: "TCAD5·制程5", why: "radar 标 contact-now；信里要锁 power-device／reliability 子题，别落到 RF" },
-    { date: "2026-11-09", batch: 1, lane: "欧洲", who: "Holger Kapels", where: "德国", tier: "可靠度5·TCAD4·制程5", why: "radar 全场最强组合；先问当期题目偏制程、TCAD 还是模组可靠度" },
-    { date: "2026-11-16", batch: 1, lane: "HK", who: "Man Hoi Wong 黄文海", where: "HKUST", tier: "S 8.5", why: "要问 defect／interface／polarization 怎么影响 device physics 才对味" },
-    { date: "2026-11-23", batch: 1, lane: "HK", who: "Yi Zhang 张毅", where: "PolyU", tier: "A+ 8", why: "同周完成套磁＋送件：阶段一唯一能无雅思先投的学校" },
-    { date: "2026-11-30", batch: 1, lane: "欧洲", who: "David Trémouilles", where: "LAAS／法国", tier: "可靠度5", why: "GaN HEMT 动态表徵与陷阱效应，偏表徵不偏制程" },
-    { date: "2026-12-07", batch: 1, lane: "欧洲", who: "Oliver Ambacher", where: "Fraunhofer IAF／德国", tier: "TCAD4·制程5", why: "公开职缺优先：先筛掉 RF/MMIC 的缺，锁 power device 再写信" },
+    { date: "2026-10-12", batch: 1, lane: "HK", who: "Yuhao Zhang 张宇昊", where: "HKU", tier: "S+ 9.5", why: "multi-channel GaN＋Fin＋ML co-design，与你双通道 Tri-gate 交集最大，先写他" , advisors: ["hk-adv-hku-yuhao"] },
+    { date: "2026-10-19", batch: 1, lane: "HK", who: "Kevin J. Chen 陈敬", where: "HKUST", tier: "S+ 9.5", why: "p-GaN／E-mode／MIS-HEMT 本家；卖点是 concept→TCAD→制程→量测全回路" , advisors: ["hk-adv-hkust-kevin"] },
+    { date: "2026-10-26", batch: 1, lane: "欧洲", who: "Stefaan Decoutere", where: "imec／比利时", tier: "可靠度4·TCAD4·制程5", why: "⚠️ imec 秋季集中徵集，错过要等一年；集中甄选不可绕过正式申请" , advisors: ["eu-adv-be-stefaan-decoutere"] },
+    { date: "2026-11-02", batch: 1, lane: "欧洲", who: "Farid Medjdoub", where: "IEMN／法国", tier: "TCAD5·制程5", why: "radar 标 contact-now；信里要锁 power-device／reliability 子题，别落到 RF" , advisors: ["eu-adv-fr-farid-medjdoub"] },
+    { date: "2026-11-09", batch: 1, lane: "欧洲", who: "Holger Kapels", where: "德国", tier: "可靠度5·TCAD4·制程5", why: "radar 全场最强组合；先问当期题目偏制程、TCAD 还是模组可靠度" , advisors: ["eu-adv-de-holger-kapels"] },
+    { date: "2026-11-16", batch: 1, lane: "HK", who: "Man Hoi Wong 黄文海", where: "HKUST", tier: "S 8.5", why: "要问 defect／interface／polarization 怎么影响 device physics 才对味" , advisors: ["hk-adv-hkust-manhoi"] },
+    { date: "2026-11-23", batch: 1, lane: "HK", who: "Yi Zhang 张毅", where: "PolyU", tier: "A+ 8", why: "同周完成套磁＋送件：阶段一唯一能无雅思先投的学校" , advisors: ["hk-adv-polyu-yizhang"] },
+    { date: "2026-11-30", batch: 1, lane: "欧洲", who: "David Trémouilles", where: "LAAS／法国", tier: "可靠度5", why: "GaN HEMT 动态表徵与陷阱效应，偏表徵不偏制程" , advisors: ["eu-adv-fr-david-tremouilles"] },
+    { date: "2026-12-07", batch: 1, lane: "欧洲", who: "Oliver Ambacher", where: "Fraunhofer IAF／德国", tier: "TCAD4·制程5", why: "公开职缺优先：先筛掉 RF/MMIC 的缺，锁 power device 再写信" , advisors: ["eu-adv-de-oliver-ambacher"] },
     { date: "2026-12-14", batch: 0, lane: "HK", who: "停一周", where: "考前", tier: "—", why: "考前一周只回信与追踪，不开新对象，专心 12/19 雅思" },
-    { date: "2026-12-21", batch: 1, lane: "欧洲", who: "Corinne Alonso", where: "法国", tier: "可靠度5", why: "考后恢复；GaN HEMT 动态特性与转换器可靠度" },
-    { date: "2026-12-28", batch: 1, lane: "HK", who: "Yan Cheng 成妍", where: "HKUST", tier: "B+", why: "⚠️ 先确认 RAP 能否担任 RPG primary supervisor，不行就当共同指导对象" },
-    { date: "2027-01-04", batch: 2, lane: "HK", who: "Weijia Zhang 张薇葭", where: "HKUST", tier: "S 9", why: "gate driver／PMIC／integrated DC-DC，等于你博士后半段；要问能否保留 device-level 比重" },
-    { date: "2027-01-11", batch: 2, lane: "欧洲", who: "Stefan Mönch", where: "Stuttgart／德国", tier: "S+", why: "ERC 计划页明确邀请博士提案，附一页研究提案" },
-    { date: "2027-01-18", batch: 2, lane: "HK", who: "Alex Leung 梁加能", where: "CUHK", tier: "A（转型 9）", why: "24/48V-to-1V hybrid DC-DC；故事讲成「用 device background 往 PMIC 延伸」" },
-    { date: "2027-01-25", batch: 2, lane: "欧洲", who: "Wilmar Martinez", where: "KU Leuven／比利时", tier: "S+", why: "GaN 高频 switching、PCB 寄生与 EMI" },
+    { date: "2026-12-21", batch: 1, lane: "欧洲", who: "Corinne Alonso", where: "法国", tier: "可靠度5", why: "考后恢复；GaN HEMT 动态特性与转换器可靠度" , advisors: ["eu-adv-fr-corinne-alonso"] },
+    { date: "2026-12-28", batch: 1, lane: "HK", who: "Yan Cheng 成妍", where: "HKUST", tier: "B+", why: "⚠️ 先确认 RAP 能否担任 RPG primary supervisor，不行就当共同指导对象" , advisors: ["hk-adv-hkust-yancheng"] },
+    { date: "2027-01-04", batch: 2, lane: "HK", who: "Weijia Zhang 张薇葭", where: "HKUST", tier: "S 9", why: "gate driver／PMIC／integrated DC-DC，等于你博士后半段；要问能否保留 device-level 比重" , advisors: ["hk-adv-hkust-weijia"] },
+    { date: "2027-01-11", batch: 2, lane: "欧洲", who: "Stefan Mönch", where: "Stuttgart／德国", tier: "S+", why: "ERC 计划页明确邀请博士提案，附一页研究提案" , advisors: ["eu-adv-de-stefan-moench"] },
+    { date: "2027-01-18", batch: 2, lane: "HK", who: "Alex Leung 梁加能", where: "CUHK", tier: "A（转型 9）", why: "24/48V-to-1V hybrid DC-DC；故事讲成「用 device background 往 PMIC 延伸」" , advisors: ["hk-adv-cuhk-alex"] },
+    { date: "2027-01-25", batch: 2, lane: "欧洲", who: "Wilmar Martinez", where: "KU Leuven／比利时", tier: "S+", why: "GaN 高频 switching、PCB 寄生与 EMI" , advisors: ["eu-adv-be-wilmar-martinez"] },
     { date: "2027-02-01", batch: 0, lane: "台湾", who: "锁定台湾四位", where: "台湾", tier: "—", why: "吴添立（重点）＋李义明＋刘致为＋胡璧合；台大其余三位不列入" },
-    { date: "2027-02-08", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "S+ 9.5", why: "全台最对口：p-GaN gate 可靠性＋AI 辅助器件设计；拿 U-Net 建模那篇切入" },
-    { date: "2027-02-15", batch: 1, lane: "台湾", who: "李义明＋刘致为", where: "NYCU／NTU", tier: "S／B+", why: "两位 TCAD；刘致为挂电子所 GIEE，指导资格最稳" },
-    { date: "2027-02-22", batch: 1, lane: "台湾", who: "胡璧合 Vita Pi-Ho Hu", where: "NTU", tier: "B+", why: "注意是「璧」不是「壁」；切入点是 DTCO 与 Vth 变异分析" },
-    { date: "2027-03-01", batch: 2, lane: "欧洲", who: "Marco Liserre", where: "Kiel／德国", tier: "S", why: "GaNius、双向 GaN 与热可靠度" },
-    { date: "2027-03-08", batch: 2, lane: "欧洲", who: "Steffen Bernet", where: "TU Dresden／德国", tier: "S", why: "GaN HEMT switching、短路保护、gate driver 测试平台" },
-    { date: "2027-03-15", batch: 3, lane: "欧洲", who: "Fraunhofer IAF GaN MMIC 线", where: "德国", tier: "职缺 84765", why: "100V GaN-HEMT 製程做到 12 GHz；要能接受转 RF 才投" },
+    { date: "2027-02-08", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "S+ 9.5", why: "全台最对口：p-GaN gate 可靠性＋AI 辅助器件设计；拿 U-Net 建模那篇切入" , advisors: ["tw-adv-nycu-tlwu"] },
+    { date: "2027-02-15", batch: 1, lane: "台湾", who: "李义明＋刘致为", where: "NYCU／NTU", tier: "S／B+", why: "两位 TCAD；刘致为挂电子所 GIEE，指导资格最稳" , advisors: ["tw-adv-nycu-ymli", "tw-adv-ntu-cwliu"] },
+    { date: "2027-02-22", batch: 1, lane: "台湾", who: "胡璧合 Vita Pi-Ho Hu", where: "NTU", tier: "B+", why: "注意是「璧」不是「壁」；切入点是 DTCO 与 Vth 变异分析" , advisors: ["tw-adv-ntu-vphu"] },
+    { date: "2027-03-01", batch: 2, lane: "欧洲", who: "Marco Liserre", where: "Kiel／德国", tier: "S", why: "GaNius、双向 GaN 与热可靠度" , advisors: ["eu-adv-de-marco-liserre"] },
+    { date: "2027-03-08", batch: 2, lane: "欧洲", who: "Steffen Bernet", where: "TU Dresden／德国", tier: "S", why: "GaN HEMT switching、短路保护、gate driver 测试平台" , advisors: ["eu-adv-de-steffen-bernet"] },
+    { date: "2027-03-15", batch: 3, lane: "欧洲", who: "Fraunhofer IAF GaN MMIC 线", where: "德国", tier: "职缺 84765", why: "100V GaN-HEMT 製程做到 12 GHz；要能接受转 RF 才投" , advisors: ["eu-adv-de-oliver-ambacher"] },
     { date: "2027-03-22", batch: 3, lane: "欧洲", who: "CEA Gramat GaN RF 放大器", where: "法国", tier: "职缺 138291", why: "相邻领域，排在最后" },
   ];
 
@@ -71,7 +71,9 @@
         <li class="batch-${safeAttr(String(row.batch))}">
           <span class="outreach-week">${safe(row.date.slice(5).replace("-", "/"))}</span>
           <span class="outreach-batch">${safe(BATCH_LABEL[row.batch] || "")}</span>
-          <span class="outreach-who">${safe(row.who)}</span>
+          ${!row.advisors?.length
+            ? `<span class="outreach-who">${safe(row.who)}</span>`
+            : `<button type="button" class="outreach-who is-link" data-goto-advisor="${safeAttr(row.advisors[0])}" title="跳到 PhD 申请页的 ${safeAttr(row.who)}">${safe(row.who)}</button>`}
           <span class="outreach-where">${safe(row.where)}${row.tier === "—" ? "" : ` · ${safe(row.tier)}`}</span>
         </li>`).join("")}</ol>
     </div>`;
@@ -822,6 +824,13 @@
   }
 
   function bindRoadmapControls() {
+    el.roadmapView.addEventListener("click", (event) => {
+      const link = event.target.closest?.("[data-goto-advisor]");
+      if (!link) return;
+      event.preventDefault();
+      focusAdvisor(link.dataset.gotoAdvisor);
+    });
+
     el.roadmapResetButton.addEventListener("click", () => {
       if (!window.confirm("要把研究 Gate 和任务进度全部归零吗？PhD 申请追踪不会被清除。")) return;
       state.roadmap = defaultRoadmapState();
@@ -1134,6 +1143,44 @@
       <input name="text" required aria-label="新任务" placeholder="新任务" />
       <button type="submit" title="添加任务" aria-label="添加任务">+</button>
     </form>`;
+  }
+
+  // 从甘特排班跳到 PhD 页对应导师：切页→展开该校→把面板横向与纵向都滚到位→闪一下。
+  // 导师分散在 HK／TW／EU 三个面板里，而面板是横向分页的，所以两个方向都要滚。
+  function focusAdvisor(advisorId) {
+    if (!advisorId) return;
+    setView("phd");
+    const field = document.querySelector(`[data-advisor-id="${CSS.escape(advisorId)}"]`);
+    if (!field) return;
+    const row = field.closest(".phd-advisor-row");
+    const school = field.closest("details[data-phd-school]");
+    if (school && !school.open) {
+      school.open = true;
+      openSchools.add(school.dataset.phdSchool);
+    }
+    const panel = field.closest(".hk-application-panel");
+    const scroller = field.closest(".application-panels-scroller");
+    // 不用 scrollIntoView：它会滚动所有可滚动祖先，把下面设好的横向位置冲掉；
+    // 而且这个 scroller 是 scroll-snap: x mandatory ＋ scroll-behavior: smooth，
+    // 平滑滚动在这里并不可靠。两个方向都直接设定位置。
+    if (panel && scroller) {
+      const pages = [...scroller.querySelectorAll(".hk-application-panel")];
+      const index = pages.indexOf(panel);
+      const step = pages.length > 1 ? pages[1].offsetLeft - pages[0].offsetLeft : panel.offsetWidth;
+      // 必须用 scrollTo({behavior:"instant"})：CSS 的 scroll-behavior: smooth
+      // 连直接赋值 scrollLeft 都会animate，150ms 后还没到位。
+      if (index >= 0 && step > 0) scroller.scrollTo({ left: index * step, behavior: "instant" });
+    }
+    if (row && panel) {
+      const delta = row.getBoundingClientRect().top - panel.getBoundingClientRect().top;
+      panel.scrollTo({ top: panel.scrollTop + delta - panel.clientHeight / 2 + row.offsetHeight / 2, behavior: "instant" });
+    }
+    if (row) {
+      row.classList.remove("advisor-flash");
+      void row.offsetWidth;
+      row.classList.add("advisor-flash");
+      setTimeout(() => row.classList.remove("advisor-flash"), 2600);
+    }
   }
 
   function renderVerticalGanttCell(month, track) {
