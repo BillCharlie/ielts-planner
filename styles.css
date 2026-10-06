@@ -3996,6 +3996,34 @@ textarea {
   font-size: 12px;
 }
 
+.phd-guidance-list {
+  display: grid;
+  gap: 12px;
+}
+
+.phd-guidance.hk-guidance {
+  align-items: flex-start;
+  border-color: color-mix(in srgb, var(--track-color) 35%, transparent);
+  background: var(--track-soft);
+  color: var(--ink);
+}
+
+.phd-guidance.hk-guidance > b {
+  color: var(--track-color);
+}
+
+.phd-guidance.hk-guidance p {
+  margin: 0 0 8px;
+}
+
+.phd-guidance.hk-guidance p:last-child {
+  margin-bottom: 0;
+}
+
+.phd-guidance.hk-guidance p > b {
+  color: var(--track-color);
+}
+
 .phd-guidance {
   padding: 18px 20px;
   display: flex;

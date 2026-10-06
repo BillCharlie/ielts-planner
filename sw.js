@@ -1,14 +1,14 @@
-const CACHE_NAME = "planner-notebook-v85-table-palette";
+const CACHE_NAME = "planner-notebook-v86-hk-guidance";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261006-table-palette",
-  "./app.js?v=20261006-table-palette",
-  "./planning-tasks.js?v=20261006-table-palette",
-  "./ielts-moves.js?v=20261006-table-palette",
+  "./styles.css?v=20261006-hk-guidance",
+  "./app.js?v=20261006-hk-guidance",
+  "./planning-tasks.js?v=20261006-hk-guidance",
+  "./ielts-moves.js?v=20261006-hk-guidance",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261006-table-palette",
+  "./plan-data.js?v=20261006-hk-guidance",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
