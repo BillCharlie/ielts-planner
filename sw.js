@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v87-eu-radar";
+const CACHE_NAME = "planner-notebook-v88-outreach-waves";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261006-eu-radar",
-  "./app.js?v=20261006-eu-radar",
-  "./planning-tasks.js?v=20261006-eu-radar",
-  "./ielts-moves.js?v=20261006-eu-radar",
-  "./eu-radar.js?v=20261006-eu-radar",
+  "./styles.css?v=20261006-outreach-waves",
+  "./app.js?v=20261006-outreach-waves",
+  "./planning-tasks.js?v=20261006-outreach-waves",
+  "./ielts-moves.js?v=20261006-outreach-waves",
+  "./eu-radar.js?v=20261006-outreach-waves",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261006-eu-radar",
+  "./plan-data.js?v=20261006-outreach-waves",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",

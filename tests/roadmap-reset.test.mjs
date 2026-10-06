@@ -172,6 +172,20 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
     assert.match(html, new RegExp(`id="${id}"`));
   }
   assert.match(app, /function renderEuropePanel/);
+  // 套磁排程：每周一位，三批依序；旧的四波已由 replaces 退役。
+  assert.match(app, /wave:plan-v2[\s\S]*replaces: \["hk:study-six", "hk:mail-wave1"/);
+  assert.doesNotMatch(app, /id: "hk:mail-wave1"/);
+  assert.match(app, /w1:hku-yuhao[\s\S]*date: "2026-10-12"/);
+  assert.match(app, /w1:exam-pause[\s\S]*停套磁，专心 12\/19/);
+  // 台湾整批延到 2 月；台大只留胡、刘两位 TCAD。
+  assert.match(app, /tw:wave-start[\s\S]*date: "2027-02-01"/);
+  assert.match(app, /tw:ntu-vphu[\s\S]*date: "2027-02-22"/);
+  assert.doesNotMatch(app, /tw-adv-ntu-yrwu[\s\S]{0,400}date: "2027-02/);
+  // 第三批 RF 只排欧洲。
+  assert.match(app, /w3:rf-de[\s\S]*lane: "欧洲"/);
+  assert.match(app, /w3:rf-fr[\s\S]*lane: "欧洲"/);
+  // Group A 不占套磁配额，改职缺扫描。
+  assert.match(app, /radar:group-a[\s\S]*不占套磁配额/);
   assert.match(app, /schools: \["德国", "法国", "比利时", "荷兰", "瑞典", "丹麦", "挪威"\]/);
   assert.match(app, /eu-adv-[\s\S]*region: "eu"/);
   assert.match(sw, /eu-radar\.js/);
@@ -321,14 +335,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-eu-radar/);
-  assert.match(html, /app\.js\?v=20261006-eu-radar/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-eu-radar/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-outreach-waves/);
+  assert.match(html, /app\.js\?v=20261006-outreach-waves/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-outreach-waves/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v87-eu-radar/);
+  assert.match(sw, /planner-notebook-v88-outreach-waves/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
