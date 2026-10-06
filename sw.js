@@ -1,14 +1,14 @@
-const CACHE_NAME = "planner-notebook-v84-gantt-readability";
+const CACHE_NAME = "planner-notebook-v85-table-palette";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261006-gantt-readability",
-  "./app.js?v=20261006-gantt-readability",
-  "./planning-tasks.js?v=20261006-gantt-readability",
-  "./ielts-moves.js?v=20261006-gantt-readability",
+  "./styles.css?v=20261006-table-palette",
+  "./app.js?v=20261006-table-palette",
+  "./planning-tasks.js?v=20261006-table-palette",
+  "./ielts-moves.js?v=20261006-table-palette",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261006-gantt-readability",
+  "./plan-data.js?v=20261006-table-palette",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",

@@ -13,6 +13,15 @@
   --rose: #be123c;
   --violet: #7c3aed;
   --shadow: 0 18px 45px rgba(15, 35, 31, 0.09);
+  /* 模块色：月度甘特与日计划表共用，改这里两边一起变 */
+  --track-research: #0f766e;
+  --track-research-soft: #edf9f6;
+  --track-ielts: #be123c;
+  --track-ielts-soft: #fff1f2;
+  --track-external: #c26a16;
+  --track-external-soft: #fff7ed;
+  --track-application: #2563eb;
+  --track-application-soft: #eff6ff;
 }
 
 * {
@@ -2157,15 +2166,15 @@ textarea {
 }
 
 .vertical-gantt-header > span.ielts {
-  border-top-color: #be123c;
+  border-top-color: var(--track-ielts);
 }
 
 .vertical-gantt-header > span.external {
-  border-top-color: #c26a16;
+  border-top-color: var(--track-external);
 }
 
 .vertical-gantt-header > span.application {
-  border-top-color: var(--blue);
+  border-top-color: var(--track-application);
   border-right: 0;
 }
 
@@ -2244,8 +2253,8 @@ textarea {
 }
 
 .vertical-gantt-cell {
-  --track-color: var(--teal);
-  --track-soft: #edf9f6;
+  --track-color: var(--track-research);
+  --track-soft: var(--track-research-soft);
   padding: 11px;
   display: flex;
   border-right: 1px solid var(--line);
@@ -2257,18 +2266,18 @@ textarea {
 }
 
 .vertical-gantt-cell.ielts {
-  --track-color: #be123c;
-  --track-soft: #fff1f2;
+  --track-color: var(--track-ielts);
+  --track-soft: var(--track-ielts-soft);
 }
 
 .vertical-gantt-cell.external {
-  --track-color: #c26a16;
-  --track-soft: #fff7ed;
+  --track-color: var(--track-external);
+  --track-soft: var(--track-external-soft);
 }
 
 .vertical-gantt-cell.application {
-  --track-color: var(--blue);
-  --track-soft: #eff6ff;
+  --track-color: var(--track-application);
+  --track-soft: var(--track-application-soft);
 }
 
 .vertical-gantt-cell.graduation {
@@ -4549,5 +4558,110 @@ textarea {
 
 .vertical-gantt-time {
   padding: 17px 14px 17px 20px;
+}
+
+
+/* ---- 日计划表：与月计划共用同一套模块色 ------------------------------ */
+/* 模块色只在这里定义一次，月度甘特与日计划表都从 data-track 取用，
+   以后改色不会再出现两边不一致。 */
+
+[data-track="research"] {
+  --track-color: var(--track-research);
+  --track-soft: var(--track-research-soft);
+}
+
+[data-track="ielts"] {
+  --track-color: var(--track-ielts);
+  --track-soft: var(--track-ielts-soft);
+}
+
+[data-track="external"] {
+  --track-color: var(--track-external);
+  --track-soft: var(--track-external-soft);
+}
+
+[data-track="application"] {
+  --track-color: var(--track-application);
+  --track-soft: var(--track-application-soft);
+}
+
+.main-table thead tr:last-child th {
+  padding: 11px 12px 10px;
+  border-bottom: 2px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* 需与上面的 thead tr:last-child th 同等特异度，否则 color 被盖掉 */
+.main-table thead tr:last-child th[data-track] {
+  border-top: 3px solid var(--track-color);
+  color: var(--track-color);
+}
+
+/* 行底色交给模块栏，整行不再刷成一片蓝 */
+.plan-row-normal td {
+  background: #fff;
+}
+
+.plan-row-normal:hover td {
+  background: #fbfdfc;
+}
+
+.main-table td[data-track] {
+  border-left: 1px solid color-mix(in srgb, var(--track-color) 16%, transparent);
+  background: var(--track-soft);
+}
+
+.plan-row-normal:hover td[data-track] {
+  background: color-mix(in srgb, var(--track-color) 9%, #fff);
+}
+
+/* 休息日仍要一眼看出来，但别盖掉模块色 */
+.plan-row-rest td {
+  background: #f4f5f6;
+}
+
+.plan-row-rest:hover td {
+  background: #eef0f1;
+}
+
+.plan-row-rest td[data-track] {
+  background: color-mix(in srgb, var(--track-soft) 55%, #f4f5f6);
+}
+
+#planTableBody tr.unsaved td {
+  background: #fff8e8;
+}
+
+#planTableBody tr.unsaved td[data-track] {
+  background: color-mix(in srgb, var(--track-soft) 60%, #fff8e8);
+}
+
+#planTableBody tr.plan-row-rest.unsaved td {
+  background: #f0ece0;
+}
+
+/* IELTS 栏的训练卡改用该模块色，和甘特里的 IELTS 泳道一致 */
+.ielts-cell .training-item {
+  border-color: color-mix(in srgb, var(--track-color) 30%, transparent);
+  background: color-mix(in srgb, var(--track-color) 6%, #fff);
+}
+
+.ielts-cell .training-kind {
+  color: var(--track-color);
+}
+
+/* 日期与日类型两栏做成贴边的参考栏 */
+.main-table td[data-label="日期"],
+.main-table td[data-label="日类型"] {
+  background: #fafbfb;
+}
+
+.plan-row-rest td[data-label="日期"],
+.plan-row-rest td[data-label="日类型"] {
+  background: #eff1f2;
 }
 

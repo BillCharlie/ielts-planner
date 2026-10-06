@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20261006-gantt-readability" />
+    <link rel="stylesheet" href="styles.css?v=20261006-table-palette" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -433,10 +433,10 @@
                 <tr>
                   <th>日期</th>
                   <th>日类型</th>
-                  <th>研究主线</th>
-                  <th>会议 / 论文</th>
-                  <th>PhD 申请</th>
-                  <th>IELTS / 模块</th>
+                  <th data-track="research">研究主线</th>
+                  <th data-track="external">会议 / 论文</th>
+                  <th data-track="application">PhD 申请</th>
+                  <th data-track="ielts">IELTS / 模块</th>
                   <th>备注</th>
                   <th>操作</th>
                 </tr>
@@ -469,11 +469,11 @@
       </dialog>
     </div>
 
-    <script src="plan-data.js?v=20261006-gantt-readability"></script>
+    <script src="plan-data.js?v=20261006-table-palette"></script>
     <script src="config.js"></script>
     <script src="xlsx-export.js"></script>
-    <script src="planning-tasks.js?v=20261006-gantt-readability"></script>
-    <script src="ielts-moves.js?v=20261006-gantt-readability"></script>
-    <script src="app.js?v=20261006-gantt-readability"></script>
+    <script src="planning-tasks.js?v=20261006-table-palette"></script>
+    <script src="ielts-moves.js?v=20261006-table-palette"></script>
+    <script src="app.js?v=20261006-table-palette"></script>
   </body>
 </html>

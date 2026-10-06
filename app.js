@@ -2074,16 +2074,16 @@
             ${["正常", "考试日", "休息"].map((type) => `<option value="${type}">${type}</option>`).join("")}
           </select>
         </td>
-        <td class="project-cell" data-label="研究主线">
+        <td class="project-cell" data-track="research" data-label="研究主线">
           ${sharedDayMarkup(item.date, "research")}
         </td>
-        <td data-label="会议 / 论文" class="conf-cell">
+        <td data-label="会议 / 论文" class="conf-cell" data-track="external">
           ${sharedDayMarkup(item.date, "external")}
         </td>
-        <td data-label="PhD 申请" class="conf-cell">
+        <td data-label="PhD 申请" class="conf-cell" data-track="application">
           ${sharedDayMarkup(item.date, "application")}
         </td>
-        <td data-label="IELTS / 模块" class="ielts-cell">
+        <td data-label="IELTS / 模块" class="ielts-cell" data-track="ielts">
           ${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { toggleDate: item.date }) : ""}
           ${trainingItems.length || !movedAwayFrom(item.date).length ? "" : `<span class="plan-moved-away">${safe(rescheduleAwayNote(movedAwayFrom(item.date)))}</span>`}
           <textarea class="plan-edit-textarea ${ieltsFieldsHidden ? "visually-hidden-field" : ""}" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>
