@@ -2083,7 +2083,7 @@
         <td data-label="PhD 申请" class="conf-cell">
           ${sharedDayMarkup(item.date, "application")}
         </td>
-        <td data-label="IELTS / 模块">
+        <td data-label="IELTS / 模块" class="ielts-cell">
           ${trainingItems.length ? renderTrainingItemsMarkup(trainingItems, { toggleDate: item.date }) : ""}
           ${trainingItems.length || !movedAwayFrom(item.date).length ? "" : `<span class="plan-moved-away">${safe(rescheduleAwayNote(movedAwayFrom(item.date)))}</span>`}
           <textarea class="plan-edit-textarea ${ieltsFieldsHidden ? "visually-hidden-field" : ""}" data-field="ieltsPlan" data-date="${safeAttr(item.date)}" placeholder="IELTS">${safe(item.ieltsPlan || "")}</textarea>

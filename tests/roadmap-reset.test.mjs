@@ -224,6 +224,13 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /id="weeklyVocabularyCount"/);
   assert.match(html, /id="weeklyVocabularyGroups"/);
   assert.match(html, /id="testBankProgress"/);
+  // 甘特格原本 display:flex 没设方向，泳道横着并排被压成竖排文字。
+  assert.match(styles, /\.vertical-gantt-cell \{[\s\S]*?flex-direction: column/);
+  // IELTS 栏没有宽度下限时，table-layout:auto 会把它压到几十 px，标题变一字一行。
+  assert.match(styles, /\.ielts-cell \{[\s\S]*?min-width: 260px/);
+  assert.match(app, /class="ielts-cell"/);
+  // 标题独占一行，才不会被 nowrap 的 kind/duration 挤成一字一行。
+  assert.match(styles, /"title title"/);
   // 日计划新增 PhD 申请栏，表头合并栏位要跟着加宽。
   assert.match(html, /<th>会议 \/ 论文<\/th>[\s\S]*<th>PhD 申请<\/th>[\s\S]*<th>IELTS \/ 模块<\/th>/);
   assert.match(html, /<th colspan="8">/);
@@ -293,14 +300,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-replan-1006/);
-  assert.match(html, /app\.js\?v=20261006-replan-1006/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-replan-1006/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-gantt-readability/);
+  assert.match(html, /app\.js\?v=20261006-gantt-readability/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-gantt-readability/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v83-replan-1006/);
+  assert.match(sw, /planner-notebook-v84-gantt-readability/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

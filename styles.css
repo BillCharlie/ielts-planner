@@ -806,11 +806,16 @@ textarea {
   margin-top: 5px;
 }
 
+/* kind 与 duration 都是 nowrap，若和标题挤同一行，窄栏位会把标题压到
+   近 0 宽，配上 overflow-wrap:anywhere 就变成一字一行。改为标题独占一行。 */
 .training-item {
   display: grid;
-  grid-template-columns: minmax(58px, auto) minmax(0, 1fr) auto;
-  gap: 8px;
-  align-items: center;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  grid-template-areas:
+    "kind duration"
+    "title title";
+  gap: 5px 8px;
+  align-items: baseline;
   padding: 8px;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -839,13 +844,15 @@ textarea {
 }
 
 .training-kind {
+  grid-area: kind;
+  min-width: 0;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 4px 6px;
   font-size: 12px;
   font-weight: 800;
   color: var(--teal-dark);
-  white-space: nowrap;
 }
 
 /* Optional (second-pool) items: off by default, switched on per day. */
@@ -875,9 +882,11 @@ textarea {
 }
 
 .training-title {
+  grid-area: title;
   min-width: 0;
   overflow-wrap: anywhere;
   font-weight: 700;
+  line-height: 1.5;
 }
 
 .training-code {
@@ -894,13 +903,16 @@ textarea {
 }
 
 .training-duration {
+  grid-area: duration;
+  justify-self: end;
+  min-width: 0;
   color: var(--muted);
   font-size: 12px;
-  white-space: nowrap;
 }
 
 .training-item-list.compact .training-item {
   grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "kind" "title" "duration";
   gap: 2px;
   padding: 4px 5px;
   font-size: 10px;
@@ -1130,9 +1142,15 @@ textarea {
 
 .main-table {
   width: 100%;
-  min-width: 1360px;
+  min-width: 1480px;
   border-collapse: collapse;
   background: #fff;
+}
+
+/* table-layout:auto 会按 min-content 分配宽度；训练卡片什么都能换行，
+   min-content 近乎为零，于是这一栏被压到几十 px，标题变成一字一行。 */
+.ielts-cell {
+  min-width: 260px;
 }
 
 .conf-cell {
@@ -2105,14 +2123,14 @@ textarea {
 }
 
 .roadmap-vertical-gantt {
-  min-width: 1160px;
+  min-width: 1500px;
   background: #fff;
 }
 
 .vertical-gantt-header,
 .vertical-gantt-row {
   display: grid;
-  grid-template-columns: 150px repeat(4, minmax(0, 1fr));
+  grid-template-columns: 168px repeat(4, minmax(0, 1fr));
 }
 
 .vertical-gantt-header {
@@ -4453,3 +4471,83 @@ textarea {
     padding: 10px;
   }
 }
+
+/* ---- 月度甘特可读性重做 ------------------------------------------------
+   原本 .vertical-gantt-cell 是 display:flex 没设方向，几条泳道横着并排，
+   每条只剩 60–130px，任务文字被压成竖排。改成纵向堆叠，每条泳道占满栏宽。 */
+
+.vertical-gantt-cell {
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+.shared-month-lane {
+  min-width: 0;
+  padding: 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--track-color) 22%, transparent);
+  border-left: 4px solid var(--track-color);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.shared-month-lane > .vertical-gantt-lane-label {
+  display: inline-block;
+  margin-bottom: 7px;
+}
+
+.vertical-gantt-lane-label {
+  padding: 2px 9px;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+}
+
+/* 空标签（IELTS 这类无分栏的）不该占一行留白 */
+.vertical-gantt-lane-label:empty {
+  display: none !important;
+}
+
+.shared-month-lane .shared-task {
+  padding: 8px 0;
+}
+
+.shared-month-lane .shared-task:last-of-type {
+  border-bottom: 0;
+  padding-bottom: 2px;
+}
+
+.shared-task textarea {
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+/* 新增表单占满整栏，原本被挤到 39px 根本选不动 */
+.vertical-gantt-cell > .shared-add-form,
+.shared-month-lane > .shared-add-form {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.vertical-gantt-cell > .shared-add-form {
+  padding: 9px 11px;
+  border: 1px dashed color-mix(in srgb, var(--track-color) 35%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--track-color) 5%, #fff);
+}
+
+/* 种子文字块原本 10px，太小 */
+.vertical-gantt-cell-content {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.vertical-gantt-header > span {
+  padding: 13px 15px 11px;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+}
+
+.vertical-gantt-time {
+  padding: 17px 14px 17px 20px;
+}
+
