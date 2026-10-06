@@ -184,7 +184,10 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.doesNotMatch(app, /id: "hk:mail-wave1"/);
   // 排班是唯一来源：甘特「本月排班」与日历节点都由 OUTREACH_ROSTER 产生。
   assert.match(app, /const OUTREACH_ROSTER = \[/);
-  assert.match(app, /id: `roster:\$\{row\.date\}`/);
+  assert.match(app, /id: `roster2:\$\{row\.date\}`/);
+  // 重排后日期换了人，旧的 roster:<date> 必须一次退役，否则新旧并存。
+  assert.match(app, /const LEGACY_ROSTER_IDS = \[/);
+  assert.match(app, /function rosterSupersedes/);
   assert.match(app, /function outreachRosterMarkup/);
   // 排班里的老师可点击跳到 PhD 页对应那一栏并高亮。
   assert.match(app, /function focusAdvisor/);
@@ -192,6 +195,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /advisors: \["hk-adv-hku-yuhao"\]/);
   assert.match(app, /advisors: \["eu-adv-be-stefaan-decoutere"\]/);
   assert.match(app, /advisors: \["tw-adv-nycu-tlwu"\]/);
+  // imec 被顺延，警告要留着。
+  assert.match(app, /imec 是秋季集中徵集，错过要等一年/);
   assert.match(styles, /advisor-flash/);
   // 这个 scroller 是 scroll-snap ＋ scroll-behavior:smooth，必须用 instant 覆盖，
   // 也不能用 scrollIntoView（会把横向位置一起冲掉）。
@@ -203,9 +208,12 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   // 旧的手写每周节点已退役，不可和产生的并存。
   assert.doesNotMatch(app, /\{ id: "(?:w[123]|tw):/);
   assert.match(app, /const ROSTER_SUPERSEDES = \{[\s\S]*"2026-10-12": "w1:hku-yuhao"/);
-  assert.match(app, /date: "2026-10-12", batch: 1, lane: "HK", who: "Yuhao Zhang/);
+  // 吴添立、张毅已提前到十月最前；两个锚点不动。
+  assert.match(app, /date: "2026-10-12", batch: 1, lane: "台湾", who: "吴添立/);
+  assert.match(app, /date: "2026-10-19", batch: 1, lane: "HK", who: "Yi Zhang/);
+  assert.match(app, /date: "2026-10-26"[\s\S]{0,40}who: "Yuhao Zhang/);
   assert.match(app, /date: "2026-12-14", batch: 0[\s\S]*考前一周只回信/);
-  assert.match(app, /date: "2027-02-08"[\s\S]*吴添立/);
+  assert.match(app, /date: "2027-02-01", batch: 0[\s\S]{0,120}锁定台湾四位/);
   assert.match(app, /date: "2027-03-15", batch: 3, lane: "欧洲"/);
   // Group A 不占套磁配额，改职缺扫描。
   assert.match(app, /radar:group-a[\s\S]*不占套磁配额/);
@@ -358,14 +366,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-goto-advisor/);
-  assert.match(html, /app\.js\?v=20261006-goto-advisor/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-goto-advisor/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-reorder/);
+  assert.match(html, /app\.js\?v=20261006-reorder/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-reorder/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v91-goto-advisor/);
+  assert.match(sw, /planner-notebook-v92-reorder/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

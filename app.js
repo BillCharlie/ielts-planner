@@ -28,24 +28,24 @@
   // 不另外维护一份，避免两边讲不一样的话。
   // batch 1=GaN power device（TCAD／制程／可靠性）2=转换器／电源电路 3=GaN RF（只欧洲）
   const OUTREACH_ROSTER = [
-    { date: "2026-10-12", batch: 1, lane: "HK", who: "Yuhao Zhang 张宇昊", where: "HKU", tier: "S+ 9.5", why: "multi-channel GaN＋Fin＋ML co-design，与你双通道 Tri-gate 交集最大，先写他" , advisors: ["hk-adv-hku-yuhao"] },
-    { date: "2026-10-19", batch: 1, lane: "HK", who: "Kevin J. Chen 陈敬", where: "HKUST", tier: "S+ 9.5", why: "p-GaN／E-mode／MIS-HEMT 本家；卖点是 concept→TCAD→制程→量测全回路" , advisors: ["hk-adv-hkust-kevin"] },
-    { date: "2026-10-26", batch: 1, lane: "欧洲", who: "Stefaan Decoutere", where: "imec／比利时", tier: "可靠度4·TCAD4·制程5", why: "⚠️ imec 秋季集中徵集，错过要等一年；集中甄选不可绕过正式申请" , advisors: ["eu-adv-be-stefaan-decoutere"] },
-    { date: "2026-11-02", batch: 1, lane: "欧洲", who: "Farid Medjdoub", where: "IEMN／法国", tier: "TCAD5·制程5", why: "radar 标 contact-now；信里要锁 power-device／reliability 子题，别落到 RF" , advisors: ["eu-adv-fr-farid-medjdoub"] },
-    { date: "2026-11-09", batch: 1, lane: "欧洲", who: "Holger Kapels", where: "德国", tier: "可靠度5·TCAD4·制程5", why: "radar 全场最强组合；先问当期题目偏制程、TCAD 还是模组可靠度" , advisors: ["eu-adv-de-holger-kapels"] },
-    { date: "2026-11-16", batch: 1, lane: "HK", who: "Man Hoi Wong 黄文海", where: "HKUST", tier: "S 8.5", why: "要问 defect／interface／polarization 怎么影响 device physics 才对味" , advisors: ["hk-adv-hkust-manhoi"] },
-    { date: "2026-11-23", batch: 1, lane: "HK", who: "Yi Zhang 张毅", where: "PolyU", tier: "A+ 8", why: "同周完成套磁＋送件：阶段一唯一能无雅思先投的学校" , advisors: ["hk-adv-polyu-yizhang"] },
-    { date: "2026-11-30", batch: 1, lane: "欧洲", who: "David Trémouilles", where: "LAAS／法国", tier: "可靠度5", why: "GaN HEMT 动态表徵与陷阱效应，偏表徵不偏制程" , advisors: ["eu-adv-fr-david-tremouilles"] },
-    { date: "2026-12-07", batch: 1, lane: "欧洲", who: "Oliver Ambacher", where: "Fraunhofer IAF／德国", tier: "TCAD4·制程5", why: "公开职缺优先：先筛掉 RF/MMIC 的缺，锁 power device 再写信" , advisors: ["eu-adv-de-oliver-ambacher"] },
+    { date: "2026-10-12", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "S+ 9.5", why: "全台最对口：p-GaN gate 可靠性＋AI 辅助器件设计；拿 U-Net 建模那篇切入" , advisors: ["tw-adv-nycu-tlwu"] },
+    { date: "2026-10-19", batch: 1, lane: "HK", who: "Yi Zhang 张毅", where: "PolyU", tier: "A+ 8", why: "同周完成套磁＋送件：阶段一唯一能无雅思先投的学校" , advisors: ["hk-adv-polyu-yizhang"] },
+    { date: "2026-10-26", batch: 1, lane: "HK", who: "Yuhao Zhang 张宇昊", where: "HKU", tier: "S+ 9.5", why: "multi-channel GaN＋Fin＋ML co-design，与你双通道 Tri-gate 交集最大，先写他" , advisors: ["hk-adv-hku-yuhao"] },
+    { date: "2026-11-02", batch: 1, lane: "HK", who: "Kevin J. Chen 陈敬", where: "HKUST", tier: "S+ 9.5", why: "p-GaN／E-mode／MIS-HEMT 本家；卖点是 concept→TCAD→制程→量测全回路" , advisors: ["hk-adv-hkust-kevin"] },
+    { date: "2026-11-09", batch: 1, lane: "欧洲", who: "Stefaan Decoutere", where: "imec／比利时", tier: "可靠度4·TCAD4·制程5", why: "⚠️ 已从 10/26 顺延到此；imec 是秋季集中徵集，错过要等一年。若 10 月底前查到今年窗口已开，务必插队提前处理" , advisors: ["eu-adv-be-stefaan-decoutere"] },
+    { date: "2026-11-16", batch: 1, lane: "欧洲", who: "Farid Medjdoub", where: "IEMN／法国", tier: "TCAD5·制程5", why: "radar 标 contact-now；信里要锁 power-device／reliability 子题，别落到 RF" , advisors: ["eu-adv-fr-farid-medjdoub"] },
+    { date: "2026-11-23", batch: 1, lane: "欧洲", who: "Holger Kapels", where: "德国", tier: "可靠度5·TCAD4·制程5", why: "radar 全场最强组合；先问当期题目偏制程、TCAD 还是模组可靠度" , advisors: ["eu-adv-de-holger-kapels"] },
+    { date: "2026-11-30", batch: 1, lane: "HK", who: "Man Hoi Wong 黄文海", where: "HKUST", tier: "S 8.5", why: "要问 defect／interface／polarization 怎么影响 device physics 才对味" , advisors: ["hk-adv-hkust-manhoi"] },
+    { date: "2026-12-07", batch: 1, lane: "欧洲", who: "David Trémouilles", where: "LAAS／法国", tier: "可靠度5", why: "GaN HEMT 动态表徵与陷阱效应，偏表徵不偏制程" , advisors: ["eu-adv-fr-david-tremouilles"] },
     { date: "2026-12-14", batch: 0, lane: "HK", who: "停一周", where: "考前", tier: "—", why: "考前一周只回信与追踪，不开新对象，专心 12/19 雅思" },
-    { date: "2026-12-21", batch: 1, lane: "欧洲", who: "Corinne Alonso", where: "法国", tier: "可靠度5", why: "考后恢复；GaN HEMT 动态特性与转换器可靠度" , advisors: ["eu-adv-fr-corinne-alonso"] },
-    { date: "2026-12-28", batch: 1, lane: "HK", who: "Yan Cheng 成妍", where: "HKUST", tier: "B+", why: "⚠️ 先确认 RAP 能否担任 RPG primary supervisor，不行就当共同指导对象" , advisors: ["hk-adv-hkust-yancheng"] },
-    { date: "2027-01-04", batch: 2, lane: "HK", who: "Weijia Zhang 张薇葭", where: "HKUST", tier: "S 9", why: "gate driver／PMIC／integrated DC-DC，等于你博士后半段；要问能否保留 device-level 比重" , advisors: ["hk-adv-hkust-weijia"] },
-    { date: "2027-01-11", batch: 2, lane: "欧洲", who: "Stefan Mönch", where: "Stuttgart／德国", tier: "S+", why: "ERC 计划页明确邀请博士提案，附一页研究提案" , advisors: ["eu-adv-de-stefan-moench"] },
-    { date: "2027-01-18", batch: 2, lane: "HK", who: "Alex Leung 梁加能", where: "CUHK", tier: "A（转型 9）", why: "24/48V-to-1V hybrid DC-DC；故事讲成「用 device background 往 PMIC 延伸」" , advisors: ["hk-adv-cuhk-alex"] },
-    { date: "2027-01-25", batch: 2, lane: "欧洲", who: "Wilmar Martinez", where: "KU Leuven／比利时", tier: "S+", why: "GaN 高频 switching、PCB 寄生与 EMI" , advisors: ["eu-adv-be-wilmar-martinez"] },
-    { date: "2027-02-01", batch: 0, lane: "台湾", who: "锁定台湾四位", where: "台湾", tier: "—", why: "吴添立（重点）＋李义明＋刘致为＋胡璧合；台大其余三位不列入" },
-    { date: "2027-02-08", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "S+ 9.5", why: "全台最对口：p-GaN gate 可靠性＋AI 辅助器件设计；拿 U-Net 建模那篇切入" , advisors: ["tw-adv-nycu-tlwu"] },
+    { date: "2026-12-21", batch: 1, lane: "欧洲", who: "Oliver Ambacher", where: "Fraunhofer IAF／德国", tier: "TCAD4·制程5", why: "公开职缺优先：先筛掉 RF/MMIC 的缺，锁 power device 再写信" , advisors: ["eu-adv-de-oliver-ambacher"] },
+    { date: "2026-12-28", batch: 1, lane: "欧洲", who: "Corinne Alonso", where: "法国", tier: "可靠度5", why: "考后恢复；GaN HEMT 动态特性与转换器可靠度" , advisors: ["eu-adv-fr-corinne-alonso"] },
+    { date: "2027-01-04", batch: 1, lane: "HK", who: "Yan Cheng 成妍", where: "HKUST", tier: "B+", why: "⚠️ 先确认 RAP 能否担任 RPG primary supervisor，不行就当共同指导对象" , advisors: ["hk-adv-hkust-yancheng"] },
+    { date: "2027-01-11", batch: 2, lane: "HK", who: "Weijia Zhang 张薇葭", where: "HKUST", tier: "S 9", why: "gate driver／PMIC／integrated DC-DC，等于你博士后半段；要问能否保留 device-level 比重" , advisors: ["hk-adv-hkust-weijia"] },
+    { date: "2027-01-18", batch: 2, lane: "欧洲", who: "Stefan Mönch", where: "Stuttgart／德国", tier: "S+", why: "ERC 计划页明确邀请博士提案，附一页研究提案" , advisors: ["eu-adv-de-stefan-moench"] },
+    { date: "2027-01-25", batch: 2, lane: "HK", who: "Alex Leung 梁加能", where: "CUHK", tier: "A（转型 9）", why: "24/48V-to-1V hybrid DC-DC；故事讲成「用 device background 往 PMIC 延伸」" , advisors: ["hk-adv-cuhk-alex"] },
+    { date: "2027-02-01", batch: 0, lane: "台湾", who: "锁定台湾四位", where: "台湾", tier: "—", why: "吴添立已於 10/12 提前联系，本月处理其余三位：李义明＋刘致为＋胡璧合；台大其余三位不列入" },
+    { date: "2027-02-08", batch: 2, lane: "欧洲", who: "Wilmar Martinez", where: "KU Leuven／比利时", tier: "S+", why: "GaN 高频 switching、PCB 寄生与 EMI" , advisors: ["eu-adv-be-wilmar-martinez"] },
     { date: "2027-02-15", batch: 1, lane: "台湾", who: "李义明＋刘致为", where: "NYCU／NTU", tier: "S／B+", why: "两位 TCAD；刘致为挂电子所 GIEE，指导资格最稳" , advisors: ["tw-adv-nycu-ymli", "tw-adv-ntu-cwliu"] },
     { date: "2027-02-22", batch: 1, lane: "台湾", who: "胡璧合 Vita Pi-Ho Hu", where: "NTU", tier: "B+", why: "注意是「璧」不是「壁」；切入点是 DTCO 与 Vth 变异分析" , advisors: ["tw-adv-ntu-vphu"] },
     { date: "2027-03-01", batch: 2, lane: "欧洲", who: "Marco Liserre", where: "Kiel／德国", tier: "S", why: "GaNius、双向 GaN 与热可靠度" , advisors: ["eu-adv-de-marco-liserre"] },
@@ -79,6 +79,15 @@
     </div>`;
   }
 
+  const LEGACY_ROSTER_IDS = ["roster:2026-10-12", "roster:2026-10-19", "roster:2026-10-26", "roster:2026-11-02", "roster:2026-11-09", "roster:2026-11-16", "roster:2026-11-23", "roster:2026-11-30", "roster:2026-12-07", "roster:2026-12-14", "roster:2026-12-21", "roster:2026-12-28", "roster:2027-01-04", "roster:2027-01-11", "roster:2027-01-18", "roster:2027-01-25", "roster:2027-02-01", "roster:2027-02-08", "roster:2027-02-15", "roster:2027-02-22", "roster:2027-03-01", "roster:2027-03-08", "roster:2027-03-15", "roster:2027-03-22"];
+
+  // 日期与人选重排过，roster:<date> 这组旧 id 的内容已经不对；
+  // 让第一笔一次把它们全部退役，避免新旧两份并存。
+  function rosterSupersedes(row, index) {
+    const legacy = ROSTER_SUPERSEDES[row.date] ? [ROSTER_SUPERSEDES[row.date]] : [];
+    return index === 0 ? legacy.concat(LEGACY_ROSTER_IDS) : legacy;
+  }
+
   const ROSTER_SUPERSEDES = {
     "2026-10-12": "w1:hku-yuhao",
     "2026-10-19": "w1:hkust-kevin",
@@ -109,7 +118,7 @@
     { id: "hk:advisor-longlist", module: "application", lane: "HK", date: "2026-10-31", text: "四校导师长名单定稿：HKUST／PolyU／HKU／CUHK，各 2–4 位（CityU 本轮排除：要求提交时成绩即有效，唯一确定轮次 12/01 赶不上）" },
     { id: "wave:plan-v2", module: "application", lane: "HK", date: "2026-10-07",
       replaces: ["hk:study-six", "hk:mail-wave1", "hk:mail-wave2", "hk:mail-wave3", "hk:mail-wave4"],
-      text: "套磁排程定版：每周一位。第一批 GaN power device（10/12–12/28）→ 第二批 转换器／电源电路（1月起）→ 第三批 欧洲 GaN RF（3月）；台湾整批延到 2 月" },
+      text: "套磁排程定版：每周一位。吴添立、张毅已提前到 10 月最前；第一批 GaN power device 排到 1/04 → 第二批 转换器／电源电路（1月中起）→ 第三批 欧洲 GaN RF（3月）；台湾其余三位仍在 2 月" },
     { id: "radar:group-a", module: "application", lane: "欧洲", date: "2026-10-12", text: "每周职缺扫描（不占套磁配额）：荷兰 AcademicTransfer、挪威 Jobbnorge、瑞典／丹麦各校 vacancies、EURAXESS。Group A 是「职缺＝funding」，套磁价值低，看到缺再针对性投" },
     { id: "radar:group-a-people", module: "application", lane: "欧洲", date: "2026-10-12", text: "Group A 关注对象（等缺不套磁）：荷兰 Soeiro／Rietveld、瑞典 Norrga、丹麦 Huai Wang、挪威 Peftitsis —— 他们开缺时直接投，别先写信" },
     { id: "hk:polyu-docs", module: "application", lane: "HK", date: "2026-11-30", text: "PolyU 送件材料备齐：主 CV、research proposal、成绩单、成果附件" },
@@ -124,12 +133,12 @@
     { id: "hk:hkust-deadline", module: "application", lane: "HK", date: "2027-06-01", text: "HKUST ECE 非本地截止；rolling admission，名额可能提前满" },
   ].concat(
     // 每周套磁节点由 OUTREACH_ROSTER 产生：甘特排班与日历节点同一份名单。
-    OUTREACH_ROSTER.map((row) => ({
-      id: `roster:${row.date}`,
+    OUTREACH_ROSTER.map((row, index) => ({
+      id: `roster2:${row.date}`,
       module: "application",
       lane: row.lane,
       date: row.date,
-      replaces: ROSTER_SUPERSEDES[row.date] ? [ROSTER_SUPERSEDES[row.date]] : [],
+      replaces: rosterSupersedes(row, index),
       text: `${BATCH_LABEL[row.batch]}：${row.who}（${row.where}${row.tier === "—" ? "" : ` · ${row.tier}`}）—— ${row.why}`,
     })),
   );
@@ -176,13 +185,13 @@
       { 制程: "10 月中完成测试制程（Litho+Etch）；10 月底开始元件制程", TCAD: "依实际磊晶结构与氧化层厚度进一步模拟 PGaN Emode／Dmode（重点能带 + 导通电场）" },
       "维持训练；错题与口语素材整理",
       { IEDMS: "10/15–10/20 做海报；10/23 参加报告", IWN: "10/25–11/1 做海报" },
-      { HK: "第一批套磁起跑（每周一位）：Yuhao Zhang→Kevin Chen", 欧洲: "第一批：imec Decoutere（秋季集中徵集，别错过）；Group A 改每周扫职缺不套磁" },
+      { HK: "第一批套磁起跑：张毅（PolyU，10/19）→Yuhao Zhang（10/26）", 台湾: "吴添立提前到 10/12 打头阵（全库最高匹配 9.5）", 欧洲: "本月只做职缺扫描；Group A 不占套磁配额" },
       "A：正式 wafer 已开始"],
     ["2026/11", "Fabrication sprint",
       { 制程: "元件制程与第一批 Fin", TCAD: "开始模拟 BV" },
       "题库已刷完；转专项弱项与全真模考节奏",
       { IWN: "11/8–11/13 会议", ISPSD: "11/1 开始写稿；11/11 开放投稿；11/20 第一版给老师" },
-      { HK: "第一批续：Man Hoi Wong→PolyU Yi Zhang（套磁＋送件同周，唯一可无雅思先投）", 欧洲: "第一批续：Medjdoub→Kapels→Trémouilles" },
+      { HK: "第一批续：Kevin Chen（11/02）→Man Hoi Wong（11/30）", 欧洲: "第一批主力月：Decoutere（imec，已顺延需留意窗口）→Medjdoub→Kapels" },
       "B 最晚延至 12 月"],
     ["2026/12", "First data",
       { 制程: "electrical measurement；C–V / Regrowth", Cadence: "Cadence 开始" },
@@ -200,7 +209,7 @@
       { 制程: "第二轮 device／必要补测", TCAD: "TCAD–experiment comparison" },
       "",
       {},
-      { 台湾: "台湾整批开工：吴添立→李义明＋刘致为→胡璧合（3 月才报名，2 月做刚好）", 欧洲: "本月让位台湾；只维持职缺扫描与回信", HK: "补件与面试；准备 CUHK clearing" },
+      { 台湾: "台湾其余三位：李义明＋刘致为（2/15）→胡璧合（2/22）；吴添立 10 月已先联系", 欧洲: "Martinez（2/08）；其余维持职缺扫描与回信", HK: "补件与面试；准备 CUHK clearing" },
       "A：实验开始 freeze"],
     ["2027/03", "Data freeze",
       { 制程: "主要 dataset 收敛" },
