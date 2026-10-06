@@ -154,7 +154,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(html, /HK 提醒：[\s\S]*TW 提醒：/);
   assert.match(html, /已放弃 12\/01 HKPFS/);
   assert.match(html, /PolyU 可以直接送件/);
-  assert.match(html, /CUHK、CityU 先别投/);
+  assert.match(html, /CUHK 先别投/);
+  // CityU 是唯一被 12 月雅思卡死的学校：唯一确定轮次 12/01 要求提交时成绩即有效。
+  assert.match(html, /CityU 本轮直接排除/);
+  assert.match(html, /school-dropped[\s\S]*本轮排除/);
+  assert.match(app, /四校导师长名单[\s\S]*CityU 本轮排除/);
+  assert.doesNotMatch(app, /五校导师长名单/);
+  // 重考会连带拖掉 CUHK，这个连锁效应要写明。
+  assert.match(html, /重考会把 CUHK 也一起拖掉/);
   assert.match(html, /CUHK clearing 3\/31[\s\S]*唯一会真的过期的死线/);
   assert.match(html, /PolyU Jan 2028 entry/);
   // 学校卡按「研究契合度 × 对晚出雅思的容忍度」排序，不是字母序。
@@ -335,14 +342,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-outreach-waves/);
-  assert.match(html, /app\.js\?v=20261006-outreach-waves/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-outreach-waves/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-drop-cityu/);
+  assert.match(html, /app\.js\?v=20261006-drop-cityu/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-drop-cityu/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v88-outreach-waves/);
+  assert.match(sw, /planner-notebook-v89-drop-cityu/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

@@ -3549,6 +3549,27 @@ textarea {
   line-height: 1.6;
 }
 
+.hk-school-deadlines article.school-dropped {
+  border-top-color: var(--muted);
+  background: #f6f6f7;
+  opacity: 0.78;
+}
+
+.school-drop-tag {
+  margin-left: auto;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--muted);
+  color: #fff;
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.hk-school-deadlines article.school-dropped header {
+  flex-wrap: wrap;
+}
+
 .hk-school-deadlines article.priority-1 {
   border-top-color: var(--teal);
 }

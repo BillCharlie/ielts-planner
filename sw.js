@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v88-outreach-waves";
+const CACHE_NAME = "planner-notebook-v89-drop-cityu";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261006-outreach-waves",
-  "./app.js?v=20261006-outreach-waves",
-  "./planning-tasks.js?v=20261006-outreach-waves",
-  "./ielts-moves.js?v=20261006-outreach-waves",
-  "./eu-radar.js?v=20261006-outreach-waves",
+  "./styles.css?v=20261006-drop-cityu",
+  "./app.js?v=20261006-drop-cityu",
+  "./planning-tasks.js?v=20261006-drop-cityu",
+  "./ielts-moves.js?v=20261006-drop-cityu",
+  "./eu-radar.js?v=20261006-drop-cityu",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261006-outreach-waves",
+  "./plan-data.js?v=20261006-drop-cityu",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",

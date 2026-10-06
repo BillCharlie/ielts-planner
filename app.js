@@ -16,7 +16,7 @@
     { id: "g4", code: "G4", name: "Thesis Ready", date: "2027-05-31", proof: "完整硕论初稿已交给老师，口试简报框架建立", pass: "送审并安排 7 月口试", miss: "口试顺延到秋季" },
   ];
   const APPLICATION_GATES = [
-    { id: "a1", code: "A1", name: "HK Phase 1 · 无雅思先行", date: "2026-12-31", displayDate: "11—12月 · 套磁为主 · PolyU 可先送件", proof: "五校导师第一轮套磁已发出并记录回音；PolyU 申请已提交（英文成绩栏填预计取得日期），主 CV 与 research proposal 完成", pass: "12月底前完成 PolyU 送件与全部第一轮套磁；主动放弃 12/01 HKPFS 主轮，不算失败", miss: "没有雅思时不要硬投 CUHK／CityU：英文证明属必交材料，材料不全不予审查" },
+    { id: "a1", code: "A1", name: "HK Phase 1 · 无雅思先行", date: "2026-12-31", displayDate: "11—12月 · 套磁为主 · PolyU 可先送件", proof: "五校导师第一轮套磁已发出并记录回音；PolyU 申请已提交（英文成绩栏填预计取得日期），主 CV 与 research proposal 完成", pass: "12月底前完成 PolyU 送件与全部第一轮套磁；主动放弃 12/01 HKPFS 主轮，不算失败", miss: "没有雅思时不要硬投 CUHK：英文证明属必交材料。CityU 本轮已排除 —— 唯一确定轮次 12/01 要求提交时成绩即有效" },
     { id: "a4", code: "A4", name: "HK Phase 2 · 出分后主投", date: "2027-06-01", displayDate: "1月出分 · 3/31 CUHK · 4/30 HKU · 5/31 PolyU · 6/01 HKUST", proof: "12/19 雅思 overall 6.5 且各校小分达标；按校别完成正式申请、推荐信与补件", pass: "出分后两周内投 HKUST ECE 与 PolyU；分数够就赶 CUHK 3/31 clearing", miss: "小分不足先安排重考，改走 PolyU Jan 2028 entry（申请期至 2027/09/30）" },
     { id: "a2", code: "A2", name: "Europe PhD Pipeline", date: "2027-03-31", displayDate: "12月启动 · 12/15—2027/03 持续投递", proof: "建立 project vacancy 清单；每个职位都有对应 CV、motivation letter 与研究证据", pass: "12月起持续投递，1–3 月进入 technical interview", miss: "减少泛投，集中有 funding 与 fab access 的职位" },
     { id: "a3", code: "A3", name: "Taiwan PhD Ready", date: "2027-03-15", displayDate: "2月启动 · 3/15 内部备齐 · 3月下旬报名", proof: "116学年度博士考试入学：台大 NTU 电子所／阳明交大 NYCU 目标、CV、研究计划、成绩单与推荐信备齐", pass: "核对116正式简章；开放后两天内提交，并分别确认报名、材料、推荐信截止", miss: "按学校正式截止补齐；2027时程仍待公告，不沿用秋季甄试日期" },
@@ -24,7 +24,7 @@
   // 香港申请的固定日期节点。只种一次，之后可自行改日期或删除（见 PlanningTasks.seedMilestones）。
   // 阶段一（11—12月）不需要雅思；阶段二（出分后）才正式主投。
   const APPLICATION_MILESTONES = [
-    { id: "hk:advisor-longlist", module: "application", lane: "HK", date: "2026-10-31", text: "五校导师长名单定稿：HKUST／PolyU／HKU／CUHK／CityU，各 2–4 位" },
+    { id: "hk:advisor-longlist", module: "application", lane: "HK", date: "2026-10-31", text: "四校导师长名单定稿：HKUST／PolyU／HKU／CUHK，各 2–4 位（CityU 本轮排除：要求提交时成绩即有效，唯一确定轮次 12/01 赶不上）" },
     // ---- 套磁排程：每周一位，周一开工 ----------------------------------
     // 第一批 GaN Power device（TCAD／制程／可靠性）→ 第二批 功率转换器／电源电路
     // → 第三批 GaN RF（只看欧洲）。台湾因 3 月才报名，整批延到 2 月。
@@ -116,7 +116,7 @@
       { 制程: "10/1 起 Raith 一周，10/8 起 EBeam Fin 实验三周", TCAD: "9/20 前完成含 AlN spacer 的 PGaN Emode 与普通 Dmode 基本 model IV 模拟" },
       "核心训练（听读写说）；按周表推进",
       { IEDMS: "9/15 出结果" },
-      { HK: "完成五校导师长名单（HKUST／PolyU／HKU／CUHK／CityU）；核对 2027/28 各校普通轮与英文政策" },
+      { HK: "完成四校导师长名单（HKUST／PolyU／HKU／CUHK）；CityU 本轮排除（12/01 前要有成绩）" },
       "G1 随实验顺延至 10/15"],
     ["2026/10", "Device launch",
       { 制程: "10 月中完成测试制程（Litho+Etch）；10 月底开始元件制程", TCAD: "依实际磊晶结构与氧化层厚度进一步模拟 PGaN Emode／Dmode（重点能带 + 导通电场）" },
@@ -209,11 +209,11 @@
       url: "https://www.ee.cuhk.edu.hk/zh-tw/people/academic-staff/professors/prof-ka-nang-alex-leung" },
     { id: "hk-adv-cityu-tan", school: "CityU", name: "Siew Chong Tan 陈秀聪", tier: "A", match: "7.5", studyOrder: 0,
       focus: "power electronics、emerging power converters、power electronics control、EV charging",
-      note: "Chair Professor，官方标示 Accepting PhD Students。别说「想继续做 p-GaN HEMT fabrication」，要说「有 device-level background，想研究 device characteristics／reliability 如何映射到高频 converter 设计」。",
+      note: "⛔ 本轮排除（CityU 要求提交申请时成绩即有效，唯一确定轮次 12/01 赶不上；资料保留供日后参考）。Chair Professor，官方标示 Accepting PhD Students。别说「想继续做 p-GaN HEMT fabrication」，要说「有 device-level background，想研究 device characteristics／reliability 如何映射到高频 converter 设计」。",
       url: "https://scholars.cityu.edu.hk/en/persons/siewctan/" },
     { id: "hk-adv-cityu-kerui", school: "CityU", name: "Kerui Li 李恪睿", tier: "A−", match: "7", studyOrder: 0,
       focus: "power electronics、wireless power transfer、high-frequency power conversion、GaN switch application",
-      note: "年轻 PI，官网明确写招 PhD 与 postdoc —— 比较容易成为核心学生、方向可塑性大。缺点是不做 GaN process／HEMT architecture 本身。",
+      note: "⛔ 本轮排除（同 CityU 时程问题；资料保留供日后参考）。年轻 PI，官网明确写招 PhD 与 postdoc —— 比较容易成为核心学生、方向可塑性大。缺点是不做 GaN process／HEMT architecture 本身。",
       url: "https://www.cityu.edu.hk/stfprofile/kerui.li.htm" },
     { id: "hk-adv-hkust-yancheng", school: "HKUST", name: "Yan Cheng 成妍", tier: "B+", match: "待确认", studyOrder: 0,
       focus: "GaN power/RF device、wide-bandgap device & IC、power semiconductor reliability physics",
