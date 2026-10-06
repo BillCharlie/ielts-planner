@@ -1,14 +1,15 @@
-const CACHE_NAME = "planner-notebook-v86-hk-guidance";
+const CACHE_NAME = "planner-notebook-v87-eu-radar";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261006-hk-guidance",
-  "./app.js?v=20261006-hk-guidance",
-  "./planning-tasks.js?v=20261006-hk-guidance",
-  "./ielts-moves.js?v=20261006-hk-guidance",
+  "./styles.css?v=20261006-eu-radar",
+  "./app.js?v=20261006-eu-radar",
+  "./planning-tasks.js?v=20261006-eu-radar",
+  "./ielts-moves.js?v=20261006-eu-radar",
+  "./eu-radar.js?v=20261006-eu-radar",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261006-hk-guidance",
+  "./plan-data.js?v=20261006-eu-radar",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",

@@ -139,7 +139,7 @@
   const PHD_REGION_PRESETS = [
     { id: "hk", code: "HK", name: "香港", hint: "集中式 PhD 申请与导师联系", schools: ["HKUST", "HKU", "PolyU", "CUHK", "CityU"] },
     { id: "tw", code: "TW", name: "台湾", hint: "学校招生规则与导师意愿并行确认", schools: ["NTU", "NYCU"] },
-    { id: "eu", code: "EU", name: "欧洲", hint: "以导师、实验室或 project vacancy 为单位", schools: ["KU Leuven / imec", "TU Delft", "EPFL", "Fraunhofer IISB"] },
+    { id: "eu", code: "EU", name: "欧洲", hint: "以导师、实验室或 project vacancy 为单位", schools: ["德国", "法国", "比利时", "荷兰", "瑞典", "丹麦", "挪威"] },
   ];
   // 研究链：多通道／Tri-gate GaN HEMT → p-GaN reliability → device design/TCAD/fabrication
   // → gate driver / PMIC → 48→24 V DC-DC。匹配度按这条链判断，不是只看「有没有做 GaN」。
@@ -214,6 +214,88 @@
       focus: "发光电晶体（HBLET）与电晶体雷射、VCSEL 与 DFB 雷射、Ge-on-Si 单光子侦测、光电整合与高速传输",
       note: "⚠️ 与你这条链交集最低的一位：近三年产出几乎全在雷射／光电／光侦测，电子器件只有少数几篇，而且是「发光电晶体 HBLET」这类光电三端器件，不是功率开关。真要找交集只有「三端器件的高温特性与增益」这个角度，相当勉强。除非你愿意把博士方向转向光电整合，否则不建议当主申对象；列进来当备查可以。",
       url: "https://www.ee.ntu.edu.tw/" },
+    { id: "eu-adv-de-oliver-ambacher", region: "eu", school: "德国", name: "Oliver Ambacher（Fraunhofer IAF × University of Freiburg）", tier: "S", match: "可靠度3·TCAD4·制程5", studyOrder: 0,
+      focus: "GaN 元件、功率电子、RF／高功率、元件制程｜Fraunhofer Institute for Applied Solid State Physics IAF",
+      note: "【公开职缺优先】GaN 电晶体、功率电子与高频高功率元件，与 device-level GaN 方向直接匹配。 切入：先查看 Fraunhofer IAF 的正式职缺；只有在你能指出特定论文、制程或量测问题时，再寄精准研究询问。 规则：公开职缺优先；联络教授不能取代正式投递。 证据：Fraunhofer IAF 具备 GaN epitaxy、元件设计、制程、表征与 1200 V lateral／vertical device 能力。 ⚠️ 落差：目前公开职缺部分偏 RF/MMIC，需要筛选真正 power-device 题目。",
+      url: "https://www.iaf.fraunhofer.de/en/media-library/press-releases/director.html" },
+    { id: "eu-adv-de-stefan-moench", region: "eu", school: "德国", name: "Stefan Mönch（University of Stuttgart）", tier: "S+", match: "可靠度3·TCAD2·制程2", studyOrder: 0,
+      email: "stefan.moench@iew.uni-stuttgart.de",
+      focus: "GaN Power IC、双向／1200 V GaN、高效率转换器、元件表征｜Smart Converters Research Group · Institute of Electrical Energy Conversion",
+      note: "【现在就该联系】研究直接涵盖单晶片多电平 GaN Power IC、双向与 1200 V GaN、GaN inverter 表征；2026–2031 ERC 计划页明确邀请博士申请提案。 切入：这是目前德国最值得主动联络的目标之一。邮件可对接 GaN Power IC、switching characterization、multilevel topology 或 bidirectional converter，并附一页研究提案。 规则：可主动寄申请／研究提案；同时留意大学正式招聘入口。 证据：GaN Power IC、双向／1200 V GaN 与 switching characterization 很直接。 ⚠️ 落差：主轴是 converter／Power IC 应用，不是可靠性或 TCAD 专门组。",
+      url: "https://www.iew.uni-stuttgart.de/forschung/smarteConverter/" },
+    { id: "eu-adv-de-steffen-bernet", region: "eu", school: "德国", name: "Steffen Bernet（Technische Universität Dresden）", tier: "S", match: "可靠度4·TCAD2·制程1", studyOrder: 0,
+      email: "steffen.bernet@tu-dresden.de",
+      focus: "GaN HEMT 表征、短路保护、gate driver、功率转换器｜Chair of Power Electronics · Elektrotechnisches Institut",
+      note: "【套磁建管线】团队建有 GaN 功率半导体专用测试平台，研究 switching、并联 GaN HEMT、短路行为与快速保护；偏器件应用与表征，而非晶圆制程。 切入：若你做过 double-pulse test、short-circuit、gate driving、并联均流或失效分析，可用具体实验结果询问未来 funded PhD。 规则：适合表征／可靠度／系统保护方向；先确认新计划是否正在招人。 证据：GaN HEMT switching、短路行为、快速保护与 gate-driver 测试平台很适合应用可靠度。 ⚠️ 落差：偏器件应用与保护，不做核心 GaN 制程。",
+      url: "https://tu-dresden.de/ing/elektrotechnik/eti/le/die-professur/Einrichtungen?set_language=en" },
+    { id: "eu-adv-de-hans-georg-herzog", region: "eu", school: "德国", name: "Hans-Georg Herzog（Technical University of Munich · TUM）", tier: "A", match: "可靠度2·TCAD1·制程1", studyOrder: 0,
+      email: "hg.herzog@tum.de",
+      focus: "GaN 转换器、车载电源、短路／可靠度、系统最佳化｜Associate Professorship of Energy Conversion Technology",
+      note: "【套磁建管线】官方研究与论文包含使用 GaN 电晶体的 48 V／12 V buck converter 及功率电子系统短路评估；偏 converter/system level，不是 GaN 晶圆或元件制程实验室。 切入：适合以 converter design、automotive power network、control 或 system reliability 切入；若你的主轴是 epitaxy／fabrication，应排在 IAF、ISIT、Stuttgart 之后。 规则：慕尼黑有相关团队，但与 device fabrication 的匹配度较低。 证据：GaN converter 与车载电源系统可靠度具有应用关联。 ⚠️ 落差：不是 GaN device reliability、TCAD 或 fabrication 研究组。",
+      url: "https://www.epe.ed.tum.de/en/ewt/team/heads/herzog-hans-georg/" },
+    { id: "eu-adv-de-holger-kapels", region: "eu", school: "德国", name: "Holger Kapels（Kiel University × Fraunhofer ISIT）", tier: "S+", match: "可靠度5·TCAD4·制程5", studyOrder: 0,
+      email: "holger.kapels@isit.fraunhofer.de",
+      focus: "垂直 GaN、GaN-on-Si、元件制程、可靠度／失效模型｜Semiconductor Devices for Power Electronics",
+      note: "【套磁建管线】研究直接涵盖 lateral／vertical GaN diode 与 transistor、8 吋制程线、bulk-GaN／GaN-on-Si 接触、电性表征和失效模型。 切入：若你偏 device physics、TCAD、cleanroom process、vertical GaN 或 reliability，这位的匹配度比多数只做转换器的大学教授更高。 规则：高优先级 device-level 目标；同步查看 Fraunhofer ISIT 职缺。 证据：垂直／横向 GaN、8 吋制程、GaN-on-Si 接触、元件模拟与失效模型形成完整链条。 ⚠️ 落差：需确认当期博士题目偏制程、TCAD 还是模组可靠度。",
+      url: "https://www.uni-kiel.de/en/tf/research/institute-etit/semiconductor-components-in-power-electronics" },
+    { id: "eu-adv-de-bernd-eckardt", region: "eu", school: "德国", name: "Bernd Eckardt（Fraunhofer IISB · Erlangen）", tier: "S", match: "可靠度4·TCAD2·制程2", studyOrder: 0,
+      focus: "SiC／GaN converter、静态／动态表征、module design、系统验证｜Power Electronics Department",
+      note: "【公开职缺优先】IISB 专门进行新型 SiC/GaN 元件的静态与动态表征、模组设计及转换器应用，适合从 device characterization 走向 system validation。 切入：优先查看 Fraunhofer IISB 的博士／科研职缺；联络时要说清楚你要做元件量测、module integration 还是 converter evaluation。 规则：研究机构主管而非大学教授；正式职缺优先。 证据：SiC/GaN 静态与动态表征、module design 和 converter validation 适合可靠度实验。 ⚠️ 落差：较少直接晶圆制程与 TCAD；且是研究机构主管，不是大学教授。",
+      url: "https://www.iisb.fraunhofer.de/en/research_areas/leistungselektronik/sic_gan_converters.html" },
+    { id: "eu-adv-de-marco-liserre", region: "eu", school: "德国", name: "Marco Liserre（Kiel University）", tier: "S", match: "可靠度4·TCAD1·制程1", studyOrder: 0,
+      email: "ml@tf.uni-kiel.de",
+      focus: "GaNius、双向 GaN、转换器拓扑、热可靠度｜Chair of Power Electronics",
+      note: "【套磁建管线】团队参与 DFG GaNius，研究以单晶片双向 GaN 元件实现高效率转换器，并具有 GaN converter 热控制与可靠度工作。 切入：适合 converter topology、bidirectional GaN、thermal management 或 control 方向；邮件应对接 GaNius 或实验室现行项目。 规则：可询问未来 funded PhD；需先读 GaNius 项目与近期论文。 证据：GaNius、热控制与 converter reliability 适合系统层可靠性研究。 ⚠️ 落差：TCAD 与元件制程不是主要方向。",
+      url: "https://www.uni-kiel.de/en/tf/research/institute-etit/power-electronics" },
+    { id: "eu-adv-fr-farid-medjdoub", region: "eu", school: "法国", name: "Farid Medjdoub（Université de Lille × CNRS · IEMN）", tier: "S+", match: "可靠度4·TCAD5·制程5", studyOrder: 0,
+      email: "farid.medjdoub@iemn.fr",
+      focus: "GaN 元件、TCAD、制程、电性／RF 表征｜WIND — Wide bandgap Integrated Technologies and Devices",
+      note: "【现在就该联系】WIND 直接涵盖 GaN/SiC 宽能隙元件设计、模拟、先进制程与表征，且 2026 题目页有 GaN PIN 二极体题目。 切入：寄信时可直接询问 GaN PIN 题目的资助与收件状态，并用 3–4 句连结你的元件物理、制程、TCAD 或量测经验。 规则：可立即精准联络，同时走官方 Apply 入口。 证据：IEMN WIND 同时覆盖 GaN 元件设计、TCAD、先进制程与电性／RF 表征，并参与 MOS-HEMT 可靠度题目。 ⚠️ 落差：部分题目偏 RF，申请时需锁定 power-device／reliability 子题。",
+      url: "https://www.iemn.fr/en/la-recherche/les-groupes/groupe-wind" },
+    { id: "eu-adv-fr-corinne-alonso", region: "eu", school: "法国", name: "Corinne Alonso（Université de Toulouse × LAAS-CNRS）", tier: "S", match: "可靠度5·TCAD3·制程1", studyOrder: 0,
+      focus: "GaN HEMT、动态表征、可靠度、功率转换器｜Energy Management 团队",
+      note: "【套磁建管线】近期指导研究直接涉及功率 GaN HEMT 的动态表征、模型与静态转换器可靠度。 切入：若没有公开职缺，可引用该研究脉络，询问未来 6–12 个月是否有 funded PhD，并附一页研究匹配摘要。 规则：目前以建立未来职缺管线为主。 证据：研究直接连结 GaN HEMT 动态特性、模型与静态转换器可靠度。 ⚠️ 落差：偏系统可靠度与表征，不是主要元件制程团队。",
+      url: "https://www.laas.fr/fr/annonce-soutenance/novel-dynamic-characterization-method-applied-to-the-modeling-and-understanding-of-power-gan-hemts-to-enhance-static-converter-reliability/" },
+    { id: "eu-adv-fr-david-tremouilles", region: "eu", school: "法国", name: "David Trémouilles（CNRS · LAAS）", tier: "S", match: "可靠度5·TCAD3·制程2", studyOrder: 0,
+      focus: "GaN HEMT、元件表征、可靠度、模型｜Micro and Nanosystems / Power Device Reliability",
+      note: "【套磁建管线】近期共同指导 GaN HEMT 动态特性、模型与转换器可靠度研究，适合偏 device characterization 的申请者。 切入：信件应聚焦你能做的量测、陷阱／dynamic RON 分析或 compact modeling，而不是只问『有没有名额』。 规则：可询问未来资助题目；需附具体技术切入点。 证据：GaN HEMT 动态表征、陷阱效应、模型与 converter reliability 高度匹配可靠性方向。 ⚠️ 落差：更偏表征与模型；cleanroom process 比重较低。",
+      url: "https://www.laas.fr/fr/annonce-soutenance/novel-dynamic-characterization-method-applied-to-the-modeling-and-understanding-of-power-gan-hemts-to-enhance-static-converter-reliability/" },
+    { id: "eu-adv-be-stefaan-decoutere", region: "eu", school: "比利时", name: "Stefaan Decoutere（imec）", tier: "S", match: "可靠度4·TCAD4·制程5", studyOrder: 0,
+      focus: "GaN technology、功率元件、单晶片 GaN IC、产业研发｜GaN Power Electronics Program",
+      note: "【集中甄选】imec 的 GaN 功率技术与单晶片整合方向高度匹配，但博士招募通常采主题清单与集中甄选。 切入：先研究 imec 秋季博士题目与最新 GaN 技术路线；可提出技术问题，但不要用私人联络取代集中申请。 规则：集中申请；不要询问或施压录取结果。 证据：imec GaN power device 技术、GaN-on-Si、垂直元件与单晶片 GaN IC 的制程整合非常直接。 ⚠️ 落差：采集中博士甄选；研究匹配高不等于可以绕过正式申请。",
+      url: "https://www.imec-int.com/en/articles/meet-imec-fellow-stefaan-decoutere" },
+    { id: "eu-adv-be-wilmar-martinez", region: "eu", school: "比利时", name: "Wilmar Martinez（比利时鲁汶大学（KU Leuven）× EnergyVille）", tier: "S+", match: "可靠度3·TCAD2·制程1", studyOrder: 0,
+      focus: "GaN 转换器、高频功率转换、PCB 寄生、EMI｜ELECTA — Electrical Energy Systems and Applications",
+      note: "【套磁建管线】现有 2026–2030 GaN Power Electronics 计划聚焦高频转换、PCB 寄生与 EMI，适合元件到系统交界方向。 切入：用你的 GaN switching、double-pulse test、layout／EMI 或 converter prototype 经验对接该计划，询问后续 funded PhD。 规则：鲁汶大学的 GaN Power 直接匹配目标；可主动联络，正式职缺仍须走 KU Leuven 系统。 证据：GaN 高频 switching、PCB parasitics、EMI 与 converter performance 可延伸到应用可靠度。 ⚠️ 落差：没有明确元件 TCAD 或制程主轴。",
+      url: "https://www.esat.kuleuven.be/electa/professors/00119549" },
+    { id: "eu-adv-be-johan-driesen", region: "eu", school: "比利时", name: "Johan Driesen（比利时鲁汶大学（KU Leuven）× EnergyVille）", tier: "A", match: "可靠度3·TCAD1·制程1", studyOrder: 0,
+      focus: "功率电子、converter reliability、电动交通、EnergyVille｜ELECTA — Electrical Energy Systems and Applications",
+      note: "【套磁建管线】Johan Driesen 是 ELECTA 研究组主任，覆盖功率电子、电动交通与 converter reliability；但就 GaN 专题而言，Wilmar Martinez 是更直接的第一联络人。 切入：若你的题目偏整体功率电子、可靠度或 EnergyVille 联合计划，可联络；若主题是 GaN 高频 switching、PCB parasitics 或 EMI，先找 Wilmar Martinez。 规则：属鲁汶大学功率电子组的上位入口；GaN 专题优先联络 Wilmar Martinez。 证据：ELECTA 整体涵盖 power electronics reliability 与 EnergyVille 联合计划。 ⚠️ 落差：GaN 专题应优先找 Wilmar Martinez；本人方向较广。",
+      url: "https://www.kuleuven.be/wieiswie/en/person/00015960" },
+    { id: "eu-adv-nl-thiago-soeiro", region: "eu", school: "荷兰", name: "Thiago Batista Soeiro（University of Twente）", tier: "S+", match: "可靠度3·TCAD2·制程1", studyOrder: 0,
+      focus: "功率电子、GaN／SiC、EMC、高频转换｜Power Electronics & EMC Group",
+      note: "【公开职缺优先】目前公开职缺直接涉及 GaN／SiC 快速切换、宽频感测与损耗量测。 切入：先完成 AcademicTransfer 正式投递；若有关研究范围的具体问题，再寄简短邮件并附申请编号。 规则：已有公开职缺：正式投递优先。 证据：GaN／SiC converter、EMC 与高频量测可支援 switching reliability。 ⚠️ 落差：主要偏 converter 与 EMC。",
+      url: "https://www.utwente.nl/en/et/research/sector-plan/sectorplan-stories/Batista%20Soeiro/" },
+    { id: "eu-adv-nl-gert-rietveld", region: "eu", school: "荷兰", name: "Gert Rietveld（University of Twente × VSL）", tier: "S+", match: "可靠度3·TCAD2·制程1", studyOrder: 0,
+      email: "g.rietveld@utwente.nl",
+      focus: "宽频量测、效率、计量溯源、GaN／SiC 转换器｜Power & Energy Measurement Systems",
+      note: "【公开职缺优先】研究重点是功率、能量与转换器效率量测，与目前 Moore4Power GaN／SiC 职缺完全对应。 切入：先正式申请；如需确认量测平台或研究边界，可附一个清楚问题与你的相关专案证据。 规则：已有公开职缺：教授联络只做技术澄清。 证据：宽频量测、效率与计量溯源适合精密 device／converter characterization。 ⚠️ 落差：不是 TCAD 或半导体制程团队。",
+      url: "https://www.utwente.nl/en/eemcs/pe/3.research/pems/" },
+    { id: "eu-adv-se-staffan-norrga", region: "eu", school: "瑞典", name: "Staffan Norrga（KTH Royal Institute of Technology）", tier: "S", match: "可靠度3·TCAD1·制程1", studyOrder: 0,
+      email: "norrga@kth.se",
+      focus: "GaN 转换器、模组化拓扑、软切换、高功率驱动｜Electric Power and Energy Systems · Power Electronics",
+      note: "【套磁建管线】曾招募模组化 GaN 转换器博士，研究软切换与转换器拓扑，是下一轮相近题目的高价值目标。 切入：提及已截止的 Moore4Power 题目，简短说明你的 converter／GaN 经验，询问下一轮或相近计划。 规则：旧职缺已截止；可建立未来机会管线。 证据：模组化 GaN converter、拓扑和软切换可研究系统可靠度。 ⚠️ 落差：与元件可靠性、TCAD 和制程的直接度较低。",
+      url: "https://www.kth.se/profile/norrga?l=en" },
+    { id: "eu-adv-dk-huai-wang", region: "eu", school: "丹麦", name: "Huai Wang（Aalborg University）", tier: "A", match: "可靠度5·TCAD2·制程2", studyOrder: 0,
+      email: "hwa@energy.aau.dk",
+      focus: "功率电子可靠度、半导体表征、condition monitoring、新一代功率元件｜Center of Reliable Power Electronics / REPEC",
+      note: "【套磁建管线】团队重点是功率电子可靠度、功率循环与半导体表征，对偏 GaN reliability／packaging 的申请者很有价值。 切入：把 GaN 元件可靠度、热应力、power cycling 或 condition monitoring 经验对应到 REPEC 的方法能力。 规则：属相邻方向；先确认未来题目是否明确使用 GaN。 证据：功率电子可靠度、power cycling、condition monitoring 与半导体表征能力很强。 ⚠️ 落差：GaN 并非所有题目的核心材料，必须逐题确认。",
+      url: "https://vbn.aau.dk/en/persons/hwa/" },
+    { id: "eu-adv-no-dimosthenis-peftitsis", region: "eu", school: "挪威", name: "Dimosthenis Peftitsis（Norwegian University of Science and Technology · NTNU）", tier: "S", match: "可靠度5·TCAD2·制程2", studyOrder: 0,
+      email: "dimosthenis.peftitsis@ntnu.no",
+      focus: "SiC／GaN、gate driver、可靠度／寿命、功率模组｜Power Electronics Laboratory",
+      note: "【套磁建管线】研究明确涵盖 SiC/GaN 转换器、自适应 gate driver、功率半导体可靠度与寿命。 切入：以 gate driving、switching characterization、module design 或 reliability 的具体成果切入，询问 6–12 个月 funded opening。 规则：目前适合精准 cold email 与后续职缺追踪。 证据：研究明确包含 WBG 元件可靠度、寿命、gate driver 与 power module design。 ⚠️ 落差：以 SiC/GaN 系统与模组为主，TCAD／晶圆制程较弱。",
+      url: "https://www.ntnu.edu/employees/dimosthenis.peftitsis" },
   ];
   // 近三年代表作（2023/10 起），以 OpenAlex 查得的真实 DOI，优先顶刊顶会。
   // ★ = 与你研究链（多通道／p-GaN gate reliability）直接重叠，建议套磁前必读。
@@ -462,6 +544,15 @@
       "rescheduleToggle",
       "rescheduleBody",
       "reschedulePendingCount",
+      "euGroups",
+      "euSystems",
+      "euJobs",
+      "euJobsCount",
+      "euSearchMatrix",
+      "euTriage",
+      "euSources",
+      "euSourcesCount",
+      "euVerifiedAt",
       "summaryIelts",
       "summaryIeltsDetail",
       "summaryProjectType",
@@ -1170,7 +1261,112 @@
     });
   }
 
+  // ---- 欧洲面板 ---------------------------------------------------------
+  // 资料来自 eu-radar.js（由 gan-phd-radar 资料集 ＋《歐洲博士制度比較與申請策略》合并）。
+  // 分组按申请机制 A／B／C，不按地理。
+
+  const GROUP_TONE = { A: "group-a", B: "group-b", C: "group-c" };
+  const JOB_STATUS = {
+    active: { label: "可投", cls: "ok" },
+    upcoming: { label: "即将开放", cls: "soon" },
+    verify: { label: "需核对", cls: "warn" },
+    closed: { label: "已结束", cls: "off" },
+  };
+
+  function renderEuropePanel() {
+    const data = window.EU_RADAR;
+    if (!data || !el.euGroups) return;
+
+    if (el.euVerifiedAt) el.euVerifiedAt.textContent = `资料核对于 ${data.VERIFIED_AT.slice(0, 10)}`;
+
+    el.euGroups.innerHTML = data.GROUPS.map((group) => `
+      <article class="eu-group ${GROUP_TONE[group.id] || ""}">
+        <header>
+          <span class="eu-group-tag">Group ${safe(group.id)}</span>
+          <h3>${safe(group.name)}</h3>
+          <p class="eu-group-countries">${group.countries.map((c) => `<i>${safe(c)}</i>`).join("")}</p>
+        </header>
+        <p class="eu-group-idea">${safe(group.idea)}</p>
+        <div class="eu-group-cols">
+          <div><h4>共用材料</h4><ul>${group.materials.map((m) => `<li>${safe(m)}</li>`).join("")}</ul></div>
+          <div><h4>怎么投</h4><ol>${group.steps.map((t) => `<li>${safe(t)}</li>`).join("")}</ol></div>
+        </div>
+      </article>`).join("");
+
+    if (el.euSystems) {
+      el.euSystems.innerHTML = data.SYSTEMS.map((row) => `
+        <article class="eu-system" data-group="${safeAttr(row.group)}">
+          <header><strong>${safe(row.country)}</strong><span class="eu-system-group">Group ${safe(row.group)}</span></header>
+          <dl>
+            <div><dt>博士身分</dt><dd>${safe(row.identity)}</dd></div>
+            <div><dt>主要入口</dt><dd>${safe(row.entry)}</dd></div>
+            <div><dt>经费与录取</dt><dd>${safe(row.funding)}</dd></div>
+            <div><dt>课程</dt><dd>${safe(row.coursework)}</dd></div>
+            <div><dt>该怎么做</dt><dd class="eu-system-action">${safe(row.action)}</dd></div>
+            <div><dt>搜寻入口</dt><dd>${safe(row.sources)}</dd></div>
+          </dl>
+        </article>`).join("");
+    }
+
+    if (el.euJobs) {
+      const open = data.JOBS.filter((job) => job.status !== "closed").length;
+      if (el.euJobsCount) el.euJobsCount.textContent = `${open} 个在列 · 共 ${data.JOBS.length} 笔（含已结束）`;
+      el.euJobs.innerHTML = data.JOBS.map((job) => {
+        const status = JOB_STATUS[job.status] || { label: job.status, cls: "off" };
+        return `
+        <article class="eu-job status-${safeAttr(status.cls)}">
+          <header>
+            <span class="eu-job-status ${safeAttr(status.cls)}">${safe(status.label)}</span>
+            <span class="eu-job-where">${safe(job.country)} · ${safe(job.city)}</span>
+            ${job.relevance === "core" ? '<span class="eu-job-core">核心匹配</span>' : '<span class="eu-job-adjacent">相邻领域</span>'}
+          </header>
+          <h4>${job.sourceUrl ? `<a href="${safeAttr(job.sourceUrl)}" target="_blank" rel="noopener">${safe(job.title)}</a>` : safe(job.title)}</h4>
+          <p class="eu-job-org">${safe(job.organization)}</p>
+          <dl>
+            <div><dt>截止</dt><dd>${safe(job.deadlineText)}</dd></div>
+            <div><dt>起聘</dt><dd>${safe(job.startDate)}</dd></div>
+            <div><dt>薪资</dt><dd>${safe(job.salary)}</dd></div>
+          </dl>
+          ${!job.skills.length ? "" : `<p class="eu-job-skills">${job.skills.map((s) => `<i>${safe(s)}</i>`).join("")}</p>`}
+          ${!job.note ? "" : `<p class="eu-job-note">${safe(job.note)}</p>`}
+        </article>`;
+      }).join("");
+    }
+
+    if (el.euSearchMatrix) {
+      el.euSearchMatrix.innerHTML = `<h4>搜寻矩阵</h4>${data.SEARCH_MATRIX.map((row) => `
+        <div class="eu-matrix-row"><span>${safe(row.level)}</span><code>${safe(row.terms)}</code></div>`).join("")}
+        <p class="eu-matrix-example">实务搜寻式：<code>"PhD" AND (GaN OR III-Nitride) AND (reliability OR TCAD)</code></p>`;
+    }
+
+    if (el.euTriage) {
+      el.euTriage.innerHTML = data.TRIAGE.map((item) => `
+        <li><strong>${safe(item.q)}</strong><span>${safe(item.hint)}</span></li>`).join("")
+        + '<li class="eu-triage-rule"><strong>判准</strong><span>只要第 1、2 题答不出来，就先不要把它当成「有薪博士」。</span></li>';
+    }
+
+    if (el.euSources) {
+      const byCountry = new Map();
+      data.SOURCES.forEach((src) => {
+        if (!byCountry.has(src.country)) byCountry.set(src.country, []);
+        byCountry.get(src.country).push(src);
+      });
+      if (el.euSourcesCount) el.euSourcesCount.textContent = `${data.SOURCES.length} 个入口 · ${byCountry.size} 个地区`;
+      el.euSources.innerHTML = [...byCountry.entries()].map(([country, list]) => `
+        <div class="eu-source-group">
+          <h4>${safe(country)}</h4>
+          <ul>${list.map((src) => `
+            <li>
+              <a href="${safeAttr(src.url)}" target="_blank" rel="noopener">${safe(src.name)}</a>
+              <span class="eu-source-kind">${safe(src.kind)} · 查看频率 ${safe(src.cadence)}</span>
+              ${!src.note ? "" : `<span class="eu-source-note">${safe(src.note)}</span>`}
+            </li>`).join("")}</ul>
+        </div>`).join("");
+    }
+  }
+
   function renderPhdTracker() {
+    renderEuropePanel();
     const regions = state.phdTracker?.regions || [];
     const schools = regions.flatMap((region) => region.schools || []);
     const advisors = schools.flatMap((school) => school.advisors || []);

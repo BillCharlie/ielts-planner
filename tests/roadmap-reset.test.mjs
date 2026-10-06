@@ -166,6 +166,15 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /Anding Zhu[\s\S]*PA 的 power ≠ power electronics 的 power/);
   assert.match(app, /Yan Cheng[\s\S]*Research Assistant Professor/);
   assert.match(app, /function seedPhdAdvisors/);
+  // 欧洲：面板由 eu-radar.js 驱动，导师按国家分组种入 eu 区。
+  assert.match(html, /<script src="eu-radar\.js/);
+  for (const id of ["euGroups", "euSystems", "euJobs", "euSources", "euSearchMatrix", "euTriage", "euVerifiedAt"]) {
+    assert.match(html, new RegExp(`id="${id}"`));
+  }
+  assert.match(app, /function renderEuropePanel/);
+  assert.match(app, /schools: \["德国", "法国", "比利时", "荷兰", "瑞典", "丹麦", "挪威"\]/);
+  assert.match(app, /eu-adv-[\s\S]*region: "eu"/);
+  assert.match(sw, /eu-radar\.js/);
   // 导师种子要能落到非香港地区（台湾 NYCU）。
   assert.match(app, /schools: \["NTU", "NYCU"\]/);
   assert.match(app, /seed\.region \|\| "hk"/);
@@ -312,14 +321,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261006-hk-guidance/);
-  assert.match(html, /app\.js\?v=20261006-hk-guidance/);
-  assert.match(html, /ielts-moves\.js\?v=20261006-hk-guidance/);
+  assert.match(html, /planning-tasks\.js\?v=20261006-eu-radar/);
+  assert.match(html, /app\.js\?v=20261006-eu-radar/);
+  assert.match(html, /ielts-moves\.js\?v=20261006-eu-radar/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v86-hk-guidance/);
+  assert.match(sw, /planner-notebook-v87-eu-radar/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

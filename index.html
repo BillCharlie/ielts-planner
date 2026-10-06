@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20261006-hk-guidance" />
+    <link rel="stylesheet" href="styles.css?v=20261006-eu-radar" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -289,8 +289,35 @@
                 <h2 id="euApplicationTitle">欧洲博士申请</h2>
                 <p>以导师、实验室或 project vacancy 为单位；采 rolling 投递，职位截止以当期公告为准。</p>
               </div>
-              <span class="hk-cycle-status">职位截止依公告</span>
+              <span class="hk-cycle-status" id="euVerifiedAt">资料核对中</span>
             </header>
+
+            <div id="euGroups" class="eu-groups"></div>
+
+            <details class="eu-block" id="euSystemsBlock">
+              <summary><strong>八国制度对照</strong><span>身分 · 入口 · 套磁重要性 · 经费 · 课程</span></summary>
+              <div id="euSystems" class="eu-systems"></div>
+            </details>
+
+            <details class="eu-block" id="euJobsBlock">
+              <summary><strong>公开职缺</strong><span id="euJobsCount"></span></summary>
+              <div id="euJobs" class="eu-jobs"></div>
+            </details>
+
+            <details class="eu-block">
+              <summary><strong>搜寻矩阵与 30 秒判读</strong><span>技术关键字 × 职称变体 · 看到页面先问 6 件事</span></summary>
+              <div class="eu-two-col">
+                <div id="euSearchMatrix" class="eu-matrix"></div>
+                <ol id="euTriage" class="eu-triage"></ol>
+              </div>
+            </details>
+
+            <details class="eu-block">
+              <summary><strong>情报源</strong><span id="euSourcesCount"></span></summary>
+              <div id="euSources" class="eu-sources"></div>
+            </details>
+
+            <p class="hk-source-note">分组沿用《歐洲博士制度比較與申請策略》：按<b>申请机制</b>分 A／B／C，不按地理 —— 这样材料才真正能共用。职缺、教授与情报源来自 gan-phd-radar 的资料集，「未公开」代表原始公告没有明列，不要用估算值替换；过期职缺保留并标记 closed。实际申请一律以当期 vacancy 与各校 doctoral regulations 为准。</p>
             <div class="phd-region-tracker" data-region-slot="eu"></div>
           </section>
           </div>
@@ -480,11 +507,12 @@
       </dialog>
     </div>
 
-    <script src="plan-data.js?v=20261006-hk-guidance"></script>
+    <script src="plan-data.js?v=20261006-eu-radar"></script>
     <script src="config.js"></script>
     <script src="xlsx-export.js"></script>
-    <script src="planning-tasks.js?v=20261006-hk-guidance"></script>
-    <script src="ielts-moves.js?v=20261006-hk-guidance"></script>
-    <script src="app.js?v=20261006-hk-guidance"></script>
+    <script src="planning-tasks.js?v=20261006-eu-radar"></script>
+    <script src="eu-radar.js?v=20261006-eu-radar"></script>
+    <script src="ielts-moves.js?v=20261006-eu-radar"></script>
+    <script src="app.js?v=20261006-eu-radar"></script>
   </body>
 </html>
