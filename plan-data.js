@@ -1,10 +1,10 @@
 (function () {
-  const startDate = "2026-10-06";
+  const startDate = "2026-10-08";
   const travelPeriod = { startDate: "2026-09-24", endDate: "2026-09-30" };
   // 周日2 周一2 周二1 周三1 周四1 周五2 周六1 ＝ 每周 10 篇。
-  // 周二三四各 1 篇；周三本来就要回中央书报讨论。
+  // 周二、三、四、六各 1 篇；其余 2 篇。周三本来就要回中央书报讨论。
   const weeklyPaperCounts = [2, 2, 1, 1, 1, 2, 1];
-  // 目前没有逐日覆写：10 月走十月每周份数，11 月回到平日份数。
+  // 目前没有逐日覆写：全程单一周规则。
   const dailyPaperCounts = {};
   // 已经做过，不再排入。
   const excludedCodes = ["C9T1"];
@@ -98,20 +98,20 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-10-06T00:00:00.000+08:00",
-    source: "10/6起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周六1份、周日2份、周一2份、周二1份、周三四五2份执行；中秋旅行9/24-9/30已结束；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-10-08T00:00:00.000+08:00",
+    source: "10/8起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周六1份、周日2份、周一2份、周二1份、周三四五2份执行；中秋旅行9/24-9/30已结束；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-10-12", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-10-13", endDate: "2026-11-02", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-10-14", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-10-15", endDate: "2026-11-04", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-10-06-exclude-c9t1-tue-thu-single-v24",
+    planVersion: "2026-10-08-exclude-c9t1-tue-thu-sat-single-v25",
     resetFromDate: startDate,
   };
 })();
