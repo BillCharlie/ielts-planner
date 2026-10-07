@@ -7,10 +7,10 @@ test("schedules the remaining 51 papers from October 8 with one weekly rule, tim
   const context = { window: {} };
   vm.runInNewContext(await readFile(new URL("../plan-data.js", import.meta.url), "utf8"), context);
   const data = context.window.IELTS_PLANNER_DATA;
-  assert.equal(data.planVersion, "2026-10-08-exclude-c9t1-tue-thu-sat-single-v25");
+  assert.equal(data.planVersion, "2026-10-08-japan-1110-1114-v26");
   assert.equal(data.resetFromDate, "2026-10-08");
   assert.equal(data.mainPlan[0].date, "2026-10-08");
-  assert.equal(data.mainPlan.at(-1).date, "2026-11-12");
+  assert.equal(data.mainPlan.at(-1).date, "2026-11-16");
   assert.equal(data.mainPlan.at(-1).trainingItems.at(-1).cambridge, "C21T4");
   // 全部真题必须排在 11/08 考试之前。
   assert.equal(data.autoPlan.examDate, "2026-12-19");
@@ -37,22 +37,37 @@ test("schedules the remaining 51 papers from October 8 with one weekly rule, tim
     ["2026-10-10", [["C10T1", 18]]],
     ["2026-10-11", [["C10T2", 8], ["C10T3", 18]]],
     ["2026-10-14", [["C11T3", 7]]],
-    ["2026-11-12", [["C21T4", 18]]],
+    ["2026-11-16", [["C21T4", 18]]],  // 只剩最后 1 套，时段按实际份数走晚上场
+
   ]) {
     const row = byDate.get(date);
     assert.deepEqual(Array.from(row.trainingItems, (item) => [item.cambridge, item.preferredHour]), expected, date);
     assert.match(row.limits, expected.length === 2 ? /预留8小时/ : /预留4小时|周三仅上午1份/, date);
   }
-  // 中秋旅行已结束，排程范围内不应再出现旅行日。
-  assert.equal(data.mainPlan.some((row) => row.dayType === "旅行"), false);
-  assert.ok(data.mainPlan[0].date > data.autoPlan.travelPeriod.endDate);
+  // 11/10–11/14 人在日本：这五天必须完全空出来，且不消耗任何一套真题。
+  assert.deepEqual(
+    { s: data.autoPlan.travelPeriod.startDate, e: data.autoPlan.travelPeriod.endDate },
+    { s: "2026-11-10", e: "2026-11-14" },
+  );
+  const japan = data.mainPlan.filter((row) => row.date >= "2026-11-10" && row.date <= "2026-11-14");
+  assert.equal(japan.length, 5);
+  for (const row of japan) {
+    assert.equal(row.dayType, "旅行", row.date);
+    assert.equal(row.trainingItems.length, 0, row.date);
+    assert.equal(row.projectType, "", row.date);
+    assert.match(row.limits, /日本行程/);
+  }
 
   for (const row of data.mainPlan) {
     const weekday = new Date(`${row.date}T00:00:00Z`).getUTCDay();
     const traveling = row.date >= data.autoPlan.travelPeriod.startDate && row.date <= data.autoPlan.travelPeriod.endDate;
     const pinned = {};
     // 单一周规则：周二三四各 1 篇。
-    const count = traveling ? 0 : pinned[row.date] ?? [2, 2, 1, 1, 1, 2, 1][weekday];
+    // 最后一天题库见底，实际份数可能少于周规则。
+    const isLast = row.date === data.mainPlan.at(-1).date;
+    const count = traveling ? 0
+      : isLast ? row.trainingItems.length
+        : pinned[row.date] ?? [2, 2, 1, 1, 1, 2, 1][weekday];
     assert.equal(row.trainingItems.length, count, row.date);
     if (traveling) {
       assert.equal(row.projectPlan, "");
@@ -366,14 +381,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261008-replan-1008/);
-  assert.match(html, /app\.js\?v=20261008-replan-1008/);
-  assert.match(html, /ielts-moves\.js\?v=20261008-replan-1008/);
+  assert.match(html, /planning-tasks\.js\?v=20261008-japan-break/);
+  assert.match(html, /app\.js\?v=20261008-japan-break/);
+  assert.match(html, /ielts-moves\.js\?v=20261008-japan-break/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v93-replan-1008/);
+  assert.match(sw, /planner-notebook-v94-japan-break/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

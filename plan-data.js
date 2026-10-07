@@ -1,6 +1,7 @@
 (function () {
   const startDate = "2026-10-08";
-  const travelPeriod = { startDate: "2026-09-24", endDate: "2026-09-30" };
+  // 11/10–11/14 人在日本：雅思与实验都停，之后顺延。
+  const travelPeriod = { startDate: "2026-11-10", endDate: "2026-11-14", label: "日本行程" };
   // 周日2 周一2 周二1 周三1 周四1 周五2 周六1 ＝ 每周 10 篇。
   // 周二、三、四、六各 1 篇；其余 2 篇。周三本来就要回中央书报讨论。
   const weeklyPaperCounts = [2, 2, 1, 1, 1, 2, 1];
@@ -40,7 +41,7 @@
       weekday: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday],
       dayType: traveling ? "旅行" : "正常",
       ieltsPriority: count ? "固定" : "暂停",
-      ieltsPlan: count ? "" : "中秋旅行",
+      ieltsPlan: count ? "" : travelPeriod.label,
       ieltsModule: count ? "" : "不排雅思真题",
       cambridge: "", trainingItems: [],
       projectType: "", projectPlan: "", projectModule: "",
@@ -63,11 +64,14 @@
       }
     }
 
-    for (let index = 0; index < count && nextTest < testBank.length; index += 1) {
+    // 题库见底时实际份数可能少于周规则；时段要按实际份数决定，
+    // 否则最后一天只剩 1 套也会被当成「两份日的上午场」排到 08:00。
+    const placed = Math.min(count, testBank.length - nextTest);
+    for (let index = 0; index < placed; index += 1) {
       const paper = testBank[nextTest++];
       // 两份的日子拆成上午＋晚上；周三上午要赶车，提早到 07:00。
       const morningHour = weekday === 3 ? 7 : 8;
-      const preferredHour = count >= 2 ? (index === 0 ? morningHour : 18) : weekday === 3 ? 7 : 18;
+      const preferredHour = placed >= 2 ? (index === 0 ? morningHour : 18) : weekday === 3 ? 7 : 18;
       const timeLabel = `${String(preferredHour).padStart(2, "0")}:00–${preferredHour + 4}:00`;
       row.trainingItems.push({
         id: `full-${date}-${paper.code}`, order: index + 1, kind: "full",
@@ -85,7 +89,7 @@
       row.cambridge = row.trainingItems.map((item) => item.cambridge).join(" + ");
     }
     row.limits = traveling
-      ? "旅行期间不排雅思与实验"
+      ? `${travelPeriod.label}：不排雅思与实验`
       : count >= 2
         ? weekday === 3
           ? "周三2份：上午出发前1份，晚上返回后1份；每套独立整理；当日 IELTS 预留8小时"
@@ -99,7 +103,7 @@
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-10-08T00:00:00.000+08:00",
-    source: "10/8起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周六1份、周日2份、周一2份、周二1份、周三四五2份执行；中秋旅行9/24-9/30已结束；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    source: "10/8起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周六1份、周日2份、周一2份、周二1份、周三四五2份执行；日本行程 11/10-11/14 不排，之后顺延；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts },
     researchPhases: [
@@ -111,7 +115,7 @@
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-10-08-exclude-c9t1-tue-thu-sat-single-v25",
+    planVersion: "2026-10-08-japan-1110-1114-v26",
     resetFromDate: startDate,
   };
 })();
