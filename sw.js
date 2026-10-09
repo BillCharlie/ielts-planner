@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v94-japan-break";
+const CACHE_NAME = "planner-notebook-v95-vocabulary-star-state";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261008-japan-break",
-  "./app.js?v=20261008-japan-break",
-  "./planning-tasks.js?v=20261008-japan-break",
-  "./ielts-moves.js?v=20261008-japan-break",
-  "./eu-radar.js?v=20261008-japan-break",
+  "./styles.css?v=20261010-vocabulary-star-state",
+  "./app.js?v=20261010-vocabulary-star-state",
+  "./planning-tasks.js?v=20261010-vocabulary-star-state",
+  "./ielts-moves.js?v=20261010-vocabulary-star-state",
+  "./eu-radar.js?v=20261010-vocabulary-star-state",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261008-japan-break",
+  "./plan-data.js?v=20261010-vocabulary-star-state",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",

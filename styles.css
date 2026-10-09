@@ -613,6 +613,11 @@ textarea {
   perspective: 900px;
 }
 
+.word-card.is-starred {
+  border-color: #d9a928;
+  box-shadow: 0 4px 14px rgba(180, 126, 10, 0.14);
+}
+
 .word-card-flip {
   width: 100%;
   min-height: 70px;
@@ -653,7 +658,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 38px 14px 14px;
+  padding: 14px 68px 14px 14px;
   min-width: 0;
   overflow-wrap: anywhere;
   color: #123f3a;
@@ -670,21 +675,43 @@ textarea {
   transform: rotateY(180deg);
 }
 
+.word-card.is-starred .word-card-back {
+  background: #fff8dc;
+  color: #78520b;
+}
+
+.word-card-star,
 .word-card-delete {
   position: absolute;
   z-index: 2;
-  top: 50%;
-  right: 7px;
+  top: 6px;
   width: 26px;
   min-width: 26px;
   min-height: 26px;
   padding: 0;
-  border-color: transparent;
-  border-radius: 50%;
+  border: 1px solid transparent;
+  border-radius: 4px;
   background: transparent;
+}
+
+.word-card-star {
+  right: 35px;
+  color: #a27a1b;
+  font-size: 19px;
+  line-height: 1;
+}
+
+.word-card-star:hover,
+.word-card-star[aria-pressed="true"] {
+  border-color: #f1d27a;
+  background: #fff8dc;
+  color: #a16207;
+}
+
+.word-card-delete {
+  right: 7px;
   color: #91aaa6;
   font-size: 17px;
-  transform: translateY(-50%);
 }
 
 .word-card-delete:hover {
@@ -756,7 +783,7 @@ textarea {
 }
 
 .weekly-card-grid .word-card-face {
-  padding: 9px 34px 9px 10px;
+  padding: 9px 66px 9px 10px;
   font-size: 12px;
 }
 
@@ -5293,4 +5320,3 @@ button.outreach-who.is-link:focus-visible {
     gap: 2px;
   }
 }
-

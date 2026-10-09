@@ -765,14 +765,14 @@
         deleteVocabularyCard(deleteButton.dataset.vocabularyDate, deleteButton.dataset.deleteVocabulary);
         return;
       }
+      const starButton = event.target.closest("[data-star-vocabulary]");
+      if (starButton) {
+        toggleVocabularyStar(starButton.dataset.vocabularyDate, starButton.dataset.starVocabulary);
+        return;
+      }
       const flipButton = event.target.closest("[data-flip-vocabulary]");
       if (!flipButton) return;
-      const card = flipButton.closest(".word-card");
-      const isFlipped = card.classList.toggle("is-flipped");
-      flipButton.setAttribute("aria-pressed", String(isFlipped));
-      flipButton.setAttribute("aria-label", isFlipped ? "显示英文" : "显示中文翻译");
-      card.querySelector(".word-card-front")?.setAttribute("aria-hidden", String(isFlipped));
-      card.querySelector(".word-card-back")?.setAttribute("aria-hidden", String(!isFlipped));
+      toggleVocabularyFace(flipButton.dataset.vocabularyDate, flipButton.dataset.flipVocabulary);
     });
 
     el.exportVocabularyButton.addEventListener("click", exportVocabularyCards);
@@ -3185,6 +3185,8 @@
       id: `vocab-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       text,
       translation,
+      starred: false,
+      flipped: false,
       createdAt: new Date().toISOString(),
     });
     el.vocabularyInput.value = "";
@@ -3203,6 +3205,40 @@
     showSaved("卡片已删除");
   }
 
+  function findVocabularyCard(date, cardId) {
+    return vocabularyCardsForDate(date).find((card) => card.id === cardId) || null;
+  }
+
+  function toggleVocabularyStar(date, cardId) {
+    const card = findVocabularyCard(date, cardId);
+    if (!card) return;
+    card.starred = !Boolean(card.starred);
+    saveState();
+    renderVocabulary();
+    showSaved(card.starred ? "已加星标" : "已取消星标");
+  }
+
+  function toggleVocabularyFace(date, cardId) {
+    const card = findVocabularyCard(date, cardId);
+    if (!card) return;
+    card.flipped = !Boolean(card.flipped);
+    saveState();
+    syncVocabularyFace(cardId, date, card.flipped);
+    showSaved(card.flipped ? "已显示中文，下次打开会保持" : "已显示英文，下次打开会保持");
+  }
+
+  function syncVocabularyFace(cardId, date, isFlipped) {
+    document.querySelectorAll("[data-flip-vocabulary]").forEach((button) => {
+      if (button.dataset.flipVocabulary !== cardId || button.dataset.vocabularyDate !== date) return;
+      const card = button.closest(".word-card");
+      card?.classList.toggle("is-flipped", isFlipped);
+      button.setAttribute("aria-pressed", String(isFlipped));
+      button.setAttribute("aria-label", isFlipped ? "显示英文" : "显示中文翻译");
+      card?.querySelector(".word-card-front")?.setAttribute("aria-hidden", String(isFlipped));
+      card?.querySelector(".word-card-back")?.setAttribute("aria-hidden", String(!isFlipped));
+    });
+  }
+
   function vocabularyCardsForDate(date) {
     const cards = state.vocabularyCards?.[date];
     return Array.isArray(cards) ? cards : [];
@@ -3216,14 +3252,17 @@
 
   function vocabularyCardMarkup(card, date) {
     const translation = `${card.translation || ""}`.trim();
+    const flipped = Boolean(card.flipped);
+    const starred = Boolean(card.starred);
     return `
-      <article class="word-card">
-        <button class="word-card-flip" type="button" data-flip-vocabulary="${safeAttr(card.id)}" aria-pressed="false" aria-label="显示中文翻译">
+      <article class="word-card${flipped ? " is-flipped" : ""}${starred ? " is-starred" : ""}">
+        <button class="word-card-flip" type="button" data-flip-vocabulary="${safeAttr(card.id)}" data-vocabulary-date="${safeAttr(date)}" aria-pressed="${flipped}" aria-label="${flipped ? "显示英文" : "显示中文翻译"}">
           <span class="word-card-inner">
-            <span class="word-card-face word-card-front" lang="en" aria-hidden="false">${safe(card.text)}</span>
-            <span class="word-card-face word-card-back" lang="zh-Hans" aria-hidden="true">${safe(translation || "中文翻译补充中…")}</span>
+            <span class="word-card-face word-card-front" lang="en" aria-hidden="${flipped}">${safe(card.text)}</span>
+            <span class="word-card-face word-card-back" lang="zh-Hans" aria-hidden="${!flipped}">${safe(translation || "中文翻译补充中…")}</span>
           </span>
         </button>
+        <button class="word-card-star" type="button" data-star-vocabulary="${safeAttr(card.id)}" data-vocabulary-date="${safeAttr(date)}" aria-pressed="${starred}" aria-label="${starred ? "取消星标" : "加星标"} ${safeAttr(card.text)}" title="${starred ? "取消星标" : "加星标"}">${starred ? "★" : "☆"}</button>
         <button class="word-card-delete" type="button" data-delete-vocabulary="${safeAttr(card.id)}" data-vocabulary-date="${safeAttr(date)}" aria-label="删除 ${safeAttr(card.text)}">×</button>
       </article>
     `;
@@ -3397,7 +3436,7 @@
       planRows: parsed.planRows || [],
       planVersion: parsed.planVersion || "",
       optionalPools: parsed.optionalPools || {},
-      vocabularyCards: parsed.vocabularyCards || {},
+      vocabularyCards: normalizeVocabularyCards(parsed.vocabularyCards),
       planNodes: Array.isArray(parsed.planNodes) ? parsed.planNodes : [],
       ieltsMoves: moves.normalize(parsed.ieltsMoves),
       planningTasks: Array.isArray(parsed.planningTasks) ? parsed.planningTasks : [],
@@ -3417,6 +3456,17 @@
       ? PlanningTasks.seedMilestones(migrated, APPLICATION_MILESTONES)
       : migrated;
     return seedPhdAdvisors(seeded);
+  }
+
+  function normalizeVocabularyCards(candidate) {
+    return Object.fromEntries(Object.entries(candidate || {}).flatMap(([date, cards]) => {
+      if (!Array.isArray(cards)) return [];
+      return [[date, cards.map((card) => ({
+        ...card,
+        starred: Boolean(card.starred),
+        flipped: Boolean(card.flipped),
+      }))]];
+    }));
   }
 
   function ensureAcademicCatalog(candidate) {
