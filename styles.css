@@ -493,6 +493,19 @@ textarea {
   color: #fff;
 }
 
+.starred-vocabulary-button {
+  border-color: #d9a928;
+  background: #fff8dc;
+  color: #78520b;
+}
+
+.starred-vocabulary-button:hover,
+.starred-vocabulary-button[aria-pressed="true"] {
+  border-color: #b98512;
+  background: #f5d979;
+  color: #513607;
+}
+
 .vocabulary-panel {
   margin: 18px 0;
   padding: 18px;
@@ -579,6 +592,7 @@ textarea {
 }
 
 .vocabulary-day-section,
+.starred-vocabulary,
 .weekly-vocabulary {
   margin-top: 16px;
 }
@@ -600,6 +614,24 @@ textarea {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
+}
+
+.starred-vocabulary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.starred-vocabulary-item {
+  min-width: 0;
+}
+
+.starred-vocabulary-date {
+  display: block;
+  margin: 0 0 5px 2px;
+  color: #8a6817;
+  font-size: 9px;
+  font-weight: 800;
 }
 
 .word-card {
@@ -1397,7 +1429,8 @@ textarea {
 }
 
 @media (max-width: 920px) {
-  .vocabulary-grid {
+  .vocabulary-grid,
+  .starred-vocabulary-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1435,7 +1468,8 @@ textarea {
 }
 
 @media (max-width: 640px) {
-  .vocabulary-grid {
+  .vocabulary-grid,
+  .starred-vocabulary-grid {
     grid-template-columns: 1fr;
   }
 

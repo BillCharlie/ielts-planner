@@ -326,10 +326,16 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /function deleteVocabularyCard/);
   assert.match(app, /function toggleVocabularyStar/);
   assert.match(app, /function toggleVocabularyFace/);
+  assert.match(app, /function toggleVocabularyPanel/);
   assert.match(app, /function normalizeVocabularyCards/);
   assert.match(app, /data-flip-vocabulary/);
   assert.match(app, /data-star-vocabulary/);
   assert.match(app, /flipped: Boolean\(card\.flipped\)/);
+  assert.match(app, /allCards\.filter\(\(card\) => card\.starred\)\.reverse\(\)/);
+  assert.match(app, /starred-vocabulary-date/);
+  for (const id of ["starredVocabularyButton", "starredVocabulary", "starredVocabularyCount", "starredVocabularyGrid"]) {
+    assert.match(html, new RegExp(`id=["']${id}["']`));
+  }
   assert.match(app, /function hydrateMissingVocabularyTranslations/);
   assert.match(app, /card\.date <= selectedDate/);
   assert.match(app, /cardsByWeek/);
@@ -386,14 +392,14 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261010-vocabulary-star-state/);
-  assert.match(html, /app\.js\?v=20261010-vocabulary-star-state/);
-  assert.match(html, /ielts-moves\.js\?v=20261010-vocabulary-star-state/);
+  assert.match(html, /planning-tasks\.js\?v=20261010-starred-vocabulary-view/);
+  assert.match(html, /app\.js\?v=20261010-starred-vocabulary-view/);
+  assert.match(html, /ielts-moves\.js\?v=20261010-starred-vocabulary-view/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v95-vocabulary-star-state/);
+  assert.match(sw, /planner-notebook-v96-starred-vocabulary-view/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
@@ -425,6 +431,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(styles, /\.hk-school-deadlines/);
   assert.match(styles, /\.word-card-star/);
   assert.match(styles, /\.word-card\.is-starred/);
+  assert.match(styles, /\.starred-vocabulary-button/);
+  assert.match(styles, /\.starred-vocabulary-grid/);
 });
 
 test("builds a real Excel workbook with cards and weekly summary", async () => {

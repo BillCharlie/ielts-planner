@@ -532,6 +532,7 @@
   let calendarToday = isoToday();
   let selectedDate = calendarToday;
   let visibleMonth = selectedDate.slice(0, 7);
+  let vocabularyViewMode = "day";
   let activeHour = 9;
   let deferredInstallPrompt = null;
   let serviceWorkerReloading = false;
@@ -623,6 +624,7 @@
       "selectedDayType",
       "selectedDateTitle",
       "vocabularyButton",
+      "starredVocabularyButton",
       "vocabularyPanel",
       "vocabularyDate",
       "vocabularyCount",
@@ -630,9 +632,14 @@
       "vocabularyInput",
       "vocabularyTranslationInput",
       "exportVocabularyButton",
+      "vocabularyDaySection",
       "vocabularyDayCount",
       "vocabularyGrid",
       "vocabularyEmpty",
+      "starredVocabulary",
+      "starredVocabularyCount",
+      "starredVocabularyGrid",
+      "starredVocabularyEmpty",
       "weeklyVocabulary",
       "weeklyVocabularyCount",
       "weeklyVocabularyGroups",
@@ -747,12 +754,8 @@
   }
 
   function bindCalendarControls() {
-    el.vocabularyButton.addEventListener("click", () => {
-      const willOpen = el.vocabularyPanel.hidden;
-      el.vocabularyPanel.hidden = !willOpen;
-      el.vocabularyButton.setAttribute("aria-expanded", String(willOpen));
-      if (willOpen) renderVocabulary();
-    });
+    el.vocabularyButton.addEventListener("click", () => toggleVocabularyPanel("day"));
+    el.starredVocabularyButton.addEventListener("click", () => toggleVocabularyPanel("starred"));
 
     el.vocabularyForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -3140,15 +3143,42 @@
 
   function renderVocabulary() {
     const cards = vocabularyCardsForDate(selectedDate);
-    const total = allVocabularyCards().length;
-    el.vocabularyDate.textContent = `${formatDate(selectedDate)} · ${weekdayZh(selectedDate)}`;
-    el.vocabularyCount.textContent = `${total} ${total === 1 ? "CARD" : "CARDS"}`;
+    const allCards = allVocabularyCards();
+    const starredCards = allCards.filter((card) => card.starred).reverse();
+    const isStarredView = vocabularyViewMode === "starred";
+    el.vocabularyDate.textContent = isStarredView ? "全部日期 · 重点词卡" : `${formatDate(selectedDate)} · ${weekdayZh(selectedDate)}`;
+    const visibleTotal = isStarredView ? starredCards.length : allCards.length;
+    el.vocabularyCount.textContent = `${visibleTotal} ${visibleTotal === 1 ? "CARD" : "CARDS"}`;
     el.vocabularyDayCount.textContent = String(cards.length);
     el.vocabularyButton.textContent = cards.length ? `单词卡 · ${cards.length}` : "单词卡";
+    el.starredVocabularyButton.textContent = starredCards.length ? `重点词卡 · ${starredCards.length}` : "重点词卡";
+    el.vocabularyForm.hidden = isStarredView;
+    el.vocabularyDaySection.hidden = isStarredView;
+    el.starredVocabulary.hidden = !isStarredView;
     el.vocabularyGrid.innerHTML = cards.map((card) => vocabularyCardMarkup(card, selectedDate)).join("");
     el.vocabularyEmpty.hidden = cards.length > 0;
+    el.starredVocabularyCount.textContent = `${starredCards.length} ${starredCards.length === 1 ? "CARD" : "CARDS"}`;
+    el.starredVocabularyGrid.innerHTML = starredCards.map((card) => `
+      <div class="starred-vocabulary-item">
+        <span class="starred-vocabulary-date">${formatDate(card.date)} · ${weekdayZh(card.date)}</span>
+        ${vocabularyCardMarkup(card, card.date)}
+      </div>
+    `).join("");
+    el.starredVocabularyEmpty.hidden = starredCards.length > 0;
     renderWeeklyVocabulary();
     hydrateMissingVocabularyTranslations();
+  }
+
+  function toggleVocabularyPanel(mode) {
+    const isSameOpenView = !el.vocabularyPanel.hidden && vocabularyViewMode === mode;
+    vocabularyViewMode = mode;
+    el.vocabularyPanel.hidden = isSameOpenView;
+    const isOpen = !el.vocabularyPanel.hidden;
+    el.vocabularyButton.setAttribute("aria-expanded", String(isOpen && mode === "day"));
+    el.vocabularyButton.setAttribute("aria-pressed", String(isOpen && mode === "day"));
+    el.starredVocabularyButton.setAttribute("aria-expanded", String(isOpen && mode === "starred"));
+    el.starredVocabularyButton.setAttribute("aria-pressed", String(isOpen && mode === "starred"));
+    if (isOpen) renderVocabulary();
   }
 
   function addVocabularyCard(date, rawText, rawTranslation) {
@@ -3328,6 +3358,12 @@
   }
 
   function renderWeeklyVocabulary() {
+    if (vocabularyViewMode !== "day") {
+      el.weeklyVocabulary.hidden = true;
+      el.weeklyVocabularyCount.textContent = "0 CARDS";
+      el.weeklyVocabularyGroups.innerHTML = "";
+      return;
+    }
     const isSunday = new Date(`${selectedDate}T00:00:00Z`).getUTCDay() === 0;
     el.weeklyVocabulary.hidden = !isSunday;
     if (!isSunday) {
