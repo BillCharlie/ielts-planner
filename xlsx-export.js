@@ -20,20 +20,31 @@
         date: `${card.date || ""}`,
         text: `${card.text || ""}`.trim(),
         translation: `${card.translation || ""}`.trim(),
+        starred: Boolean(card.starred),
         createdAt: `${card.createdAt || ""}`,
       }))
       .filter((card) => card.date && card.text)
       .sort((a, b) => a.date.localeCompare(b.date) || a.createdAt.localeCompare(b.createdAt) || a.text.localeCompare(b.text));
 
-    const cardRows = [["Date", "Week Start", "Word or Phrase", "Chinese Translation"], ...normalized.map((card) => [card.date, weekStartIso(card.date), card.text, card.translation])];
+    const cardRows = [["Date", "Week Start", "Word or Phrase", "Chinese Translation", "重点词汇"], ...normalized.map((card) => [
+      card.date,
+      weekStartIso(card.date),
+      card.text,
+      card.translation,
+      card.starred ? "★ 重点词汇" : "",
+    ])];
+    const starredRows = new Set(normalized.flatMap((card, index) => card.starred ? [index + 1] : []));
     const weeklyCounts = new Map();
     normalized.forEach((card) => {
       const start = weekStartIso(card.date);
-      weeklyCounts.set(start, (weeklyCounts.get(start) || 0) + 1);
+      const counts = weeklyCounts.get(start) || { total: 0, starred: 0 };
+      counts.total += 1;
+      if (card.starred) counts.starred += 1;
+      weeklyCounts.set(start, counts);
     });
-    const summaryRows = [["Week Start", "Week End", "Card Count"], ...[...weeklyCounts.entries()]
+    const summaryRows = [["Week Start", "Week End", "Card Count", "重点词汇数"], ...[...weeklyCounts.entries()]
       .sort(([a], [b]) => b.localeCompare(a))
-      .map(([start, count]) => [start, addDays(start, 6), count])];
+      .map(([start, counts]) => [start, addDays(start, 6), counts.total, counts.starred])];
 
     const now = new Date().toISOString();
     const files = [
@@ -44,8 +55,8 @@
       ["xl/workbook.xml", workbookXml()],
       ["xl/_rels/workbook.xml.rels", workbookRelationshipsXml()],
       ["xl/styles.xml", stylesXml()],
-      ["xl/worksheets/sheet1.xml", worksheetXml(cardRows, [14, 14, 36, 36])],
-      ["xl/worksheets/sheet2.xml", worksheetXml(summaryRows, [14, 14, 13])],
+      ["xl/worksheets/sheet1.xml", worksheetXml(cardRows, [14, 14, 36, 36, 16], starredRows)],
+      ["xl/worksheets/sheet2.xml", worksheetXml(summaryRows, [14, 14, 13, 16])],
     ];
 
     return new Blob([zipStore(files)], {
@@ -53,13 +64,14 @@
     });
   }
 
-  function worksheetXml(rows, widths) {
+  function worksheetXml(rows, widths, highlightedRows = new Set()) {
     const safeRows = rows.length ? rows : [[""]];
     const maxColumns = Math.max(...safeRows.map((row) => row.length));
     const lastCell = `${columnName(maxColumns)}${safeRows.length}`;
     const columns = widths.map((width, index) => `<col min="${index + 1}" max="${index + 1}" width="${width}" customWidth="1"/>`).join("");
     const sheetData = safeRows.map((row, rowIndex) => {
-      const cells = row.map((value, columnIndex) => cellXml(value, `${columnName(columnIndex + 1)}${rowIndex + 1}`, rowIndex === 0)).join("");
+      const styleId = rowIndex === 0 ? 1 : highlightedRows.has(rowIndex) ? 2 : 0;
+      const cells = row.map((value, columnIndex) => cellXml(value, `${columnName(columnIndex + 1)}${rowIndex + 1}`, styleId)).join("");
       return `<row r="${rowIndex + 1}">${cells}</row>`;
     }).join("");
     return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -72,8 +84,8 @@
 </worksheet>`;
   }
 
-  function cellXml(value, ref, header) {
-    const style = header ? " s=\"1\"" : "";
+  function cellXml(value, ref, styleId = 0) {
+    const style = styleId ? ` s="${styleId}"` : "";
     if (typeof value === "number" && Number.isFinite(value)) return `<c r="${ref}"${style}><v>${value}</v></c>`;
     return `<c r="${ref}" t="inlineStr"${style}><is><t xml:space="preserve">${xmlEscape(value)}</t></is></c>`;
   }
@@ -120,11 +132,11 @@
   function stylesXml() {
     return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
-  <fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><color rgb="FFFFFFFF"/><sz val="11"/><name val="Calibri"/></font></fonts>
-  <fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF0F766E"/><bgColor indexed="64"/></patternFill></fill></fills>
+  <fonts count="3"><font><sz val="11"/><name val="Calibri"/></font><font><b/><color rgb="FFFFFFFF"/><sz val="11"/><name val="Calibri"/></font><font><b/><color rgb="FF78520B"/><sz val="11"/><name val="Calibri"/></font></fonts>
+  <fills count="4"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF0F766E"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFFF8DC"/><bgColor indexed="64"/></patternFill></fill></fills>
   <borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>
   <cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
-  <cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/></cellXfs>
+  <cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="0" fontId="2" fillId="3" borderId="0" xfId="0" applyFont="1" applyFill="1"/></cellXfs>
   <cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>
 </styleSheet>`;
   }

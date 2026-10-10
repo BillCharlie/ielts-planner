@@ -396,14 +396,15 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261010-wed-off/);
-  assert.match(html, /app\.js\?v=20261010-wed-off/);
-  assert.match(html, /ielts-moves\.js\?v=20261010-wed-off/);
+  assert.match(html, /planning-tasks\.js\?v=20261010-starred-excel/);
+  assert.match(html, /xlsx-export\.js\?v=20261010-starred-excel/);
+  assert.match(html, /app\.js\?v=20261010-starred-excel/);
+  assert.match(html, /ielts-moves\.js\?v=20261010-starred-excel/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v97-wed-off/);
+  assert.match(sw, /planner-notebook-v98-starred-excel/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
@@ -444,8 +445,8 @@ test("builds a real Excel workbook with cards and weekly summary", async () => {
   const context = { window: {}, Blob, TextEncoder, Uint8Array, DataView, Date, Math, Number, Intl };
   vm.runInNewContext(source, context);
   const blob = context.window.VocabularyXlsx.buildVocabularyWorkbook([
-    { date: "2026-08-16", text: "take into account", translation: "考虑到", createdAt: "2026-08-16T01:00:00.000Z" },
-    { date: "2026-08-15", text: "cause & effect", translation: "因果", createdAt: "2026-08-15T01:00:00.000Z" },
+    { date: "2026-08-16", text: "take into account", translation: "考虑到", starred: false, createdAt: "2026-08-16T01:00:00.000Z" },
+    { date: "2026-08-15", text: "cause & effect", translation: "因果", starred: true, createdAt: "2026-08-15T01:00:00.000Z" },
   ]);
   const bytes = new Uint8Array(await blob.arrayBuffer());
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
@@ -459,4 +460,7 @@ test("builds a real Excel workbook with cards and weekly summary", async () => {
   assert.match(text, /cause &amp; effect/);
   assert.match(text, /Chinese Translation/);
   assert.match(text, /考虑到/);
+  assert.match(text, /★ 重点词汇/);
+  assert.match(text, /重点词汇数/);
+  assert.match(text, /r="A2"[^>]*s="2"/);
 });

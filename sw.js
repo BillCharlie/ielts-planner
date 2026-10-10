@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v97-wed-off";
+const CACHE_NAME = "planner-notebook-v98-starred-excel";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261010-wed-off",
-  "./app.js?v=20261010-wed-off",
-  "./planning-tasks.js?v=20261010-wed-off",
-  "./ielts-moves.js?v=20261010-wed-off",
-  "./eu-radar.js?v=20261010-wed-off",
-  "./xlsx-export.js",
+  "./styles.css?v=20261010-starred-excel",
+  "./app.js?v=20261010-starred-excel",
+  "./planning-tasks.js?v=20261010-starred-excel",
+  "./ielts-moves.js?v=20261010-starred-excel",
+  "./eu-radar.js?v=20261010-starred-excel",
+  "./xlsx-export.js?v=20261010-starred-excel",
   "./config.js",
-  "./plan-data.js?v=20261010-wed-off",
+  "./plan-data.js?v=20261010-starred-excel",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
