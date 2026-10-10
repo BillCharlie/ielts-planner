@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v98-starred-excel";
+const CACHE_NAME = "planner-notebook-v99-speaking-vocabulary";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261010-starred-excel",
-  "./app.js?v=20261010-starred-excel",
-  "./planning-tasks.js?v=20261010-starred-excel",
-  "./ielts-moves.js?v=20261010-starred-excel",
-  "./eu-radar.js?v=20261010-starred-excel",
-  "./xlsx-export.js?v=20261010-starred-excel",
+  "./styles.css?v=20261010-speaking-vocabulary",
+  "./app.js?v=20261010-speaking-vocabulary",
+  "./planning-tasks.js?v=20261010-speaking-vocabulary",
+  "./ielts-moves.js?v=20261010-speaking-vocabulary",
+  "./eu-radar.js?v=20261010-speaking-vocabulary",
+  "./xlsx-export.js?v=20261010-speaking-vocabulary",
   "./config.js",
-  "./plan-data.js?v=20261010-starred-excel",
+  "./plan-data.js?v=20261010-speaking-vocabulary",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",

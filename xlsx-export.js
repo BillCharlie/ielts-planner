@@ -26,12 +26,12 @@
       .filter((card) => card.date && card.text)
       .sort((a, b) => a.date.localeCompare(b.date) || a.createdAt.localeCompare(b.createdAt) || a.text.localeCompare(b.text));
 
-    const cardRows = [["Date", "Week Start", "Word or Phrase", "Chinese Translation", "重点词汇"], ...normalized.map((card) => [
+    const cardRows = [["Date", "Week Start", "Word or Phrase", "Chinese Translation", "口语常用词汇"], ...normalized.map((card) => [
       card.date,
       weekStartIso(card.date),
       card.text,
       card.translation,
-      card.starred ? "★ 重点词汇" : "",
+      card.starred ? "★ 口语常用词汇" : "",
     ])];
     const starredRows = new Set(normalized.flatMap((card, index) => card.starred ? [index + 1] : []));
     const weeklyCounts = new Map();
@@ -42,7 +42,7 @@
       if (card.starred) counts.starred += 1;
       weeklyCounts.set(start, counts);
     });
-    const summaryRows = [["Week Start", "Week End", "Card Count", "重点词汇数"], ...[...weeklyCounts.entries()]
+    const summaryRows = [["Week Start", "Week End", "Card Count", "口语常用词汇数"], ...[...weeklyCounts.entries()]
       .sort(([a], [b]) => b.localeCompare(a))
       .map(([start, counts]) => [start, addDays(start, 6), counts.total, counts.starred])];
 

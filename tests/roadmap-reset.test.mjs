@@ -396,15 +396,16 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
-  assert.match(html, /planning-tasks\.js\?v=20261010-starred-excel/);
-  assert.match(html, /xlsx-export\.js\?v=20261010-starred-excel/);
-  assert.match(html, /app\.js\?v=20261010-starred-excel/);
-  assert.match(html, /ielts-moves\.js\?v=20261010-starred-excel/);
+  assert.match(html, /口语常用词汇/);
+  assert.match(html, /planning-tasks\.js\?v=20261010-speaking-vocabulary/);
+  assert.match(html, /xlsx-export\.js\?v=20261010-speaking-vocabulary/);
+  assert.match(html, /app\.js\?v=20261010-speaking-vocabulary/);
+  assert.match(html, /ielts-moves\.js\?v=20261010-speaking-vocabulary/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v98-starred-excel/);
+  assert.match(sw, /planner-notebook-v99-speaking-vocabulary/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
@@ -460,7 +461,7 @@ test("builds a real Excel workbook with cards and weekly summary", async () => {
   assert.match(text, /cause &amp; effect/);
   assert.match(text, /Chinese Translation/);
   assert.match(text, /考虑到/);
-  assert.match(text, /★ 重点词汇/);
-  assert.match(text, /重点词汇数/);
+  assert.match(text, /★ 口语常用词汇/);
+  assert.match(text, /口语常用词汇数/);
   assert.match(text, /r="A2"[^>]*s="2"/);
 });

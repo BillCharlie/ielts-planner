@@ -3146,12 +3146,12 @@
     const allCards = allVocabularyCards();
     const starredCards = allCards.filter((card) => card.starred).reverse();
     const isStarredView = vocabularyViewMode === "starred";
-    el.vocabularyDate.textContent = isStarredView ? "全部日期 · 重点词卡" : `${formatDate(selectedDate)} · ${weekdayZh(selectedDate)}`;
+    el.vocabularyDate.textContent = isStarredView ? "全部日期 · 口语常用词汇" : `${formatDate(selectedDate)} · ${weekdayZh(selectedDate)}`;
     const visibleTotal = isStarredView ? starredCards.length : allCards.length;
     el.vocabularyCount.textContent = `${visibleTotal} ${visibleTotal === 1 ? "CARD" : "CARDS"}`;
     el.vocabularyDayCount.textContent = String(cards.length);
     el.vocabularyButton.textContent = cards.length ? `单词卡 · ${cards.length}` : "单词卡";
-    el.starredVocabularyButton.textContent = starredCards.length ? `重点词卡 · ${starredCards.length}` : "重点词卡";
+    el.starredVocabularyButton.textContent = starredCards.length ? `口语常用词汇 · ${starredCards.length}` : "口语常用词汇";
     el.vocabularyForm.hidden = isStarredView;
     el.vocabularyDaySection.hidden = isStarredView;
     el.starredVocabulary.hidden = !isStarredView;
