@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v96-starred-vocabulary-view";
+const CACHE_NAME = "planner-notebook-v97-wed-off";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261010-starred-vocabulary-view",
-  "./app.js?v=20261010-starred-vocabulary-view",
-  "./planning-tasks.js?v=20261010-starred-vocabulary-view",
-  "./ielts-moves.js?v=20261010-starred-vocabulary-view",
-  "./eu-radar.js?v=20261010-starred-vocabulary-view",
+  "./styles.css?v=20261010-wed-off",
+  "./app.js?v=20261010-wed-off",
+  "./planning-tasks.js?v=20261010-wed-off",
+  "./ielts-moves.js?v=20261010-wed-off",
+  "./eu-radar.js?v=20261010-wed-off",
   "./xlsx-export.js",
   "./config.js",
-  "./plan-data.js?v=20261010-starred-vocabulary-view",
+  "./plan-data.js?v=20261010-wed-off",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
