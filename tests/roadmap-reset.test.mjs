@@ -3,18 +3,19 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
 
-test("schedules the remaining 51 papers from October 8 with one weekly rule, time blocks and research phases", async () => {
+test("schedules the remaining 51 papers from October 10 with Wednesdays off and the Japan break", async () => {
   const context = { window: {} };
   vm.runInNewContext(await readFile(new URL("../plan-data.js", import.meta.url), "utf8"), context);
   const data = context.window.IELTS_PLANNER_DATA;
-  assert.equal(data.planVersion, "2026-10-08-japan-1110-1114-v26");
-  assert.equal(data.resetFromDate, "2026-10-08");
-  assert.equal(data.mainPlan[0].date, "2026-10-08");
-  assert.equal(data.mainPlan.at(-1).date, "2026-11-16");
+  assert.equal(data.planVersion, "2026-10-10-wed-off-japan-v27");
+  assert.equal(data.resetFromDate, "2026-10-10");
+  assert.equal(data.mainPlan[0].date, "2026-10-10");
+  assert.equal(data.mainPlan.at(-1).date, "2026-11-22");
   assert.equal(data.mainPlan.at(-1).trainingItems.at(-1).cambridge, "C21T4");
   // 全部真题必须排在 11/08 考试之前。
   assert.equal(data.autoPlan.examDate, "2026-12-19");
-  assert.deepEqual(Array.from(data.autoPlan.weeklyPaperCounts), [2, 2, 1, 1, 1, 2, 1]);
+  assert.deepEqual(Array.from(data.autoPlan.weeklyPaperCounts), [2, 2, 1, 0, 1, 2, 1]);
+  assert.equal(data.autoPlan.weeklyPaperCounts[3], 0, "周三整天不排雅思");
   assert.equal(data.autoPlan.octoberPaperCounts, undefined, "十月特例应已移除，全程单一周规则");
   assert.ok(data.mainPlan.at(-1).date < data.autoPlan.examDate);
   const excluded = ["C9T1"];
@@ -32,17 +33,15 @@ test("schedules the remaining 51 papers from October 8 with one weekly rule, tim
   // 全程走十月每周份数；两份的日子必须上午＋晚上分开，周三上午 07:00。
   const byDate = new Map(data.mainPlan.map((row) => [row.date, row]));
   for (const [date, expected] of [
-    ["2026-10-08", [["C9T2", 18]]],
-    ["2026-10-09", [["C9T3", 8], ["C9T4", 18]]],
-    ["2026-10-10", [["C10T1", 18]]],
-    ["2026-10-11", [["C10T2", 8], ["C10T3", 18]]],
-    ["2026-10-14", [["C11T3", 7]]],
-    ["2026-11-16", [["C21T4", 18]]],  // 只剩最后 1 套，时段按实际份数走晚上场
-
+    ["2026-10-10", [["C9T2", 18]]],
+    ["2026-10-11", [["C9T3", 8], ["C9T4", 18]]],
+    ["2026-10-13", [["C10T3", 18]]],
+    ["2026-10-14", []],  // 周三整天留给书报讨论
+    ["2026-11-22", [["C21T4", 18]]],  // 只剩最后 1 套，时段按实际份数走晚上场
   ]) {
     const row = byDate.get(date);
     assert.deepEqual(Array.from(row.trainingItems, (item) => [item.cambridge, item.preferredHour]), expected, date);
-    assert.match(row.limits, expected.length === 2 ? /预留8小时/ : /预留4小时|周三仅上午1份/, date);
+    assert.match(row.limits, expected.length === 2 ? /预留8小时/ : expected.length === 0 ? /整天不排雅思/ : /预留4小时/, date);
   }
   // 11/10–11/14 人在日本：这五天必须完全空出来，且不消耗任何一套真题。
   assert.deepEqual(
@@ -67,7 +66,7 @@ test("schedules the remaining 51 papers from October 8 with one weekly rule, tim
     const isLast = row.date === data.mainPlan.at(-1).date;
     const count = traveling ? 0
       : isLast ? row.trainingItems.length
-        : pinned[row.date] ?? [2, 2, 1, 1, 1, 2, 1][weekday];
+        : pinned[row.date] ?? [2, 2, 1, 0, 1, 2, 1][weekday];
     assert.equal(row.trainingItems.length, count, row.date);
     if (traveling) {
       assert.equal(row.projectPlan, "");
@@ -75,10 +74,15 @@ test("schedules the remaining 51 papers from October 8 with one weekly rule, tim
       assert.equal(row.projectPhase, undefined);
       continue;
     }
-    // 周三上午要赶车，第一份一律 07:00；其余日子单份放晚上、双份拆上午＋晚上。
+    // 周三整天留给书报讨论：不排雅思，但仍要回中央。
     if (weekday === 3) {
-      assert.equal(row.trainingItems[0].preferredHour, 7);
+      assert.equal(row.trainingItems.length, 0, row.date);
+      assert.equal(row.projectType, "学务", row.date);
       assert.match(row.projectPlan, /中午坐车回中央/);
+      assert.doesNotMatch(row.projectPlan, /IELTS/, "周三的行程描述不该还写着做雅思");
+      assert.match(row.ieltsPlan, /书报讨论日/, row.date);
+      // 周三不是旅行，不可被误标成日本行程
+      assert.doesNotMatch(row.ieltsPlan, /日本/, row.date);
     } else {
       assert.deepEqual(
         Array.from(row.trainingItems, (item) => item.preferredHour),
@@ -98,8 +102,8 @@ test("schedules the remaining 51 papers from October 8 with one weekly rule, tim
     assert.match(item.module, /整理60分钟/);
   }
   for (const [phase, days, first, last] of [
-    ["Raith 学习", 7, "2026-10-08", "2026-10-14"],
-    ["EBeam Fin 实验", 21, "2026-10-15", "2026-11-04"],
+    ["Raith 学习", 7, "2026-10-10", "2026-10-16"],
+    ["EBeam Fin 实验", 21, "2026-10-17", "2026-11-06"],
   ]) {
     const rows = data.mainPlan.filter((row) => row.projectPhase === phase);
     assert.equal(rows.length, days);
@@ -120,18 +124,18 @@ test("plan migration preserves history, vocabulary and PhD records, and seeds na
   const candidate = {
     planVersion: "old", planRows: [], moduleCatalog: { 制程: [{ id: "custom", name: "My experiment" }] },
     modulePlans: { "2026-09-06": { itemId: "custom" } },
-    schedule: { "2026-09-06": { 8: "completed" }, "2026-09-13": { 8: "old plan" }, "2026-10-09": { 8: "stale" } },
+    schedule: { "2026-09-06": { 8: "completed" }, "2026-09-13": { 8: "old plan" }, "2026-10-13": { 8: "stale" } },
     ieltsMoves: [{ id: "mv", itemId: "full-C9T3", code: "C9T3", from: "2026-09-11", to: "2026-09-20" }],
     vocabularyCards: { saved: true }, phdTracker: { saved: true }, roadmap: { tasks: { saved: true } },
   };
   migrate(candidate);
   assert.equal(candidate.schedule["2026-09-06"][8], "completed");
   assert.equal(candidate.schedule["2026-09-13"][8], "old plan");
-  assert.equal(candidate.schedule["2026-10-09"], undefined, "entries from the reset window are cleared");
+  assert.equal(candidate.schedule["2026-10-13"], undefined, "entries from the reset window are cleared");
   assert.equal(candidate.ieltsMoves.length, 0, "regenerated plan must not keep stale reschedules");
   assert.equal(candidate.modulePlans["2026-09-06"].itemId, "custom");
-  assert.equal(candidate.modulePlans["2026-10-08"].itemId, "routine-raith");
-  assert.equal(candidate.modulePlans["2026-10-15"].itemId, "routine-ebeam-fin");
+  assert.equal(candidate.modulePlans["2026-10-10"].itemId, "routine-raith");
+  assert.equal(candidate.modulePlans["2026-10-17"].itemId, "routine-ebeam-fin");
   assert.equal(candidate.modulePlans["2026-09-24"], undefined);
   assert.equal(candidate.vocabularyCards.saved, true);
   assert.equal(candidate.phdTracker.saved, true);

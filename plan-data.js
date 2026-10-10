@@ -1,10 +1,10 @@
 (function () {
-  const startDate = "2026-10-08";
+  const startDate = "2026-10-10";
   // 11/10–11/14 人在日本：雅思与实验都停，之后顺延。
   const travelPeriod = { startDate: "2026-11-10", endDate: "2026-11-14", label: "日本行程" };
-  // 周日2 周一2 周二1 周三1 周四1 周五2 周六1 ＝ 每周 10 篇。
-  // 周二、三、四、六各 1 篇；其余 2 篇。周三本来就要回中央书报讨论。
-  const weeklyPaperCounts = [2, 2, 1, 1, 1, 2, 1];
+  // 周日2 周一2 周二1 周三0 周四1 周五2 周六1 ＝ 每周 9 篇。
+  // 周三整天留给回中央书报讨论，完全不排雅思。
+  const weeklyPaperCounts = [2, 2, 1, 0, 1, 2, 1];
   // 目前没有逐日覆写：全程单一周规则。
   const dailyPaperCounts = {};
   // 已经做过，不再排入。
@@ -41,8 +41,8 @@
       weekday: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday],
       dayType: traveling ? "旅行" : "正常",
       ieltsPriority: count ? "固定" : "暂停",
-      ieltsPlan: count ? "" : travelPeriod.label,
-      ieltsModule: count ? "" : "不排雅思真题",
+      ieltsPlan: count ? "" : traveling ? travelPeriod.label : "书报讨论日，不排雅思",
+      ieltsModule: count ? "" : traveling ? "不排雅思真题" : "整天留给书报讨论",
       cambridge: "", trainingItems: [],
       projectType: "", projectPlan: "", projectModule: "",
       limits: "", status: "未开始", actual: "",
@@ -60,7 +60,7 @@
       } else if (weekday === 3) {
         row.projectType = "学务";
         row.projectModule = "书报课程";
-        row.projectPlan = "中午坐车回中央；书报讨论；晚上返回。上午 07:00–11:00 IELTS（含整理）";
+        row.projectPlan = "中午坐车回中央；书报讨论；晚上返回。整天不排雅思";
       }
     }
 
@@ -94,7 +94,7 @@
         ? weekday === 3
           ? "周三2份：上午出发前1份，晚上返回后1份；每套独立整理；当日 IELTS 预留8小时"
           : "当日2份：上午1份、晚上1份；每套独立整理；当日 IELTS 预留8小时"
-        : weekday === 3 ? "周三仅上午1份；中午出发前完成训练与整理"
+        : count === 0 ? "周三：中午坐车回中央书报讨论，整天不排雅思"
           : [1, 4, 6, 0].includes(weekday) ? "周一／四／六／日：白天实验，晚上1份 IELTS；当日 IELTS 预留4小时"
             : "当日1份 IELTS；预留4小时";
     if (nextTest === testBank.length) row.limits = `完成C21T4；当日IELTS预留${row.trainingItems.length * 4}小时，之后不再排新真题`;
@@ -102,20 +102,20 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-10-08T00:00:00.000+08:00",
-    source: "10/8起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周六1份、周日2份、周一2份、周二1份、周三四五2份执行；日本行程 11/10-11/14 不排，之后顺延；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-10-10T00:00:00.000+08:00",
+    source: "10/10起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周三完全不排（书报讨论日），周二四六各1份、周日一五各2份，每周9份；日本行程 11/10-11/14 不排，之后顺延；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-10-14", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-10-15", endDate: "2026-11-04", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-10-16", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-10-17", endDate: "2026-11-06", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-10-08-japan-1110-1114-v26",
+    planVersion: "2026-10-10-wed-off-japan-v27",
     resetFromDate: startDate,
   };
 })();
