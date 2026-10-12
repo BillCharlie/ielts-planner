@@ -1,5 +1,7 @@
 (function () {
-  const startDate = "2026-10-10";
+  const startDate = "2026-10-13";
+  // 清掉上一版 10/10–10/12 的排程与小时表，新的计划统一从 10/13 开始。
+  const resetFromDate = "2026-10-10";
   // 11/10–11/14 人在日本：雅思与实验都停，之后顺延。
   const travelPeriod = { startDate: "2026-11-10", endDate: "2026-11-14", label: "日本行程" };
   // 周日2 周一2 周二1 周三0 周四1 周五2 周六1 ＝ 每周 9 篇。
@@ -102,20 +104,20 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-10-10T00:00:00.000+08:00",
-    source: "10/10起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周三完全不排（书报讨论日），周二四六各1份、周日一五各2份，每周9份；日本行程 11/10-11/14 不排，之后顺延；两份日拆为上午与晚上；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-10-13T00:00:00.000+08:00",
+    source: "10/13起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周三完全不排（书报讨论日），周二四六各1份、周日一五各2份，每周9份；日本行程 11/10-11/14 不排，之后顺延；两份日拆为上午与晚上；Raith一周后EBeam Fin三周。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-10-16", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-10-17", endDate: "2026-11-06", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-10-19", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-10-20", endDate: "2026-11-09", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-10-10-wed-off-japan-v27",
-    resetFromDate: startDate,
+    planVersion: "2026-10-13-wed-off-japan-v28",
+    resetFromDate,
   };
 })();
