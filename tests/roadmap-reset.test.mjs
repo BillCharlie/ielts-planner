@@ -3,14 +3,14 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
 
-test("schedules the remaining 51 papers from October 20 with three papers on Sundays and Mondays", async () => {
+test("schedules the remaining 51 papers from October 21 with three papers on Sundays and Mondays", async () => {
   const context = { window: {} };
   vm.runInNewContext(await readFile(new URL("../plan-data.js", import.meta.url), "utf8"), context);
   const data = context.window.IELTS_PLANNER_DATA;
-  assert.equal(data.planVersion, "2026-10-20-full-reset-v30");
-  assert.equal(data.resetFromDate, "2026-10-18");
-  assert.equal(data.mainPlan[0].date, "2026-10-20");
-  assert.equal(data.mainPlan.at(-1).date, "2026-11-24");
+  assert.equal(data.planVersion, "2026-10-21-advisor-reset-v31");
+  assert.equal(data.resetFromDate, "2026-10-20");
+  assert.equal(data.mainPlan[0].date, "2026-10-21");
+  assert.equal(data.mainPlan.at(-1).date, "2026-11-26");
   assert.equal(data.mainPlan.at(-1).trainingItems.at(-1).cambridge, "C21T4");
   // 全部真题必须排在 12/19 考试之前。
   assert.equal(data.autoPlan.examDate, "2026-12-19");
@@ -33,12 +33,11 @@ test("schedules the remaining 51 papers from October 20 with three papers on Sun
   // 周日、周一的三份必须拆成三个互不重叠的时段；周五两份维持上午＋晚上。
   const byDate = new Map(data.mainPlan.map((row) => [row.date, row]));
   for (const [date, expected] of [
-    ["2026-10-20", [["C9T2", 18]]],
     ["2026-10-21", []],  // 周三整天留给书报讨论
-    ["2026-10-22", [["C9T3", 18]]],
-    ["2026-10-23", [["C9T4", 8], ["C10T1", 18]]],
-    ["2026-10-25", [["C10T3", 6], ["C10T4", 11], ["C11T1", 18]]],
-    ["2026-11-24", [["C21T4", 18]]],  // 只剩最后 1 套，时段按实际份数走晚上场
+    ["2026-10-22", [["C9T2", 18]]],
+    ["2026-10-23", [["C9T3", 8], ["C9T4", 18]]],
+    ["2026-10-25", [["C10T2", 6], ["C10T3", 11], ["C10T4", 18]]],
+    ["2026-11-26", [["C21T4", 18]]],  // 只剩最后 1 套，时段按实际份数走晚上场
   ]) {
     const row = byDate.get(date);
     assert.deepEqual(Array.from(row.trainingItems, (item) => [item.cambridge, item.preferredHour]), expected, date);
@@ -107,8 +106,8 @@ test("schedules the remaining 51 papers from October 20 with three papers on Sun
     assert.match(item.module, /整理60分钟/);
   }
   for (const [phase, days, first, last] of [
-    ["Raith 学习", 7, "2026-10-20", "2026-10-26"],
-    ["EBeam Fin 实验", 21, "2026-10-27", "2026-11-21"],
+    ["Raith 学习", 7, "2026-10-21", "2026-10-27"],
+    ["EBeam Fin 实验", 21, "2026-10-28", "2026-11-22"],
   ]) {
     const rows = data.mainPlan.filter((row) => row.projectPhase === phase);
     assert.equal(rows.length, days);
@@ -129,19 +128,19 @@ test("plan migration preserves history, vocabulary and PhD records, and seeds na
   const candidate = {
     planVersion: "old", planRows: [], moduleCatalog: { 制程: [{ id: "custom", name: "My experiment" }] },
     modulePlans: { "2026-09-06": { itemId: "custom" } },
-    schedule: { "2026-09-06": { 8: "completed" }, "2026-09-13": { 8: "old plan" }, "2026-10-17": { 8: "preserved history" }, "2026-10-18": { 8: "stale old start" }, "2026-10-20": { 8: "stale" } },
+    schedule: { "2026-09-06": { 8: "completed" }, "2026-09-13": { 8: "old plan" }, "2026-10-19": { 8: "preserved history" }, "2026-10-20": { 8: "stale old start" }, "2026-10-21": { 8: "stale" } },
     ieltsMoves: [{ id: "mv", itemId: "full-C9T3", code: "C9T3", from: "2026-09-11", to: "2026-09-20" }],
     vocabularyCards: { saved: true }, phdTracker: { saved: true }, roadmap: { tasks: { saved: true } },
   };
   migrate(candidate);
   assert.equal(candidate.schedule["2026-09-06"][8], "completed");
   assert.equal(candidate.schedule["2026-09-13"][8], "old plan");
-  assert.equal(candidate.schedule["2026-10-17"][8], "preserved history", "entries before the reset date are preserved");
-  assert.equal(candidate.schedule["2026-10-18"], undefined, "entries from the previous start date are cleared");
-  assert.equal(candidate.schedule["2026-10-20"], undefined, "entries on the new start date are regenerated");
+  assert.equal(candidate.schedule["2026-10-19"][8], "preserved history", "entries before the reset date are preserved");
+  assert.equal(candidate.schedule["2026-10-20"], undefined, "entries from the previous start date are cleared");
+  assert.equal(candidate.schedule["2026-10-21"], undefined, "entries on the new start date are regenerated");
   assert.equal(candidate.ieltsMoves.length, 0, "regenerated plan must not keep stale reschedules");
   assert.equal(candidate.modulePlans["2026-09-06"].itemId, "custom");
-  assert.equal(candidate.modulePlans["2026-10-18"], undefined);
+  assert.equal(candidate.modulePlans["2026-10-20"], undefined);
   assert.equal(candidate.modulePlans["2026-10-22"].itemId, "routine-raith");
   assert.equal(candidate.modulePlans["2026-10-29"].itemId, "routine-ebeam-fin");
   assert.equal(candidate.modulePlans["2026-09-24"], undefined);
@@ -206,14 +205,16 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
     assert.match(html, new RegExp(`id="${id}"`));
   }
   assert.match(app, /function renderEuropePanel/);
-  // 套磁排程：每周一位，三批依序；旧的四波已由 replaces 退役。
-  assert.match(app, /wave:plan-v2[\s\S]*replaces: \["hk:study-six", "hk:mail-wave1"/);
+  // 导师研究：本周吴添立，接着香港，再进入欧洲；旧排程由 replaces 退役。
+  assert.match(app, /wave:plan-v3[\s\S]*replaces: \["wave:plan-v2", "hk:study-six", "hk:mail-wave1"/);
   assert.doesNotMatch(app, /id: "hk:mail-wave1"/);
-  // 排班是唯一来源：甘特「本月排班」与日历节点都由 OUTREACH_ROSTER 产生。
+  // 排班是唯一来源：甘特「导师研究」与日历节点都由 OUTREACH_ROSTER 产生。
   assert.match(app, /const OUTREACH_ROSTER = \[/);
-  assert.match(app, /id: `roster2:\$\{row\.date\}`/);
-  // 重排后日期换了人，旧的 roster:<date> 必须一次退役，否则新旧并存。
+  assert.match(app, /id: `roster3:\$\{row\.date\}`/);
+  assert.match(app, /本月导师研究 · 每周一位/);
+  // 重排后日期换了人，旧的 roster: 与 roster2: 必须一次退役，否则新旧并存。
   assert.match(app, /const LEGACY_ROSTER_IDS = \[/);
+  assert.match(app, /`roster:\$\{date\}`, `roster2:\$\{date\}`/);
   assert.match(app, /function rosterSupersedes/);
   assert.match(app, /function outreachRosterMarkup/);
   // 排班里的老师可点击跳到 PhD 页对应那一栏并高亮。
@@ -235,13 +236,16 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   // 旧的手写每周节点已退役，不可和产生的并存。
   assert.doesNotMatch(app, /\{ id: "(?:w[123]|tw):/);
   assert.match(app, /const ROSTER_SUPERSEDES = \{[\s\S]*"2026-10-12": "w1:hku-yuhao"/);
-  // 吴添立、张毅已提前到十月最前；两个锚点不动。
-  assert.match(app, /date: "2026-10-12", batch: 1, lane: "台湾", who: "吴添立/);
-  assert.match(app, /date: "2026-10-19", batch: 1, lane: "HK", who: "Yi Zhang/);
+  // 本周吴添立；其后香港导师必须连续排完，才进入欧洲导师。
+  assert.match(app, /date: "2026-10-19", batch: 1, lane: "台湾", who: "吴添立/);
   assert.match(app, /date: "2026-10-26"[\s\S]{0,40}who: "Yuhao Zhang/);
+  assert.match(app, /date: "2026-11-02"[\s\S]{0,40}who: "Kevin J\. Chen/);
+  assert.match(app, /date: "2026-11-09"[\s\S]{0,40}lane: "HK"[\s\S]{0,40}who: "Weijia Zhang/);
+  assert.match(app, /date: "2026-12-07"[\s\S]{0,40}lane: "HK"[\s\S]{0,40}who: "Yan Cheng/);
   assert.match(app, /date: "2026-12-14", batch: 0[\s\S]*考前一周只回信/);
-  assert.match(app, /date: "2027-02-01", batch: 0[\s\S]{0,120}锁定台湾四位/);
-  assert.match(app, /date: "2027-03-15", batch: 3, lane: "欧洲"/);
+  assert.match(app, /date: "2026-12-21"[\s\S]{0,40}lane: "欧洲"[\s\S]{0,40}who: "Stefaan Decoutere/);
+  assert.match(app, /date: "2027-03-01", batch: 0[\s\S]{0,120}锁定台湾其余三位/);
+  assert.match(app, /date: "2027-03-22", batch: 3, lane: "欧洲"/);
   // Group A 不占套磁配额，改职缺扫描。
   assert.match(app, /radar:group-a[\s\S]*不占套磁配额/);
   assert.match(app, /schools: \["德国", "法国", "比利时", "荷兰", "瑞典", "丹麦", "挪威"\]/);
@@ -405,15 +409,15 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
   assert.match(html, /口语常用词汇/);
-  assert.match(html, /planning-tasks\.js\?v=20261020-plan-reset/);
-  assert.match(html, /xlsx-export\.js\?v=20261020-plan-reset/);
-  assert.match(html, /app\.js\?v=20261020-plan-reset/);
-  assert.match(html, /ielts-moves\.js\?v=20261020-plan-reset/);
+  assert.match(html, /planning-tasks\.js\?v=20261021-advisor-reset/);
+  assert.match(html, /xlsx-export\.js\?v=20261021-advisor-reset/);
+  assert.match(html, /app\.js\?v=20261021-advisor-reset/);
+  assert.match(html, /ielts-moves\.js\?v=20261021-advisor-reset/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v102-plan-reset/);
+  assert.match(sw, /planner-notebook-v103-advisor-reset/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
