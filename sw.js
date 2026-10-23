@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v103-advisor-reset";
+const CACHE_NAME = "planner-notebook-v104-plan-reset";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261021-advisor-reset",
-  "./app.js?v=20261021-advisor-reset",
-  "./planning-tasks.js?v=20261021-advisor-reset",
-  "./ielts-moves.js?v=20261021-advisor-reset",
-  "./eu-radar.js?v=20261021-advisor-reset",
-  "./xlsx-export.js?v=20261021-advisor-reset",
+  "./styles.css?v=20261024-plan-reset",
+  "./app.js?v=20261024-plan-reset",
+  "./planning-tasks.js?v=20261024-plan-reset",
+  "./ielts-moves.js?v=20261024-plan-reset",
+  "./eu-radar.js?v=20261024-plan-reset",
+  "./xlsx-export.js?v=20261024-plan-reset",
   "./config.js",
-  "./plan-data.js?v=20261021-advisor-reset",
+  "./plan-data.js?v=20261024-plan-reset",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
