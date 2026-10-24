@@ -1,7 +1,7 @@
 (function () {
-  const startDate = "2026-10-24";
-  // 清掉上一版 10/21–10/23 的排程与小时表，新的计划统一从 10/24 开始。
-  const resetFromDate = "2026-10-21";
+  const startDate = "2026-10-25";
+  // 清掉上一版 10/24 的排程与小时表，新的计划统一从 10/25 开始。
+  const resetFromDate = "2026-10-24";
   // 11/10–11/14 人在日本：雅思与实验都停，之后顺延。
   const travelPeriod = { startDate: "2026-11-10", endDate: "2026-11-14", label: "日本行程" };
   // 周日3 周一3 周二1 周三0 周四1 周五2 周六1 ＝ 每周 11 篇。
@@ -49,6 +49,8 @@
       projectType: "", projectPlan: "", projectModule: "",
       limits: "", status: "未开始", actual: "",
     };
+    // 题库见底时，最后一天的实际份数可能少于该星期的标准份数。
+    const placed = Math.min(count, testBank.length - nextTest);
 
     if (!traveling) {
       activeDays += 1;
@@ -58,7 +60,7 @@
         row.projectType = "实验专案";
         row.projectModule = "制程";
         row.projectItemId = activeDays <= 7 ? "routine-raith" : activeDays <= 28 ? "routine-ebeam-fin" : "routine-experiment";
-        row.projectPlan = count >= 3
+        row.projectPlan = placed >= 3
           ? `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；当日 IELTS 06:00／11:00／18:00，实验仅保留必要记录与准备`
           : `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；白天预留，18:00 开始 IELTS`;
       } else if (weekday === 3) {
@@ -70,7 +72,6 @@
 
     // 题库见底时实际份数可能少于周规则；时段要按实际份数决定，
     // 否则最后一天只剩 1 套也会被当成「两份日的上午场」排到 08:00。
-    const placed = Math.min(count, testBank.length - nextTest);
     for (let index = 0; index < placed; index += 1) {
       const paper = testBank[nextTest++];
       // 三份日拆成 06:00／11:00／18:00；两份日维持上午＋晚上。
@@ -109,20 +110,20 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-10-24T00:00:00.000+08:00",
-    source: "10/24起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周日与周一各3份、周五2份、周二四六各1份、周三完全不排，每周11份；日本行程 11/10-11/14 不排，之后顺延；三份日排06:00／11:00／18:00；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-10-25T00:00:00.000+08:00",
+    source: "10/25起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周日与周一各3份、周五2份、周二四六各1份、周三完全不排，每周11份；日本行程 11/10-11/14 不排，之后顺延；三份日排06:00／11:00／18:00；Raith一周后EBeam Fin三周，旅行暂停顺延。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-10-30", activeDays: 7 },
-      { name: "EBeam Fin 实验", startDate: "2026-10-31", endDate: "2026-11-25", activeDays: 21 },
+      { name: "Raith 学习", startDate, endDate: "2026-10-31", activeDays: 7 },
+      { name: "EBeam Fin 实验", startDate: "2026-11-01", endDate: "2026-11-26", activeDays: 21 },
     ],
     testBank: {
       range: "Cambridge 9–21", perBook: 4, total: testBank.length,
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-10-24-plan-reset-v32",
+    planVersion: "2026-10-25-plan-reset-v33",
     resetFromDate,
   };
 })();
