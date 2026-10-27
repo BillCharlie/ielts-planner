@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v107-plan-reset";
+const CACHE_NAME = "planner-notebook-v108-chwu-compact";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261027-plan-reset",
-  "./app.js?v=20261027-plan-reset",
-  "./planning-tasks.js?v=20261027-plan-reset",
-  "./ielts-moves.js?v=20261027-plan-reset",
-  "./eu-radar.js?v=20261027-plan-reset",
-  "./xlsx-export.js?v=20261027-plan-reset",
+  "./styles.css?v=20261027-chwu-compact",
+  "./app.js?v=20261027-chwu-compact",
+  "./planning-tasks.js?v=20261027-chwu-compact",
+  "./ielts-moves.js?v=20261027-chwu-compact",
+  "./eu-radar.js?v=20261027-chwu-compact",
+  "./xlsx-export.js?v=20261027-chwu-compact",
   "./config.js",
-  "./plan-data.js?v=20261027-plan-reset",
+  "./plan-data.js?v=20261027-chwu-compact",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",

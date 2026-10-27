@@ -29,29 +29,30 @@
   // batch 1=GaN power device（TCAD／制程／可靠性）2=转换器／电源电路 3=GaN RF（只欧洲）
   const OUTREACH_ROSTER = [
     { date: "2026-10-19", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "S+ 9.5", why: "本周研究：p-GaN gate 可靠性＋AI 辅助器件设计；拿 U-Net 建模那篇切入" , advisors: ["tw-adv-nycu-tlwu"] },
-    { date: "2026-10-26", batch: 1, lane: "HK", who: "Yuhao Zhang 张宇昊", where: "HKU", tier: "S+ 9.5", why: "香港第1位：multi-channel GaN＋Fin＋ML co-design，与你双通道 Tri-gate 交集最大" , advisors: ["hk-adv-hku-yuhao"] },
-    { date: "2026-11-02", batch: 1, lane: "HK", who: "Kevin J. Chen 陈敬", where: "HKUST", tier: "S+ 9.5", why: "香港第2位：p-GaN／E-mode／MIS-HEMT 本家；梳理 concept→TCAD→制程→量测全回路" , advisors: ["hk-adv-hkust-kevin"] },
-    { date: "2026-11-09", batch: 2, lane: "HK", who: "Weijia Zhang 张薇葭", where: "HKUST", tier: "S 9", why: "香港第3位：gate driver／PMIC／integrated DC-DC；确认能否保留 device-level 比重" , advisors: ["hk-adv-hkust-weijia"] },
-    { date: "2026-11-16", batch: 1, lane: "HK", who: "Man Hoi Wong 黄文海", where: "HKUST", tier: "S 8.5", why: "香港第4位：研究 defect／interface／polarization 如何影响 device physics" , advisors: ["hk-adv-hkust-manhoi"] },
-    { date: "2026-11-23", batch: 1, lane: "HK", who: "Yi Zhang 张毅", where: "PolyU", tier: "A+ 8", why: "香港第5位：SiC/GaN 可靠性、failure analysis、packaging 与 thermal" , advisors: ["hk-adv-polyu-yizhang"] },
-    { date: "2026-11-30", batch: 2, lane: "HK", who: "Alex Leung 梁加能", where: "CUHK", tier: "A（转型 9）", why: "香港第6位：24/48V-to-1V hybrid DC-DC；评估从器件研究转向 PMIC 的幅度" , advisors: ["hk-adv-cuhk-alex"] },
-    { date: "2026-12-07", batch: 1, lane: "HK", who: "Yan Cheng 成妍", where: "HKUST", tier: "B+", why: "香港补充确认：先核对 RAP 能否担任 RPG primary supervisor" , advisors: ["hk-adv-hkust-yancheng"] },
+    { date: "2026-10-26", batch: 1, lane: "台湾", who: "吴肇欣 Chao-Hsin (Wayne) Wu", where: "NTU · IOED Lab", tier: "S+ 9.5", why: "吴添立之后第2位：双通道 Fin-HEMT small-signal／compact model 与你的结构直接重叠；先拆 2024 硕论与 IEDMS 模型工作" , advisors: ["tw-adv-ntu-chwu"] },
+    { date: "2026-11-02", batch: 1, lane: "HK", who: "Yuhao Zhang 张宇昊", where: "HKU", tier: "S+ 9.5", why: "香港第1位：multi-channel GaN＋Fin＋ML co-design，与你双通道 Tri-gate 交集最大" , advisors: ["hk-adv-hku-yuhao"] },
+    { date: "2026-11-09", batch: 1, lane: "HK", who: "Kevin J. Chen 陈敬", where: "HKUST", tier: "S+ 9.5", why: "香港第2位：p-GaN／E-mode／MIS-HEMT 本家；梳理 concept→TCAD→制程→量测全回路" , advisors: ["hk-adv-hkust-kevin"] },
+    { date: "2026-11-16", batch: 2, lane: "HK", who: "Weijia Zhang 张薇葭", where: "HKUST", tier: "S 9", why: "香港第3位：gate driver／PMIC／integrated DC-DC；确认能否保留 device-level 比重" , advisors: ["hk-adv-hkust-weijia"] },
+    { date: "2026-11-23", batch: 1, lane: "HK", who: "Man Hoi Wong 黄文海", where: "HKUST", tier: "S 8.5", why: "香港第4位：研究 defect／interface／polarization 如何影响 device physics" , advisors: ["hk-adv-hkust-manhoi"] },
+    { date: "2026-11-30", batch: 1, lane: "HK", who: "Yi Zhang 张毅", where: "PolyU", tier: "A+ 8", why: "香港第5位：SiC/GaN 可靠性、failure analysis、packaging 与 thermal" , advisors: ["hk-adv-polyu-yizhang"] },
+    { date: "2026-12-07", batch: 2, lane: "HK", who: "Alex Leung 梁加能", where: "CUHK", tier: "A（转型 9）", why: "香港第6位：24/48V-to-1V hybrid DC-DC；评估从器件研究转向 PMIC 的幅度" , advisors: ["hk-adv-cuhk-alex"] },
     { date: "2026-12-14", batch: 0, lane: "HK", who: "停一周", where: "考前", tier: "—", why: "考前一周只回信与追踪，不开新对象，专心 12/19 雅思" },
-    { date: "2026-12-21", batch: 1, lane: "欧洲", who: "Stefaan Decoutere", where: "imec／比利时", tier: "可靠度4·TCAD4·制程5", why: "欧洲第1位：imec 制程与可靠性。imec 是秋季集中徵集，错过要等一年；若职缺窗口提前开放，仍应插队处理" , advisors: ["eu-adv-be-stefaan-decoutere"] },
-    { date: "2026-12-28", batch: 1, lane: "欧洲", who: "Farid Medjdoub", where: "IEMN／法国", tier: "TCAD5·制程5", why: "欧洲第2位：锁定 power-device／reliability 子题，避免落到 RF" , advisors: ["eu-adv-fr-farid-medjdoub"] },
-    { date: "2027-01-04", batch: 1, lane: "欧洲", who: "Holger Kapels", where: "德国", tier: "可靠度5·TCAD4·制程5", why: "欧洲第3位：确认当期题目偏制程、TCAD 还是模组可靠度" , advisors: ["eu-adv-de-holger-kapels"] },
-    { date: "2027-01-11", batch: 1, lane: "欧洲", who: "David Trémouilles", where: "LAAS／法国", tier: "可靠度5", why: "欧洲第4位：GaN HEMT 动态表徵与陷阱效应" , advisors: ["eu-adv-fr-david-tremouilles"] },
-    { date: "2027-01-18", batch: 1, lane: "欧洲", who: "Oliver Ambacher", where: "Fraunhofer IAF／德国", tier: "TCAD4·制程5", why: "欧洲第5位：先筛掉 RF/MMIC 职缺，锁定 power device" , advisors: ["eu-adv-de-oliver-ambacher"] },
-    { date: "2027-01-25", batch: 1, lane: "欧洲", who: "Corinne Alonso", where: "法国", tier: "可靠度5", why: "欧洲第6位：GaN HEMT 动态特性与转换器可靠度" , advisors: ["eu-adv-fr-corinne-alonso"] },
-    { date: "2027-02-01", batch: 2, lane: "欧洲", who: "Stefan Mönch", where: "Stuttgart／德国", tier: "S+", why: "欧洲第7位：ERC 计划页明确邀请博士提案，准备一页研究提案" , advisors: ["eu-adv-de-stefan-moench"] },
-    { date: "2027-02-08", batch: 2, lane: "欧洲", who: "Wilmar Martinez", where: "KU Leuven／比利时", tier: "S+", why: "GaN 高频 switching、PCB 寄生与 EMI" , advisors: ["eu-adv-be-wilmar-martinez"] },
-    { date: "2027-02-15", batch: 2, lane: "欧洲", who: "Marco Liserre", where: "Kiel／德国", tier: "S", why: "GaNius、双向 GaN 与热可靠度" , advisors: ["eu-adv-de-marco-liserre"] },
-    { date: "2027-02-22", batch: 2, lane: "欧洲", who: "Steffen Bernet", where: "TU Dresden／德国", tier: "S", why: "GaN HEMT switching、短路保护、gate driver 测试平台" , advisors: ["eu-adv-de-steffen-bernet"] },
-    { date: "2027-03-01", batch: 0, lane: "台湾", who: "锁定台湾其余三位", where: "台湾", tier: "—", why: "吴添立已于 10/19 研究；接着核对李义明、刘致为、胡璧合与正式招生资格" },
-    { date: "2027-03-08", batch: 1, lane: "台湾", who: "李义明＋刘致为", where: "NYCU／NTU", tier: "S／B+", why: "两位 TCAD；刘致为挂电子所 GIEE，指导资格最稳" , advisors: ["tw-adv-nycu-ymli", "tw-adv-ntu-cwliu"] },
-    { date: "2027-03-15", batch: 1, lane: "台湾", who: "胡璧合 Vita Pi-Ho Hu", where: "NTU", tier: "B+", why: "注意是「璧」不是「壁」；切入点是 DTCO 与 Vth 变异分析" , advisors: ["tw-adv-ntu-vphu"] },
-    { date: "2027-03-22", batch: 3, lane: "欧洲", who: "Fraunhofer IAF GaN MMIC 线", where: "德国", tier: "职缺 84765", why: "100V GaN-HEMT 製程做到 12 GHz；要能接受转 RF 才投" , advisors: ["eu-adv-de-oliver-ambacher"] },
-    { date: "2027-03-29", batch: 3, lane: "欧洲", who: "CEA Gramat GaN RF 放大器", where: "法国", tier: "职缺 138291", why: "相邻领域，排在欧洲研究线最后" },
+    { date: "2026-12-21", batch: 1, lane: "HK", who: "Yan Cheng 成妍", where: "HKUST", tier: "B+", why: "香港补充确认：先核对 RAP 能否担任 RPG primary supervisor" , advisors: ["hk-adv-hkust-yancheng"] },
+    { date: "2026-12-28", batch: 1, lane: "欧洲", who: "Stefaan Decoutere", where: "imec／比利时", tier: "可靠度4·TCAD4·制程5", why: "欧洲第1位：imec 制程与可靠性。imec 是秋季集中徵集，错过要等一年；若职缺窗口提前开放，仍应插队处理" , advisors: ["eu-adv-be-stefaan-decoutere"] },
+    { date: "2027-01-04", batch: 1, lane: "欧洲", who: "Farid Medjdoub", where: "IEMN／法国", tier: "TCAD5·制程5", why: "欧洲第2位：锁定 power-device／reliability 子题，避免落到 RF" , advisors: ["eu-adv-fr-farid-medjdoub"] },
+    { date: "2027-01-11", batch: 1, lane: "欧洲", who: "Holger Kapels", where: "德国", tier: "可靠度5·TCAD4·制程5", why: "欧洲第3位：确认当期题目偏制程、TCAD 还是模组可靠度" , advisors: ["eu-adv-de-holger-kapels"] },
+    { date: "2027-01-18", batch: 1, lane: "欧洲", who: "David Trémouilles", where: "LAAS／法国", tier: "可靠度5", why: "欧洲第4位：GaN HEMT 动态表徵与陷阱效应" , advisors: ["eu-adv-fr-david-tremouilles"] },
+    { date: "2027-01-25", batch: 1, lane: "欧洲", who: "Oliver Ambacher", where: "Fraunhofer IAF／德国", tier: "TCAD4·制程5", why: "欧洲第5位：先筛掉 RF/MMIC 职缺，锁定 power device" , advisors: ["eu-adv-de-oliver-ambacher"] },
+    { date: "2027-02-01", batch: 1, lane: "欧洲", who: "Corinne Alonso", where: "法国", tier: "可靠度5", why: "欧洲第6位：GaN HEMT 动态特性与转换器可靠度" , advisors: ["eu-adv-fr-corinne-alonso"] },
+    { date: "2027-02-08", batch: 2, lane: "欧洲", who: "Stefan Mönch", where: "Stuttgart／德国", tier: "S+", why: "欧洲第7位：ERC 计划页明确邀请博士提案，准备一页研究提案" , advisors: ["eu-adv-de-stefan-moench"] },
+    { date: "2027-02-15", batch: 2, lane: "欧洲", who: "Wilmar Martinez", where: "KU Leuven／比利时", tier: "S+", why: "GaN 高频 switching、PCB 寄生与 EMI" , advisors: ["eu-adv-be-wilmar-martinez"] },
+    { date: "2027-02-22", batch: 2, lane: "欧洲", who: "Marco Liserre", where: "Kiel／德国", tier: "S", why: "GaNius、双向 GaN 与热可靠度" , advisors: ["eu-adv-de-marco-liserre"] },
+    { date: "2027-03-01", batch: 2, lane: "欧洲", who: "Steffen Bernet", where: "TU Dresden／德国", tier: "S", why: "GaN HEMT switching、短路保护、gate driver 测试平台" , advisors: ["eu-adv-de-steffen-bernet"] },
+    { date: "2027-03-08", batch: 0, lane: "台湾", who: "锁定台湾其余三位", where: "台湾", tier: "—", why: "吴添立、吴肇欣已研究；接着核对李义明、刘致为、胡璧合与正式招生资格" },
+    { date: "2027-03-15", batch: 1, lane: "台湾", who: "李义明＋刘致为", where: "NYCU／NTU", tier: "S／B+", why: "两位 TCAD；刘致为挂电子所 GIEE，指导资格最稳" , advisors: ["tw-adv-nycu-ymli", "tw-adv-ntu-cwliu"] },
+    { date: "2027-03-22", batch: 1, lane: "台湾", who: "胡璧合 Vita Pi-Ho Hu", where: "NTU", tier: "B+", why: "注意是「璧」不是「壁」；切入点是 DTCO 与 Vth 变异分析" , advisors: ["tw-adv-ntu-vphu"] },
+    { date: "2027-03-29", batch: 3, lane: "欧洲", who: "Fraunhofer IAF GaN MMIC 线", where: "德国", tier: "职缺 84765", why: "100V GaN-HEMT 製程做到 12 GHz；要能接受转 RF 才投" , advisors: ["eu-adv-de-oliver-ambacher"] },
+    { date: "2027-04-05", batch: 3, lane: "欧洲", who: "CEA Gramat GaN RF 放大器", where: "法国", tier: "职缺 138291", why: "相邻领域，排在欧洲研究线最后" },
   ];
 
   const BATCH_LABEL = { 0: "节点", 1: "第一批", 2: "第二批", 3: "第三批" };
@@ -79,7 +80,7 @@
     </div>`;
   }
 
-  const LEGACY_ROSTER_IDS = ["2026-10-12", "2026-10-19", "2026-10-26", "2026-11-02", "2026-11-09", "2026-11-16", "2026-11-23", "2026-11-30", "2026-12-07", "2026-12-14", "2026-12-21", "2026-12-28", "2027-01-04", "2027-01-11", "2027-01-18", "2027-01-25", "2027-02-01", "2027-02-08", "2027-02-15", "2027-02-22", "2027-03-01", "2027-03-08", "2027-03-15", "2027-03-22"].flatMap((date) => [`roster:${date}`, `roster2:${date}`]);
+  const LEGACY_ROSTER_IDS = ["2026-10-12", "2026-10-19", "2026-10-26", "2026-11-02", "2026-11-09", "2026-11-16", "2026-11-23", "2026-11-30", "2026-12-07", "2026-12-14", "2026-12-21", "2026-12-28", "2027-01-04", "2027-01-11", "2027-01-18", "2027-01-25", "2027-02-01", "2027-02-08", "2027-02-15", "2027-02-22", "2027-03-01", "2027-03-08", "2027-03-15", "2027-03-22", "2027-03-29"].flatMap((date) => [`roster:${date}`, `roster2:${date}`, `roster3:${date}`]);
 
   // 日期与人选重排过，roster:<date> 这组旧 id 的内容已经不对；
   // 让第一笔一次把它们全部退役，避免新旧两份并存。
@@ -116,9 +117,9 @@
   };
   const APPLICATION_MILESTONES = [
     { id: "hk:advisor-longlist", module: "application", lane: "HK", date: "2026-10-31", text: "四校导师长名单定稿：HKUST／PolyU／HKU／CUHK，各 2–4 位（CityU 本轮排除：要求提交时成绩即有效，唯一确定轮次 12/01 赶不上）" },
-    { id: "wave:plan-v3", module: "application", lane: "HK", date: "2026-10-21",
-      replaces: ["wave:plan-v2", "hk:study-six", "hk:mail-wave1", "hk:mail-wave2", "hk:mail-wave3", "hk:mail-wave4"],
-      text: "导师研究从本周重启：10/19 当周吴添立；10/26 起连续研究香港导师；香港完成后从 12/21 起进入欧洲导师，每周一位。研究笔记同步作为后续套磁准备。" },
+    { id: "wave:plan-v4", module: "application", lane: "台湾", date: "2026-10-27",
+      replaces: ["wave:plan-v3", "wave:plan-v2", "hk:study-six", "hk:mail-wave1", "hk:mail-wave2", "hk:mail-wave3", "hk:mail-wave4"],
+      text: "导师研究顺序更新：10/19 吴添立，10/26 吴肇欣（优先 compact／small-signal model）；11/02 起连续研究香港导师，香港完成后从 12/28 起进入欧洲导师，每周一位。研究笔记同步作为后续套磁准备。" },
     { id: "radar:group-a", module: "application", lane: "欧洲", date: "2026-10-12", text: "每周职缺扫描（不占套磁配额）：荷兰 AcademicTransfer、挪威 Jobbnorge、瑞典／丹麦各校 vacancies、EURAXESS。Group A 是「职缺＝funding」，套磁价值低，看到缺再针对性投" },
     { id: "radar:group-a-people", module: "application", lane: "欧洲", date: "2026-10-12", text: "Group A 关注对象（等缺不套磁）：荷兰 Soeiro／Rietveld、瑞典 Norrga、丹麦 Huai Wang、挪威 Peftitsis —— 他们开缺时直接投，别先写信" },
     { id: "hk:polyu-docs", module: "application", lane: "HK", date: "2026-11-30", text: "PolyU 送件材料备齐：主 CV、research proposal、成绩单、成果附件" },
@@ -134,7 +135,7 @@
   ].concat(
     // 每周导师研究节点由 OUTREACH_ROSTER 产生：甘特排班与日历节点同一份名单。
     OUTREACH_ROSTER.map((row, index) => ({
-      id: `roster3:${row.date}`,
+      id: `roster4:${row.date}`,
       module: "application",
       lane: row.lane,
       date: row.date,
@@ -185,37 +186,37 @@
       { 制程: "10 月中完成测试制程（Litho+Etch）；10 月底开始元件制程", TCAD: "依实际磊晶结构与氧化层厚度进一步模拟 PGaN Emode／Dmode（重点能带 + 导通电场）" },
       "维持训练；错题与口语素材整理",
       { IEDMS: "10/15–10/20 做海报；10/23 参加报告", IWN: "10/25–11/1 做海报" },
-      { HK: "导师研究 10/26 起跑：Yuhao Zhang；之后先完成香港名单", 台湾: "本周研究吴添立（10/19 当周，全库最高匹配 9.5）", 欧洲: "香港导师完成后再进入欧洲；本月只做职缺扫描" },
+      { HK: "11/02 再启动香港名单", 台湾: "10/19 吴添立→10/26 吴肇欣；吴肇欣优先读双通道 Fin-HEMT compact／small-signal model", 欧洲: "香港导师完成后再进入欧洲；本月只做职缺扫描" },
       "A：正式 wafer 已开始"],
     ["2026/11", "Fabrication sprint",
       { 制程: "元件制程与第一批 Fin", TCAD: "开始模拟 BV" },
       "题库已刷完；转专项弱项与全真模考节奏",
       { IWN: "11/8–11/13 会议", ISPSD: "11/1 开始写稿；11/11 开放投稿；11/20 第一版给老师" },
-      { HK: "香港导师连续研究：Kevin Chen→Weijia Zhang→Man Hoi Wong→Yi Zhang→Alex Leung", 欧洲: "暂不进入导师研究；只维持职缺窗口扫描" },
+      { HK: "香港导师连续研究：Yuhao Zhang→Kevin Chen→Weijia Zhang→Man Hoi Wong→Yi Zhang", 欧洲: "暂不进入导师研究；只维持职缺窗口扫描" },
       "B 最晚延至 12 月"],
     ["2026/12", "First data",
       { 制程: "electrical measurement；C–V / Regrowth", Cadence: "Cadence 开始" },
       "12/19 二战考试；考后收尾",
       { ISPSD: "12/16 截稿" },
-      { HK: "12/07 Yan Cheng（先确认 RAP 资格）；12/14 考前暂停", 欧洲: "香港完成后启动：12/21 Decoutere→12/28 Medjdoub" },
+      { HK: "12/07 Alex Leung；12/14 考前暂停；12/21 Yan Cheng（先确认 RAP 资格）", 欧洲: "香港完成后启动：12/28 Decoutere" },
       "12/15 通过 G2"],
     ["2027/01", "Diagnose",
       { 制程: "分析第一批结果；重测异常 device", Cadence: "电路／版图推进" },
       "",
       {},
-      { HK: "出分＋主投 HKUST／PolyU", 欧洲: "导师研究：Kapels→Trémouilles→Ambacher→Alonso" },
+      { HK: "出分＋主投 HKUST／PolyU", 欧洲: "导师研究：Medjdoub→Kapels→Trémouilles→Ambacher" },
       "A：只做有限补实验"],
     ["2027/02", "Controlled iteration",
       { 制程: "第二轮 device／必要补测", TCAD: "TCAD–experiment comparison" },
       "",
       {},
-      { 欧洲: "导师研究：Mönch→Martinez→Liserre→Bernet", HK: "补件与面试；准备 CUHK clearing" },
+      { 欧洲: "导师研究：Alonso→Mönch→Martinez→Liserre", HK: "补件与面试；准备 CUHK clearing" },
       "A：实验开始 freeze"],
     ["2027/03", "Data freeze",
       { 制程: "主要 dataset 收敛" },
       "",
       { ISPSD: "论文投稿或接近投稿" },
-      { 台湾: "其余三位 3/01–3/15 核对完毕；3 月下旬考试入学报名（待公告）", HK: "3/31 CUHK clearing 截止（需雅思到位）", 欧洲: "高匹配导师已完成；3/22 起才看低优先 RF 线" },
+      { 台湾: "其余三位 3/08–3/22 核对完毕；3 月下旬考试入学报名（待公告）", HK: "3/31 CUHK clearing 截止（需雅思到位）", 欧洲: "3/01 Bernet；3/29 起才看低优先 RF 线" },
       "3/31 通过 G3，否则切 B"],
     ["2027/04", "Write",
       { 制程: "只补必要量测" },
@@ -291,11 +292,16 @@
       focus: "p-GaN gate HEMT 可靠性、GaN MIS-HEMT Vth 不稳定与栅介质击穿、SiC MOSFET 可靠性、AI 辅助器件设计",
       note: "台湾这边与你研究链重叠最深的一位，甚至比部分港校老师更贴。WLab 四个方向里直接写着「AI-assisted semiconductor device designs」，正好接你 TCAD＋AI 那条线；近三年多篇 p-GaN gate 失效机制与 ΔVth trapping 分析，并与 imec（Posthuma／Decoutere）长期合作、有 200mm GaN-on-Si 产线成果。套磁可直接用你的双通道 Tri-gate TCAD→制程→量测全流程对话。email 取自 ICST 官网，寄之前再核一次。",
       url: "https://icst.nycu.edu.tw/" },
-    { id: "tw-adv-nycu-ymli", region: "tw", school: "NYCU", name: "李义明 Yiming Li", tier: "S", match: "8.5", studyOrder: 8,
+    { id: "tw-adv-ntu-chwu", region: "tw", school: "NTU", name: "吴肇欣 Chao-Hsin (Wayne) Wu", tier: "S+", match: "9.5（compact model／双通道 Fin）", studyOrder: 8,
+      email: "chaohsinwu@ntu.edu.tw",
+      focus: "GaN HEMT／MMIC、双通道 Fin-HEMT、small-signal／compact model、S-parameter 参数萃取、p-GaN 与 current collapse／可靠性、高频器件制程",
+      note: "与你的研究不是低交集，反而有一条很直接的结构与建模重叠：IOED Lab 在 2024 硕论中完成双通道 AlGaN/GaN Fin-HEMT 的制程、变偏压量测、内禀参数萃取与 small-signal model，同年 IEDMS 继续报告该模型；这几乎就是你的双通道 Tri-gate 经验可直接对话的题目。近五年其他 GaN 线包括 p-GaN／电流崩塌与表面处理、multi-finger 热特性、AlInN/GaN 高频元件、低温与毫米波 MMIC／辐射可靠性。要注意实验室整体仍是光电＋高频器件的宽谱团队，GaN HEMT 偏 RF／MMIC；套磁时应明确问 compact model 是否仍是目前可收博士的主线，以及能否把 model 从小讯号扩展到 large-signal／power switching。2019 leaky-buffer 模型列作基础阅读，不冒充近五年成果。",
+      url: "https://cc.ee.ntu.edu.tw/~ioedlab/member_professor.html" },
+    { id: "tw-adv-nycu-ymli", region: "tw", school: "NYCU", name: "李义明 Yiming Li", tier: "S", match: "8.5", studyOrder: 9,
       focus: "器件模拟与 TCAD、统计变异分析、机器学习辅助器件设计、GAA nanosheet、AlGaN/GaN MIS-HEMT 建模",
       note: "纯模拟／建模路线，和你「AI+TCAD 优化」那半最合。GAA nanosheet 的多通道 Vth 统计建模思路可与你的双通道互相迁移；GaN 相关几篇（低温 Vth 稳定性、E-mode gate recess）他是共同作者而非通讯，主轴仍是 device simulation。⚠️ OpenAlex 把他和做钙钛矿／电池的同名人合并了，自己查论文时要筛掉不相干的。",
       url: "" },
-    { id: "tw-adv-ntu-yrwu", region: "tw", school: "NTU", name: "吴育任 Yuh-Renn Wu", tier: "A", match: "6.5（方法论 9 / 功率器件 4）", studyOrder: 9,
+    { id: "tw-adv-ntu-yrwu", region: "tw", school: "NTU", name: "吴育任 Yuh-Renn Wu", tier: "A", match: "6.5（方法论 9 / 功率器件 4）", studyOrder: 10,
       focus: "III-nitride 器件数值模拟、localization landscape theory、random alloy 无序与 V-defect 对载流子输运的影响、drift-diffusion 建模",
       note: "⚠️ 方法论极强但应用面不对口：他是台大 III-nitride 模拟的核心人物，localization landscape＋薛定谔方程处理合金无序是他的招牌，可是近三年产出几乎全在 LED／光电，不是功率开关。你的 TCAD 那一半能对上，p-GaN gate／Vth／BV／DC-DC 这条线对不上。另注意他属光电所 GIPO，你若走电子所 GIEE 考试入学，要先确认他能否担任指导教授。",
       url: "" },
@@ -303,7 +309,7 @@
       focus: "GaN 垂直晶体管（sidewall gate、侧壁处理）、micro-LED 与显示、GaN 材料与界面处理",
       note: "台大这边唯一还有在做 GaN 功率晶体管的：近三年有两篇 GaN vertical transistor（侧壁 TMAH/H₃PO₄ 处理、sidewall gate quasi-saturation），他是通讯作者。但主力产出仍是 micro-LED／显示／感测，功率器件只是一条支线。同样属光电所 GIPO，电子所考试入学前要确认指导资格。",
       url: "" },
-    { id: "tw-adv-ntu-cwliu", region: "tw", school: "NTU", name: "刘致为 Chee Wee Liu（TCAD-Si）", tier: "B+", match: "6（器件物理／制程 7 · 功率器件 2.5）", studyOrder: 10,
+    { id: "tw-adv-ntu-cwliu", region: "tw", school: "NTU", name: "刘致为 Chee Wee Liu（TCAD-Si）", tier: "B+", match: "6（器件物理／制程 7 · 功率器件 2.5）", studyOrder: 11,
       focus: "Si/Ge nanosheet 与 GAA 堆叠通道、应变工程与制程流程、单片 3D 异质整合、栅电容与器件物理、热模拟",
       note: "✅ 署名机构明确含电子所 GIEE（同时挂电机系、光电所、先进科技学院），走电子所考试入学指导资格上最稳的一位。研究是 Si/Ge 不是 GaN，但 nanosheet 堆叠多通道与你的双通道／Tri-gate 在架构思路上相通，而且他做的是完整制程流程＋应变＋栅电容这类器件物理，不是纯模拟。缺点：和功率开关、p-GaN、DC-DC 完全没有交集。",
       url: "https://www.ee.ntu.edu.tw/" },
@@ -311,10 +317,6 @@
       focus: "DTCO 器件-电路协同优化、CFET／nanosheet／FinFET 器件设计、铁电 FeFET 与存储、低功耗 SRAM、Vth 变异的 TCAD 分析",
       note: "⚠️ 注意是「胡璧合」不是「胡壁合」，套磁信别写错字。纯 Si 逻辑／存储路线，没有 GaN 也没有功率。真正和你相通的是两点：一是 DTCO 这套「器件参数怎么反映到电路」的方法论，正好是你想做的 device-circuit co-design；二是 Vth 变异的 TCAD 分析手法，和你做 Vth/Ron 的思路可迁移。FinFET／nanosheet 的几何也和 Tri-gate 呼应。",
       url: "https://www.ee.ntu.edu.tw/profile1.php?id=1080918" },
-    { id: "tw-adv-ntu-chwu", region: "tw", school: "NTU", name: "吴肇欣 Chao-Hsin Wu", tier: "B", match: "4（光电/三端器件 7 · 功率器件 2）", studyOrder: 0,
-      focus: "发光电晶体（HBLET）与电晶体雷射、VCSEL 与 DFB 雷射、Ge-on-Si 单光子侦测、光电整合与高速传输",
-      note: "⚠️ 与你这条链交集最低的一位：近三年产出几乎全在雷射／光电／光侦测，电子器件只有少数几篇，而且是「发光电晶体 HBLET」这类光电三端器件，不是功率开关。真要找交集只有「三端器件的高温特性与增益」这个角度，相当勉强。除非你愿意把博士方向转向光电整合，否则不建议当主申对象；列进来当备查可以。",
-      url: "https://www.ee.ntu.edu.tw/" },
     { id: "eu-adv-de-oliver-ambacher", region: "eu", school: "德国", name: "Oliver Ambacher（Fraunhofer IAF × University of Freiburg）", tier: "S", match: "可靠度3·TCAD4·制程5", studyOrder: 0,
       focus: "GaN 元件、功率电子、RF／高功率、元件制程｜Fraunhofer Institute for Applied Solid State Physics IAF",
       note: "【公开职缺优先】GaN 电晶体、功率电子与高频高功率元件，与 device-level GaN 方向直接匹配。 切入：先查看 Fraunhofer IAF 的正式职缺；只有在你能指出特定论文、制程或量测问题时，再寄精准研究询问。 规则：公开职缺优先；联络教授不能取代正式投递。 证据：Fraunhofer IAF 具备 GaN epitaxy、元件设计、制程、表征与 1200 V lateral／vertical device 能力。 ⚠️ 落差：目前公开职缺部分偏 RF/MMIC，需要筛选真正 power-device 题目。",
@@ -398,7 +400,7 @@
       note: "【套磁建管线】研究明确涵盖 SiC/GaN 转换器、自适应 gate driver、功率半导体可靠度与寿命。 切入：以 gate driving、switching characterization、module design 或 reliability 的具体成果切入，询问 6–12 个月 funded opening。 规则：目前适合精准 cold email 与后续职缺追踪。 证据：研究明确包含 WBG 元件可靠度、寿命、gate driver 与 power module design。 ⚠️ 落差：以 SiC/GaN 系统与模组为主，TCAD／晶圆制程较弱。",
       url: "https://www.ntnu.edu/employees/dimosthenis.peftitsis" },
   ];
-  // 近三年代表作（2023/10 起），以 OpenAlex 查得的真实 DOI，优先顶刊顶会。
+  // 近五年代表作（2022 起），优先使用 DOI；无 DOI 的实验室会议成果连回官方 publication list。
   // ★ = 与你研究链（多通道／p-GaN gate reliability）直接重叠，建议套磁前必读。
   // 注意：OpenAlex 的作者记录会把同名人合并，这里已剔除明显不属于该领域的条目。
   const PHD_ADVISOR_PAPERS = {
@@ -494,11 +496,14 @@
       { y: 2024, v: "ISCAS", t: "Improved RF Performance with Buried Power Rail and Contact over Active Gate in Nanosheet FETs", doi: "10.1109/iscas58744.2024.10558338" },
     ],
     "tw-adv-ntu-chwu": [
-      { y: 2024, v: "IEEE T-ED", t: "Current Gain Enhancement at High-Temperature Operation of Triple-Quantum-Well Heterojunction Bipolar Light-Emitting Transistor", doi: "10.1109/ted.2023.3339084", key: true },
-      { y: 2024, v: "Photonics Research", t: "Electro-optical logics by three-terminal quantum-well light-emitting transistors", doi: "10.1364/prj.516274", key: true },
-      { y: 2024, v: "Opt. Express", t: "Monolithically integrated 940 nm VCSELs on bulk Ge substrates", doi: "10.1364/oe.513997" },
-      { y: 2024, v: "IEEE EDL", t: "High Temperature Tolerant Ge-on-Si Single Photon Avalanche Diodes", doi: "10.1109/led.2024.3416186" },
-      { y: 2023, v: "Photonics Research", t: "24.9-GHz-bandwidth VCSEL enables 170-Gbit/s OFDM transmission", doi: "10.1364/prj.498963" },
+      { y: 2024, v: "NTU Thesis · compact model", t: "Fabrication and Analysis of Radio Frequency Double Channel AlGaN/GaN HEMT with Fin Structure", doi: "10.6342/NTU202400440", key: true },
+      { y: 2024, v: "IEDMS · compact model", t: "Small-Signal Modeling of Double-Channel Fin-HEMT with Unique RF Characteristics", url: "https://cc.ee.ntu.edu.tw/~ioedlab/publication_c.html", source: "IOED Lab", key: true },
+      { y: 2025, v: "NTU Thesis", t: "Design and Proton Radiation Reliability Analysis of GaN Millimeter-Wave Low-Noise and Power Amplifiers", doi: "10.6342/NTU202500855" },
+      { y: 2023, v: "NTU Thesis · reliability", t: "Reliability Analysis and Gate Oxidation Process Optimization of AlGaN/GaN HEMTs", doi: "10.6342/NTU202304349", key: true },
+      { y: 2023, v: "IEDMS", t: "Thermal Analysis of Multi-finger GaN HEMTs", url: "https://cc.ee.ntu.edu.tw/~ioedlab/publication_c.html", source: "IOED Lab" },
+      { y: 2022, v: "IEDMS", t: "Development and Characterization of Radio Frequency AlInN/GaN HEMTs for Millimeter-Wave Applications", url: "https://cc.ee.ntu.edu.tw/~ioedlab/publication_c.html", source: "IOED Lab" },
+      { y: 2022, v: "IEDMS", t: "Investigation of Multi-Finger P-Gate GaN HEMTs with p-GaN Layer Etching by End-Point Detection", url: "https://cc.ee.ntu.edu.tw/~ioedlab/publication_c.html", source: "IOED Lab" },
+      { y: 2019, v: "IFEEC · compact-model 基础（超出近五年）", t: "Small Signal Modeling of GaN-on-Si HEMT with Leaky Buffer", doi: "10.1109/IFEEC47410.2019.9014673", key: true },
     ],
   };
   // 这三位查不到可靠的近三年 DOI 清单，原因写在各自卡片的备注里，不编造条目。
@@ -506,6 +511,10 @@
     "hk-adv-hkust-weijia": "2021–2025 在 Analog Devices 做 IC design，2025 才进学界，OpenAlex 查无作者记录。可查到的只有 ISPSD 2021/2022 三篇（smart gate driver for SiC、GaN IPM direct bond），已超出近三年。等她 HKUST 第一批产出再补。",
     "hk-adv-cityu-tan": "OpenAlex 的作者记录被拆碎（只剩 11 篇），无法可靠消歧，暂不列 DOI 以免张冠李戴。建议直接看 CityU scholars 页或 Google Scholar。",
     "hk-adv-hkust-yancheng": "2026 新任 RAP，尚无可稳定消歧的作者记录。建议直接向她本人或课题组页索取 publication list。",
+  };
+  // 公开资料核对后的定向更新。只覆盖研究简介与论文，不碰用户填写的申请状态和 CV 进度。
+  const PHD_ADVISOR_CONTENT_REVISIONS = {
+    "tw-adv-ntu-chwu": "2026-10-27-gan-compact-model-v1",
   };
   const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系", "待回复", "准备申请", "已送出", "面试", "Offer", "暂停"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
@@ -1602,11 +1611,11 @@
           ${!advisor.focus ? "" : `<p class="advisor-focus">${safe(advisor.focus)}</p>`}
           ${!advisor.note ? "" : `<p class="advisor-note">${safe(advisor.note)}</p>`}
           ${!advisor.papers?.length ? "" : `<details class="advisor-papers">
-            <summary>近三年代表作 ${advisor.papers.length} 篇（DOI 可点）</summary>
+            <summary>近五年代表作 ${advisor.papers.length} 篇（DOI／官方来源可点）</summary>
             <ol>${advisor.papers.map((paper) => `<li${paper.key ? ' class="key-paper"' : ""}>
               <span class="paper-meta">${safe(String(paper.y))} · ${safe(paper.v)}${paper.key ? " · ★必读" : ""}</span>
-              <a href="https://doi.org/${safeAttr(paper.doi)}" target="_blank" rel="noopener">${safe(paper.t)}</a>
-              <code>${safe(paper.doi)}</code>
+              <a href="${safeAttr(paper.doi ? `https://doi.org/${paper.doi}` : paper.url)}" target="_blank" rel="noopener">${safe(paper.t)}</a>
+              <code>${safe(paper.doi || paper.source || "官方来源")}</code>
             </li>`).join("")}</ol>
           </details>`}
           ${!advisor.papersNote ? "" : `<p class="advisor-papers-note">查不到可靠 DOI：${safe(advisor.papersNote)}</p>`}
@@ -3479,6 +3488,7 @@
       planningTasksVersion: parsed.planningTasksVersion || 0,
       seededMilestones: Array.isArray(parsed.seededMilestones) ? parsed.seededMilestones : [],
       seededAdvisors: Array.isArray(parsed.seededAdvisors) ? parsed.seededAdvisors : [],
+      advisorDataVersions: parsed.advisorDataVersions && typeof parsed.advisorDataVersions === "object" ? parsed.advisorDataVersions : {},
       roadmap: {
         tasks: parsed.roadmap?.tasks || {},
         gates: parsed.roadmap?.gates || {},
@@ -3607,6 +3617,8 @@
               v: `${paper.v || ""}`,
               t: `${paper.t || ""}`,
               doi: `${paper.doi || ""}`,
+              url: `${paper.url || ""}`,
+              source: `${paper.source || ""}`,
               key: Boolean(paper.key),
             })) : [],
           })) : [],
@@ -3648,6 +3660,29 @@
       });
     }
     candidate.seededAdvisors = [...seeded].sort();
+    candidate.advisorDataVersions = candidate.advisorDataVersions || {};
+    for (const [advisorId, version] of Object.entries(PHD_ADVISOR_CONTENT_REVISIONS)) {
+      if (candidate.advisorDataVersions[advisorId] === version) continue;
+      const seed = PHD_ADVISOR_SEEDS.find((item) => item.id === advisorId);
+      const existing = tracker.regions
+        .flatMap((region) => region.schools || [])
+        .flatMap((school) => school.advisors || [])
+        .find((advisor) => advisor.id === advisorId);
+      if (!seed || !existing) continue;
+      Object.assign(existing, {
+        name: seed.name,
+        email: seed.email || existing.email || "",
+        tier: seed.tier,
+        match: seed.match,
+        focus: seed.focus,
+        note: seed.note,
+        url: seed.url,
+        studyOrder: seed.studyOrder || 0,
+        papers: (PHD_ADVISOR_PAPERS[advisorId] || []).map((paper) => ({ ...paper })),
+        papersNote: PHD_ADVISOR_NO_PAPERS[advisorId] || "",
+      });
+      candidate.advisorDataVersions[advisorId] = version;
+    }
     return candidate;
   }
 
