@@ -1,13 +1,14 @@
 (function () {
-  const startDate = "2026-10-27";
-  // 清掉上一版 10/26 的排程与小时表，新的计划统一从 10/27 开始。
-  const resetFromDate = "2026-10-26";
-  // 11/10–11/14 人在日本：雅思与实验都停，之后顺延。
+  const startDate = "2026-10-29";
+  const routineStartDate = "2026-10-27";
+  // 只重排明天起的内容，10/28 及以前的完成记录继续保留。
+  const resetFromDate = startDate;
+  // 11/10–11/14 人在日本：雅思与实验都停。
   const travelPeriod = { startDate: "2026-11-10", endDate: "2026-11-14", label: "日本行程" };
-  // 周日3 周一2 周二2 周三0 周四1 周五3 周六1 ＝ 每周 12 篇。
-  // 周三整天留给回中央书报讨论，完全不排雅思。
-  const weeklyPaperCounts = [3, 2, 2, 0, 1, 3, 1];
-  // 目前没有逐日覆写：全程单一周规则。
+  // 周日1 周一2 周二1 周三1 周四1 周五2 周六1 ＝ 每周 9 份。
+  // 每天至少 1 份、最多 2 份；只有周一与周五排 2 份，强度最平均。
+  // 全程每天 1 份排不完：扣掉日本五天会排到 12/23，比 12/19 考试还晚。
+  const weeklyPaperCounts = [1, 2, 1, 1, 1, 2, 1];
   const dailyPaperCounts = {};
   // 已经做过，不再排入。
   const excludedCodes = ["C9T1"];
@@ -33,7 +34,8 @@
 
   const mainPlan = [];
   let nextTest = 0;
-  let activeDays = 0;
+  // Raith / EBeam 阶段仍从 10/27 起算；10/29 重排时前两天已经计入。
+  let activeDays = 2;
   for (let date = startDate; nextTest < testBank.length; date = addDays(date, 1)) {
     const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
     const traveling = date >= travelPeriod.startDate && date <= travelPeriod.endDate;
@@ -43,8 +45,8 @@
       weekday: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][weekday],
       dayType: traveling ? "旅行" : "正常",
       ieltsPriority: count ? "固定" : "暂停",
-      ieltsPlan: count ? "" : traveling ? travelPeriod.label : "书报讨论日，不排雅思",
-      ieltsModule: count ? "" : traveling ? "不排雅思真题" : "整天留给书报讨论",
+      ieltsPlan: count ? "" : travelPeriod.label,
+      ieltsModule: count ? "" : "不排雅思真题",
       cambridge: "", trainingItems: [],
       projectType: "", projectPlan: "", projectModule: "",
       limits: "", status: "未开始", actual: "",
@@ -68,7 +70,7 @@
       } else if (weekday === 3) {
         row.projectType = "学务";
         row.projectModule = "书报课程";
-        row.projectPlan = "中午坐车回中央；书报讨论；晚上返回。整天不排雅思";
+        row.projectPlan = "上午07:00完成1份 IELTS；中午坐车回中央；书报讨论；晚上返回";
       }
     }
 
@@ -76,9 +78,9 @@
     // 否则最后一天只剩 1 套也会被当成「两份日的上午场」排到 08:00。
     for (let index = 0; index < placed; index += 1) {
       const paper = testBank[nextTest++];
-      // 三份日拆成 06:00／11:00／18:00；两份日维持上午＋晚上。
+      // 周三在出发前完成，其余日子固定晚上训练。
       const morningHour = weekday === 3 ? 7 : 8;
-      const preferredHour = placed >= 3 ? [6, 11, 18][index] : placed >= 2 ? (index === 0 ? morningHour : 18) : weekday === 3 ? 7 : 18;
+      const preferredHour = placed >= 2 ? (index === 0 ? morningHour : 18) : weekday === 3 ? 7 : 18;
       const timeLabel = `${String(preferredHour).padStart(2, "0")}:00–${preferredHour + 4}:00`;
       const periodLabel = preferredHour < 8 ? "清晨" : preferredHour < 12 ? "上午" : preferredHour < 17 ? "下午" : "晚上";
       row.trainingItems.push({
@@ -98,26 +100,22 @@
     }
     row.limits = traveling
       ? `${travelPeriod.label}：不排雅思与实验`
-      : count >= 3
-        ? "当日3份：06:00、11:00、18:00各1份；每套独立整理；当日 IELTS 预留12小时"
-        : count >= 2
-        ? weekday === 3
-          ? "周三2份：上午出发前1份，晚上返回后1份；每套独立整理；当日 IELTS 预留8小时"
-          : "当日2份：上午1份、晚上1份；每套独立整理；当日 IELTS 预留8小时"
-        : count === 0 ? "周三：中午坐车回中央书报讨论，整天不排雅思"
-          : weekday === 4 ? "周四：白天实验，晚上1份 IELTS；当日 IELTS 预留4小时"
-            : "当日1份 IELTS；预留4小时";
+      : count >= 2
+        ? "当日2份：上午1份、晚上1份；每套独立整理；当日 IELTS 预留8小时"
+        : weekday === 3
+          ? "周三上午出发前1份 IELTS；预留4小时"
+          : "当日1份 IELTS；预留4小时";
     if (nextTest === testBank.length) row.limits = `完成C21T4；当日IELTS预留${row.trainingItems.length * 4}小时，之后不再排新真题`;
     mainPlan.push(row);
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-10-27T00:00:00.000+08:00",
-    source: "10/27起顺排剩余51套（C9T1已做，不再排）；考试日 12/19；全程单一周规则：周一与周二各2份、周三不排、周四1份、周五与周日各3份、周六1份，每周12份；日本行程 11/10-11/14 不排，之后顺延；三份日排06:00／11:00／18:00，两份日排08:00／18:00；Raith一周后EBeam Fin三周，旅行暂停顺延。",
+    generatedAt: "2026-10-28T00:00:00.000+08:00",
+    source: "10/29起顺排剩余51套（C9T1已做，不再排）；每天至少1份、最多2份，只有周一与周五排2份（每周9份）；日本行程 11/10-11/14 不排雅思与实验；周三上午07:00出发前完成，其余日子18:00；Raith与EBeam Fin沿用原日期。",
     mainPlan, dailyTemplates: [], projectCatalog,
-    autoPlan: { startDate, routineStartDate: startDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts },
+    autoPlan: { startDate, routineStartDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts, minDailyPapers: 1, maxDailyPapers: 2 },
     researchPhases: [
-      { name: "Raith 学习", startDate, endDate: "2026-11-02", activeDays: 7 },
+      { name: "Raith 学习", startDate: routineStartDate, endDate: "2026-11-02", activeDays: 7 },
       { name: "EBeam Fin 实验", startDate: "2026-11-03", endDate: "2026-11-28", activeDays: 21 },
     ],
     testBank: {
@@ -125,7 +123,7 @@
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-10-27-plan-reset-v35",
+    planVersion: "2026-10-29-min1-max2-v37",
     resetFromDate,
   };
 })();
