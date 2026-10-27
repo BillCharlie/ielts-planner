@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v108-chwu-compact";
+const CACHE_NAME = "planner-notebook-v109-advisor-order";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261027-chwu-compact",
-  "./app.js?v=20261027-chwu-compact",
-  "./planning-tasks.js?v=20261027-chwu-compact",
-  "./ielts-moves.js?v=20261027-chwu-compact",
-  "./eu-radar.js?v=20261027-chwu-compact",
-  "./xlsx-export.js?v=20261027-chwu-compact",
+  "./styles.css?v=20261027-advisor-order",
+  "./app.js?v=20261027-advisor-order",
+  "./planning-tasks.js?v=20261027-advisor-order",
+  "./ielts-moves.js?v=20261027-advisor-order",
+  "./eu-radar.js?v=20261027-advisor-order",
+  "./xlsx-export.js?v=20261027-advisor-order",
   "./config.js",
-  "./plan-data.js?v=20261027-chwu-compact",
+  "./plan-data.js?v=20261027-advisor-order",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
