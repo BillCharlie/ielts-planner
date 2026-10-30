@@ -1,7 +1,7 @@
 (function () {
-  const startDate = "2026-10-29";
+  const startDate = "2026-11-01";
   const routineStartDate = "2026-10-27";
-  // 只重排明天起的内容，10/28 及以前的完成记录继续保留。
+  // 只重排 11/1 起的内容，10/31 及以前的完成记录继续保留。
   const resetFromDate = startDate;
   // 11/10–11/14 人在日本：雅思与实验都停。
   const travelPeriod = { startDate: "2026-11-10", endDate: "2026-11-14", label: "日本行程" };
@@ -34,8 +34,8 @@
 
   const mainPlan = [];
   let nextTest = 0;
-  // Raith / EBeam 阶段仍从 10/27 起算；10/29 重排时前两天已经计入。
-  let activeDays = 2;
+  // Raith / EBeam 阶段仍从 10/27 起算；11/1 重排时前五天已经计入。
+  let activeDays = 5;
   for (let date = startDate; nextTest < testBank.length; date = addDays(date, 1)) {
     const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
     const traveling = date >= travelPeriod.startDate && date <= travelPeriod.endDate;
@@ -110,8 +110,8 @@
   }
 
   window.IELTS_PLANNER_DATA = {
-    generatedAt: "2026-10-28T00:00:00.000+08:00",
-    source: "10/29起顺排剩余51套（C9T1已做，不再排）；每天至少1份、最多2份，只有周一与周五排2份（每周9份）；日本行程 11/10-11/14 不排雅思与实验；周三上午07:00出发前完成，其余日子18:00；Raith与EBeam Fin沿用原日期。",
+    generatedAt: "2026-10-30T00:00:00.000+08:00",
+    source: "11/1起顺排剩余51套（C9T1已做，不再排）；每个非旅行日至少1份、最多2份，只有周一与周五排2份（每周9份）；日本行程 11/10-11/14 不排雅思与实验；周三上午07:00出发前完成，其余日子18:00；Raith与EBeam Fin沿用原日期。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts, minDailyPapers: 1, maxDailyPapers: 2 },
     researchPhases: [
@@ -123,7 +123,7 @@
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-10-29-min1-max2-v37",
+    planVersion: "2026-11-01-min1-max2-v38",
     resetFromDate,
   };
 })();

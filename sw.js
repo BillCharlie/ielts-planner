@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v110-min1-max2";
+const CACHE_NAME = "planner-notebook-v111-start-nov1";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261028-min1-max2",
-  "./app.js?v=20261028-min1-max2",
-  "./planning-tasks.js?v=20261028-min1-max2",
-  "./ielts-moves.js?v=20261028-min1-max2",
-  "./eu-radar.js?v=20261028-min1-max2",
-  "./xlsx-export.js?v=20261028-min1-max2",
+  "./styles.css?v=20261030-start-nov1",
+  "./app.js?v=20261030-start-nov1",
+  "./planning-tasks.js?v=20261030-start-nov1",
+  "./ielts-moves.js?v=20261030-start-nov1",
+  "./eu-radar.js?v=20261030-start-nov1",
+  "./xlsx-export.js?v=20261030-start-nov1",
   "./config.js",
-  "./plan-data.js?v=20261028-min1-max2",
+  "./plan-data.js?v=20261030-start-nov1",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
