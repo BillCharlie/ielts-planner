@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v111-start-nov1";
+const CACHE_NAME = "planner-notebook-v112-nov-overrides";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261030-start-nov1",
-  "./app.js?v=20261030-start-nov1",
-  "./planning-tasks.js?v=20261030-start-nov1",
-  "./ielts-moves.js?v=20261030-start-nov1",
-  "./eu-radar.js?v=20261030-start-nov1",
-  "./xlsx-export.js?v=20261030-start-nov1",
+  "./styles.css?v=20261102-nov-overrides",
+  "./app.js?v=20261102-nov-overrides",
+  "./planning-tasks.js?v=20261102-nov-overrides",
+  "./ielts-moves.js?v=20261102-nov-overrides",
+  "./eu-radar.js?v=20261102-nov-overrides",
+  "./xlsx-export.js?v=20261102-nov-overrides",
   "./config.js",
-  "./plan-data.js?v=20261030-start-nov1",
+  "./plan-data.js?v=20261102-nov-overrides",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
