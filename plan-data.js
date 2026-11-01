@@ -83,17 +83,17 @@
         row.projectModule = "制程";
         row.projectItemId = activeDays <= 7 ? "routine-raith" : activeDays <= 28 ? "routine-ebeam-fin" : "routine-experiment";
         row.projectPlan = placed >= 2
-            ? `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；当日 IELTS 08:00／18:00，实验安排在中间空档`
+            ? `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；当日 IELTS 2份（任意时段），实验按进度安排`
             : placed === 1
-              ? `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；白天预留，${String(dailyPreferredHours[date]?.[0] ?? 18).padStart(2, "0")}:00 开始 IELTS`
+              ? `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；${Number.isInteger(dailyPreferredHours[date]?.[0]) ? `${String(dailyPreferredHours[date][0]).padStart(2, "0")}:00 开始 IELTS` : "IELTS 1份（任意时段）"}`
               : `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；当日不排 IELTS`;
       } else if (weekday === 3) {
         row.projectType = "学务";
         row.projectModule = "书报课程";
         row.projectPlan = placed >= 2
-          ? "上午07:00完成第1份 IELTS；中午坐车回中央；书报讨论；晚上18:00完成第2份"
+          ? "IELTS 2份（任意时段）；中午坐车回中央；书报讨论；晚上返回"
           : placed === 1
-            ? "上午07:00完成1份 IELTS；中午坐车回中央；书报讨论；晚上返回"
+            ? "IELTS 1份（任意时段）；中午坐车回中央；书报讨论；晚上返回"
             : "中午坐车回中央；书报讨论；晚上返回；当日不排 IELTS";
       }
     }
@@ -102,12 +102,16 @@
     // 否则最后一天只剩 1 套也会被当成「两份日的上午场」排到 08:00。
     for (let index = 0; index < placed; index += 1) {
       const paper = testBank[nextTest++];
-      // 周三在出发前完成，其余日子固定晚上训练。
-      const morningHour = weekday === 3 ? 7 : 8;
-      const preferredHour = dailyPreferredHours[date]?.[index]
-        ?? (placed >= 2 ? (index === 0 ? morningHour : 18) : weekday === 3 ? 7 : 18);
-      const timeLabel = `${String(preferredHour).padStart(2, "0")}:00–${preferredHour + 4}:00`;
-      const periodLabel = preferredHour < 8 ? "清晨" : preferredHour < 12 ? "上午" : preferredHour < 17 ? "下午" : "晚上";
+      // 只有用户明确指定的日期才带具体小时；其余训练均保持任意时段。
+      const preferredHour = Number.isInteger(dailyPreferredHours[date]?.[index])
+        ? dailyPreferredHours[date][index]
+        : null;
+      const timeLabel = Number.isInteger(preferredHour)
+        ? `${String(preferredHour).padStart(2, "0")}:00–${preferredHour + 4}:00`
+        : "任意时段";
+      const periodLabel = Number.isInteger(preferredHour)
+        ? preferredHour < 12 ? "上午" : preferredHour < 17 ? "下午" : "晚上"
+        : "任意时段";
       row.trainingItems.push({
         id: `full-${date}-${paper.code}`, order: index + 1, kind: "full",
         label: `完整真题 · ${periodLabel}`,
@@ -128,19 +132,19 @@
       : count === 0
         ? "当日不排 IELTS"
         : count >= 2
-        ? "当日2份：上午1份、晚上1份；每套独立整理；当日 IELTS 预留8小时"
+        ? "当日2份：均为任意时段；每套独立整理；当日 IELTS 预留8小时"
         : dailyPreferredHours[date]?.[0] < 12
           ? "当日上午1份 IELTS；预留4小时"
-          : weekday === 3
-          ? "周三上午出发前1份 IELTS；预留4小时"
-          : "当日1份 IELTS；预留4小时";
+          : Number.isInteger(dailyPreferredHours[date]?.[0])
+            ? "当日晚上1份 IELTS；预留4小时"
+            : "当日任意时段1份 IELTS；预留4小时";
     if (nextTest === testBank.length) row.limits = `完成C21T4；当日IELTS预留${row.trainingItems.length * 4}小时，之后不再排新真题`;
     mainPlan.push(row);
   }
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-11-02T00:00:00.000+08:00",
-    source: "IELTS 从 11/2 整体重新开始，11/2只排一份；11/3一份，11/4两份，11/5–11/6休息，11/7–11/9每天两份，11/10–11/14日本行程暂停，11/15晚上一份，11/16–11/17每天一份，11/18休息，11/19一份，11/20上午一份；其余日期沿用周一、周五两份，其他日一份。",
+    source: "IELTS 从 11/2 整体重新开始，11/2只排一份；11/3一份，11/4两份，11/5–11/6休息，11/7–11/9每天两份，11/10–11/14日本行程暂停，11/15晚上一份，11/16–11/17每天一份，11/18休息，11/19一份，11/20上午一份；其余日期沿用周一、周五两份，其他日一份。除11/15晚上与11/20上午外，所有训练均标记为任意时段。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts, dailyPreferredHours, minDailyPapers: 1, maxDailyPapers: 2 },
     researchPhases: [
@@ -152,7 +156,7 @@
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-11-02-full-reset-v40",
+    planVersion: "2026-11-02-flexible-times-v41",
     resetFromDate,
   };
 })();
