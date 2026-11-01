@@ -25,10 +25,14 @@
     "2026-11-18": 0,
     "2026-11-19": 1,
     "2026-11-20": 1,
+    "2026-11-28": 2,
   };
   const dailyPreferredHours = {
     "2026-11-15": [18],
     "2026-11-20": [8],
+  };
+  const dailyPreferredPeriods = {
+    "2026-11-28": ["下午", "晚上"],
   };
   // 已经做过，不再排入。
   const excludedCodes = ["C9T1"];
@@ -82,8 +86,11 @@
         row.projectType = "实验专案";
         row.projectModule = "制程";
         row.projectItemId = activeDays <= 7 ? "routine-raith" : activeDays <= 28 ? "routine-ebeam-fin" : "routine-experiment";
+        const periodPlan = dailyPreferredPeriods[date]?.length
+          ? dailyPreferredPeriods[date].join("、")
+          : "任意时段";
         row.projectPlan = placed >= 2
-            ? `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；当日 IELTS 2份（任意时段），实验按进度安排`
+            ? `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；当日 IELTS 2份（${periodPlan}），实验按进度安排`
             : placed === 1
               ? `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；${Number.isInteger(dailyPreferredHours[date]?.[0]) ? `${String(dailyPreferredHours[date][0]).padStart(2, "0")}:00 开始 IELTS` : "IELTS 1份（任意时段）"}`
               : `${row.projectPhase}${row.projectWeek ? ` · 第${row.projectWeek}周` : ""}；当日不排 IELTS`;
@@ -106,12 +113,13 @@
       const preferredHour = Number.isInteger(dailyPreferredHours[date]?.[index])
         ? dailyPreferredHours[date][index]
         : null;
+      const preferredPeriod = dailyPreferredPeriods[date]?.[index] || "";
       const timeLabel = Number.isInteger(preferredHour)
         ? `${String(preferredHour).padStart(2, "0")}:00–${preferredHour + 4}:00`
-        : "任意时段";
+        : preferredPeriod || "任意时段";
       const periodLabel = Number.isInteger(preferredHour)
         ? preferredHour < 12 ? "上午" : preferredHour < 17 ? "下午" : "晚上"
-        : "任意时段";
+        : preferredPeriod || "任意时段";
       row.trainingItems.push({
         id: `full-${date}-${paper.code}`, order: index + 1, kind: "full",
         label: `完整真题 · ${periodLabel}`,
@@ -119,7 +127,7 @@
         module: `${timeLabel}｜听力40分钟 + 阅读60分钟 + 写作60分钟 + 口语15分钟 + 整理60分钟`,
         duration: "3小时55分钟（预留4小时）",
         detail: "完整计时175分钟，完成后独立留1小时整理；剩余5分钟缓冲",
-        preferredHour, blockHours: 4, durationMinutes: 235, status: "未开始",
+        preferredHour, preferredPeriod, blockHours: 4, durationMinutes: 235, status: "未开始",
       });
     }
     if (row.trainingItems.length) {
@@ -132,7 +140,9 @@
       : count === 0
         ? "当日不排 IELTS"
         : count >= 2
-        ? "当日2份：均为任意时段；每套独立整理；当日 IELTS 预留8小时"
+        ? dailyPreferredPeriods[date]?.length
+          ? `当日2份：${dailyPreferredPeriods[date].join("、")}各1份；每套独立整理；当日 IELTS 预留8小时`
+          : "当日2份：均为任意时段；每套独立整理；当日 IELTS 预留8小时"
         : dailyPreferredHours[date]?.[0] < 12
           ? "当日上午1份 IELTS；预留4小时"
           : Number.isInteger(dailyPreferredHours[date]?.[0])
@@ -144,9 +154,9 @@
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-11-02T00:00:00.000+08:00",
-    source: "IELTS 从 11/2 整体重新开始，11/2只排一份；11/3一份，11/4两份，11/5–11/6休息，11/7–11/9每天两份，11/10–11/14日本行程暂停，11/15晚上一份，11/16–11/17每天一份，11/18休息，11/19一份，11/20上午一份；其余日期沿用周一、周五两份，其他日一份。除11/15晚上与11/20上午外，所有训练均标记为任意时段。",
+    source: "IELTS 从 11/2 整体重新开始，11/2只排一份；11/3一份，11/4两份，11/5–11/6休息，11/7–11/9每天两份，11/10–11/14日本行程暂停，11/15晚上一份，11/16–11/17每天一份，11/18休息，11/19一份，11/20上午一份，11/28下午与晚上各一份；其余日期沿用周一、周五两份，其他日一份。除明确指定的时段外，所有训练均标记为任意时段。",
     mainPlan, dailyTemplates: [], projectCatalog,
-    autoPlan: { startDate, routineStartDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts, dailyPreferredHours, minDailyPapers: 1, maxDailyPapers: 2 },
+    autoPlan: { startDate, routineStartDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts, dailyPreferredHours, dailyPreferredPeriods, minDailyPapers: 1, maxDailyPapers: 2 },
     researchPhases: [
       { name: "Raith 学习", startDate: routineStartDate, endDate: "2026-11-02", activeDays: 7 },
       { name: "EBeam Fin 实验", startDate: "2026-11-03", endDate: "2026-11-28", activeDays: 21 },
@@ -156,7 +166,7 @@
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-11-02-flexible-times-v41",
+    planVersion: "2026-11-28-afternoon-evening-v42",
     resetFromDate,
   };
 })();

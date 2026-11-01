@@ -7,7 +7,7 @@ test("resets the IELTS sequence from November 2 and applies the requested overri
   const context = { window: {} };
   vm.runInNewContext(await readFile(new URL("../plan-data.js", import.meta.url), "utf8"), context);
   const data = context.window.IELTS_PLANNER_DATA;
-  assert.equal(data.planVersion, "2026-11-02-flexible-times-v41");
+  assert.equal(data.planVersion, "2026-11-28-afternoon-evening-v42");
   assert.equal(data.resetFromDate, "2026-11-02");
   assert.equal(data.mainPlan[0].date, "2026-11-02");
   assert.equal(data.mainPlan.at(-1).date, "2026-12-18");
@@ -49,7 +49,8 @@ test("resets the IELTS sequence from November 2 and applies the requested overri
     ["2026-11-18", []],
     ["2026-11-19", [["C12T3", null]]],
     ["2026-11-20", [["C12T4", 8]]],
-    ["2026-12-18", [["C21T3", null], ["C21T4", null]]],
+    ["2026-11-28", [["C15T2", null], ["C15T3", null]]],
+    ["2026-12-18", [["C21T4", null]]],
   ]) {
     const row = byDate.get(date);
     assert.deepEqual(Array.from(row.trainingItems, (item) => [item.cambridge, item.preferredHour]), expected, date);
@@ -106,7 +107,8 @@ test("resets the IELTS sequence from November 2 and applies the requested overri
       assert.ok(data.projectCatalog.some((item) => item.id === row.projectItemId));
       assert.match(
         row.projectPlan,
-        row.trainingItems.length === 2 ? /IELTS 2份（任意时段）/
+        row.trainingItems.length === 2
+          ? (data.autoPlan.dailyPreferredPeriods[row.date] ? /IELTS 2份（下午、晚上）/ : /IELTS 2份（任意时段）/)
           : row.trainingItems.length === 1
             ? (data.autoPlan.dailyPreferredHours[row.date] ? /18:00 开始 IELTS/ : /IELTS 1份（任意时段）/)
             : /当日不排 IELTS/,
@@ -118,8 +120,12 @@ test("resets the IELTS sequence from November 2 and applies the requested overri
     assert.equal(item.durationMinutes, 235);
     assert.equal(item.blockHours, 4);
     assert.match(item.module, /整理60分钟/);
-    if (Number.isInteger(item.preferredHour)) assert.doesNotMatch(item.module, /任意时段/);
-    else {
+    if (Number.isInteger(item.preferredHour)) {
+      assert.doesNotMatch(item.module, /任意时段/);
+    } else if (item.preferredPeriod) {
+      assert.match(item.label, new RegExp(item.preferredPeriod));
+      assert.match(item.module, new RegExp(`^${item.preferredPeriod}`));
+    } else {
       assert.match(item.label, /任意时段/);
       assert.match(item.module, /^任意时段/);
     }
@@ -440,15 +446,15 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
   assert.match(html, /口语常用词汇/);
-  assert.match(html, /planning-tasks\.js\?v=20261102-flexible-times/);
-  assert.match(html, /xlsx-export\.js\?v=20261102-flexible-times/);
-  assert.match(html, /app\.js\?v=20261102-flexible-times/);
-  assert.match(html, /ielts-moves\.js\?v=20261102-flexible-times/);
+  assert.match(html, /planning-tasks\.js\?v=20261102-nov28-double/);
+  assert.match(html, /xlsx-export\.js\?v=20261102-nov28-double/);
+  assert.match(html, /app\.js\?v=20261102-nov28-double/);
+  assert.match(html, /ielts-moves\.js\?v=20261102-nov28-double/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v114-flexible-times/);
+  assert.match(sw, /planner-notebook-v115-nov28-double/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
