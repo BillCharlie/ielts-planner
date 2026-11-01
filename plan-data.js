@@ -25,7 +25,11 @@
     "2026-11-18": 0,
     "2026-11-19": 1,
     "2026-11-20": 1,
+    "2026-11-22": 1,
+    "2026-11-23": 1,
+    "2026-11-27": 1,
     "2026-11-28": 2,
+    "2026-11-29": 2,
   };
   const dailyPreferredHours = {
     "2026-11-15": [18],
@@ -154,7 +158,7 @@
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-11-02T00:00:00.000+08:00",
-    source: "IELTS 从 11/2 整体重新开始，11/2只排一份；11/3一份，11/4两份，11/5–11/6休息，11/7–11/9每天两份，11/10–11/14日本行程暂停，11/15晚上一份，11/16–11/17每天一份，11/18休息，11/19一份，11/20上午一份，11/28下午与晚上各一份；其余日期沿用周一、周五两份，其他日一份。除明确指定的时段外，所有训练均标记为任意时段。",
+    source: "IELTS 从 11/2 整体重新开始，11/2只排一份；11/3一份，11/4两份，11/5–11/6休息，11/7–11/9每天两份，11/10–11/14日本行程暂停，11/15晚上一份，11/16–11/17每天一份，11/18休息，11/19一份，11/20上午一份，11/22、11/23、11/27各一份，11/28下午与晚上各一份，11/29两份；其余日期沿用周一、周五两份，其他日一份。除明确指定的时段外，所有训练均标记为任意时段。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts, dailyPreferredHours, dailyPreferredPeriods, minDailyPapers: 1, maxDailyPapers: 2 },
     researchPhases: [
@@ -166,7 +170,7 @@
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-11-28-afternoon-evening-v42",
+    planVersion: "2026-11-22-29-overrides-v43",
     resetFromDate,
   };
 })();

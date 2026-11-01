@@ -7,7 +7,7 @@ test("resets the IELTS sequence from November 2 and applies the requested overri
   const context = { window: {} };
   vm.runInNewContext(await readFile(new URL("../plan-data.js", import.meta.url), "utf8"), context);
   const data = context.window.IELTS_PLANNER_DATA;
-  assert.equal(data.planVersion, "2026-11-28-afternoon-evening-v42");
+  assert.equal(data.planVersion, "2026-11-22-29-overrides-v43");
   assert.equal(data.resetFromDate, "2026-11-02");
   assert.equal(data.mainPlan[0].date, "2026-11-02");
   assert.equal(data.mainPlan.at(-1).date, "2026-12-18");
@@ -49,8 +49,12 @@ test("resets the IELTS sequence from November 2 and applies the requested overri
     ["2026-11-18", []],
     ["2026-11-19", [["C12T3", null]]],
     ["2026-11-20", [["C12T4", 8]]],
-    ["2026-11-28", [["C15T2", null], ["C15T3", null]]],
-    ["2026-12-18", [["C21T4", null]]],
+    ["2026-11-22", [["C13T2", null]]],
+    ["2026-11-23", [["C13T3", null]]],
+    ["2026-11-27", [["C14T3", null]]],
+    ["2026-11-28", [["C14T4", null], ["C15T1", null]]],
+    ["2026-11-29", [["C15T2", null], ["C15T3", null]]],
+    ["2026-12-18", [["C21T3", null], ["C21T4", null]]],
   ]) {
     const row = byDate.get(date);
     assert.deepEqual(Array.from(row.trainingItems, (item) => [item.cambridge, item.preferredHour]), expected, date);
@@ -446,15 +450,15 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
   assert.match(html, /口语常用词汇/);
-  assert.match(html, /planning-tasks\.js\?v=20261102-nov28-double/);
-  assert.match(html, /xlsx-export\.js\?v=20261102-nov28-double/);
-  assert.match(html, /app\.js\?v=20261102-nov28-double/);
-  assert.match(html, /ielts-moves\.js\?v=20261102-nov28-double/);
+  assert.match(html, /planning-tasks\.js\?v=20261102-late-nov-overrides/);
+  assert.match(html, /xlsx-export\.js\?v=20261102-late-nov-overrides/);
+  assert.match(html, /app\.js\?v=20261102-late-nov-overrides/);
+  assert.match(html, /ielts-moves\.js\?v=20261102-late-nov-overrides/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v115-nov28-double/);
+  assert.match(sw, /planner-notebook-v116-late-nov-overrides/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
