@@ -1,8 +1,8 @@
 (function () {
-  const startDate = "2026-11-01";
+  const startDate = "2026-11-02";
   const routineStartDate = "2026-10-27";
-  // 保留 11/1–11/2 的已有记录，只重排 11/3 起的内容。
-  const resetFromDate = "2026-11-03";
+  // 11/1 以前的记录保留；IELTS 从今天 11/2 整体重新开始。
+  const resetFromDate = startDate;
   // 11/10–11/14 人在日本：雅思与实验都停。
   const travelPeriod = { startDate: "2026-11-10", endDate: "2026-11-14", label: "日本行程" };
   // 周日1 周一2 周二1 周三1 周四1 周五2 周六1 ＝ 每周 9 份。
@@ -10,6 +10,7 @@
   // 全程每天 1 份排不完：扣掉日本五天会排到 12/23，比 12/19 考试还晚。
   const weeklyPaperCounts = [1, 2, 1, 1, 1, 2, 1];
   const dailyPaperCounts = {
+    "2026-11-02": 1,
     "2026-11-03": 1,
     "2026-11-04": 2,
     "2026-11-05": 0,
@@ -53,8 +54,8 @@
 
   const mainPlan = [];
   let nextTest = 0;
-  // Raith / EBeam 阶段仍从 10/27 起算；11/1 重排时前五天已经计入。
-  let activeDays = 5;
+  // Raith / EBeam 阶段仍从 10/27 起算；11/2 重排时前六天已经计入。
+  let activeDays = 6;
   for (let date = startDate; nextTest < testBank.length; date = addDays(date, 1)) {
     const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
     const traveling = date >= travelPeriod.startDate && date <= travelPeriod.endDate;
@@ -139,7 +140,7 @@
 
   window.IELTS_PLANNER_DATA = {
     generatedAt: "2026-11-02T00:00:00.000+08:00",
-    source: "11/1–11/2保留原记录；11/3起按指定日期重排：11/3一份，11/4两份，11/5–11/6休息，11/7–11/9每天两份，11/10–11/14日本行程暂停，11/15晚上一份，11/16–11/17每天一份，11/18休息，11/19一份，11/20上午一份；其余日期沿用周一、周五两份，其他日一份。",
+    source: "IELTS 从 11/2 整体重新开始，11/2只排一份；11/3一份，11/4两份，11/5–11/6休息，11/7–11/9每天两份，11/10–11/14日本行程暂停，11/15晚上一份，11/16–11/17每天一份，11/18休息，11/19一份，11/20上午一份；其余日期沿用周一、周五两份，其他日一份。",
     mainPlan, dailyTemplates: [], projectCatalog,
     autoPlan: { startDate, routineStartDate, endDate: mainPlan.at(-1).date, examDate: "2026-12-19", travelPeriod, weeklyPaperCounts, dailyPaperCounts, dailyPreferredHours, minDailyPapers: 1, maxDailyPapers: 2 },
     researchPhases: [
@@ -151,7 +152,7 @@
       excludedCodes, scheduled: nextTest, scheduledSlots: nextTest,
       scheduledCodes: testBank.map((item) => item.code), remainingCodes: [], retakeCodes: [],
     },
-    planVersion: "2026-11-03-november-overrides-v39",
+    planVersion: "2026-11-02-full-reset-v40",
     resetFromDate,
   };
 })();
