@@ -3,13 +3,13 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
 
-test("resets the IELTS sequence from November 2 and applies the requested overrides", async () => {
+test("resets the IELTS sequence from November 5 and applies the requested overrides", async () => {
   const context = { window: {} };
   vm.runInNewContext(await readFile(new URL("../plan-data.js", import.meta.url), "utf8"), context);
   const data = context.window.IELTS_PLANNER_DATA;
-  assert.equal(data.planVersion, "2026-11-22-29-overrides-v43");
-  assert.equal(data.resetFromDate, "2026-11-02");
-  assert.equal(data.mainPlan[0].date, "2026-11-02");
+  assert.equal(data.planVersion, "2026-11-05-full-reset-v44");
+  assert.equal(data.resetFromDate, "2026-11-05");
+  assert.equal(data.mainPlan[0].date, "2026-11-05");
   assert.equal(data.mainPlan.at(-1).date, "2026-12-18");
   assert.equal(data.mainPlan.at(-1).trainingItems.at(-1).cambridge, "C21T4");
   assert.equal(data.autoPlan.examDate, "2026-12-19");
@@ -35,25 +35,25 @@ test("resets the IELTS sequence from November 2 and applies the requested overri
 
   const byDate = new Map(data.mainPlan.map((row) => [row.date, row]));
   for (const [date, expected] of [
-    ["2026-11-02", [["C9T2", null]]],
-    ["2026-11-03", [["C9T3", null]]],
-    ["2026-11-04", [["C9T4", null], ["C10T1", null]]],
-    ["2026-11-05", []],
+    ["2026-11-05", [["C9T2", null]]],
     ["2026-11-06", []],
-    ["2026-11-07", [["C10T2", null], ["C10T3", null]]],
-    ["2026-11-08", [["C10T4", null], ["C11T1", null]]],
-    ["2026-11-09", [["C11T2", null], ["C11T3", null]]],
-    ["2026-11-15", [["C11T4", 18]]],
-    ["2026-11-16", [["C12T1", null]]],
-    ["2026-11-17", [["C12T2", null]]],
+    ["2026-11-07", [["C9T3", null], ["C9T4", null]]],
+    ["2026-11-08", [["C10T1", null], ["C10T2", null]]],
+    ["2026-11-09", [["C10T3", null], ["C10T4", null]]],
+    ["2026-11-15", [["C11T1", 18]]],
+    ["2026-11-16", [["C11T2", null]]],
+    ["2026-11-17", [["C11T3", null]]],
     ["2026-11-18", []],
-    ["2026-11-19", [["C12T3", null]]],
-    ["2026-11-20", [["C12T4", 8]]],
-    ["2026-11-22", [["C13T2", null]]],
-    ["2026-11-23", [["C13T3", null]]],
-    ["2026-11-27", [["C14T3", null]]],
-    ["2026-11-28", [["C14T4", null], ["C15T1", null]]],
-    ["2026-11-29", [["C15T2", null], ["C15T3", null]]],
+    ["2026-11-19", [["C11T4", null]]],
+    ["2026-11-20", [["C12T1", 8]]],
+    ["2026-11-22", [["C12T3", null]]],
+    ["2026-11-23", [["C12T4", null]]],
+    ["2026-11-27", [["C13T4", null]]],
+    ["2026-11-28", [["C14T1", null], ["C14T2", null]]],
+    ["2026-11-29", [["C14T3", null], ["C14T4", null]]],
+    ["2026-12-06", [["C17T1", null], ["C17T2", null]]],
+    ["2026-12-13", [["C19T3", null], ["C19T4", null]]],
+    ["2026-12-17", [["C21T1", null], ["C21T2", null]]],
     ["2026-12-18", [["C21T3", null], ["C21T4", null]]],
   ]) {
     const row = byDate.get(date);
@@ -135,8 +135,7 @@ test("resets the IELTS sequence from November 2 and applies the requested overri
     }
   }
   for (const [phase, days, first, last] of [
-    ["Raith 学习", 1, "2026-11-02", "2026-11-02"],
-    ["EBeam Fin 实验", 21, "2026-11-03", "2026-11-28"],
+    ["EBeam Fin 实验", 19, "2026-11-05", "2026-11-28"],
   ]) {
     const rows = data.mainPlan.filter((row) => row.projectPhase === phase);
     assert.equal(rows.length, days);
@@ -164,19 +163,18 @@ test("plan migration preserves history, vocabulary and PhD records, and seeds na
   const candidate = {
     planVersion: "old", planRows: [], moduleCatalog: { 制程: [{ id: "custom", name: "My experiment" }] },
     modulePlans: { "2026-09-06": { itemId: "custom" } },
-    schedule: { "2026-09-06": { 8: "completed" }, "2026-09-13": { 8: "old plan" }, "2026-11-01": { 18: "preserved history" }, "2026-11-02": { 18: "stale new start" } },
+    schedule: { "2026-09-06": { 8: "completed" }, "2026-09-13": { 8: "old plan" }, "2026-11-04": { 18: "preserved history" }, "2026-11-05": { 18: "stale new start" } },
     ieltsMoves: [{ id: "mv", itemId: "full-C9T3", code: "C9T3", from: "2026-09-11", to: "2026-09-20" }],
     vocabularyCards: { saved: true }, phdTracker: { saved: true }, roadmap: { tasks: { saved: true } },
   };
   migrate(candidate);
   assert.equal(candidate.schedule["2026-09-06"][8], "completed");
   assert.equal(candidate.schedule["2026-09-13"][8], "old plan");
-  assert.equal(candidate.schedule["2026-11-01"][18], "preserved history", "11/1 及以前的记录都保留");
-  assert.equal(candidate.schedule["2026-11-02"], undefined, "重置日起的排程才重建");
+  assert.equal(candidate.schedule["2026-11-04"][18], "preserved history", "11/4 及以前的记录都保留");
+  assert.equal(candidate.schedule["2026-11-05"], undefined, "重置日起的排程才重建");
   assert.equal(candidate.ieltsMoves.length, 0, "regenerated plan must not keep stale reschedules");
   assert.equal(candidate.modulePlans["2026-09-06"].itemId, "custom");
 
-  assert.equal(candidate.modulePlans["2026-11-02"].itemId, "routine-raith");
   assert.equal(candidate.modulePlans["2026-11-05"].itemId, "routine-ebeam-fin");
   assert.equal(candidate.modulePlans["2026-09-24"], undefined);
   assert.equal(candidate.vocabularyCards.saved, true);
@@ -450,15 +448,15 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
   assert.match(html, /口语常用词汇/);
-  assert.match(html, /planning-tasks\.js\?v=20261102-late-nov-overrides/);
-  assert.match(html, /xlsx-export\.js\?v=20261102-late-nov-overrides/);
-  assert.match(html, /app\.js\?v=20261102-late-nov-overrides/);
-  assert.match(html, /ielts-moves\.js\?v=20261102-late-nov-overrides/);
+  assert.match(html, /planning-tasks\.js\?v=20261105-full-reset/);
+  assert.match(html, /xlsx-export\.js\?v=20261105-full-reset/);
+  assert.match(html, /app\.js\?v=20261105-full-reset/);
+  assert.match(html, /ielts-moves\.js\?v=20261105-full-reset/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v116-late-nov-overrides/);
+  assert.match(sw, /planner-notebook-v117-full-reset/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));
