@@ -5,7 +5,7 @@
 ## 主要页面
 
 - **研究路线**：老师沟通节点、GaN FinFET 研究 Gate、台湾／HK／欧洲申请 Gate、可勾选月度甘特任务表、IELTS、IEDMS / IWN 与 Plan A / B。
-- **PhD 申请**：独立栏目，按 HK、TW、EU 分区，再按学校／机构与导师管理；海外默认名单固定为 HKUST Kevin Chen、PolyU Yi Zhang、EPFL Elison Matioli、Padua Matteo Meneghini、Bristol Matthew Smith 与 Ghent Benoit Bakeroot（BESCAPE DC6）。
+- **PhD 申请**：独立栏目，按 HK、TW、EU 分区，再按学校／机构与导师管理；台湾默认名单固定为清大黄敬源、交大吴添立、交大李义明、台大吴肇欣，海外固定为 HKUST Kevin Chen、PolyU Yi Zhang、EPFL Elison Matioli、Padua Matteo Meneghini、Bristol Matthew Smith 与 Ghent Benoit Bakeroot（BESCAPE DC6）。
 - **日历**：按小时安排 06:00–24:00 的任务。
 - **总体计划**：建立日期后，可编辑、复制、插入、删除与延伸计划行。
 

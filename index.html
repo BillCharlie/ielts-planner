@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20261124-phd-six" />
+    <link rel="stylesheet" href="styles.css?v=20261124-tw-four" />
   </head>
   <body>
     <div id="authView" class="auth-shell" hidden>
@@ -215,8 +215,8 @@
             <header class="hk-application-head">
               <div>
                 <p class="eyebrow">TW · 116 学年度 · 2027 ENTRY</p>
-                <h2 id="twApplicationTimelineTitle">台湾博士考试入学时间线</h2>
-                <p>目标为2027年春季博士考试入学。查询于2026/09/07；目前核实到115学年度官方时程，116学年度考试入学日期待公告。</p>
+                <h2 id="twApplicationTimelineTitle">台湾四位导师申请时间线</h2>
+                <p>固定四位并依优先顺序推进：清大黄敬源 → 交大吴添立 → 交大李义明 → 台大吴肇欣。116学年度考试入学日期待正式公告。</p>
               </div>
               <span class="hk-cycle-status">2027春季 · 正式日期待公告</span>
             </header>
@@ -229,28 +229,38 @@
             </div>
             <div class="hk-timeline-scroll">
               <ol class="hk-application-timeline">
-                <li><time>2027/01</time><b>确认台湾导师与系所</b><p>台大 NTU 电子所元件材料方向为主、阳明交大 NYCU 为辅；确认招生组别、导师意愿与毕业时间。</p></li>
-                <li><time>2027/02/15 · INTERNAL</time><b>邀请台湾推荐人</b><p>附最新CV、研究摘要与目标清单，支持春季博士考试入学；同步准备成绩单及学位／在学证明。</p></li>
+                <li class="internal"><time>2027/02/08 · PRIORITY 1</time><b>清大黄敬源</b><p>先研究 wide-bandgap power／RF device、GaN-on-Si、制程、模型、可靠度及热管理，完成定制研究匹配页。</p></li>
+                <li class="internal"><time>2027/02/15 · PRIORITY 2</time><b>交大吴添立</b><p>以 p-GaN gate 可靠性、AI 辅助器件设计及 U-Net 电位建模为主线准备联系。</p></li>
+                <li class="internal"><time>2027/02/22 · PRIORITY 3</time><b>交大李义明</b><p>聚焦 TCAD、统计变异、机器学习辅助器件设计与 GaN MIS-HEMT 建模。</p></li>
+                <li class="internal"><time>2027/03/01 · PRIORITY 4</time><b>台大吴肇欣</b><p>聚焦双通道 Fin-HEMT small-signal／compact model，并确认可否延伸到 power switching。</p></li>
+                <li><time>2027/02/15 · INTERNAL</time><b>邀请台湾推荐人</b><p>附最新CV、研究摘要与四位目标清单；同步准备成绩单及学位／在学证明。</p></li>
                 <li><time>2027/02–03</time><b>核对116考试入学简章</b><p>检查招生名额、报考资格、推荐信、材料格式，以及书审、笔试或口试规定。</p></li>
                 <li class="internal"><time>2027/03/15 · INTERNAL</time><b>台湾申请材料备齐</b><p>完成表单草稿、CV、研究计划与成果附件；正式简章若更早，依校方日程提前。</p></li>
-                <li class="deadline"><time>预计2027/03下旬</time><b>台大 NTU 考试入学报名</b><p>参考115年3/24–3/31报名、4/1 17:00材料截止；2027日期待公告，开放后两天内提交。</p></li>
+                <li class="deadline"><time>预计2027/03下旬–04上旬</time><b>清大 NTHU 考试入学报名</b><p>参考115年3/27 10:00–4/7 17:00报名；2027日期待公告，开放后两天内提交。</p></li>
                 <li class="deadline"><time>预计2027/03下旬–04上旬</time><b>阳明交大 NYCU 考试入学报名</b><p>参考115年3/26–4/7 17:00报名及上传、4/8 17:00推荐信截止；2027日期待公告。</p></li>
+                <li class="deadline"><time>预计2027/03下旬</time><b>台大 NTU 考试入学报名</b><p>参考115年3/24–3/31报名、4/1 17:00材料截止；2027日期待公告，开放后两天内提交。</p></li>
                 <li><time>预计2027/04–05</time><b>系所考试／口试</b><p>按目标系所规定准备研究简报与可能的笔试；不预设所有组别都考笔试。</p></li>
                 <li><time>预计2027/05</time><b>放榜与报到</b><p>逐校核对结果、报到期限与毕业证明补缴时间。</p></li>
               </ol>
             </div>
             <div class="hk-school-deadlines">
-              <article>
-                <header><span>NTU</span><h3>台湾大学 NTU</h3></header>
-                <p><b>116考试入学：</b>预计2027年3月下旬报名，正式日期待公告。</p>
-                <p><b>115参考：</b>2026/3/24 09:00–3/31 24:00报名；4/1 17:00材料截止。电子所另有系所资料系统，需同步核对。</p>
-                <nav><a href="https://exam.aca.ntu.edu.tw/grad/" target="_blank" rel="noopener">官方博士考试报名</a><a href="https://giee.ntu.edu.tw/tw/admissions/phd/exam" target="_blank" rel="noopener">电子所博士招生</a></nav>
+              <article class="priority-1">
+                <header><span>NTHU · #1</span><h3>清华大学 NTHU · 黄敬源</h3></header>
+                <p><b>第一优先：</b>宽能隙功率／射频器件、GaN-on-Si、器件设计与制程、模型、可靠度及热管理。</p>
+                <p><b>115参考：</b>2026/3/27 10:00–4/7 17:00报名；116考试入学正式日期待公告。</p>
+                <nav><a href="https://ene.site.nthu.edu.tw/p/412-1180-10452.php?Lang=en" target="_blank" rel="noopener">黄敬源导师资料</a><a href="https://adms.site.nthu.edu.tw/p/403-1207-1134-1.php?Lang=zh-tw" target="_blank" rel="noopener">官方博士班考试公告</a></nav>
               </article>
               <article>
-                <header><span>NYCU</span><h3>阳明交通大学 NYCU</h3></header>
+                <header><span>NYCU · #2–3</span><h3>阳明交通大学 NYCU · 吴添立／李义明</h3></header>
                 <p><b>116考试入学：</b>预计2027年3月下旬至4月上旬报名，正式日期待公告。</p>
                 <p><b>115参考：</b>2026/3/26 09:00–4/7 17:00报名及上传；4/8 17:00推荐信截止；4/18–5/7系所考试。</p>
-                <nav><a href="https://exam.nycu.edu.tw/dr-me.html" target="_blank" rel="noopener">官方博士考试日程</a></nav>
+                <nav><a href="https://iee.nycu.edu.tw/tw/teacher/p1.php?kind=8&amp;num=225&amp;page=1" target="_blank" rel="noopener">吴添立导师资料</a><a href="https://dee.nycu.edu.tw/teachers.php?locale=tw&amp;pa=getItem&amp;teacher_id=50" target="_blank" rel="noopener">李义明导师资料</a><a href="https://exam.nycu.edu.tw/dr-me.html" target="_blank" rel="noopener">官方博士考试日程</a></nav>
+              </article>
+              <article>
+                <header><span>NTU · #4</span><h3>台湾大学 NTU · 吴肇欣</h3></header>
+                <p><b>第四优先：</b>高频／高功率 GaN transistor、双通道 Fin-HEMT small-signal 与 compact model。</p>
+                <p><b>115参考：</b>2026/3/24 09:00–3/31 24:00报名；4/1 17:00材料截止。电子所另有系所资料系统，需同步核对。</p>
+                <nav><a href="https://giee.ntu.edu.tw/tw/faculty/ne/" target="_blank" rel="noopener">吴肇欣导师资料</a><a href="https://exam.aca.ntu.edu.tw/grad/" target="_blank" rel="noopener">官方博士考试报名</a></nav>
               </article>
             </div>
             <p class="hk-source-note">官方115日程用于推估2027准备窗口，不是116学年度正式截止。个人材料准备日为2027/3/15；招生简章公布后按各校／系所正式日程更新。</p>
@@ -325,7 +335,7 @@
               </div>
             </aside>
             <aside class="phd-guidance">
-              <b>TW 提醒：</b><span>台大 NTU 先锁定电子所元件材料相关方向；申请走116学年度博士考试入学，组别名称、招生名额、资格与考核方式以正式简章为准。</span>
+              <b>TW 提醒：</b><span>台湾只保留四位：清大黄敬源、交大吴添立、交大李义明、台大吴肇欣，并严格按此优先顺序推进。申请走116学年度博士考试入学，名额、资格与考核方式以正式简章为准。</span>
             </aside>
           </div>
         </main>
@@ -505,12 +515,12 @@
       </dialog>
     </div>
 
-    <script src="plan-data.js?v=20261124-phd-six"></script>
+    <script src="plan-data.js?v=20261124-tw-four"></script>
     <script src="config.js"></script>
-    <script src="xlsx-export.js?v=20261124-phd-six"></script>
-    <script src="planning-tasks.js?v=20261124-phd-six"></script>
-    <script src="eu-radar.js?v=20261124-phd-six"></script>
-    <script src="ielts-moves.js?v=20261124-phd-six"></script>
-    <script src="app.js?v=20261124-phd-six"></script>
+    <script src="xlsx-export.js?v=20261124-tw-four"></script>
+    <script src="planning-tasks.js?v=20261124-tw-four"></script>
+    <script src="eu-radar.js?v=20261124-tw-four"></script>
+    <script src="ielts-moves.js?v=20261124-tw-four"></script>
+    <script src="app.js?v=20261124-tw-four"></script>
   </body>
 </html>

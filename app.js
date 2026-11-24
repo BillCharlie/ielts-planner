@@ -19,7 +19,7 @@
     { id: "a1", code: "A1", name: "Immediate EU Deadlines", date: "2026-12-15", displayDate: "12/01 EPFL EDEE · 12/15 Ghent DC6", proof: "EPFL EDEE 申请完成或明确转入 4/15 轮；BESCAPE DC6 依公告寄出完整英文材料", pass: "两项硬截止分别处理，不让其他泛投任务分散时间", miss: "EPFL 12/01 来不及就锁定 4/15；DC6 12/15 是不可顺延的项目截止" },
     { id: "a4", code: "A4", name: "HK Target Pair", date: "2027-06-01", displayDate: "1/22 出分 · 5/31 PolyU · 6/01 HKUST", proof: "张毅与 Kevin Chen 各有独立 CV／研究匹配页；雅思达标后完成两校正式申请", pass: "1月底前主投，5/31 与 6/01 只作最终硬截止", miss: "不再扩充 HKU／CUHK／CityU 名单，精力集中在两位目标导师" },
     { id: "a2", code: "A2", name: "Europe Target Portfolio", date: "2027-05-20", displayDate: "Bakeroot · Matioli · Smith · Meneghini", proof: "四位欧洲目标均完成定制 CV、联系记录与正式入口核对", pass: "按 DC6→EPFL→Bristol→Padua 的实际窗口推进", miss: "Padua 2027 正式简章未出前只标预计日期，不把上一届日期当硬截止" },
-    { id: "a3", code: "A3", name: "Taiwan PhD Ready", date: "2027-03-15", displayDate: "3/01 启动 · 3/15 内部备齐 · 3月下旬报名", proof: "116学年度博士考试入学：台大 NTU 电子所／阳明交大 NYCU 目标、CV、研究计划、成绩单与推荐信备齐", pass: "核对116正式简章；开放后两天内提交，并分别确认报名、材料、推荐信截止", miss: "按学校正式截止补齐；2027时程仍待公告，不沿用秋季甄试日期" },
+    { id: "a3", code: "A3", name: "Taiwan PhD Ready", date: "2027-03-15", displayDate: "2/08 启动 · 3/15 内部备齐 · 3月下旬报名", proof: "116学年度博士考试入学：清大黄敬源、交大吴添立／李义明、台大吴肇欣四位目标的 CV、研究计划、成绩单与推荐信备齐", pass: "依黄敬源→吴添立→李义明→吴肇欣顺序推进；核对116正式简章并在开放后两天内提交", miss: "按学校正式截止补齐；2027时程仍待公告，不沿用秋季甄试日期" },
   ];
   // 香港申请的固定日期节点。只种一次，之后可自行改日期或删除（见 PlanningTasks.seedMilestones）。
   // 阶段一（11—12月）不需要雅思；阶段二（出分后）才正式主投。
@@ -28,16 +28,15 @@
   // 不另外维护一份，避免两边讲不一样的话。
   // batch 1=GaN power device（TCAD／制程／可靠性）2=转换器／电源电路 3=GaN RF（只欧洲）
   const OUTREACH_ROSTER = [
-    { date: "2026-10-26", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "S+ 9.5", why: "当前第1位：p-GaN gate 可靠性＋AI 辅助器件设计；拿 U-Net 建模那篇切入" , advisors: ["tw-adv-nycu-tlwu"] },
-    { date: "2026-11-02", batch: 1, lane: "台湾", who: "吴肇欣 Chao-Hsin (Wayne) Wu", where: "NTU · IOED Lab", tier: "S+ 9.5", why: "吴添立之后第2位：双通道 Fin-HEMT small-signal／compact model 与你的结构直接重叠；先拆 2024 硕论与 IEDMS 模型工作" , advisors: ["tw-adv-ntu-chwu"] },
     { date: "2026-11-24", batch: 1, lane: "欧洲", who: "Elison Matioli", where: "EPFL POWERlab", tier: "核心目标", why: "先决定是否赶 12/01 EDEE；来不及就锁定 2027/04/15 轮次" , advisors: ["eu-adv-ch-matioli"] },
     { date: "2026-11-25", batch: 1, lane: "欧洲", who: "Benoit Bakeroot", where: "Ghent · BESCAPE DC6", tier: "硬截止", why: "12/15 前寄出 Europass CV、学历成绩、身份证件与两位推荐人资料" , advisors: ["eu-adv-be-bakeroot"] },
     { date: "2026-11-30", batch: 1, lane: "HK", who: "Kevin J. Chen＋Yi Zhang", where: "HKUST＋PolyU", tier: "固定两校", why: "两位各做一版 CV 与研究匹配页；雅思出分后正式主投" , advisors: ["hk-adv-hkust-kevin", "hk-adv-polyu-yizhang"] },
     { date: "2026-12-07", batch: 1, lane: "欧洲", who: "Matthew Smith", where: "University of Bristol", tier: "联系优先", why: "确认 GaN-PLoT／VertiGaN 是否有 2027 funded PhD 与该项目的实际截止" , advisors: ["eu-adv-uk-matthew-smith"] },
     { date: "2026-12-14", batch: 1, lane: "欧洲", who: "Matteo Meneghini", where: "University of Padua", tier: "简章待公布", why: "先联系研究契合；追踪 43rd cycle Information Engineering 正式 call" , advisors: ["eu-adv-it-meneghini"] },
-    { date: "2027-03-15", batch: 0, lane: "台湾", who: "锁定台湾其余三位", where: "台湾", tier: "—", why: "吴添立、吴肇欣已研究；接着核对李义明、刘致为、胡璧合与正式招生资格" },
-    { date: "2027-03-22", batch: 1, lane: "台湾", who: "李义明＋刘致为", where: "NYCU／NTU", tier: "S／B+", why: "两位 TCAD；刘致为挂电子所 GIEE，指导资格最稳" , advisors: ["tw-adv-nycu-ymli", "tw-adv-ntu-cwliu"] },
-    { date: "2027-03-29", batch: 1, lane: "台湾", who: "胡璧合 Vita Pi-Ho Hu", where: "NTU", tier: "B+", why: "注意是「璧」不是「壁」；切入点是 DTCO 与 Vth 变异分析" , advisors: ["tw-adv-ntu-vphu"] },
+    { date: "2027-02-08", batch: 1, lane: "台湾", who: "黄敬源 Roy King-Yuen Wong", where: "NTHU", tier: "优先 1", why: "台湾首选：wide-bandgap power／RF device、GaN-on-Si、制程、模型、可靠度与热管理都能接上现有研究" , advisors: ["tw-adv-nthu-kywong"] },
+    { date: "2027-02-15", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "优先 2", why: "p-GaN gate 可靠性＋AI 辅助器件设计；以 U-Net 建模与双通道 Tri-gate 经验切入" , advisors: ["tw-adv-nycu-tlwu"] },
+    { date: "2027-02-22", batch: 1, lane: "台湾", who: "李义明 Yi-Ming Li", where: "NYCU", tier: "优先 3", why: "器件模拟／TCAD、统计变异与机器学习辅助设计；聚焦模型与实验结构的衔接" , advisors: ["tw-adv-nycu-ymli"] },
+    { date: "2027-03-01", batch: 1, lane: "台湾", who: "吴肇欣 Chao-Hsin (Wayne) Wu", where: "NTU · IOED Lab", tier: "优先 4", why: "双通道 Fin-HEMT small-signal／compact model 与现有结构直接重叠；确认博士主线能否延伸到 power switching" , advisors: ["tw-adv-ntu-chwu"] },
   ];
 
   const BATCH_LABEL = { 0: "节点", 1: "第一批", 2: "第二批", 3: "第三批" };
@@ -66,7 +65,7 @@
   }
 
   const LEGACY_ROSTER_IDS = ["2026-10-12", "2026-10-19", "2026-10-26", "2026-11-02", "2026-11-09", "2026-11-16", "2026-11-23", "2026-11-30", "2026-12-07", "2026-12-14", "2026-12-21", "2026-12-28", "2027-01-04", "2027-01-11", "2027-01-18", "2027-01-25", "2027-02-01", "2027-02-08", "2027-02-15", "2027-02-22", "2027-03-01", "2027-03-08", "2027-03-15", "2027-03-22", "2027-03-29", "2027-04-05", "2027-04-12"]
-    .flatMap((date) => ["roster", "roster2", "roster3", "roster4", "roster5"].map((prefix) => `${prefix}:${date}`));
+    .flatMap((date) => ["roster", "roster2", "roster3", "roster4", "roster5", "roster6"].map((prefix) => `${prefix}:${date}`));
 
   // 日期与人选重排过，roster:<date> 这组旧 id 的内容已经不对；
   // 让第一笔一次把它们全部退役，避免新旧两份并存。
@@ -99,7 +98,7 @@
   ].concat(
     // 每周导师研究节点由 OUTREACH_ROSTER 产生：甘特排班与日历节点同一份名单。
     OUTREACH_ROSTER.map((row, index) => ({
-      id: `roster6:${row.date}`,
+      id: `roster7:${row.date}`,
       module: "application",
       lane: row.lane,
       date: row.date,
@@ -150,13 +149,13 @@
       { 制程: "10 月中完成测试制程（Litho+Etch）；10 月底开始元件制程", TCAD: "依实际磊晶结构与氧化层厚度进一步模拟 PGaN Emode／Dmode（重点能带 + 导通电场）" },
       "维持训练；错题与口语素材整理",
       { IEDMS: "10/15–10/20 做海报；10/23 参加报告", IWN: "10/25–11/1 做海报" },
-      { HK: "准备 Kevin Chen／Yi Zhang 两版材料", 台湾: "10/26 当周先研究吴添立；下一周再研究吴肇欣", 欧洲: "确认 Matioli／Meneghini／Smith／Bakeroot 四位目标" },
+      { HK: "准备 Kevin Chen／Yi Zhang 两版材料", 台湾: "台湾名单收敛为黄敬源、吴添立、李义明、吴肇欣", 欧洲: "确认 Matioli／Meneghini／Smith／Bakeroot 四位目标" },
       "A：正式 wafer 已开始"],
     ["2026/11", "Fabrication sprint",
       { 制程: "元件制程与第一批 Fin", TCAD: "开始模拟 BV" },
       "题库已刷完；转专项弱项与全真模考节奏",
       { IWN: "11/8–11/13 会议", ISPSD: "11/1 开始写稿；11/11 开放投稿；11/20 第一版给老师" },
-      { 台湾: "11/02 吴肇欣：优先双通道 Fin-HEMT compact／small-signal model", HK: "11/30 Kevin Chen＋Yi Zhang 两版材料", 欧洲: "11/24 Matioli；11/25 Bakeroot DC6" },
+      { 台湾: "台湾四位目标确认；依清大黄敬源→交大吴添立→交大李义明→台大吴肇欣准备", HK: "11/30 Kevin Chen＋Yi Zhang 两版材料", 欧洲: "11/24 Matioli；11/25 Bakeroot DC6" },
       "B 最晚延至 12 月"],
     ["2026/12", "First data",
       { 制程: "electrical measurement；C–V / Regrowth", Cadence: "Cadence 开始" },
@@ -174,13 +173,13 @@
       { 制程: "第二轮 device／必要补测", TCAD: "TCAD–experiment comparison" },
       "",
       {},
-      { 欧洲: "Matioli／Meneghini／Smith／Bakeroot 申请追踪", HK: "HKUST／PolyU 补件与面试" },
+      { 台湾: "2/08 黄敬源；2/15 吴添立；2/22 李义明", 欧洲: "Matioli／Meneghini／Smith／Bakeroot 申请追踪", HK: "HKUST／PolyU 补件与面试" },
       "A：实验开始 freeze"],
     ["2027/03", "Data freeze",
       { 制程: "主要 dataset 收敛" },
       "",
       { ISPSD: "论文投稿或接近投稿" },
-      { 台湾: "其余三位 3/15–3/29 核对；3 月下旬考试入学报名（待公告）", HK: "只追踪 HKUST／PolyU 回覆", 欧洲: "准备 EPFL 4/15；追踪 Padua 43rd cycle" },
+      { 台湾: "3/01 吴肇欣；3/15 四位材料备齐；3 月下旬考试入学报名（待公告）", HK: "只追踪 HKUST／PolyU 回覆", 欧洲: "准备 EPFL 4/15；追踪 Padua 43rd cycle" },
       "3/31 通过 G3，否则切 B"],
     ["2027/04", "Write",
       { 制程: "只补必要量测" },
@@ -204,7 +203,7 @@
   ];
   const PHD_REGION_PRESETS = [
     { id: "hk", code: "HK", name: "香港", hint: "固定目标：HKUST Kevin Chen／PolyU Yi Zhang", schools: ["HKUST", "PolyU"] },
-    { id: "tw", code: "TW", name: "台湾", hint: "学校招生规则与导师意愿并行确认", schools: ["NTU", "NYCU"] },
+    { id: "tw", code: "TW", name: "台湾", hint: "固定四位：黄敬源 → 吴添立 → 李义明 → 吴肇欣", schools: ["NTHU", "NYCU", "NTU"] },
     { id: "eu", code: "EU", name: "欧洲", hint: "固定目标：EPFL／Padua／Bristol／Ghent DC6", schools: ["EPFL", "University of Padua", "University of Bristol", "Ghent University"] },
   ];
   // 研究链：多通道／Tri-gate GaN HEMT → p-GaN reliability → device design/TCAD/fabrication
@@ -271,20 +270,26 @@
       focus: "GaN MMIC、GaN power amplifier、CMOS-controlled GaN、RF/microwave、6G",
       note: "⚠️ 别被「GaN」骗：PA 的 power ≠ power electronics 的 power。他是 RF GaN MMIC／GHz PA／Doherty，和 switching HEMT（Vth/Ron/BV→DC-DC）是另一套学术社群。除非愿意转 RF GaN，否则不要因为名字有 GaN 就排前面。",
       url: "https://www.ee.cuhk.edu.hk/en-gb/people/academic-staff/professors/prof-zhu-anding" },
-    { id: "tw-adv-nycu-tlwu", region: "tw", school: "NYCU", name: "吴添立 Tian-Li Wu", tier: "S+", match: "9.5", studyOrder: 7,
+    { id: "tw-adv-nthu-kywong", region: "tw", school: "NTHU", name: "黄敬源 Roy King-Yuen Wong", tier: "S+", match: "9.5", studyOrder: 1,
+      email: "kywong@ee.nthu.edu.tw",
+      focus: "宽能隙功率／射频器件、GaN-on-Si lateral power switch、器件物理与设计、制程、量测／模型、可靠度、热管理与模组",
+      note: "台湾第一优先。清大电子所官方资料列出的研究链从 wide-bandgap power／RF device 的物理、设计、制程与量测模型，一路延伸到可靠度、热管理及电路模组；与现有 GaN Fin／Tri-gate、TCAD、制程和量测经验衔接最完整。联系时以你已能贯通结构设计→模拟→制程→量测为主线，并具体询问 GaN-on-Si lateral power switch 或下一代宽能隙器件的博士题目。",
+      url: "https://ene.site.nthu.edu.tw/p/412-1180-10452.php?Lang=en" },
+    { id: "tw-adv-nycu-tlwu", region: "tw", school: "NYCU", name: "吴添立 Tian-Li Wu", tier: "S+", match: "9.5", studyOrder: 2,
       email: "tlwu@nycu.edu.tw",
       focus: "p-GaN gate HEMT 可靠性、GaN MIS-HEMT Vth 不稳定与栅介质击穿、SiC MOSFET 可靠性、AI 辅助器件设计",
       note: "台湾这边与你研究链重叠最深的一位，甚至比部分港校老师更贴。WLab 四个方向里直接写着「AI-assisted semiconductor device designs」，正好接你 TCAD＋AI 那条线；近三年多篇 p-GaN gate 失效机制与 ΔVth trapping 分析，并与 imec（Posthuma／Decoutere）长期合作、有 200mm GaN-on-Si 产线成果。套磁可直接用你的双通道 Tri-gate TCAD→制程→量测全流程对话。email 取自 ICST 官网，寄之前再核一次。",
-      url: "https://icst.nycu.edu.tw/" },
-    { id: "tw-adv-ntu-chwu", region: "tw", school: "NTU", name: "吴肇欣 Chao-Hsin (Wayne) Wu", tier: "S+", match: "9.5（compact model／双通道 Fin）", studyOrder: 8,
+      url: "https://iee.nycu.edu.tw/tw/teacher/p1.php?kind=8&num=225&page=1" },
+    { id: "tw-adv-ntu-chwu", region: "tw", school: "NTU", name: "吴肇欣 Chao-Hsin (Wayne) Wu", tier: "S+", match: "9.5（compact model／双通道 Fin）", studyOrder: 4,
       email: "chaohsinwu@ntu.edu.tw",
       focus: "GaN HEMT／MMIC、双通道 Fin-HEMT、small-signal／compact model、S-parameter 参数萃取、p-GaN 与 current collapse／可靠性、高频器件制程",
       note: "与你的研究不是低交集，反而有一条很直接的结构与建模重叠：IOED Lab 在 2024 硕论中完成双通道 AlGaN/GaN Fin-HEMT 的制程、变偏压量测、内禀参数萃取与 small-signal model，同年 IEDMS 继续报告该模型；这几乎就是你的双通道 Tri-gate 经验可直接对话的题目。近五年其他 GaN 线包括 p-GaN／电流崩塌与表面处理、multi-finger 热特性、AlInN/GaN 高频元件、低温与毫米波 MMIC／辐射可靠性。要注意实验室整体仍是光电＋高频器件的宽谱团队，GaN HEMT 偏 RF／MMIC；套磁时应明确问 compact model 是否仍是目前可收博士的主线，以及能否把 model 从小讯号扩展到 large-signal／power switching。2019 leaky-buffer 模型列作基础阅读，不冒充近五年成果。",
-      url: "https://cc.ee.ntu.edu.tw/~ioedlab/member_professor.html" },
-    { id: "tw-adv-nycu-ymli", region: "tw", school: "NYCU", name: "李义明 Yiming Li", tier: "S", match: "8.5", studyOrder: 9,
+      url: "https://giee.ntu.edu.tw/tw/faculty/ne/" },
+    { id: "tw-adv-nycu-ymli", region: "tw", school: "NYCU", name: "李义明 Yi-Ming Li", tier: "S", match: "8.5", studyOrder: 3,
+      email: "ymli@mail.nctu.edu.tw",
       focus: "器件模拟与 TCAD、统计变异分析、机器学习辅助器件设计、GAA nanosheet、AlGaN/GaN MIS-HEMT 建模",
       note: "纯模拟／建模路线，和你「AI+TCAD 优化」那半最合。GAA nanosheet 的多通道 Vth 统计建模思路可与你的双通道互相迁移；GaN 相关几篇（低温 Vth 稳定性、E-mode gate recess）他是共同作者而非通讯，主轴仍是 device simulation。⚠️ OpenAlex 把他和做钙钛矿／电池的同名人合并了，自己查论文时要筛掉不相干的。",
-      url: "" },
+      url: "https://dee.nycu.edu.tw/teachers.php?locale=tw&pa=getItem&teacher_id=50" },
     { id: "tw-adv-ntu-yrwu", region: "tw", school: "NTU", name: "吴育任 Yuh-Renn Wu", tier: "A", match: "6.5（方法论 9 / 功率器件 4）", studyOrder: 10,
       focus: "III-nitride 器件数值模拟、localization landscape theory、random alloy 无序与 V-defect 对载流子输运的影响、drift-diffusion 建模",
       note: "⚠️ 方法论极强但应用面不对口：他是台大 III-nitride 模拟的核心人物，localization landscape＋薛定谔方程处理合金无序是他的招牌，可是近三年产出几乎全在 LED／光电，不是功率开关。你的 TCAD 那一半能对上，p-GaN gate／Vth／BV／DC-DC 这条线对不上。另注意他属光电所 GIPO，你若走电子所 GIEE 考试入学，要先确认他能否担任指导教授。",
@@ -388,7 +393,10 @@
     "hk-adv-hkust-kevin", "hk-adv-polyu-yizhang", "eu-adv-ch-matioli",
     "eu-adv-it-meneghini", "eu-adv-uk-matthew-smith", "eu-adv-be-bakeroot",
   ]);
-  const PHD_TARGET_PORTFOLIO_VERSION = 1;
+  const TAIWAN_TARGET_ADVISOR_IDS = new Set([
+    "tw-adv-nthu-kywong", "tw-adv-nycu-tlwu", "tw-adv-nycu-ymli", "tw-adv-ntu-chwu",
+  ]);
+  const PHD_TARGET_PORTFOLIO_VERSION = 2;
 
   // 近五年代表作（2022 起），优先使用 DOI；无 DOI 的实验室会议成果连回官方 publication list。
   // ★ = 与你研究链（多通道／p-GaN gate reliability）直接重叠，建议套磁前必读。
@@ -506,7 +514,10 @@
   const PHD_ADVISOR_CONTENT_REVISIONS = {
     "hk-adv-hkust-kevin": "2026-11-24-target-portfolio-v1",
     "hk-adv-polyu-yizhang": "2026-11-24-target-portfolio-v1",
-    "tw-adv-ntu-chwu": "2026-10-27-gan-compact-model-v1",
+    "tw-adv-nthu-kywong": "2026-11-24-tw-four-v1",
+    "tw-adv-nycu-tlwu": "2026-11-24-tw-four-v1",
+    "tw-adv-nycu-ymli": "2026-11-24-tw-four-v1",
+    "tw-adv-ntu-chwu": "2026-11-24-tw-four-v1",
   };
   const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系", "待回复", "准备申请", "已送出", "面试", "Offer", "暂停"];
   const data = window.IELTS_PLANNER_DATA || { mainPlan: [], dailyTemplates: [] };
@@ -3623,19 +3634,23 @@
 
   function migratePhdTargetPortfolio(candidate) {
     if (candidate.phdTargetPortfolioVersion >= PHD_TARGET_PORTFOLIO_VERSION) return candidate;
-    const seededForeignIds = new Set(PHD_ADVISOR_SEEDS
-      .filter((seed) => (seed.region || "hk") !== "tw")
-      .map((seed) => seed.id));
+    const seededDefaultIds = new Set(PHD_ADVISOR_SEEDS.map((seed) => seed.id));
+    const targetIds = {
+      hk: FOREIGN_TARGET_ADVISOR_IDS,
+      eu: FOREIGN_TARGET_ADVISOR_IDS,
+      tw: TAIWAN_TARGET_ADVISOR_IDS,
+    };
     const targetSchools = {
       hk: new Set(["HKUST", "PolyU"]),
       eu: new Set(["EPFL", "University of Padua", "University of Bristol", "Ghent University"]),
+      tw: new Set(["NTHU", "NYCU", "NTU"]),
     };
-    for (const regionId of ["hk", "eu"]) {
+    for (const regionId of ["hk", "eu", "tw"]) {
       const region = candidate.phdTracker?.regions?.find((item) => item.id === regionId);
       if (!region) continue;
       region.schools = (region.schools || []).flatMap((school) => {
         const advisors = (school.advisors || []).filter((advisor) =>
-          FOREIGN_TARGET_ADVISOR_IDS.has(advisor.id) || !seededForeignIds.has(advisor.id));
+          targetIds[regionId].has(advisor.id) || !seededDefaultIds.has(advisor.id));
         if (!targetSchools[regionId].has(school.name) && !advisors.length) return [];
         return [{ ...school, advisors }];
       });
@@ -3651,7 +3666,10 @@
     const seeded = new Set(candidate.seededAdvisors || []);
     for (const seed of PHD_ADVISOR_SEEDS) {
       const regionId = seed.region || "hk";
-      if (regionId !== "tw" && !FOREIGN_TARGET_ADVISOR_IDS.has(seed.id)) continue;
+      const isTarget = regionId === "tw"
+        ? TAIWAN_TARGET_ADVISOR_IDS.has(seed.id)
+        : FOREIGN_TARGET_ADVISOR_IDS.has(seed.id);
+      if (!isTarget) continue;
       if (seeded.has(seed.id)) continue;
       const region = tracker.regions.find((item) => item.id === regionId);
       if (!region || !Array.isArray(region.schools)) continue;
