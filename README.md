@@ -5,7 +5,7 @@
 ## 主要页面
 
 - **研究路线**：老师沟通节点、GaN FinFET 研究 Gate、台湾／HK／欧洲申请 Gate、可勾选月度甘特任务表、IELTS、IEDMS / IWN 与 Plan A / B。
-- **PhD 申请**：独立栏目，按 HK、TW、EU 分区，再按学校／机构与导师管理。
+- **PhD 申请**：独立栏目，按 HK、TW、EU 分区，再按学校／机构与导师管理；海外默认名单固定为 HKUST Kevin Chen、PolyU Yi Zhang、EPFL Elison Matioli、Padua Matteo Meneghini、Bristol Matthew Smith 与 Ghent Benoit Bakeroot（BESCAPE DC6）。
 - **日历**：按小时安排 06:00–24:00 的任务。
 - **总体计划**：建立日期后，可编辑、复制、插入、删除与延伸计划行。
 
@@ -13,9 +13,9 @@
 
 PhD 申请追踪可在每个地区自行新增或删除学校，并在学校下新增或删除导师。每位导师都有可编辑的 Email、对应 CV 完成勾选和状态栏；状态包括研究中、准备联系、已联系、待回复、准备申请、已送出、面试、Offer 与暂停。
 
-研究路线中的 Gate 以甘特图呈现：研究与申请分成上下两条泳道，共用 2026/09—2027/05 的完整月份刻度。条带表示准备／执行区间，末端菱形表示 Gate 截止点；HK 与欧洲的重叠申请期会在同一申请泳道中错层显示。原研究任务看板已合并进月度纵向甘特图，2026/08—2027/12 从上往下推进，研究、IELTS／会议／论文、PhD 申请及 Plan A／B 四条泳道同时显示月度摘要和细分任务。前三条泳道的每个月度主框和细分任务都可以独立勾选并保存，Plan A／B 只保留说明、不显示勾选框。独立的 IELTS／会议区块已移除，相关安排统一在甘特任务表与日历中追踪。研究 Gate 追踪 Process、Device、Data 与 Thesis；申请 Gate 则依次追踪台湾本土博士、HK 与欧洲。台湾时间轴暂依上一届预留 10 月报名窗口，待 116 学年度正式简章公布后再校正；香港申请改为预计 9 月开放、11/20 个人内部封版、12/1 HKPFS 双截止，欧洲从 12 月中准备并于 2027 年 1–3 月主投。老师推荐信分成 9 月台湾本土与 11 月 HK／欧洲两个阶段提出。
+研究路线中的 Gate 以甘特图呈现：研究与申请分成上下两条泳道，共用 2026/09—2027/06 的月份刻度。条带表示准备／执行区间，末端菱形表示 Gate 截止点；HK 与欧洲的重叠申请期会在同一申请泳道中错层显示。海外申请不再泛投：近期先处理 2026/12/01 EPFL EDEE 与 2026/12/15 Ghent BESCAPE DC6，雅思出分后主投 HKUST／PolyU；Bristol 先确认对应 funded project，Padua 等待 43rd cycle 正式简章。
 
-PhD 申请页新增香港 2027 入学专属时间线与 HKU、HKUST、CityU、PolyU 四校节点。页面明确区分 RGC 12/1 12:00 初申、大学端 12/1 23:59 完整申请，并提醒 HKPFS 最多只能填写两个 programme choices。2027/28 日期尚未全部正式公布，带“预计”的节点依据目前最新官方周期建立，待新版简章更新后逐校复核。
+PhD 申请页的香港时间线只保留 HKUST Kevin Chen 与 PolyU Yi Zhang；欧洲时间线只保留 EPFL Matioli、Padua Meneghini、Bristol Matthew Smith 与 Ghent Bakeroot DC6。页面区分官方硬截止、内部目标与依据上一届周期设置的预计日期，避免把尚未公布的 2027 截止误写成正式日期。
 
 IEDMS 与 IWN 两项投稿均已接受，目前追踪的是 poster、现场表达与参会节点。
 

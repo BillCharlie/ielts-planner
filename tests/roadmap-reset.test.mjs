@@ -146,6 +146,47 @@ test("plan migration preserves history, vocabulary and PhD records, and seeds na
   assert.equal(JSON.stringify(candidate), snapshot);
 });
 
+test("migrates the overseas tracker to exactly six seeded targets", async () => {
+  const app = await readFile(new URL("../app.js", import.meta.url), "utf8");
+  const constants = app.slice(app.indexOf("  const PHD_REGION_PRESETS"), app.indexOf("  const PHD_ADVISOR_PAPERS"));
+  const functions = app.slice(app.indexOf("  function defaultPhdTracker("), app.indexOf("  function defaultRoadmapState("));
+  const api = vm.runInNewContext(`(() => {
+    ${constants}
+    const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系"];
+    const PHD_ADVISOR_PAPERS = {};
+    const PHD_ADVISOR_NO_PAPERS = {};
+    const PHD_ADVISOR_CONTENT_REVISIONS = {};
+    ${functions}
+    return { defaultPhdTracker, migratePhdTargetPortfolio, seedPhdAdvisors };
+  })()`);
+
+  const candidate = {
+    phdTracker: api.defaultPhdTracker(), seededAdvisors: [], advisorDataVersions: {}, phdTargetPortfolioVersion: 0,
+  };
+  const hk = candidate.phdTracker.regions.find((region) => region.id === "hk");
+  hk.schools.push({ id: "legacy-hku", name: "HKU", advisors: [{ id: "hk-adv-hku-yuhao", name: "old seed" }] });
+  hk.schools.find((school) => school.name === "HKUST").advisors.push({
+    id: "hk-adv-hkust-kevin", name: "Kevin J. Chen", email: "", cvDone: true, status: "已联系",
+  });
+  hk.schools.push({ id: "custom-school", name: "自定义学校", advisors: [{ id: "custom-advisor", name: "个人新增", cvDone: false, status: "研究中" }] });
+
+  api.seedPhdAdvisors(api.migratePhdTargetPortfolio(candidate));
+  const seededByRegion = Object.fromEntries(candidate.phdTracker.regions.map((region) => [
+    region.id,
+    region.schools.flatMap((school) => school.advisors.map((advisor) => advisor.id)),
+  ]));
+  assert.deepEqual(Array.from(seededByRegion.hk).filter((id) => id.startsWith("hk-adv-")), ["hk-adv-hkust-kevin", "hk-adv-polyu-yizhang"]);
+  assert.deepEqual(Array.from(seededByRegion.eu).sort(), [
+    "eu-adv-be-bakeroot", "eu-adv-ch-matioli", "eu-adv-it-meneghini", "eu-adv-uk-matthew-smith",
+  ]);
+  assert.equal(seededByRegion.hk.includes("hk-adv-hku-yuhao"), false);
+  assert.equal(seededByRegion.hk.includes("custom-advisor"), true, "个人新增导师应保留");
+  const kevin = hk.schools.flatMap((school) => school.advisors).find((advisor) => advisor.id === "hk-adv-hkust-kevin");
+  assert.equal(kevin.cvDone, true);
+  assert.equal(kevin.status, "已联系");
+  assert.equal(candidate.phdTargetPortfolioVersion, 1);
+});
+
 test("renders all merged planning surfaces and persists roadmap state", async () => {
   const [html, app, styles, xlsx, sw] = await Promise.all([
     readFile(new URL("../index.html", import.meta.url), "utf8"),
@@ -169,56 +210,45 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   }
   assert.doesNotMatch(app, /phdRegionList/);
   assert.match(html, /id="hkApplicationTimelineTitle"/);
-  // HK 提醒要和 TW 提醒并列，并写清出分前/出分后的先后顺序。
+  // 海外申请只保留六位，香港严格收敛为两位。
   assert.match(html, /HK 提醒：[\s\S]*TW 提醒：/);
-  assert.match(html, /已放弃 12\/01 HKPFS/);
-  assert.match(html, /PolyU 可以直接送件/);
-  assert.match(html, /CUHK 先别投/);
-  // CityU 是唯一被 12 月雅思卡死的学校：唯一确定轮次 12/01 要求提交时成绩即有效。
-  assert.match(html, /CityU 本轮直接排除/);
-  assert.match(html, /school-dropped[\s\S]*本轮排除/);
-  assert.match(app, /四校导师长名单[\s\S]*CityU 本轮排除/);
-  assert.doesNotMatch(app, /五校导师长名单/);
-  // 重考会连带拖掉 CUHK，这个连锁效应要写明。
-  assert.match(html, /重考会把 CUHK 也一起拖掉/);
-  assert.match(html, /CUHK clearing 3\/31[\s\S]*唯一会真的过期的死线/);
-  assert.match(html, /PolyU Jan 2028 entry/);
-  // 学校卡按「研究契合度 × 对晚出雅思的容忍度」排序，不是字母序。
-  // 学校卡按研究链匹配度排序（与「能否无雅思先投」是两条轴）。
-  assert.match(html, /香港博士申请时间线[\s\S]*HKUST[\s\S]*>HKU</);
-  assert.match(html, /<span>HKU<\/span>[\s\S]*POLYU[\s\S]*CUHK[\s\S]*CITYU/);
-  // 导师种子要覆盖研究链两端，并保留不可忽略的警告。
-  assert.match(app, /PHD_ADVISOR_SEEDS[\s\S]*Yuhao Zhang[\s\S]*Kevin J\. Chen[\s\S]*Weijia Zhang/);
-  assert.match(app, /Anding Zhu[\s\S]*PA 的 power ≠ power electronics 的 power/);
-  assert.match(app, /Yan Cheng[\s\S]*Research Assistant Professor/);
+  assert.match(html, /香港只保留两位目标[\s\S]*Kevin J\. Chen[\s\S]*Yi Zhang/);
+  const hkPanel = html.slice(html.indexOf('<section class="hk-application-panel"'), html.indexOf('<section class="hk-application-panel tw-application-panel"'));
+  assert.match(hkPanel, /香港科技大学 HKUST/);
+  assert.match(hkPanel, /香港理工大学 PolyU/);
+  assert.doesNotMatch(hkPanel, /香港大学 HKU|香港中文大学 CUHK|香港城市大学 CityU/);
+  assert.match(app, /FOREIGN_TARGET_ADVISOR_IDS[\s\S]*hk-adv-hkust-kevin[\s\S]*hk-adv-polyu-yizhang/);
+  assert.match(app, /function migratePhdTargetPortfolio/);
   assert.match(app, /function seedPhdAdvisors/);
-  // 欧洲：面板由 eu-radar.js 驱动，导师按国家分组种入 eu 区。
+  // 欧洲四位固定目标与官方／预计时间必须清楚区分。
+  assert.match(html, /Elison Matioli[\s\S]*Matteo Meneghini[\s\S]*Matthew Smith[\s\S]*Benoit Bakeroot/);
+  assert.match(html, /2026\/12\/01[\s\S]*EPFL EDEE/);
+  assert.match(html, /2026\/12\/15[\s\S]*Ghent BESCAPE DC6/);
+  assert.match(html, /预计 2027\/05\/20[\s\S]*正式简章/);
+  assert.match(app, /eu-adv-ch-matioli[\s\S]*eu-adv-it-meneghini[\s\S]*eu-adv-uk-matthew-smith[\s\S]*eu-adv-be-bakeroot/);
+  // 通用欧洲雷达仍保留为备查，不会扩充申请名单。
   assert.match(html, /<script src="eu-radar\.js/);
-  for (const id of ["euGroups", "euSystems", "euJobs", "euSources", "euSearchMatrix", "euTriage", "euVerifiedAt"]) {
+  for (const id of ["euGroups", "euSystems", "euJobs", "euSources", "euSearchMatrix", "euTriage"]) {
     assert.match(html, new RegExp(`id="${id}"`));
   }
   assert.match(app, /function renderEuropePanel/);
-  // 导师研究：吴添立之后是吴肇欣，再进入香港与欧洲；旧排程由 replaces 退役。
-  assert.match(app, /wave:plan-v5[\s\S]*replaces: \["wave:plan-v4", "wave:plan-v3", "wave:plan-v2", "hk:study-six", "hk:mail-wave1"/);
-  assert.doesNotMatch(app, /id: "hk:mail-wave1"/);
   // 排班是唯一来源：甘特「导师研究」与日历节点都由 OUTREACH_ROSTER 产生。
   assert.match(app, /const OUTREACH_ROSTER = \[/);
-  assert.match(app, /id: `roster5:\$\{row\.date\}`/);
-  assert.match(app, /本月导师研究 · 每周一位/);
-  // 重排后日期换了人，前四版 roster id 必须一次退役，否则新旧并存。
+  assert.match(app, /id: `roster6:\$\{row\.date\}`/);
+  assert.match(app, /本月导师研究 · 按截止排序/);
+  // 旧版 roster id 必须一次退役，否则新旧并存。
   assert.match(app, /const LEGACY_ROSTER_IDS = \[/);
-  assert.match(app, /`roster:\$\{date\}`, `roster2:\$\{date\}`, `roster3:\$\{date\}`, `roster4:\$\{date\}`/);
+  assert.match(app, /"roster", "roster2", "roster3", "roster4", "roster5"/);
   assert.match(app, /function rosterSupersedes/);
   assert.match(app, /function outreachRosterMarkup/);
   // 排班里的老师可点击跳到 PhD 页对应那一栏并高亮。
   assert.match(app, /function focusAdvisor/);
   assert.match(app, /data-goto-advisor=/);
-  assert.match(app, /advisors: \["hk-adv-hku-yuhao"\]/);
-  assert.match(app, /advisors: \["eu-adv-be-stefaan-decoutere"\]/);
+  assert.match(app, /advisors: \["hk-adv-hkust-kevin", "hk-adv-polyu-yizhang"\]/);
+  assert.match(app, /advisors: \["eu-adv-ch-matioli"\]/);
+  assert.match(app, /advisors: \["eu-adv-be-bakeroot"\]/);
   assert.match(app, /advisors: \["tw-adv-nycu-tlwu"\]/);
   assert.match(app, /advisors: \["tw-adv-ntu-chwu"\]/);
-  // imec 被顺延，警告要留着。
-  assert.match(app, /imec 是秋季集中徵集，错过要等一年/);
   assert.match(styles, /advisor-flash/);
   // 这个 scroller 是 scroll-snap ＋ scroll-behavior:smooth，必须用 instant 覆盖，
   // 也不能用 scrollIntoView（会把横向位置一起冲掉）。
@@ -227,24 +257,16 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   const focusBody = app.slice(focusStart, app.indexOf("  function ", focusStart + 20));
   assert.doesNotMatch(focusBody, /\.scrollIntoView\(/, "focusAdvisor 不可呼叫 scrollIntoView：会把横向位置一起冲掉");
   assert.match(app, /track === "application" \? outreachRosterMarkup\(month\)/);
-  // 旧的手写每周节点已退役，不可和产生的并存。
-  assert.doesNotMatch(app, /\{ id: "(?:w[123]|tw):/);
-  assert.match(app, /const ROSTER_SUPERSEDES = \{[\s\S]*"2026-10-12": "w1:hku-yuhao"/);
-  // 吴添立之后是吴肇欣；其后香港导师必须连续排完，才进入欧洲导师。
+  // 吴添立与吴肇欣保留；海外排班只指向六位固定目标。
   assert.match(app, /date: "2026-10-26", batch: 1, lane: "台湾", who: "吴添立/);
   assert.match(app, /date: "2026-11-02"[\s\S]{0,50}who: "吴肇欣/);
-  assert.match(app, /date: "2026-11-09"[\s\S]{0,40}who: "Yuhao Zhang/);
-  assert.match(app, /date: "2026-11-16"[\s\S]{0,40}who: "Kevin J\. Chen/);
-  assert.match(app, /date: "2026-11-23"[\s\S]{0,40}lane: "HK"[\s\S]{0,40}who: "Weijia Zhang/);
-  assert.match(app, /date: "2026-12-28"[\s\S]{0,40}lane: "HK"[\s\S]{0,40}who: "Yan Cheng/);
-  assert.match(app, /date: "2026-12-14", batch: 0[\s\S]*考前一周只回信/);
-  assert.match(app, /date: "2027-01-04"[\s\S]{0,40}lane: "欧洲"[\s\S]{0,40}who: "Stefaan Decoutere/);
+  assert.match(app, /date: "2026-11-24"[\s\S]{0,100}who: "Elison Matioli/);
+  assert.match(app, /date: "2026-11-25"[\s\S]{0,100}who: "Benoit Bakeroot/);
+  assert.match(app, /date: "2026-11-30"[\s\S]{0,100}who: "Kevin J\. Chen＋Yi Zhang/);
+  assert.match(app, /date: "2026-12-07"[\s\S]{0,100}who: "Matthew Smith/);
+  assert.match(app, /date: "2026-12-14"[\s\S]{0,100}who: "Matteo Meneghini/);
   assert.match(app, /date: "2027-03-15", batch: 0[\s\S]{0,120}锁定台湾其余三位/);
-  assert.match(app, /date: "2027-04-05", batch: 3, lane: "欧洲"/);
-  // Group A 不占套磁配额，改职缺扫描。
-  assert.match(app, /radar:group-a[\s\S]*不占套磁配额/);
-  assert.match(app, /schools: \["德国", "法国", "比利时", "荷兰", "瑞典", "丹麦", "挪威"\]/);
-  assert.match(app, /eu-adv-[\s\S]*region: "eu"/);
+  assert.match(app, /schools: \["EPFL", "University of Padua", "University of Bristol", "Ghent University"\]/);
   assert.match(sw, /eu-radar\.js/);
   // 导师种子要能落到非香港地区（台湾 NYCU）。
   assert.match(app, /schools: \["NTU", "NYCU"\]/);
@@ -280,7 +302,7 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /captureOpenSchools\(\);[\s\S]*regions\.forEach/);
   assert.doesNotMatch(app, /addEventListener\("toggle"/);
   // 中文校名都要带英文缩写。
-  for (const [zh, en] of [["香港科技大学", "HKUST"], ["香港大学", "HKU"], ["香港理工大学", "PolyU"], ["香港中文大学", "CUHK"], ["香港城市大学", "CityU"], ["台湾大学", "NTU"], ["阳明交通大学", "NYCU"]]) {
+  for (const [zh, en] of [["香港科技大学", "HKUST"], ["香港理工大学", "PolyU"], ["台湾大学", "NTU"], ["阳明交通大学", "NYCU"]]) {
     assert.match(html, new RegExp(`${zh}[^<]*${en}`), `${zh} 缺少英文缩写`);
   }
   // DOI 一律写成 10.xxxx/... 的真实格式，且不可重复。
@@ -293,12 +315,8 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   for (const id of ["hk-adv-hkust-weijia", "hk-adv-cityu-tan", "hk-adv-hkust-yancheng"]) {
     assert.equal(app.includes(`"${id}": [`), false, `${id} 不应有伪造的论文清单`);
   }
-  assert.match(html, /阶段一 · 2026\/11—12[\s\S]*阶段二 · 2027\/01—06/);
-  assert.match(html, /HKPFS 主轮 · 本轮放弃/);
-  assert.match(html, /预计取得成绩日期|预计取得日期/);
-  // 没有雅思时不可投的两校必须写明原因。
-  assert.match(html, /CUHK[\s\S]*mandatory supporting document/);
-  assert.match(html, /CITYU[\s\S]*提交申请时即有效/);
+  assert.match(html, /阶段一 · NOW—2027\/01[\s\S]*阶段二 · 2027\/01—06/);
+  assert.match(html, /只保留两位[\s\S]*Kevin J\. Chen[\s\S]*Yi Zhang/);
   assert.match(html, /GaN FinFET/);
   assert.match(html, /Plan A \/ Plan B/);
   assert.doesNotMatch(html, /现在先做什么|focus-board/);
@@ -330,11 +348,11 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(styles, /\.vertical-gantt-cell\.ielts \{[\s\S]*?var\(--track-ielts\)/);
   assert.match(app, /data-track="research"[\s\S]*data-track="external"[\s\S]*data-track="application"[\s\S]*data-track="ielts"/);
   assert.match(html, /<th colspan="8">/);
-  // 香港里程碑要同时供月计划与日计划使用（带日期才会出现在日历／日计划）。
-  assert.match(app, /APPLICATION_MILESTONES[\s\S]*hk:polyu-submit[\s\S]*date: "2026-12-07"/);
-  assert.match(app, /APPLICATION_MILESTONES[\s\S]*hk:hkust-deadline[\s\S]*date: "2027-06-01"/);
+  // 六位目标的里程碑要同时供月计划与日计划使用。
+  assert.match(app, /APPLICATION_MILESTONES[\s\S]*eu:dc6-deadline-v1[\s\S]*date: "2026-12-15"/);
+  assert.match(app, /APPLICATION_MILESTONES[\s\S]*hk:hkust-deadline-v2[\s\S]*date: "2027-06-01"/);
   assert.match(app, /sharedDayMarkup\(item\.date, "application"\)/);
-  assert.match(app, /12\/19/);
+  assert.match(app, /2027\/1\/15|2027-01-15/);
   assert.doesNotMatch(app, /VOCABULARY_BANK|vocabularyForDate/);
   assert.match(app, /vocabularyCards: normalizeVocabularyCards\(parsed\.vocabularyCards\)/);
   assert.match(app, /function addVocabularyCard/);
@@ -364,12 +382,12 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /roadmap:\s*\{/);
   assert.match(app, /candidate\.roadmap = candidate\.roadmap \|\| defaultRoadmapState\(\)/);
   assert.match(app, /RESEARCH_GATES[\s\S]*APPLICATION_GATES/);
-  assert.match(app, /HK Phase 1 · 无雅思先行[\s\S]*HK Phase 2 · 出分后主投[\s\S]*Europe PhD Pipeline[\s\S]*Taiwan PhD Ready/);
-  assert.match(app, /HK Phase 2 · 出分后主投[\s\S]*date: "2027-06-01"/);
+  assert.match(app, /Immediate EU Deadlines[\s\S]*HK Target Pair[\s\S]*Europe Target Portfolio[\s\S]*Taiwan PhD Ready/);
+  assert.match(app, /HK Target Pair[\s\S]*date: "2027-06-01"/);
   // 四条申请条带不可重叠在同一泳道。
   assert.match(app, /gateId: "a4"[\s\S]*lane: 1/);
   assert.match(app, /gateId: "a3"[\s\S]*lane: 3/);
-  assert.match(app, /gateId: "a1", start: "2026-11-01", end: "2026-12-31", lane: 1/);
+  assert.match(app, /gateId: "a1", start: "2026-11-24", end: "2026-12-15", lane: 1/);
   assert.doesNotMatch(app, /HK 11\/15 启动|HK 主申请至 12\/31/);
   assert.match(app, /GATE_GANTT_MONTHS[\s\S]*2026-09[\s\S]*2026-10[\s\S]*2026-11[\s\S]*2026-12[\s\S]*2027-01[\s\S]*2027-02[\s\S]*2027-03[\s\S]*2027-04[\s\S]*2027-05/);
   assert.match(app, /RESEARCH_GANTT_BARS[\s\S]*APPLICATION_GANTT_BARS/);
@@ -402,24 +420,23 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /fields\.getAll\("lanes"\)/);
   assert.match(app, /data-shared-lane-option/);
   assert.match(app, /PlanningTasks\.inLane\(task, lane\)/);
-  assert.match(app, /id: "hk:ielts-exam"[\s\S]{0,100}date: "2027-01-15"/);
-  assert.match(app, /id: "hk:score-triage"[\s\S]{0,100}date: "2027-01-22"/);
-  assert.match(app, /预计 2027\/1\/15 应试/);
+  assert.match(app, /id: "hk:ielts-exam-v2"[\s\S]{0,100}date: "2027-01-15"/);
+  assert.match(app, /id: "hk:score-and-submit-v1"[\s\S]{0,100}date: "2027-01-29"/);
   assert.match(styles, /\.shared-add-regions/);
   assert.match(styles, /\.shared-region-picker/);
   assert.match(app, /ensurePlanningTaskRegionCompatibility/);
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
   assert.match(html, /口语常用词汇/);
-  assert.match(html, /planning-tasks\.js\?v=20261128-daily-one/);
-  assert.match(html, /xlsx-export\.js\?v=20261128-daily-one/);
-  assert.match(html, /app\.js\?v=20261128-daily-one/);
-  assert.match(html, /ielts-moves\.js\?v=20261128-daily-one/);
+  assert.match(html, /planning-tasks\.js\?v=20261124-phd-six/);
+  assert.match(html, /xlsx-export\.js\?v=20261124-phd-six/);
+  assert.match(html, /app\.js\?v=20261124-phd-six/);
+  assert.match(html, /ielts-moves\.js\?v=20261124-phd-six/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v118-daily-one/);
+  assert.match(sw, /planner-notebook-v119-phd-six/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾博士考试入学时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

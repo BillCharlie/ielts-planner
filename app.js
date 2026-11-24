@@ -16,9 +16,9 @@
     { id: "g4", code: "G4", name: "Thesis Ready", date: "2027-05-31", proof: "完整硕论初稿已交给老师，口试简报框架建立", pass: "送审并安排 7 月口试", miss: "口试顺延到秋季" },
   ];
   const APPLICATION_GATES = [
-    { id: "a1", code: "A1", name: "HK Phase 1 · 无雅思先行", date: "2026-12-31", displayDate: "11—12月 · 套磁为主 · PolyU 可先送件", proof: "五校导师第一轮套磁已发出并记录回音；PolyU 申请已提交（英文成绩栏填预计取得日期），主 CV 与 research proposal 完成", pass: "12月底前完成 PolyU 送件与全部第一轮套磁；主动放弃 12/01 HKPFS 主轮，不算失败", miss: "没有雅思时不要硬投 CUHK：英文证明属必交材料。CityU 本轮已排除 —— 唯一确定轮次 12/01 要求提交时成绩即有效" },
-    { id: "a4", code: "A4", name: "HK Phase 2 · 出分后主投", date: "2027-06-01", displayDate: "1月出分 · 3/31 CUHK · 4/30 HKU · 5/31 PolyU · 6/01 HKUST", proof: "12/19 雅思 overall 6.5 且各校小分达标；按校别完成正式申请、推荐信与补件", pass: "出分后两周内投 HKUST ECE 与 PolyU；分数够就赶 CUHK 3/31 clearing", miss: "小分不足先安排重考，改走 PolyU Jan 2028 entry（申请期至 2027/09/30）" },
-    { id: "a2", code: "A2", name: "Europe PhD Pipeline", date: "2027-03-31", displayDate: "12月启动 · 12/15—2027/03 持续投递", proof: "建立 project vacancy 清单；每个职位都有对应 CV、motivation letter 与研究证据", pass: "12月起持续投递，1–3 月进入 technical interview", miss: "减少泛投，集中有 funding 与 fab access 的职位" },
+    { id: "a1", code: "A1", name: "Immediate EU Deadlines", date: "2026-12-15", displayDate: "12/01 EPFL EDEE · 12/15 Ghent DC6", proof: "EPFL EDEE 申请完成或明确转入 4/15 轮；BESCAPE DC6 依公告寄出完整英文材料", pass: "两项硬截止分别处理，不让其他泛投任务分散时间", miss: "EPFL 12/01 来不及就锁定 4/15；DC6 12/15 是不可顺延的项目截止" },
+    { id: "a4", code: "A4", name: "HK Target Pair", date: "2027-06-01", displayDate: "1/22 出分 · 5/31 PolyU · 6/01 HKUST", proof: "张毅与 Kevin Chen 各有独立 CV／研究匹配页；雅思达标后完成两校正式申请", pass: "1月底前主投，5/31 与 6/01 只作最终硬截止", miss: "不再扩充 HKU／CUHK／CityU 名单，精力集中在两位目标导师" },
+    { id: "a2", code: "A2", name: "Europe Target Portfolio", date: "2027-05-20", displayDate: "Bakeroot · Matioli · Smith · Meneghini", proof: "四位欧洲目标均完成定制 CV、联系记录与正式入口核对", pass: "按 DC6→EPFL→Bristol→Padua 的实际窗口推进", miss: "Padua 2027 正式简章未出前只标预计日期，不把上一届日期当硬截止" },
     { id: "a3", code: "A3", name: "Taiwan PhD Ready", date: "2027-03-15", displayDate: "3/01 启动 · 3/15 内部备齐 · 3月下旬报名", proof: "116学年度博士考试入学：台大 NTU 电子所／阳明交大 NYCU 目标、CV、研究计划、成绩单与推荐信备齐", pass: "核对116正式简章；开放后两天内提交，并分别确认报名、材料、推荐信截止", miss: "按学校正式截止补齐；2027时程仍待公告，不沿用秋季甄试日期" },
   ];
   // 香港申请的固定日期节点。只种一次，之后可自行改日期或删除（见 PlanningTasks.seedMilestones）。
@@ -30,29 +30,14 @@
   const OUTREACH_ROSTER = [
     { date: "2026-10-26", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "S+ 9.5", why: "当前第1位：p-GaN gate 可靠性＋AI 辅助器件设计；拿 U-Net 建模那篇切入" , advisors: ["tw-adv-nycu-tlwu"] },
     { date: "2026-11-02", batch: 1, lane: "台湾", who: "吴肇欣 Chao-Hsin (Wayne) Wu", where: "NTU · IOED Lab", tier: "S+ 9.5", why: "吴添立之后第2位：双通道 Fin-HEMT small-signal／compact model 与你的结构直接重叠；先拆 2024 硕论与 IEDMS 模型工作" , advisors: ["tw-adv-ntu-chwu"] },
-    { date: "2026-11-09", batch: 1, lane: "HK", who: "Yuhao Zhang 张宇昊", where: "HKU", tier: "S+ 9.5", why: "香港第1位：multi-channel GaN＋Fin＋ML co-design，与你双通道 Tri-gate 交集最大" , advisors: ["hk-adv-hku-yuhao"] },
-    { date: "2026-11-16", batch: 1, lane: "HK", who: "Kevin J. Chen 陈敬", where: "HKUST", tier: "S+ 9.5", why: "香港第2位：p-GaN／E-mode／MIS-HEMT 本家；梳理 concept→TCAD→制程→量测全回路" , advisors: ["hk-adv-hkust-kevin"] },
-    { date: "2026-11-23", batch: 2, lane: "HK", who: "Weijia Zhang 张薇葭", where: "HKUST", tier: "S 9", why: "香港第3位：gate driver／PMIC／integrated DC-DC；确认能否保留 device-level 比重" , advisors: ["hk-adv-hkust-weijia"] },
-    { date: "2026-11-30", batch: 1, lane: "HK", who: "Man Hoi Wong 黄文海", where: "HKUST", tier: "S 8.5", why: "香港第4位：研究 defect／interface／polarization 如何影响 device physics" , advisors: ["hk-adv-hkust-manhoi"] },
-    { date: "2026-12-07", batch: 1, lane: "HK", who: "Yi Zhang 张毅", where: "PolyU", tier: "A+ 8", why: "香港第5位：SiC/GaN 可靠性、failure analysis、packaging 与 thermal" , advisors: ["hk-adv-polyu-yizhang"] },
-    { date: "2026-12-14", batch: 0, lane: "HK", who: "停一周", where: "考前", tier: "—", why: "考前一周只回信与追踪，不开新对象，专心 12/19 雅思" },
-    { date: "2026-12-21", batch: 2, lane: "HK", who: "Alex Leung 梁加能", where: "CUHK", tier: "A（转型 9）", why: "香港第6位：24/48V-to-1V hybrid DC-DC；评估从器件研究转向 PMIC 的幅度" , advisors: ["hk-adv-cuhk-alex"] },
-    { date: "2026-12-28", batch: 1, lane: "HK", who: "Yan Cheng 成妍", where: "HKUST", tier: "B+", why: "香港补充确认：先核对 RAP 能否担任 RPG primary supervisor" , advisors: ["hk-adv-hkust-yancheng"] },
-    { date: "2027-01-04", batch: 1, lane: "欧洲", who: "Stefaan Decoutere", where: "imec／比利时", tier: "可靠度4·TCAD4·制程5", why: "欧洲第1位：imec 制程与可靠性。imec 是秋季集中徵集，错过要等一年；若职缺窗口提前开放，仍应插队处理" , advisors: ["eu-adv-be-stefaan-decoutere"] },
-    { date: "2027-01-11", batch: 1, lane: "欧洲", who: "Farid Medjdoub", where: "IEMN／法国", tier: "TCAD5·制程5", why: "欧洲第2位：锁定 power-device／reliability 子题，避免落到 RF" , advisors: ["eu-adv-fr-farid-medjdoub"] },
-    { date: "2027-01-18", batch: 1, lane: "欧洲", who: "Holger Kapels", where: "德国", tier: "可靠度5·TCAD4·制程5", why: "欧洲第3位：确认当期题目偏制程、TCAD 还是模组可靠度" , advisors: ["eu-adv-de-holger-kapels"] },
-    { date: "2027-01-25", batch: 1, lane: "欧洲", who: "David Trémouilles", where: "LAAS／法国", tier: "可靠度5", why: "欧洲第4位：GaN HEMT 动态表徵与陷阱效应" , advisors: ["eu-adv-fr-david-tremouilles"] },
-    { date: "2027-02-01", batch: 1, lane: "欧洲", who: "Oliver Ambacher", where: "Fraunhofer IAF／德国", tier: "TCAD4·制程5", why: "欧洲第5位：先筛掉 RF/MMIC 职缺，锁定 power device" , advisors: ["eu-adv-de-oliver-ambacher"] },
-    { date: "2027-02-08", batch: 1, lane: "欧洲", who: "Corinne Alonso", where: "法国", tier: "可靠度5", why: "欧洲第6位：GaN HEMT 动态特性与转换器可靠度" , advisors: ["eu-adv-fr-corinne-alonso"] },
-    { date: "2027-02-15", batch: 2, lane: "欧洲", who: "Stefan Mönch", where: "Stuttgart／德国", tier: "S+", why: "欧洲第7位：ERC 计划页明确邀请博士提案，准备一页研究提案" , advisors: ["eu-adv-de-stefan-moench"] },
-    { date: "2027-02-22", batch: 2, lane: "欧洲", who: "Wilmar Martinez", where: "KU Leuven／比利时", tier: "S+", why: "GaN 高频 switching、PCB 寄生与 EMI" , advisors: ["eu-adv-be-wilmar-martinez"] },
-    { date: "2027-03-01", batch: 2, lane: "欧洲", who: "Marco Liserre", where: "Kiel／德国", tier: "S", why: "GaNius、双向 GaN 与热可靠度" , advisors: ["eu-adv-de-marco-liserre"] },
-    { date: "2027-03-08", batch: 2, lane: "欧洲", who: "Steffen Bernet", where: "TU Dresden／德国", tier: "S", why: "GaN HEMT switching、短路保护、gate driver 测试平台" , advisors: ["eu-adv-de-steffen-bernet"] },
+    { date: "2026-11-24", batch: 1, lane: "欧洲", who: "Elison Matioli", where: "EPFL POWERlab", tier: "核心目标", why: "先决定是否赶 12/01 EDEE；来不及就锁定 2027/04/15 轮次" , advisors: ["eu-adv-ch-matioli"] },
+    { date: "2026-11-25", batch: 1, lane: "欧洲", who: "Benoit Bakeroot", where: "Ghent · BESCAPE DC6", tier: "硬截止", why: "12/15 前寄出 Europass CV、学历成绩、身份证件与两位推荐人资料" , advisors: ["eu-adv-be-bakeroot"] },
+    { date: "2026-11-30", batch: 1, lane: "HK", who: "Kevin J. Chen＋Yi Zhang", where: "HKUST＋PolyU", tier: "固定两校", why: "两位各做一版 CV 与研究匹配页；雅思出分后正式主投" , advisors: ["hk-adv-hkust-kevin", "hk-adv-polyu-yizhang"] },
+    { date: "2026-12-07", batch: 1, lane: "欧洲", who: "Matthew Smith", where: "University of Bristol", tier: "联系优先", why: "确认 GaN-PLoT／VertiGaN 是否有 2027 funded PhD 与该项目的实际截止" , advisors: ["eu-adv-uk-matthew-smith"] },
+    { date: "2026-12-14", batch: 1, lane: "欧洲", who: "Matteo Meneghini", where: "University of Padua", tier: "简章待公布", why: "先联系研究契合；追踪 43rd cycle Information Engineering 正式 call" , advisors: ["eu-adv-it-meneghini"] },
     { date: "2027-03-15", batch: 0, lane: "台湾", who: "锁定台湾其余三位", where: "台湾", tier: "—", why: "吴添立、吴肇欣已研究；接着核对李义明、刘致为、胡璧合与正式招生资格" },
     { date: "2027-03-22", batch: 1, lane: "台湾", who: "李义明＋刘致为", where: "NYCU／NTU", tier: "S／B+", why: "两位 TCAD；刘致为挂电子所 GIEE，指导资格最稳" , advisors: ["tw-adv-nycu-ymli", "tw-adv-ntu-cwliu"] },
     { date: "2027-03-29", batch: 1, lane: "台湾", who: "胡璧合 Vita Pi-Ho Hu", where: "NTU", tier: "B+", why: "注意是「璧」不是「壁」；切入点是 DTCO 与 Vth 变异分析" , advisors: ["tw-adv-ntu-vphu"] },
-    { date: "2027-04-05", batch: 3, lane: "欧洲", who: "Fraunhofer IAF GaN MMIC 线", where: "德国", tier: "职缺 84765", why: "100V GaN-HEMT 製程做到 12 GHz；要能接受转 RF 才投" , advisors: ["eu-adv-de-oliver-ambacher"] },
-    { date: "2027-04-12", batch: 3, lane: "欧洲", who: "CEA Gramat GaN RF 放大器", where: "法国", tier: "职缺 138291", why: "相邻领域，排在欧洲研究线最后" },
   ];
 
   const BATCH_LABEL = { 0: "节点", 1: "第一批", 2: "第二批", 3: "第三批" };
@@ -67,7 +52,7 @@
     const rows = rosterForMonth(month);
     if (!rows.length) return "";
     return `<div class="outreach-roster">
-      <span class="outreach-roster-title">本月导师研究 · 每周一位</span>
+      <span class="outreach-roster-title">本月导师研究 · 按截止排序</span>
       <ol>${rows.map((row) => `
         <li class="batch-${safeAttr(String(row.batch))}">
           <span class="outreach-week">${safe(row.date.slice(5).replace("-", "/"))}</span>
@@ -80,62 +65,41 @@
     </div>`;
   }
 
-  const LEGACY_ROSTER_IDS = ["2026-10-12", "2026-10-19", "2026-10-26", "2026-11-02", "2026-11-09", "2026-11-16", "2026-11-23", "2026-11-30", "2026-12-07", "2026-12-14", "2026-12-21", "2026-12-28", "2027-01-04", "2027-01-11", "2027-01-18", "2027-01-25", "2027-02-01", "2027-02-08", "2027-02-15", "2027-02-22", "2027-03-01", "2027-03-08", "2027-03-15", "2027-03-22", "2027-03-29", "2027-04-05"].flatMap((date) => [`roster:${date}`, `roster2:${date}`, `roster3:${date}`, `roster4:${date}`]);
+  const LEGACY_ROSTER_IDS = ["2026-10-12", "2026-10-19", "2026-10-26", "2026-11-02", "2026-11-09", "2026-11-16", "2026-11-23", "2026-11-30", "2026-12-07", "2026-12-14", "2026-12-21", "2026-12-28", "2027-01-04", "2027-01-11", "2027-01-18", "2027-01-25", "2027-02-01", "2027-02-08", "2027-02-15", "2027-02-22", "2027-03-01", "2027-03-08", "2027-03-15", "2027-03-22", "2027-03-29", "2027-04-05", "2027-04-12"]
+    .flatMap((date) => ["roster", "roster2", "roster3", "roster4", "roster5"].map((prefix) => `${prefix}:${date}`));
 
   // 日期与人选重排过，roster:<date> 这组旧 id 的内容已经不对；
   // 让第一笔一次把它们全部退役，避免新旧两份并存。
   function rosterSupersedes(row, index) {
-    const legacy = ROSTER_SUPERSEDES[row.date] ? [ROSTER_SUPERSEDES[row.date]] : [];
-    return index === 0 ? legacy.concat(LEGACY_ROSTER_IDS) : legacy;
+    return index === 0 ? LEGACY_ROSTER_IDS : [];
   }
 
-  const ROSTER_SUPERSEDES = {
-    "2026-10-12": "w1:hku-yuhao",
-    "2026-10-19": "w1:hkust-kevin",
-    "2026-10-26": "w1:imec-decoutere",
-    "2026-11-02": "w1:iemn-medjdoub",
-    "2026-11-09": "w1:kapels",
-    "2026-11-16": "w1:hkust-manhoi",
-    "2026-11-23": "w1:polyu-yizhang",
-    "2026-11-30": "w1:laas-tremouilles",
-    "2026-12-07": "w1:iaf-ambacher",
-    "2026-12-14": "w1:exam-pause",
-    "2026-12-21": "w1:laas-alonso",
-    "2026-12-28": "w1:hkust-yancheng",
-    "2027-01-04": "w2:hkust-weijia",
-    "2027-01-11": "w2:moench",
-    "2027-01-18": "w2:cuhk-alex",
-    "2027-01-25": "w2:martinez",
-    "2027-02-01": "tw:wave-start",
-    "2027-02-08": "tw:nycu-tlwu",
-    "2027-02-15": "tw:tcad-pair",
-    "2027-02-22": "tw:ntu-vphu",
-    "2027-03-01": "w2:liserre",
-    "2027-03-08": "w2:bernet",
-    "2027-03-15": "w3:rf-de",
-    "2027-03-22": "w3:rf-fr",
-  };
+  const LEGACY_APPLICATION_MILESTONE_IDS = [
+    "hk:advisor-longlist", "wave:plan-v5", "radar:group-a", "radar:group-a-people",
+    "hk:polyu-docs", "hk:hkpfs-skip", "hk:polyu-submit", "hk:ielts-exam",
+    "hk:score-triage", "hk:submit-wave", "hk:cuhk-clearing", "hk:hku-clearing",
+    "hk:polyu-deadline", "hk:hkust-deadline",
+  ];
   const APPLICATION_MILESTONES = [
-    { id: "hk:advisor-longlist", module: "application", lane: "HK", date: "2026-10-31", text: "四校导师长名单定稿：HKUST／PolyU／HKU／CUHK，各 2–4 位（CityU 本轮排除：要求提交时成绩即有效，唯一确定轮次 12/01 赶不上）" },
-    { id: "wave:plan-v5", module: "application", lane: "台湾", date: "2026-10-27",
-      replaces: ["wave:plan-v4", "wave:plan-v3", "wave:plan-v2", "hk:study-six", "hk:mail-wave1", "hk:mail-wave2", "hk:mail-wave3", "hk:mail-wave4"],
-      text: "导师研究从当前轮次依序安排：10/26 当周先吴添立，11/02 当周再吴肇欣（优先 compact／small-signal model）；11/09 起连续研究香港导师，香港完成后从 2027/01/04 起进入欧洲导师，每周一位。" },
-    { id: "radar:group-a", module: "application", lane: "欧洲", date: "2026-10-12", text: "每周职缺扫描（不占套磁配额）：荷兰 AcademicTransfer、挪威 Jobbnorge、瑞典／丹麦各校 vacancies、EURAXESS。Group A 是「职缺＝funding」，套磁价值低，看到缺再针对性投" },
-    { id: "radar:group-a-people", module: "application", lane: "欧洲", date: "2026-10-12", text: "Group A 关注对象（等缺不套磁）：荷兰 Soeiro／Rietveld、瑞典 Norrga、丹麦 Huai Wang、挪威 Peftitsis —— 他们开缺时直接投，别先写信" },
-    { id: "hk:polyu-docs", module: "application", lane: "HK", date: "2026-11-30", text: "PolyU 送件材料备齐：主 CV、research proposal、成绩单、成果附件" },
-    { id: "hk:hkpfs-skip", module: "application", lane: "HK", date: "2026-12-01", text: "HKPFS 主轮：本轮确认放弃，不送件（没有雅思冲不了，别打乱复习）" },
-    { id: "hk:polyu-submit", module: "application", lane: "HK", date: "2026-12-07", text: "PolyU 正式提交：英文成绩栏填「预计 2027/1/15 应试」，争取 conditional offer" },
-    { id: "hk:ielts-exam", module: "application", lane: "HK", date: "2027-01-15", text: "雅思二战：目标 overall 6.5（HKU 需四科 ≥6.0，HKUST 需各项 ≥5.5 且同场达标）" },
-    { id: "hk:score-triage", module: "application", lane: "HK", date: "2027-01-22", text: "雅思出分分流：达标→投 HKUST／PolyU；未达标→订 2 月重考并锁 PolyU Jan 2028" },
-    { id: "hk:submit-wave", module: "application", lane: "HK", date: "2027-01-29", text: "阶段二主投：HKUST ECE 与 PolyU（出分后两周内，两家都是 rolling）" },
-    { id: "hk:cuhk-clearing", module: "application", lane: "HK", date: "2027-03-31", text: "CUHK EE clearing 截止：英文证明须于截止前上传，否则不予审查" },
-    { id: "hk:hku-clearing", module: "application", lane: "HK", date: "2027-04-30", text: "HKU 第一 clearing 截止（第二 clearing 到 08/31，但建议有分再投）" },
-    { id: "hk:polyu-deadline", module: "application", lane: "HK", date: "2027-05-31", text: "PolyU Sep 2027 截止；若已有 conditional offer，确认英文 condition 补交期限" },
-    { id: "hk:hkust-deadline", module: "application", lane: "HK", date: "2027-06-01", text: "HKUST ECE 非本地截止；rolling admission，名额可能提前满" },
+    { id: "foreign:targets-v1", module: "application", lane: "欧洲", date: "2026-11-24", replaces: LEGACY_APPLICATION_MILESTONE_IDS,
+      text: "海外名单锁定 6 位：HKUST Kevin Chen、PolyU Yi Zhang、EPFL Elison Matioli、Padua Matteo Meneghini、Bristol Matthew Smith、Ghent Benoit Bakeroot（BESCAPE DC6）；停止扩充其他海外目标。" },
+    { id: "eu:epfl-round1-v1", module: "application", lane: "欧洲", date: "2026-12-01", text: "EPFL EDEE 第一轮截止：Matioli／POWERlab；若材料来不及，明确转入 2027/04/15 轮次。" },
+    { id: "eu:dc6-docs-v1", module: "application", lane: "欧洲", date: "2026-12-08", text: "Ghent BESCAPE DC6 材料完成：Europass CV、学位与成绩、身份证件、两位学术推荐人联络资料。" },
+    { id: "eu:dc6-deadline-v1", module: "application", lane: "欧洲", date: "2026-12-15", text: "BESCAPE DC6 硬截止：寄给 Benoit Bakeroot，主旨使用 Application BESCAPE PhD position DC6。" },
+    { id: "eu:bristol-contact-v1", module: "application", lane: "欧洲", date: "2026-12-18", text: "联系 Bristol Matthew Smith：确认 GaN-PLoT／VertiGaN 的 2027 funded PhD 名额、正式项目页与实际截止。" },
+    { id: "eu:padua-contact-v1", module: "application", lane: "欧洲", date: "2026-12-22", text: "联系 Padua Matteo Meneghini：确认 43rd cycle Information Engineering 是否有 GaN device／TCAD／reliability 题目。" },
+    { id: "hk:pair-docs-v1", module: "application", lane: "HK", date: "2027-01-08", text: "只保留两位香港目标：Kevin Chen 与 Yi Zhang；完成各自 CV、研究匹配页、成绩单与推荐人资料。" },
+    { id: "hk:ielts-exam-v2", module: "application", lane: "HK", date: "2027-01-15", text: "雅思二战：目标 overall 6.5；HKUST 要求 overall 6.5 且各项 5.5。" },
+    { id: "hk:score-and-submit-v1", module: "application", lane: "HK", date: "2027-01-29", text: "雅思出分后主投 HKUST Kevin Chen 与 PolyU Yi Zhang；两校均按 rolling 节奏尽早送出。" },
+    { id: "eu:epfl-round2-v1", module: "application", lane: "欧洲", date: "2027-04-15", text: "EPFL EDEE 第二轮硬截止：Elison Matioli／POWERlab。" },
+    { id: "eu:padua-call-check-v1", module: "application", lane: "欧洲", date: "2027-04-15", text: "检查 Padua 43rd cycle 正式简章；2027 截止尚未公布，不沿用旧日期当成硬截止。" },
+    { id: "eu:padua-expected-v1", module: "application", lane: "欧洲", date: "2027-05-20", text: "Padua 申请内部预留日：上一届主轮为 5/20 13:00；仅作预计，正式日期以 43rd cycle 公告为准。" },
+    { id: "hk:polyu-deadline-v2", module: "application", lane: "HK", date: "2027-05-31", text: "PolyU EEE Sep 2027 正式截止：Yi Zhang。" },
+    { id: "hk:hkust-deadline-v2", module: "application", lane: "HK", date: "2027-06-01", text: "HKUST ECE Fall 2027 非本地正式截止：Kevin J. Chen；rolling admission，不等到最后一天。" },
   ].concat(
     // 每周导师研究节点由 OUTREACH_ROSTER 产生：甘特排班与日历节点同一份名单。
     OUTREACH_ROSTER.map((row, index) => ({
-      id: `roster5:${row.date}`,
+      id: `roster6:${row.date}`,
       module: "application",
       lane: row.lane,
       date: row.date,
@@ -151,9 +115,9 @@
     { gateId: "g4", start: "2027-04-01", end: "2027-05-31", lane: 1 },
   ];
   const APPLICATION_GANTT_BARS = [
-    { gateId: "a1", start: "2026-11-01", end: "2026-12-31", lane: 1 },
-    { gateId: "a4", start: "2027-01-05", end: "2027-06-01", lane: 1 },
-    { gateId: "a2", start: "2026-12-01", end: "2027-03-31", lane: 2 },
+    { gateId: "a1", start: "2026-11-24", end: "2026-12-15", lane: 1 },
+    { gateId: "a4", start: "2026-11-30", end: "2027-06-01", lane: 1 },
+    { gateId: "a2", start: "2026-11-24", end: "2027-05-20", lane: 2 },
     { gateId: "a3", start: "2027-02-01", end: "2027-04-30", lane: 3 },
   ];
   const GANTT_LANES = {
@@ -172,63 +136,63 @@
   const ROADMAP_MONTHS = [
     ["2026/08", "Process R&D",
       { 制程: "Fin exposure / etch DOE 起步" },
-      "二战改期 12/19；L/R 计时诊断",
+      "二战改期 2027/1/15；L/R 计时诊断",
       { IEDMS: "figure inventory 整理" },
-      { HK: "四校导师长名单、CV v1" },
+      { HK: "海外目标尚未收敛（历史记录）" },
       "A / B 正常推进"],
     ["2026/09", "Recipe freeze",
       { 制程: "10/1 起 Raith 一周，10/8 起 EBeam Fin 实验三周", TCAD: "9/20 前完成含 AlN spacer 的 PGaN Emode 与普通 Dmode 基本 model IV 模拟" },
       "核心训练（听读写说）；按周表推进",
       { IEDMS: "9/15 出结果" },
-      { HK: "完成四校导师长名单（HKUST／PolyU／HKU／CUHK）；CityU 本轮排除（12/01 前要有成绩）" },
+      { HK: "香港目标收敛为 HKUST Kevin Chen＋PolyU Yi Zhang" },
       "G1 随实验顺延至 10/15"],
     ["2026/10", "Device launch",
       { 制程: "10 月中完成测试制程（Litho+Etch）；10 月底开始元件制程", TCAD: "依实际磊晶结构与氧化层厚度进一步模拟 PGaN Emode／Dmode（重点能带 + 导通电场）" },
       "维持训练；错题与口语素材整理",
       { IEDMS: "10/15–10/20 做海报；10/23 参加报告", IWN: "10/25–11/1 做海报" },
-      { HK: "11/09 再启动香港名单", 台湾: "10/26 当周先研究吴添立；下一周再研究吴肇欣", 欧洲: "香港导师完成后再进入欧洲；本月只做职缺扫描" },
+      { HK: "准备 Kevin Chen／Yi Zhang 两版材料", 台湾: "10/26 当周先研究吴添立；下一周再研究吴肇欣", 欧洲: "确认 Matioli／Meneghini／Smith／Bakeroot 四位目标" },
       "A：正式 wafer 已开始"],
     ["2026/11", "Fabrication sprint",
       { 制程: "元件制程与第一批 Fin", TCAD: "开始模拟 BV" },
       "题库已刷完；转专项弱项与全真模考节奏",
       { IWN: "11/8–11/13 会议", ISPSD: "11/1 开始写稿；11/11 开放投稿；11/20 第一版给老师" },
-      { 台湾: "11/02 吴肇欣：优先双通道 Fin-HEMT compact／small-signal model", HK: "11/09 起：Yuhao Zhang→Kevin Chen→Weijia Zhang→Man Hoi Wong", 欧洲: "暂不进入导师研究；只维持职缺窗口扫描" },
+      { 台湾: "11/02 吴肇欣：优先双通道 Fin-HEMT compact／small-signal model", HK: "11/30 Kevin Chen＋Yi Zhang 两版材料", 欧洲: "11/24 Matioli；11/25 Bakeroot DC6" },
       "B 最晚延至 12 月"],
     ["2026/12", "First data",
       { 制程: "electrical measurement；C–V / Regrowth", Cadence: "Cadence 开始" },
-      "12/19 二战考试；考后收尾",
+      "每日一份完整真题；准备 2027/1/15 考试",
       { ISPSD: "12/16 截稿" },
-      { HK: "12/07 Yi Zhang；12/14 考前暂停；12/21 Alex Leung；12/28 Yan Cheng（先确认 RAP 资格）", 欧洲: "2027/01/04 再启动" },
+      { HK: "Kevin Chen／Yi Zhang 材料整理", 欧洲: "12/01 EPFL EDEE；12/15 Ghent DC6；联系 Bristol／Padua" },
       "12/15 通过 G2"],
     ["2027/01", "Diagnose",
       { 制程: "分析第一批结果；重测异常 device", Cadence: "电路／版图推进" },
       "",
       {},
-      { HK: "出分＋主投 HKUST／PolyU", 欧洲: "导师研究：Decoutere→Medjdoub→Kapels→Trémouilles" },
+      { HK: "1/15 雅思；出分后主投 Kevin Chen／Yi Zhang", 欧洲: "Bristol 项目确认；EPFL 4/15 轮材料推进" },
       "A：只做有限补实验"],
     ["2027/02", "Controlled iteration",
       { 制程: "第二轮 device／必要补测", TCAD: "TCAD–experiment comparison" },
       "",
       {},
-      { 欧洲: "导师研究：Ambacher→Alonso→Mönch→Martinez", HK: "补件与面试；准备 CUHK clearing" },
+      { 欧洲: "Matioli／Meneghini／Smith／Bakeroot 申请追踪", HK: "HKUST／PolyU 补件与面试" },
       "A：实验开始 freeze"],
     ["2027/03", "Data freeze",
       { 制程: "主要 dataset 收敛" },
       "",
       { ISPSD: "论文投稿或接近投稿" },
-      { 台湾: "其余三位 3/15–3/29 核对；3 月下旬考试入学报名（待公告）", HK: "3/31 CUHK clearing 截止（需雅思到位）", 欧洲: "3/01 Liserre；3/08 Bernet；4/05 起才看低优先 RF 线" },
+      { 台湾: "其余三位 3/15–3/29 核对；3 月下旬考试入学报名（待公告）", HK: "只追踪 HKUST／PolyU 回覆", 欧洲: "准备 EPFL 4/15；追踪 Padua 43rd cycle" },
       "3/31 通过 G3，否则切 B"],
     ["2027/04", "Write",
       { 制程: "只补必要量测" },
       "",
       {},
-      { 台湾: "4 月上旬报名收尾；4–5 月考试／口试（待公告）", HK: "4/30 HKU 第一 clearing 截止" },
+      { 台湾: "4 月上旬报名收尾；4–5 月考试／口试（待公告）", 欧洲: "4/15 EPFL EDEE 第二轮；检查 Padua 正式简章" },
       "A：写作主导；B：data 收敛"],
     ["2027/05", "Thesis ready",
       {},
       "",
       {},
-      { 台湾: "5 月放榜与报到（待公告）；确定去向", HK: "5/31 PolyU 截止；6/01 HKUST ECE 截止" },
+      { 台湾: "5 月放榜与报到（待公告）；确定去向", HK: "5/31 PolyU；6/01 HKUST ECE", 欧洲: "Padua 预计 5 月主轮，待正式公告" },
       "A 通过 G4；B 开始主写"],
     ["2027/06", "Defense prep", {}, "", {}, { 台湾: "签证／行政" }, "A：Defense ready；B：30–50%"],
     ["2027/07", "Plan A defense", {}, "", {}, { 台湾: "确认报到节点" }, "A：口试；B：Thesis 60–80%"],
@@ -239,9 +203,9 @@
     ["2027/12", "Final buffer", {}, "", {}, {}, "B：最晚毕业窗口"],
   ];
   const PHD_REGION_PRESETS = [
-    { id: "hk", code: "HK", name: "香港", hint: "集中式 PhD 申请与导师联系", schools: ["HKUST", "HKU", "PolyU", "CUHK", "CityU"] },
+    { id: "hk", code: "HK", name: "香港", hint: "固定目标：HKUST Kevin Chen／PolyU Yi Zhang", schools: ["HKUST", "PolyU"] },
     { id: "tw", code: "TW", name: "台湾", hint: "学校招生规则与导师意愿并行确认", schools: ["NTU", "NYCU"] },
-    { id: "eu", code: "EU", name: "欧洲", hint: "以导师、实验室或 project vacancy 为单位", schools: ["德国", "法国", "比利时", "荷兰", "瑞典", "丹麦", "挪威"] },
+    { id: "eu", code: "EU", name: "欧洲", hint: "固定目标：EPFL／Padua／Bristol／Ghent DC6", schools: ["EPFL", "University of Padua", "University of Bristol", "Ghent University"] },
   ];
   // 研究链：多通道／Tri-gate GaN HEMT → p-GaN reliability → device design/TCAD/fabrication
   // → gate driver / PMIC → 48→24 V DC-DC。匹配度按这条链判断，不是只看「有没有做 GaN」。
@@ -251,9 +215,9 @@
       focus: "multi-channel GaN、Fin power transistor、device physics、reliability、ML-assisted co-design",
       note: "最对味：MC²-HEMT 本身就是 multi-channel AlGaN/GaN power switch。切入角度写 multi-channel 架构＋physics-constrained TCAD＋reliability →低压功率转换，别写 I am interested in GaN devices。注意他近期往 vertical GaN／Ga₂O₃／UWBG 高压延伸，未必照做低压 p-GaN —— 这点值得直接问。",
       url: "https://ece.hku.hk/people/y-zhang/" },
-    { id: "hk-adv-hkust-kevin", school: "HKUST", name: "Kevin J. Chen 陈敬", tier: "S+", match: "9.5", studyOrder: 2,
+    { id: "hk-adv-hkust-kevin", school: "HKUST", name: "Kevin J. Chen 陈敬", tier: "S+", match: "9.5", studyOrder: 1,
       focus: "GaN power HEMT、E-mode、MIS-HEMT、gate dielectric reliability、power device & IC",
-      note: "p-GaN／E-mode／MIS-HEMT／multi-channel 他全部看得懂，就是核心领域。你的牌不是「我会 Sentaurus」，而是能独立走完 concept→TCAD→mask/process→fabrication→characterization 整个回路。HKUST 有 NFF 自有产线。",
+      note: "香港固定目标之一。p-GaN／E-mode／MIS-HEMT／multi-channel 与你的器件链高度重叠。HKUST ECE 2027 Fall 非本地正式截止为 2027/06/01，rolling admission；雅思要求 overall 6.5、各项至少 5.5。1/15 考试出分后尽早投，不等最终截止。",
       url: "https://ece.hkust.edu.hk/eekjchen" },
     { id: "hk-adv-hkust-weijia", school: "HKUST", name: "Weijia Zhang 张薇葭", tier: "S", match: "9", studyOrder: 3,
       focus: "power IC design、gate driver for power switch、integrated DC-DC、smart gate driver IC、WBG application",
@@ -263,10 +227,30 @@
       focus: "III-Nitride／UWBG oxide device、semiconductor epitaxy、process integration、fundamental device phenomena",
       note: "想回答「为什么这个 multi-channel／p-GaN 结构有这个电场」「defect／interface／polarization／process 怎么影响 device physics」才找他。与 Kevin Chen 的差别：他偏 materials＋device physics＋epitaxy＋新架构。",
       url: "https://ece.hkust.edu.hk/eemhwong" },
-    { id: "hk-adv-polyu-yizhang", school: "PolyU", name: "Yi Zhang 张毅", tier: "A+", match: "8", studyOrder: 5,
+    { id: "hk-adv-polyu-yizhang", school: "PolyU", name: "Yi Zhang 张毅", tier: "A+", match: "8", studyOrder: 2,
       focus: "SiC/GaN power semiconductor reliability、failure analysis、packaging、thermal、AI-enabled diagnostics",
-      note: "官方正在招 PhD/MPhil/Postdoc。若博士第一部分定成 p-GaN gate degradation／dynamic Ron／gate reliability 很合。但他主轴是 device→reliability→package→system，不是 transistor architecture＋fabrication；若你仍想自己刻 HEMT、改 epitaxy/gate structure，优先级低于 HKUST/HKU。",
-      url: "https://research.polyu.edu.hk/en/persons/yi-zhang-2/" },
+      note: "香港固定目标之一。官方页面明确写正在招 PhD／MPhil／Postdoc，可直接寄 CV 与 research proposal。研究主轴为 power semiconductor reliability、failure analysis、packaging 与 thermal。PolyU EEE Sep 2027 正式截止为 2027/05/31。",
+      url: "https://www.polyu.edu.hk/rcre/people/rcre-people/prof-yi-zhang/" },
+    { id: "eu-adv-ch-matioli", region: "eu", school: "EPFL", name: "Elison Matioli", tier: "S+", match: "10", studyOrder: 3,
+      email: "elison.matioli@epfl.ch",
+      focus: "GaN power devices、multi-channel／tri-gate HEMT、wide-bandgap electronics、microfluidic cooling｜POWERlab",
+      note: "欧洲固定目标。你的 multi-channel／tri-gate GaN HEMT 与 POWERlab 主线直接重叠。EPFL EDEE 固定申请截止为每年 12/01 与 04/15；先完成博士项目申请，再按 POWERlab 的具体职位或教授回复推进。当前优先判断能否赶 2026/12/01，否则锁定 2027/04/15。",
+      url: "https://people.epfl.ch/elison.matioli?lang=en" },
+    { id: "eu-adv-it-meneghini", region: "eu", school: "University of Padua", name: "Matteo Meneghini", tier: "S+", match: "9.5", studyOrder: 4,
+      email: "matteo.meneghini@unipd.it",
+      focus: "GaN HEMT reliability、degradation physics、TCAD、III-N device characterization｜Information Engineering",
+      note: "欧洲固定目标。Padua Information Engineering 采用资格预审＋面试；2027 的 43rd cycle 正式截止尚未公布。上一届主轮截止为 2026/05/20 13:00，仅将 2027/05/20 设为内部预留日，正式申请必须以 43rd cycle call 为准。",
+      url: "https://www.unipd.it/en/contatti/matteo.meneghini" },
+    { id: "eu-adv-uk-matthew-smith", region: "eu", school: "University of Bristol", name: "Matthew Smith", tier: "S", match: "9", studyOrder: 5,
+      email: "matt.smith@bristol.ac.uk",
+      focus: "GaN power transistor、vertical GaN-on-Si、electrical／thermal characterization、device reliability｜School of Physics",
+      note: "欧洲固定目标。现行 GaN-PLoT（2026–2029）与 VertiGaN（至 2027/04）高度相关，但官方 Materials and Devices 页面只说明项目会全年陆续发布，尚未给出 Matthew Smith 对应 2027 PhD 的统一硬截止。12/18 前确认 funded position 与正式 deadline；内部目标在 2027/01 中旬前送件。",
+      url: "https://www.bristol.ac.uk/people/person/Matthew-Smith-5cb8c645-9bc5-4fd7-9ebc-53614c16f3aa/" },
+    { id: "eu-adv-be-bakeroot", region: "eu", school: "Ghent University", name: "Benoit Bakeroot", tier: "S+", match: "9.5", studyOrder: 6,
+      email: "benoit.bakeroot@ugent.be",
+      focus: "BESCAPE DC6：all-GaN integrated circuit design for point-of-load voltage regulator for space applications",
+      note: "欧洲固定目标且是最明确的项目申请。BESCAPE MSCA Doctoral Network DC6 为 Ghent University＋University of Oviedo 联合博士，预计 2027/05–10 入职。硬截止 2026/12/15；邮件主旨必须为 Application BESCAPE PhD position DC6，附件包含 Europass CV、学位与成绩、身份证件及两位学术推荐人联络资料。",
+      url: "https://www.ugent.be/en/work/scientific/doctoral-fellow-7" },
     { id: "hk-adv-cuhk-alex", school: "CUHK", name: "Alex Ka Nang Leung 梁加能", tier: "A", match: "9（转型）/ 5（device 延续）", studyOrder: 6,
       focus: "power-management IC、analog IC、24/48 V-to-1 V dual-phase hybrid DC-DC",
       note: "CUHK 里最值得看的人。不做 GaN HEMT fabrication，但正好接上你本科 Analog IC＋要恢复的 Cadence。故事直接讲：硕士做 GaN power device，博士希望用已有 device background 往 power-management IC／device-circuit co-design 延伸。",
@@ -400,6 +384,12 @@
       note: "【套磁建管线】研究明确涵盖 SiC/GaN 转换器、自适应 gate driver、功率半导体可靠度与寿命。 切入：以 gate driving、switching characterization、module design 或 reliability 的具体成果切入，询问 6–12 个月 funded opening。 规则：目前适合精准 cold email 与后续职缺追踪。 证据：研究明确包含 WBG 元件可靠度、寿命、gate driver 与 power module design。 ⚠️ 落差：以 SiC/GaN 系统与模组为主，TCAD／晶圆制程较弱。",
       url: "https://www.ntnu.edu/employees/dimosthenis.peftitsis" },
   ];
+  const FOREIGN_TARGET_ADVISOR_IDS = new Set([
+    "hk-adv-hkust-kevin", "hk-adv-polyu-yizhang", "eu-adv-ch-matioli",
+    "eu-adv-it-meneghini", "eu-adv-uk-matthew-smith", "eu-adv-be-bakeroot",
+  ]);
+  const PHD_TARGET_PORTFOLIO_VERSION = 1;
+
   // 近五年代表作（2022 起），优先使用 DOI；无 DOI 的实验室会议成果连回官方 publication list。
   // ★ = 与你研究链（多通道／p-GaN gate reliability）直接重叠，建议套磁前必读。
   // 注意：OpenAlex 的作者记录会把同名人合并，这里已剔除明显不属于该领域的条目。
@@ -514,6 +504,8 @@
   };
   // 公开资料核对后的定向更新。只覆盖研究简介与论文，不碰用户填写的申请状态和 CV 进度。
   const PHD_ADVISOR_CONTENT_REVISIONS = {
+    "hk-adv-hkust-kevin": "2026-11-24-target-portfolio-v1",
+    "hk-adv-polyu-yizhang": "2026-11-24-target-portfolio-v1",
     "tw-adv-ntu-chwu": "2026-10-27-gan-compact-model-v1",
   };
   const PHD_APPLICATION_STATUSES = ["研究中", "准备联系", "已联系", "待回复", "准备申请", "已送出", "面试", "Offer", "暂停"];
@@ -3489,6 +3481,7 @@
       seededMilestones: Array.isArray(parsed.seededMilestones) ? parsed.seededMilestones : [],
       seededAdvisors: Array.isArray(parsed.seededAdvisors) ? parsed.seededAdvisors : [],
       advisorDataVersions: parsed.advisorDataVersions && typeof parsed.advisorDataVersions === "object" ? parsed.advisorDataVersions : {},
+      phdTargetPortfolioVersion: Number(parsed.phdTargetPortfolioVersion) || 0,
       roadmap: {
         tasks: parsed.roadmap?.tasks || {},
         gates: parsed.roadmap?.gates || {},
@@ -3501,7 +3494,7 @@
     const seeded = typeof PlanningTasks.seedMilestones === "function"
       ? PlanningTasks.seedMilestones(migrated, APPLICATION_MILESTONES)
       : migrated;
-    return seedPhdAdvisors(seeded);
+    return seedPhdAdvisors(migratePhdTargetPortfolio(seeded));
   }
 
   function normalizeVocabularyCards(candidate) {
@@ -3628,14 +3621,38 @@
     };
   }
 
+  function migratePhdTargetPortfolio(candidate) {
+    if (candidate.phdTargetPortfolioVersion >= PHD_TARGET_PORTFOLIO_VERSION) return candidate;
+    const seededForeignIds = new Set(PHD_ADVISOR_SEEDS
+      .filter((seed) => (seed.region || "hk") !== "tw")
+      .map((seed) => seed.id));
+    const targetSchools = {
+      hk: new Set(["HKUST", "PolyU"]),
+      eu: new Set(["EPFL", "University of Padua", "University of Bristol", "Ghent University"]),
+    };
+    for (const regionId of ["hk", "eu"]) {
+      const region = candidate.phdTracker?.regions?.find((item) => item.id === regionId);
+      if (!region) continue;
+      region.schools = (region.schools || []).flatMap((school) => {
+        const advisors = (school.advisors || []).filter((advisor) =>
+          FOREIGN_TARGET_ADVISOR_IDS.has(advisor.id) || !seededForeignIds.has(advisor.id));
+        if (!targetSchools[regionId].has(school.name) && !advisors.length) return [];
+        return [{ ...school, advisors }];
+      });
+    }
+    candidate.phdTargetPortfolioVersion = PHD_TARGET_PORTFOLIO_VERSION;
+    return candidate;
+  }
+
   // 导师种子同样只种一次（记在 state.seededAdvisors），删掉或改过的不会被种回来。
   function seedPhdAdvisors(candidate) {
     const tracker = candidate.phdTracker;
     if (!Array.isArray(tracker?.regions)) return candidate;
     const seeded = new Set(candidate.seededAdvisors || []);
     for (const seed of PHD_ADVISOR_SEEDS) {
-      if (seeded.has(seed.id)) continue;
       const regionId = seed.region || "hk";
+      if (regionId !== "tw" && !FOREIGN_TARGET_ADVISOR_IDS.has(seed.id)) continue;
+      if (seeded.has(seed.id)) continue;
       const region = tracker.regions.find((item) => item.id === regionId);
       if (!region || !Array.isArray(region.schools)) continue;
       seeded.add(seed.id);
@@ -3745,6 +3762,7 @@
   function applyRemoteState(remoteState) {
     const incomingVersion = remoteState?.planVersion || "";
     const incomingTasksVersion = remoteState?.planningTasksVersion || 0;
+    const incomingPortfolioVersion = Number(remoteState?.phdTargetPortfolioVersion) || 0;
     applyingRemoteState = true;
     state = normalizeState(remoteState || {});
     mainPlan = state.planRows?.length ? state.planRows : [...(data.mainPlan || []), ...(state.extraPlanRows || [])];
@@ -3756,7 +3774,7 @@
     }
     renderAll();
     applyingRemoteState = false;
-    if (authToken && (state.planVersion !== incomingVersion || state.planningTasksVersion !== incomingTasksVersion)) {
+    if (authToken && (state.planVersion !== incomingVersion || state.planningTasksVersion !== incomingTasksVersion || state.phdTargetPortfolioVersion !== incomingPortfolioVersion)) {
       pushRemoteState().catch((error) => console.warn("Cloud migration save failed.", error));
     }
   }

@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v118-daily-one";
+const CACHE_NAME = "planner-notebook-v119-phd-six";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261128-daily-one",
-  "./app.js?v=20261128-daily-one",
-  "./planning-tasks.js?v=20261128-daily-one",
-  "./ielts-moves.js?v=20261128-daily-one",
-  "./eu-radar.js?v=20261128-daily-one",
-  "./xlsx-export.js?v=20261128-daily-one",
+  "./styles.css?v=20261124-phd-six",
+  "./app.js?v=20261124-phd-six",
+  "./planning-tasks.js?v=20261124-phd-six",
+  "./ielts-moves.js?v=20261124-phd-six",
+  "./eu-radar.js?v=20261124-phd-six",
+  "./xlsx-export.js?v=20261124-phd-six",
   "./config.js",
-  "./plan-data.js?v=20261128-daily-one",
+  "./plan-data.js?v=20261124-phd-six",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
