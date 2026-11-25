@@ -16,9 +16,9 @@
     { id: "g4", code: "G4", name: "Thesis Ready", date: "2027-05-31", proof: "完整硕论初稿已交给老师，口试简报框架建立", pass: "送审并安排 7 月口试", miss: "口试顺延到秋季" },
   ];
   const APPLICATION_GATES = [
-    { id: "a1", code: "A1", name: "Immediate EU Deadlines", date: "2026-12-15", displayDate: "12/01 EPFL EDEE · 12/15 Ghent DC6", proof: "EPFL EDEE 申请完成或明确转入 4/15 轮；BESCAPE DC6 依公告寄出完整英文材料", pass: "两项硬截止分别处理，不让其他泛投任务分散时间", miss: "EPFL 12/01 来不及就锁定 4/15；DC6 12/15 是不可顺延的项目截止" },
-    { id: "a4", code: "A4", name: "HK Target Pair", date: "2027-06-01", displayDate: "1/22 出分 · 5/31 PolyU · 6/01 HKUST", proof: "张毅与 Kevin Chen 各有独立 CV／研究匹配页；雅思达标后完成两校正式申请", pass: "1月底前主投，5/31 与 6/01 只作最终硬截止", miss: "不再扩充 HKU／CUHK／CityU 名单，精力集中在两位目标导师" },
-    { id: "a2", code: "A2", name: "Europe Target Portfolio", date: "2027-05-20", displayDate: "Bakeroot · Matioli · Smith · Meneghini", proof: "四位欧洲目标均完成定制 CV、联系记录与正式入口核对", pass: "按 DC6→EPFL→Bristol→Padua 的实际窗口推进", miss: "Padua 2027 正式简章未出前只标预计日期，不把上一届日期当硬截止" },
+    { id: "a1", code: "A1", name: "Immediate EU Deadlines", date: "2026-12-15", displayDate: "11/24 EPFL 已寄 · 12/05 Ghent 寄出 · 12/15 截止", proof: "EPFL EDEE 已寄出；BESCAPE DC6 在12/5前寄出完整英文材料并保留10天缓冲", pass: "当前只推进 Ghent DC6，不让其他泛投任务分散时间", miss: "DC6 12/15 是不可顺延的项目截止" },
+    { id: "a4", code: "A4", name: "HK Target Pair", date: "2027-06-01", displayDate: "12/14 Kevin · 12/16 Yi · 1月底正式申请", proof: "普通博士路线，不参加HKPFS；两位导师各有独立CV、研究匹配页与定制联系信", pass: "12月中完成导师联系，雅思出分后1月底正式申请；5/31与6/01只作最终截止", miss: "不再扩充其他香港目标，也不等待最终截止才联系导师" },
+    { id: "a2", code: "A2", name: "Europe Target Portfolio", date: "2027-05-20", displayDate: "Bakeroot · Matioli · Smith · Meneghini", proof: "EPFL已寄出；Ghent、Bristol与Padua分别完成定制材料、联系记录与正式入口核对", pass: "按EPFL已完成→Ghent→Bristol→Padua的实际顺序推进", miss: "Padua 2027 正式简章未出前只标预计日期，不把上一届日期当硬截止" },
     { id: "a3", code: "A3", name: "Taiwan PhD Ready", date: "2027-03-15", displayDate: "2/08 启动 · 3/15 内部备齐 · 3月下旬报名", proof: "116学年度博士考试入学：清大黄敬源、交大吴添立／李义明、台大吴肇欣四位目标的 CV、研究计划、成绩单与推荐信备齐", pass: "依黄敬源→吴添立→李义明→吴肇欣顺序推进；核对116正式简章并在开放后两天内提交", miss: "按学校正式截止补齐；2027时程仍待公告，不沿用秋季甄试日期" },
   ];
   // 香港申请的固定日期节点。只种一次，之后可自行改日期或删除（见 PlanningTasks.seedMilestones）。
@@ -28,11 +28,12 @@
   // 不另外维护一份，避免两边讲不一样的话。
   // batch 1=GaN power device（TCAD／制程／可靠性）2=转换器／电源电路 3=GaN RF（只欧洲）
   const OUTREACH_ROSTER = [
-    { date: "2026-11-24", batch: 1, lane: "欧洲", who: "Elison Matioli", where: "EPFL POWERlab", tier: "核心目标", why: "先决定是否赶 12/01 EDEE；来不及就锁定 2027/04/15 轮次" , advisors: ["eu-adv-ch-matioli"] },
-    { date: "2026-11-25", batch: 1, lane: "欧洲", who: "Benoit Bakeroot", where: "Ghent · BESCAPE DC6", tier: "硬截止", why: "12/15 前寄出 Europass CV、学历成绩、身份证件与两位推荐人资料" , advisors: ["eu-adv-be-bakeroot"] },
-    { date: "2026-11-30", batch: 1, lane: "HK", who: "Kevin J. Chen＋Yi Zhang", where: "HKUST＋PolyU", tier: "固定两校", why: "两位各做一版 CV 与研究匹配页；雅思出分后正式主投" , advisors: ["hk-adv-hkust-kevin", "hk-adv-polyu-yizhang"] },
-    { date: "2026-12-07", batch: 1, lane: "欧洲", who: "Matthew Smith", where: "University of Bristol", tier: "联系优先", why: "确认 GaN-PLoT／VertiGaN 是否有 2027 funded PhD 与该项目的实际截止" , advisors: ["eu-adv-uk-matthew-smith"] },
-    { date: "2026-12-14", batch: 1, lane: "欧洲", who: "Matteo Meneghini", where: "University of Padua", tier: "简章待公布", why: "先联系研究契合；追踪 43rd cycle Information Engineering 正式 call" , advisors: ["eu-adv-it-meneghini"] },
+    { date: "2026-11-24", batch: 1, lane: "欧洲", who: "Elison Matioli", where: "EPFL POWERlab", tier: "已寄出", why: "联系／申请已完成；保留回信与补件追踪" , advisors: ["eu-adv-ch-matioli"], done: true },
+    { date: "2026-11-25", batch: 1, lane: "欧洲", who: "Benoit Bakeroot", where: "Ghent · BESCAPE DC6", tier: "下一项", why: "12/4 完成文件检查，12/5 寄出；早于12/15硬截止10天" , advisors: ["eu-adv-be-bakeroot"] },
+    { date: "2026-12-14", batch: 1, lane: "HK", who: "Kevin J. Chen", where: "HKUST", tier: "普通PhD联系", why: "寄出定制信＋CV＋一页研究匹配摘要；询问2027 Fall funded PhD quota" , advisors: ["hk-adv-hkust-kevin"] },
+    { date: "2026-12-16", batch: 1, lane: "HK", who: "Yi Zhang", where: "PolyU", tier: "普通PhD联系", why: "寄出定制信＋CV＋research proposal摘要；询问PRPgS／导师资助名额" , advisors: ["hk-adv-polyu-yizhang"] },
+    { date: "2026-12-18", batch: 1, lane: "欧洲", who: "Matthew Smith", where: "University of Bristol", tier: "联系优先", why: "确认 GaN-PLoT／VertiGaN 是否有 2027 funded PhD 与该项目的实际截止" , advisors: ["eu-adv-uk-matthew-smith"] },
+    { date: "2026-12-22", batch: 1, lane: "欧洲", who: "Matteo Meneghini", where: "University of Padua", tier: "简章待公布", why: "先联系研究契合；追踪 43rd cycle Information Engineering 正式 call" , advisors: ["eu-adv-it-meneghini"] },
     { date: "2027-02-08", batch: 1, lane: "台湾", who: "黄敬源 Roy King-Yuen Wong", where: "NTHU", tier: "优先 1", why: "台湾首选：wide-bandgap power／RF device、GaN-on-Si、制程、模型、可靠度与热管理都能接上现有研究" , advisors: ["tw-adv-nthu-kywong"] },
     { date: "2027-02-15", batch: 1, lane: "台湾", who: "吴添立 Tian-Li Wu", where: "NYCU", tier: "优先 2", why: "p-GaN gate 可靠性＋AI 辅助器件设计；以 U-Net 建模与双通道 Tri-gate 经验切入" , advisors: ["tw-adv-nycu-tlwu"] },
     { date: "2027-02-22", batch: 1, lane: "台湾", who: "李义明 Yi-Ming Li", where: "NYCU", tier: "优先 3", why: "器件模拟／TCAD、统计变异与机器学习辅助设计；聚焦模型与实验结构的衔接" , advisors: ["tw-adv-nycu-ymli"] },
@@ -65,7 +66,7 @@
   }
 
   const LEGACY_ROSTER_IDS = ["2026-10-12", "2026-10-19", "2026-10-26", "2026-11-02", "2026-11-09", "2026-11-16", "2026-11-23", "2026-11-30", "2026-12-07", "2026-12-14", "2026-12-21", "2026-12-28", "2027-01-04", "2027-01-11", "2027-01-18", "2027-01-25", "2027-02-01", "2027-02-08", "2027-02-15", "2027-02-22", "2027-03-01", "2027-03-08", "2027-03-15", "2027-03-22", "2027-03-29", "2027-04-05", "2027-04-12"]
-    .flatMap((date) => ["roster", "roster2", "roster3", "roster4", "roster5", "roster6"].map((prefix) => `${prefix}:${date}`));
+    .flatMap((date) => ["roster", "roster2", "roster3", "roster4", "roster5", "roster6", "roster7"].map((prefix) => `${prefix}:${date}`));
 
   // 日期与人选重排过，roster:<date> 这组旧 id 的内容已经不对；
   // 让第一笔一次把它们全部退役，避免新旧两份并存。
@@ -82,15 +83,18 @@
   const APPLICATION_MILESTONES = [
     { id: "foreign:targets-v1", module: "application", lane: "欧洲", date: "2026-11-24", replaces: LEGACY_APPLICATION_MILESTONE_IDS,
       text: "海外名单锁定 6 位：HKUST Kevin Chen、PolyU Yi Zhang、EPFL Elison Matioli、Padua Matteo Meneghini、Bristol Matthew Smith、Ghent Benoit Bakeroot（BESCAPE DC6）；停止扩充其他海外目标。" },
-    { id: "eu:epfl-round1-v1", module: "application", lane: "欧洲", date: "2026-12-01", text: "EPFL EDEE 第一轮截止：Matioli／POWERlab；若材料来不及，明确转入 2027/04/15 轮次。" },
-    { id: "eu:dc6-docs-v1", module: "application", lane: "欧洲", date: "2026-12-08", text: "Ghent BESCAPE DC6 材料完成：Europass CV、学位与成绩、身份证件、两位学术推荐人联络资料。" },
-    { id: "eu:dc6-deadline-v1", module: "application", lane: "欧洲", date: "2026-12-15", text: "BESCAPE DC6 硬截止：寄给 Benoit Bakeroot，主旨使用 Application BESCAPE PhD position DC6。" },
+    { id: "eu:epfl-sent-v2", module: "application", lane: "欧洲", date: "2026-11-24", done: true, replaces: ["eu:epfl-round1-v1", "eu:epfl-round2-v1"], text: "EPFL Elison Matioli 已寄出；后续只追踪回信与补件。" },
+    { id: "eu:dc6-package-v2", module: "application", lane: "欧洲", date: "2026-12-04", replaces: ["eu:dc6-docs-v1"], text: "Ghent BESCAPE DC6 最终检查：Europass CV、学位与成绩、身份证件、两位学术推荐人联络资料。" },
+    { id: "eu:dc6-send-v2", module: "application", lane: "欧洲", date: "2026-12-05", text: "寄出 Ghent BESCAPE DC6：收件人为 Benoit Bakeroot，主旨使用 Application BESCAPE PhD position DC6。" },
+    { id: "eu:dc6-deadline-v1", module: "application", lane: "欧洲", date: "2026-12-15", text: "BESCAPE DC6 硬截止检查：确认申请已寄达、附件完整，并保存寄件记录。" },
     { id: "eu:bristol-contact-v1", module: "application", lane: "欧洲", date: "2026-12-18", text: "联系 Bristol Matthew Smith：确认 GaN-PLoT／VertiGaN 的 2027 funded PhD 名额、正式项目页与实际截止。" },
     { id: "eu:padua-contact-v1", module: "application", lane: "欧洲", date: "2026-12-22", text: "联系 Padua Matteo Meneghini：确认 43rd cycle Information Engineering 是否有 GaN device／TCAD／reliability 题目。" },
-    { id: "hk:pair-docs-v1", module: "application", lane: "HK", date: "2027-01-08", text: "只保留两位香港目标：Kevin Chen 与 Yi Zhang；完成各自 CV、研究匹配页、成绩单与推荐人资料。" },
+    { id: "hk:email-prep-v1", module: "application", lane: "HK", date: "2026-12-11", text: "完成香港两封定制联系信：Kevin Chen 版强调GaN器件／TCAD／制程，Yi Zhang版强调可靠度／失效分析／热管理；普通PhD路线，不参加HKPFS。" },
+    { id: "hk:email-kevin-v1", module: "application", lane: "HK", date: "2026-12-14", text: "寄信给 HKUST Kevin J. Chen：附CV与一页研究匹配摘要，询问2027 Fall funded PhD quota与PGS支持。" },
+    { id: "hk:email-yi-v1", module: "application", lane: "HK", date: "2026-12-16", text: "寄信给 PolyU Yi Zhang：附CV与research proposal摘要，询问PRPgS／导师资助名额。" },
+    { id: "hk:pair-docs-v1", module: "application", lane: "HK", date: "2027-01-08", text: "补齐两校普通PhD正式申请材料：成绩单、研究摘要、成果附件与推荐人资料。" },
     { id: "hk:ielts-exam-v2", module: "application", lane: "HK", date: "2027-01-15", text: "雅思二战：目标 overall 6.5；HKUST 要求 overall 6.5 且各项 5.5。" },
     { id: "hk:score-and-submit-v1", module: "application", lane: "HK", date: "2027-01-29", text: "雅思出分后主投 HKUST Kevin Chen 与 PolyU Yi Zhang；两校均按 rolling 节奏尽早送出。" },
-    { id: "eu:epfl-round2-v1", module: "application", lane: "欧洲", date: "2027-04-15", text: "EPFL EDEE 第二轮硬截止：Elison Matioli／POWERlab。" },
     { id: "eu:padua-call-check-v1", module: "application", lane: "欧洲", date: "2027-04-15", text: "检查 Padua 43rd cycle 正式简章；2027 截止尚未公布，不沿用旧日期当成硬截止。" },
     { id: "eu:padua-expected-v1", module: "application", lane: "欧洲", date: "2027-05-20", text: "Padua 申请内部预留日：上一届主轮为 5/20 13:00；仅作预计，正式日期以 43rd cycle 公告为准。" },
     { id: "hk:polyu-deadline-v2", module: "application", lane: "HK", date: "2027-05-31", text: "PolyU EEE Sep 2027 正式截止：Yi Zhang。" },
@@ -98,12 +102,13 @@
   ].concat(
     // 每周导师研究节点由 OUTREACH_ROSTER 产生：甘特排班与日历节点同一份名单。
     OUTREACH_ROSTER.map((row, index) => ({
-      id: `roster7:${row.date}`,
+      id: `roster8:${row.date}`,
       module: "application",
       lane: row.lane,
       date: row.date,
       replaces: rosterSupersedes(row, index),
       text: `${BATCH_LABEL[row.batch]}：${row.who}（${row.where}${row.tier === "—" ? "" : ` · ${row.tier}`}）—— ${row.why}`,
+      done: Boolean(row.done),
     })),
   );
   const GATE_GANTT_MONTHS = ["2026-09", "2026-10", "2026-11", "2026-12", "2027-01", "2027-02", "2027-03", "2027-04", "2027-05", "2027-06"];
@@ -115,7 +120,7 @@
   ];
   const APPLICATION_GANTT_BARS = [
     { gateId: "a1", start: "2026-11-24", end: "2026-12-15", lane: 1 },
-    { gateId: "a4", start: "2026-11-30", end: "2027-06-01", lane: 1 },
+    { gateId: "a4", start: "2026-12-11", end: "2027-06-01", lane: 1 },
     { gateId: "a2", start: "2026-11-24", end: "2027-05-20", lane: 2 },
     { gateId: "a3", start: "2027-02-01", end: "2027-04-30", lane: 3 },
   ];
@@ -155,19 +160,19 @@
       { 制程: "元件制程与第一批 Fin", TCAD: "开始模拟 BV" },
       "题库已刷完；转专项弱项与全真模考节奏",
       { IWN: "11/8–11/13 会议", ISPSD: "11/1 开始写稿；11/11 开放投稿；11/20 第一版给老师" },
-      { 台湾: "台湾四位目标确认；依清大黄敬源→交大吴添立→交大李义明→台大吴肇欣准备", HK: "11/30 Kevin Chen＋Yi Zhang 两版材料", 欧洲: "11/24 Matioli；11/25 Bakeroot DC6" },
+      { 台湾: "台湾四位目标确认；依清大黄敬源→交大吴添立→交大李义明→台大吴肇欣准备", 欧洲: "EPFL 已寄出；下一项为 Ghent Bakeroot DC6" },
       "B 最晚延至 12 月"],
     ["2026/12", "First data",
       { 制程: "electrical measurement；C–V / Regrowth", Cadence: "Cadence 开始" },
       "每日一份完整真题；准备 2027/1/15 考试",
       { ISPSD: "12/16 截稿" },
-      { HK: "Kevin Chen／Yi Zhang 材料整理", 欧洲: "12/01 EPFL EDEE；12/15 Ghent DC6；联系 Bristol／Padua" },
+      { HK: "12/11 两封信定稿；12/14 Kevin Chen；12/16 Yi Zhang（普通PhD）", 欧洲: "12/4 Ghent检查；12/5寄出；12/15截止确认；随后 Bristol／Padua" },
       "12/15 通过 G2"],
     ["2027/01", "Diagnose",
       { 制程: "分析第一批结果；重测异常 device", Cadence: "电路／版图推进" },
       "",
       {},
-      { HK: "1/15 雅思；出分后主投 Kevin Chen／Yi Zhang", 欧洲: "Bristol 项目确认；EPFL 4/15 轮材料推进" },
+      { HK: "1/15 雅思；出分后主投 Kevin Chen／Yi Zhang", 欧洲: "EPFL 回信／补件追踪；Bristol 项目确认" },
       "A：只做有限补实验"],
     ["2027/02", "Controlled iteration",
       { 制程: "第二轮 device／必要补测", TCAD: "TCAD–experiment comparison" },
@@ -179,13 +184,13 @@
       { 制程: "主要 dataset 收敛" },
       "",
       { ISPSD: "论文投稿或接近投稿" },
-      { 台湾: "3/01 吴肇欣；3/15 四位材料备齐；3 月下旬考试入学报名（待公告）", HK: "只追踪 HKUST／PolyU 回覆", 欧洲: "准备 EPFL 4/15；追踪 Padua 43rd cycle" },
+      { 台湾: "3/01 吴肇欣；3/15 四位材料备齐；3 月下旬考试入学报名（待公告）", HK: "只追踪 HKUST／PolyU 回覆", 欧洲: "追踪EPFL回覆与Padua 43rd cycle" },
       "3/31 通过 G3，否则切 B"],
     ["2027/04", "Write",
       { 制程: "只补必要量测" },
       "",
       {},
-      { 台湾: "4 月上旬报名收尾；4–5 月考试／口试（待公告）", 欧洲: "4/15 EPFL EDEE 第二轮；检查 Padua 正式简章" },
+      { 台湾: "4 月上旬报名收尾；4–5 月考试／口试（待公告）", 欧洲: "检查Padua正式简章；追踪其余欧洲申请" },
       "A：写作主导；B：data 收敛"],
     ["2027/05", "Thesis ready",
       {},
@@ -233,7 +238,7 @@
     { id: "eu-adv-ch-matioli", region: "eu", school: "EPFL", name: "Elison Matioli", tier: "S+", match: "10", studyOrder: 3,
       email: "elison.matioli@epfl.ch",
       focus: "GaN power devices、multi-channel／tri-gate HEMT、wide-bandgap electronics、microfluidic cooling｜POWERlab",
-      note: "欧洲固定目标。你的 multi-channel／tri-gate GaN HEMT 与 POWERlab 主线直接重叠。EPFL EDEE 固定申请截止为每年 12/01 与 04/15；先完成博士项目申请，再按 POWERlab 的具体职位或教授回复推进。当前优先判断能否赶 2026/12/01，否则锁定 2027/04/15。",
+      note: "欧洲固定目标。你的multi-channel／tri-gate GaN HEMT与POWERlab主线直接重叠；已于2026/11/24寄出，后续只追踪教授回信与补件，不再重复安排2027/04/15第二轮。",
       url: "https://people.epfl.ch/elison.matioli?lang=en" },
     { id: "eu-adv-it-meneghini", region: "eu", school: "University of Padua", name: "Matteo Meneghini", tier: "S+", match: "9.5", studyOrder: 4,
       email: "matteo.meneghini@unipd.it",
@@ -514,6 +519,7 @@
   const PHD_ADVISOR_CONTENT_REVISIONS = {
     "hk-adv-hkust-kevin": "2026-11-24-target-portfolio-v1",
     "hk-adv-polyu-yizhang": "2026-11-24-target-portfolio-v1",
+    "eu-adv-ch-matioli": "2026-11-25-epfl-sent-v1",
     "tw-adv-nthu-kywong": "2026-11-24-tw-four-v1",
     "tw-adv-nycu-tlwu": "2026-11-24-tw-four-v1",
     "tw-adv-nycu-ymli": "2026-11-24-tw-four-v1",

@@ -13,7 +13,7 @@
 
 PhD 申请追踪可在每个地区自行新增或删除学校，并在学校下新增或删除导师。每位导师都有可编辑的 Email、对应 CV 完成勾选和状态栏；状态包括研究中、准备联系、已联系、待回复、准备申请、已送出、面试、Offer 与暂停。
 
-研究路线中的 Gate 以甘特图呈现：研究与申请分成上下两条泳道，共用 2026/09—2027/06 的月份刻度。条带表示准备／执行区间，末端菱形表示 Gate 截止点；HK 与欧洲的重叠申请期会在同一申请泳道中错层显示。海外申请不再泛投：近期先处理 2026/12/01 EPFL EDEE 与 2026/12/15 Ghent BESCAPE DC6，雅思出分后主投 HKUST／PolyU；Bristol 先确认对应 funded project，Padua 等待 43rd cycle 正式简章。
+研究路线中的 Gate 以甘特图呈现：研究与申请分成上下两条泳道，共用 2026/09—2027/06 的月份刻度。条带表示准备／执行区间，末端菱形表示 Gate 截止点；HK 与欧洲的重叠申请期会在同一申请泳道中错层显示。海外申请不再泛投：EPFL 已寄出，下一项是 12/5 寄出 Ghent BESCAPE DC6；香港走普通博士路线，12/14 联系 HKUST Kevin Chen、12/16 联系 PolyU Yi Zhang，雅思出分后正式申请。
 
 PhD 申请页的香港时间线只保留 HKUST Kevin Chen 与 PolyU Yi Zhang；欧洲时间线只保留 EPFL Matioli、Padua Meneghini、Bristol Matthew Smith 与 Ghent Bakeroot DC6。页面区分官方硬截止、内部目标与依据上一届周期设置的预计日期，避免把尚未公布的 2027 截止误写成正式日期。
 

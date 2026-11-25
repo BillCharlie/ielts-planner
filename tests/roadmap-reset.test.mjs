@@ -237,9 +237,12 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /function migratePhdTargetPortfolio/);
   assert.match(app, /function seedPhdAdvisors/);
   // 欧洲四位固定目标与官方／预计时间必须清楚区分。
-  assert.match(html, /Elison Matioli[\s\S]*Matteo Meneghini[\s\S]*Matthew Smith[\s\S]*Benoit Bakeroot/);
-  assert.match(html, /2026\/12\/01[\s\S]*EPFL EDEE/);
-  assert.match(html, /2026\/12\/15[\s\S]*Ghent BESCAPE DC6/);
+  for (const advisor of ["Elison Matioli", "Matteo Meneghini", "Matthew Smith", "Benoit Bakeroot"]) {
+    assert.match(html, new RegExp(advisor));
+  }
+  assert.match(html, /2026\/11\/24 · DONE[\s\S]*EPFL 已寄出/);
+  assert.match(html, /2026\/12\/15[\s\S]*Ghent 硬截止确认/);
+  assert.doesNotMatch(html, /EPFL EDEE 第二轮/);
   assert.match(html, /预计 2027\/05\/20[\s\S]*正式简章/);
   assert.match(app, /eu-adv-ch-matioli[\s\S]*eu-adv-it-meneghini[\s\S]*eu-adv-uk-matthew-smith[\s\S]*eu-adv-be-bakeroot/);
   // 通用欧洲雷达仍保留为备查，不会扩充申请名单。
@@ -250,17 +253,18 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /function renderEuropePanel/);
   // 排班是唯一来源：甘特「导师研究」与日历节点都由 OUTREACH_ROSTER 产生。
   assert.match(app, /const OUTREACH_ROSTER = \[/);
-  assert.match(app, /id: `roster7:\$\{row\.date\}`/);
+  assert.match(app, /id: `roster8:\$\{row\.date\}`/);
   assert.match(app, /本月导师研究 · 按截止排序/);
   // 旧版 roster id 必须一次退役，否则新旧并存。
   assert.match(app, /const LEGACY_ROSTER_IDS = \[/);
-  assert.match(app, /"roster", "roster2", "roster3", "roster4", "roster5", "roster6"/);
+  assert.match(app, /"roster", "roster2", "roster3", "roster4", "roster5", "roster6", "roster7"/);
   assert.match(app, /function rosterSupersedes/);
   assert.match(app, /function outreachRosterMarkup/);
   // 排班里的老师可点击跳到 PhD 页对应那一栏并高亮。
   assert.match(app, /function focusAdvisor/);
   assert.match(app, /data-goto-advisor=/);
-  assert.match(app, /advisors: \["hk-adv-hkust-kevin", "hk-adv-polyu-yizhang"\]/);
+  assert.match(app, /advisors: \["hk-adv-hkust-kevin"\]/);
+  assert.match(app, /advisors: \["hk-adv-polyu-yizhang"\]/);
   assert.match(app, /advisors: \["eu-adv-ch-matioli"\]/);
   assert.match(app, /advisors: \["eu-adv-be-bakeroot"\]/);
   assert.match(app, /advisors: \["tw-adv-nycu-tlwu"\]/);
@@ -278,11 +282,16 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /date: "2027-02-15"[\s\S]{0,100}who: "吴添立/);
   assert.match(app, /date: "2027-02-22"[\s\S]{0,100}who: "李义明/);
   assert.match(app, /date: "2027-03-01"[\s\S]{0,100}who: "吴肇欣/);
-  assert.match(app, /date: "2026-11-24"[\s\S]{0,100}who: "Elison Matioli/);
+  assert.match(app, /date: "2026-11-24"[\s\S]{0,100}who: "Elison Matioli"[\s\S]{0,180}done: true/);
   assert.match(app, /date: "2026-11-25"[\s\S]{0,100}who: "Benoit Bakeroot/);
-  assert.match(app, /date: "2026-11-30"[\s\S]{0,100}who: "Kevin J\. Chen＋Yi Zhang/);
-  assert.match(app, /date: "2026-12-07"[\s\S]{0,100}who: "Matthew Smith/);
-  assert.match(app, /date: "2026-12-14"[\s\S]{0,100}who: "Matteo Meneghini/);
+  assert.match(app, /date: "2026-12-14"[\s\S]{0,100}who: "Kevin J\. Chen/);
+  assert.match(app, /date: "2026-12-16"[\s\S]{0,100}who: "Yi Zhang/);
+  assert.match(app, /date: "2026-12-18"[\s\S]{0,100}who: "Matthew Smith/);
+  assert.match(app, /date: "2026-12-22"[\s\S]{0,100}who: "Matteo Meneghini/);
+  assert.match(app, /id: "eu:epfl-sent-v2"[\s\S]{0,180}done: true[\s\S]{0,220}replaces: \["eu:epfl-round1-v1", "eu:epfl-round2-v1"\]/);
+  assert.match(app, /id: "eu:dc6-send-v2"[\s\S]{0,180}date: "2026-12-05"/);
+  assert.match(app, /id: "hk:email-kevin-v1"[\s\S]{0,180}date: "2026-12-14"/);
+  assert.match(app, /id: "hk:email-yi-v1"[\s\S]{0,180}date: "2026-12-16"/);
   assert.match(app, /schools: \["EPFL", "University of Padua", "University of Bristol", "Ghent University"\]/);
   assert.match(sw, /eu-radar\.js/);
   // 台湾默认名单严格限为四位，并按 NTHU → NYCU → NTU 显示学校。
@@ -447,15 +456,15 @@ test("renders all merged planning surfaces and persists roadmap state", async ()
   assert.match(app, /updateViaCache: "none"/);
   assert.match(app, /serviceWorkerReloading/);
   assert.match(html, /口语常用词汇/);
-  assert.match(html, /planning-tasks\.js\?v=20261124-tw-four/);
-  assert.match(html, /xlsx-export\.js\?v=20261124-tw-four/);
-  assert.match(html, /app\.js\?v=20261124-tw-four/);
-  assert.match(html, /ielts-moves\.js\?v=20261124-tw-four/);
+  assert.match(html, /planning-tasks\.js\?v=20261125-hk-outreach/);
+  assert.match(html, /xlsx-export\.js\?v=20261125-hk-outreach/);
+  assert.match(html, /app\.js\?v=20261125-hk-outreach/);
+  assert.match(html, /ielts-moves\.js\?v=20261125-hk-outreach/);
   assert.match(sw, /ielts-moves\.js/);
   for (const id of ["ieltsReschedulePanel", "rescheduleToggle", "rescheduleBody", "reschedulePendingCount"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`));
   }
-  assert.match(sw, /planner-notebook-v120-tw-four/);
+  assert.match(sw, /planner-notebook-v121-hk-outreach/);
   assert.doesNotMatch(app, /ieltsExamCountdown|iedmsCountdown|iwnCountdown|function countdownLabel/);
   assert.match(html, /台湾四位导师申请时间线[\s\S]*2027\/03\/15/);
   const taiwanPanel = html.slice(html.indexOf('<section class="hk-application-panel tw-application-panel"'), html.indexOf('<section class="hk-application-panel eu-application-panel"'));

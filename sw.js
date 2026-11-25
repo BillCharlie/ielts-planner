@@ -1,15 +1,15 @@
-const CACHE_NAME = "planner-notebook-v120-tw-four";
+const CACHE_NAME = "planner-notebook-v121-hk-outreach";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=20261124-tw-four",
-  "./app.js?v=20261124-tw-four",
-  "./planning-tasks.js?v=20261124-tw-four",
-  "./ielts-moves.js?v=20261124-tw-four",
-  "./eu-radar.js?v=20261124-tw-four",
-  "./xlsx-export.js?v=20261124-tw-four",
+  "./styles.css?v=20261125-hk-outreach",
+  "./app.js?v=20261125-hk-outreach",
+  "./planning-tasks.js?v=20261125-hk-outreach",
+  "./ielts-moves.js?v=20261125-hk-outreach",
+  "./eu-radar.js?v=20261125-hk-outreach",
+  "./xlsx-export.js?v=20261125-hk-outreach",
   "./config.js",
-  "./plan-data.js?v=20261124-tw-four",
+  "./plan-data.js?v=20261125-hk-outreach",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-192.png",
